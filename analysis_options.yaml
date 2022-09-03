@@ -9,6 +9,19 @@
 # packages, and plugins designed to encourage good coding practices.
 include: package:flutter_lints/flutter.yaml
 
+analyzer:
+  errors:
+    todo: ignore
+    invalid_annotation_target: ignore
+  exclude:
+    - "lib/generated_plugin_registrant.dart"
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+    - "**/*.iconfig.dart"
+    # This is generated from the i18n vscode extension
+    - "**/i18n.dart"
+    - "lib/generated/intl/messages*.dart"
+
 linter:
   # The lint rules applied to this project can be customized in the
   # section below to disable rules from the `package:flutter_lints/flutter.yaml`
@@ -22,8 +35,58 @@ linter:
   # `// ignore_for_file: name_of_lint` syntax on the line or in the file
   # producing the lint.
   rules:
-    # avoid_print: false  # Uncomment to disable the `avoid_print` rule
-    # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
+    # Single quotes are easier to type and don't compromise on readability.
+    prefer_single_quotes: true
 
+    # Type annotations are sometimes necessary for readability
+    omit_local_variable_types: false
+
+    # Better to declare variables as final
+    prefer_final_locals: true
+
+    # Better to leave it up to the programmer
+    prefer_int_literals: false
+
+    # It is better to group related packages
+    sort_pub_dependencies: false
+
+    directives_ordering: true
+
+    unawaited_futures: true
+
+    prefer_relative_imports: false
+    always_use_package_imports: true
+
+    cast_nullable_to_non_nullable: true
+
+    avoid_annotating_with_dynamic: true
+
+    lines_longer_than_80_chars: false
+
+    unnecessary_await_in_return: true
+
+    unnecessary_lambdas: true
+
+    unnecessary_null_checks: true
+
+    unnecessary_parenthesis: true
+
+    unnecessary_raw_strings: true
+
+    use_decorated_box: true
+
+    use_is_even_rather_than_modulo: true
+
+    use_late_for_private_fields_and_variables: true
+
+    use_string_buffers: true
+
+    use_test_throws_matchers: true
+
+    void_checks: true
+
+    use_to_and_as_if_applicable: true
+
+    secure_pubspec_urls: true
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options

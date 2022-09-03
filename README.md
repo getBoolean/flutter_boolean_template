@@ -59,3 +59,22 @@ Follow the instructions in the file [flutter_native_splash.yaml](flutter_native_
 
 This project uses [Mason](https://pub.dev/packages/mason) to generate code for features and tests.
 To use the bricks, install the Mason VS Code extension. To create addition bricks, use the [Mason CLI](https://pub.dev/packages/mason_cli) package.
+
+### Using Freezed
+
+This project uses [Freezed](https://pub.dev/packages/freezed) to generate code for immutable classes with unions.
+
+### Run the code generator
+
+Run the following command to generate the code for the entire project:
+
+```bash
+flutter pub run build_runner build --delete-conflicting-outputs
+```
+
+Alternatively, you can run the following command to watch for changes and generate code automatically
+when changes are made:
+
+```bash
+flutter pub run build_runner watch --delete-conflicting-outputs
+```
