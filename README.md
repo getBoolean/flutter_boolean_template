@@ -100,3 +100,8 @@ flutter test
 
 Integration tests are located in the `integration_test` directory. To run the tests, see the instructions in the Flutter docs: [Integration Testing](https://docs.flutter.dev/cookbook/testing/integration/introduction#5-run-the-integration-test)
 
+## Building
+
+### Build for Windows
+
+Customize `msix_config` in [pubspec.yaml](pubspec.yaml) to change the app name, publisher, and other options.
