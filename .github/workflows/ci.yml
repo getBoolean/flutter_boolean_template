@@ -1,0 +1,219 @@
+name: CI
+on:
+  push:
+    branches:
+      - main
+      - release
+      - feature/*
+  pull_request:
+    branches:
+      - main
+      - release
+      - feature/*
+
+jobs:
+  flutter_test:
+    name: Run flutter test and analyze
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: "12.x"
+
+      - name: Install and set Flutter version
+        uses: subosito/flutter-action@v1
+        with:
+          channel: "stable"
+
+      - name: Restore Packages
+        run: flutter pub get
+
+      - name: Analyze
+        run: flutter analyze
+
+      - name: Activate Coverage
+        run: dart pub global activate coverage
+
+      # Project needs to have tests in test/ and a dependency on
+      # package:test for this step to succeed.
+      #
+      # Function coverage removed because it is bugged
+      - name: Run Tests
+        run: dart pub global run coverage:test_with_coverage --branch-coverage # --function-coverage
+
+      - name: Upload Coverage to Codecov
+        uses: codecov/codecov-action@v3.1.0
+
+  build_ios_without_signing:
+    name: Build Flutter (iOS) Without Signing
+    needs: [flutter_test]
+    runs-on: macos-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: "12.x"
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          channel: "stable"
+      - run: flutter pub get
+      - run: flutter clean
+      # Zip into IPA from here:
+      # https://gist.github.com/devhammed/617d920b7ee886591a46c22633ab0093
+      - name: Build Flutter IPA
+        run: |
+          flutter build ios --release --no-codesign
+          cd build/ios/iphoneos
+          mkdir Payload
+          cd Payload
+          ln -s ../Runner.app
+          cd ..
+          zip -r app.ipa Payload
+      - name: Upload IPA
+        uses: actions/upload-artifact@v2
+        with:
+          name: ios_ipa
+          path: build/ios/iphoneos/*.ipa
+
+  # build_ios_with_signing:
+  #   name: Build Flutter (iOS) and Sign
+  #   needs: [flutter_test]
+  #   runs-on: macos-latest
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v2
+  #       # From github documentation
+  #     - name: Install the Apple certificate, provisioning profile, and Firebase google services
+  #       env:
+  #         BUILD_CERTIFICATE_BASE64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
+  #         P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+  #         BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.BUILD_PROVISION_PROFILE_BASE64 }}
+  #         KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+  #       run: |
+  #         # create variables
+  #         CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
+  #         PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
+  #         KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+
+  #         # import certificate and provisioning profile from secrets
+  #         echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode --output $CERTIFICATE_PATH
+  #         echo -n "$BUILD_PROVISION_PROFILE_BASE64" | base64 --decode --output $PP_PATH
+
+  #         # create temporary keychain
+  #         security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+  #         security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+  #         security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+
+  #         # import certificate to keychain
+  #         security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+  #         security list-keychain -d user -s $KEYCHAIN_PATH
+
+  #         # apply provisioning profile
+  #         mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+  #         cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
+  #     - name: Setup Java
+  #       uses: actions/setup-java@v1
+  #       with:
+  #         java-version: "12.x"
+  #     - name: Setup Flutter
+  #       uses: subosito/flutter-action@v1
+  #       with:
+  #         channel: "stable"
+  #     - run: flutter pub get
+  #     - run: flutter clean
+  #     # Zip into IPA from here:
+  #     # https://gist.github.com/devhammed/617d920b7ee886591a46c22633ab0093
+  #     - name: Build Flutter IPA
+  #       run: |
+  #         flutter build ios --release
+  #         cd build/ios/iphoneos
+  #         mkdir Payload
+  #         cd Payload
+  #         ln -s ../Runner.app
+  #         cd ..
+  #         zip -r app.ipa Payload
+  #     - name: Upload IPA
+  #       uses: actions/upload-artifact@v2
+  #       with:
+  #         name: ios_ipa
+  #         path: build/ios/iphoneos/
+
+  build_appbundle:
+    name: Build Flutter (Android Appbundle)
+    needs: [flutter_test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: "12.x"
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          channel: "stable"
+      - run: flutter pub get
+      - run: flutter clean
+      - name: Build Android AppBundle
+        run: flutter build appbundle --release
+      - name: Upload appbundle
+        uses: actions/upload-artifact@v2
+        with:
+          name: android_appbundle
+          path: build/app/outputs/bundle/release/app-release.aab
+
+  build_apk:
+    name: Build Flutter (Android APK)
+    needs: [flutter_test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: "12.x"
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          channel: "stable"
+      - run: flutter pub get
+      - run: flutter clean
+      - name: Build Android APK
+        run: flutter build apk --release
+      - name: Upload apk
+        uses: actions/upload-artifact@v2
+        with:
+          name: android_apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+
+  # Disabled, not currently supported with Github
+  # build_windows:
+  #   name: Build Flutter (Windows)
+  #   needs: [flutter_test]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: actions/setup-java@v1
+  #       with:
+  #         java-version: "12.x"
+  #     - uses: subosito/flutter-action@v1
+  #       with:
+  #         channel: "stable"
+  #     - run: flutter pub get
+  #     - run: flutter clean
+  #     - run: flutter build windows
+  #     - run: flutter pub run msix:create
+  #     - name: Upload msix
+  #       uses: actions/upload-artifact@v2
+  #       with:
+  #         name: app
+  #         path: build/windows/runner/Release/app-release.msix
