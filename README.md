@@ -111,9 +111,14 @@ Integration tests are located in the `integration_test` directory. To run the te
 
 ## Building
 
+### All Platforms
+
+See the Flutter Deployment documentation for each platform for detailed instructions.
+
 ### Build for Windows
 
-Customize `msix_config` in [pubspec.yaml](pubspec.yaml) to change the app name, publisher, and other options.
+Customize `msix_config` in [pubspec.yaml](pubspec.yaml) to change the app name, publisher, and other options,
+according to the documentation for [msix](https://pub.dev/packages/msix).
 
 ## Contributing
 
