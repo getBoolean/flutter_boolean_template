@@ -80,3 +80,23 @@ when changes are made:
 ```bash
 flutter pub run build_runner watch --delete-conflicting-outputs
 ```
+
+## Testing
+
+### Mocks
+
+This project uses Mocktail to generate mocks for classes. Follow the instructions in the
+[Mocktail README](https://pub.dev/packages/mocktail) to generate mocks.
+
+### Widget and Unit Tests
+
+Tests are located in the `test` directory. To run the tests, run the following command:
+
+```bash
+flutter test
+```
+
+### Integration Tests
+
+Integration tests are located in the `integration_test` directory. To run the tests, see the instructions in the Flutter docs: [Integration Testing](https://docs.flutter.dev/cookbook/testing/integration/introduction#5-run-the-integration-test)
+
