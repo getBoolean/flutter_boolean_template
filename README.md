@@ -9,11 +9,11 @@ A new Flutter template project by @getBoolean that acts as a starting point for 
 1. Gitpod support (maybe Zapp too?)
 1. Codecov support
 1. Template README
-1. Basic project architecture using Riverpod
 1. Authentication with Appwrite and offline support
 1. Translation support
+1. Basic project architecture using Riverpod
+1. Mason brick setup for easy architecture setup
 1. Responsive UI for desktop, web, mobile, tablet, possibly watch (maybe support for TV and Cars??)
    * Must have a unified navigation for when resizing the window
 1. Adaptive UI for iOS, Android, Windows, Linux, MacOS, and Web
 1. Focus node setup (for keyboard navigation)
-1. Mason brick setup for easy architecture setup
