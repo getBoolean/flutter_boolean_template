@@ -4,7 +4,7 @@ A new Flutter template project by @getBoolean that acts as a starting point for 
 This project is very opinionated and is meant to make it easier to start a new project with essential
 features already setup.
 
-## TODO List After Using This Template
+## Todo After Using This Template
 
 1. [ ] Change the package name, see [Change Package Name](#change-package-name)
 1. [ ] Change the app icon, see [Change App Icon](#change-app-icon)
