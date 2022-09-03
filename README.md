@@ -1,6 +1,8 @@
 # flutter_boolean_template
 
 A new Flutter template project by @getBoolean that acts as a starting point for new Flutter projects.
+This project is very opinionated and is meant to make it easier to start a new project with essential
+features already setup.
 
 ## Goals
 
@@ -17,3 +19,15 @@ A new Flutter template project by @getBoolean that acts as a starting point for 
    * Must have a unified navigation for when resizing the window
 1. Adaptive UI for iOS, Android, Windows, Linux, MacOS, and Web
 1. Focus node setup (for keyboard navigation)
+
+## Getting Started
+
+### Change Package Name
+
+Run the following command to change the package name:
+
+```bash
+flutter pub run change_app_package_name:main com.new.package.name
+```
+
+Where `com.new.package.name` is the new package name that you want for your app. replace it with any name you want.
