@@ -31,3 +31,7 @@ flutter pub run change_app_package_name:main com.new.package.name
 ```
 
 Where `com.new.package.name` is the new package name that you want for your app. replace it with any name you want.
+
+### Change App Icon
+
+Follow the [flutter_launcher_icons](https://pub.dev/packages/flutter_launcher_icons) instructions to change the app icon.
