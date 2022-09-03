@@ -11,6 +11,7 @@ features already setup.
 1. [ ] Change the splash screen, see [Change Splash Screen](#change-the-splash-screen)
 1. [ ] Change the app name and description in [pubspec.yaml](pubspec.yaml) and [README.md](README.md)
 1. [ ] Setup the Windows build configuration, see [Build for Windows](#build-for-windows)
+1. [ ] Update contribution guidelines at [Contributing](#contributing)
 
 ## Goals
 
