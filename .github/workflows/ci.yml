@@ -39,11 +39,9 @@ jobs:
         run: dart pub global activate coverage
 
       # Project needs to have tests in test/ and a dependency on
-      # package:test for this step to succeed.
-      #
-      # Function coverage removed because it is bugged
+      # package:flutter_test for this step to succeed.
       - name: Run Tests
-        run: dart pub global run coverage:test_with_coverage --branch-coverage # --function-coverage
+        run: flutter test --coverage
 
       - name: Upload Coverage to Codecov
         uses: codecov/codecov-action@v3.1.0
