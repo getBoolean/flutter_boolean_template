@@ -18,6 +18,7 @@ features already setup.
 1. Mason brick setup for easy architecture setup
    1. Bricks for features
    1. Bricks for tests
+   1. Bricks for freezed models
 1. Responsive UI for desktop, web, mobile, tablet, possibly watch (maybe support for TV and Cars??)
    * Must have a unified navigation for when resizing the window
 1. Adaptive UI for iOS, Android, Windows, Linux, MacOS, and Web
