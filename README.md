@@ -11,8 +11,9 @@ features already setup.
 1. Gitpod support (maybe Zapp too?)
 1. Codecov support
 1. Template README
-1. Authentication with Appwrite and offline support
-1. Translation support
+1. Authentication with Appwrite and offline support, use a wrapper to make it easy to switch to other
+   providers.
+1. Localization support
 1. Basic project architecture using Riverpod
 1. Mason brick setup for easy architecture setup
    1. Bricks for features
@@ -21,6 +22,18 @@ features already setup.
    * Must have a unified navigation for when resizing the window
 1. Adaptive UI for iOS, Android, Windows, Linux, MacOS, and Web
 1. Focus node setup (for keyboard navigation)
+1. Biometric/Local authentication
+1. App updates
+   1. In-app updated for sideloaded apps
+   1. Link to app store for apps published to app store
+1. Onboarding
+1. Feature discovery
+1. Firebase services which DO NOT require Google Play services
+   1. App Check with custom and debug providers
+   1. Crashlytics
+   1. In-App Messaging
+   1. Performance Monitoring
+   1. Remote Config
 
 ## Getting Started
 
