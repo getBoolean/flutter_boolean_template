@@ -34,4 +34,8 @@ Where `com.new.package.name` is the new package name that you want for your app.
 
 ### Change App Icon
 
-Follow the [flutter_launcher_icons](https://pub.dev/packages/flutter_launcher_icons) instructions to change the app icon.
+Follow the [flutter_launcher_icons](https://pub.dev/packages/flutter_launcher_icons) README instructions to change the app icon.
+
+### Changing the Splash Screen
+
+Follow the instructions in the file [flutter_native_splash.yaml](flutter_native_splash.yaml)
