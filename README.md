@@ -4,6 +4,14 @@ A new Flutter template project by @getBoolean that acts as a starting point for 
 This project is very opinionated and is meant to make it easier to start a new project with essential
 features already setup.
 
+## TODO List After Using This Template
+
+1. [ ] Change the package name, see [Change Package Name](#change-package-name)
+1. [ ] Change the app icon, see [Change App Icon](#change-app-icon)
+1. [ ] Change the splash screen, see [Change Splash Screen](#change-the-splash-screen)
+1. [ ] Change the app name and description in [pubspec.yaml](pubspec.yaml) and [README.md](README.md)
+1. [ ] Setup the Windows build configuration, see [Build for Windows](#build-for-windows)
+
 ## Goals
 
 1. Prebuilt flex_color_scheme with support for multiple themes. (other than light and dark themes)
@@ -53,7 +61,7 @@ Where `com.new.package.name` is the new package name that you want for your app.
 
 Follow the [flutter_launcher_icons](https://pub.dev/packages/flutter_launcher_icons) README instructions to change the app icon.
 
-### Changing the Splash Screen
+### Change the Splash Screen
 
 Follow the instructions in the file [flutter_native_splash.yaml](flutter_native_splash.yaml)
 
@@ -105,3 +113,11 @@ Integration tests are located in the `integration_test` directory. To run the te
 ### Build for Windows
 
 Customize `msix_config` in [pubspec.yaml](pubspec.yaml) to change the app name, publisher, and other options.
+
+## Contributing
+
+1. Fork it [https://github.com/getBoolean/flutter_boolean_template/fork](https://github.com/getBoolean/flutter_boolean_template/fork)
+1. Create your feature branch (git checkout -b feature/fooBar)
+1. Commit your changes (git commit -am 'Add some fooBar')
+1. Push to the branch (git push origin feature/fooBar)
+1. Create a new Pull Request
