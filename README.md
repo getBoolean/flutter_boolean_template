@@ -16,3 +16,4 @@ A new Flutter template project by @getBoolean that acts as a starting point for 
    * Must have a unified navigation for when resizing the window
 1. Adaptive UI for iOS, Android, Windows, Linux, MacOS, and Web
 1. Focus node setup (for keyboard navigation)
+1. Mason brick setup for easy architecture setup
