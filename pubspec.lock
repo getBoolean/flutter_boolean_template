@@ -201,6 +201,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.15.0"
+  http:
+    dependency: transitive
+    description:
+      name: http
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.13.5"
+  http_parser:
+    dependency: transitive
+    description:
+      name: http_parser
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.1"
   image:
     dependency: transitive
     description:
@@ -241,6 +255,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  mason:
+    dependency: "direct main"
+    description:
+      name: mason
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.0-dev.31"
+  mason_logger:
+    dependency: transitive
+    description:
+      name: mason_logger
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.2"
   matcher:
     dependency: transitive
     description:
@@ -262,6 +290,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0"
+  mustache_template:
+    dependency: transitive
+    description:
+      name: mustache_template
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   path:
     dependency: transitive
     description:
@@ -290,6 +325,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.2.4"
+  pub_semver:
+    dependency: transitive
+    description:
+      name: pub_semver
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.1"
+  recase:
+    dependency: transitive
+    description:
+      name: recase
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.0"
   riverpod:
     dependency: transitive
     description:

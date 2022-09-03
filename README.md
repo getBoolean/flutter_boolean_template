@@ -15,6 +15,8 @@ features already setup.
 1. Translation support
 1. Basic project architecture using Riverpod
 1. Mason brick setup for easy architecture setup
+   1. Bricks for features
+   1. Bricks for tests
 1. Responsive UI for desktop, web, mobile, tablet, possibly watch (maybe support for TV and Cars??)
    * Must have a unified navigation for when resizing the window
 1. Adaptive UI for iOS, Android, Windows, Linux, MacOS, and Web
@@ -39,3 +41,8 @@ Follow the [flutter_launcher_icons](https://pub.dev/packages/flutter_launcher_ic
 ### Changing the Splash Screen
 
 Follow the instructions in the file [flutter_native_splash.yaml](flutter_native_splash.yaml)
+
+### Mason Bricks
+
+This project uses [Mason](https://pub.dev/packages/mason) to generate code for features and tests.
+To use the bricks, install the Mason VS Code extension. To create addition bricks, use the [Mason CLI](https://pub.dev/packages/mason_cli) package.
