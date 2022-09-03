@@ -7,6 +7,7 @@ features already setup.
 ## Goals
 
 1. Prebuilt flex_color_scheme with support for multiple themes. (other than light and dark themes)
+1. Linting preconfigured.
 1. CI/CD with GitHub Actions (all platforms)
 1. Gitpod support (maybe Zapp too?)
 1. Codecov support
