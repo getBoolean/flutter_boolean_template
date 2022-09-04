@@ -156,7 +156,7 @@ jobs:
           path: build/app/outputs/bundle/release/*.aab
 
   build_windows:
-    name: Build Flutter (Windows)
+    name: Build Flutter for Windows
     needs: [flutter_test]
     runs-on: windows-latest
     steps:
@@ -178,6 +178,8 @@ jobs:
           path: build/windows/runner/Release/*.msix
 
   build_linux:
+    name: Build Flutter for Linux
+    needs: [flutter_test]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -198,6 +200,8 @@ jobs:
           flutter build linux --release
 
   build_macos:
+    name: Build Flutter for MacOS
+    needs: [flutter_test]
     runs-on: macos-latest
     steps:
       - name: Checkout Repository
@@ -215,6 +219,8 @@ jobs:
           flutter build macos --release
 
   build_web:
+    name: Build Flutter for Web
+    needs: [flutter_test]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
