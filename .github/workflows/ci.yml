@@ -193,7 +193,9 @@ jobs:
       - name: Enable Linux
         run: flutter config --enable-linux-desktop
       - name: Build Linux
-        run: flutter build linux --release
+        run: |
+          flutter pub get
+          flutter build linux --release
 
   build_macos:
     runs-on: macos-latest
@@ -208,4 +210,20 @@ jobs:
       - name: Enable Linux
         run: flutter config --enable-macos-desktop
       - name: Build MacOS
-        run: flutter build macos --release
+        run: |
+          flutter pub get
+          flutter build macos --release
+
+  build_web:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Install and set Flutter version
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+      - name: Build Web
+        run: |
+          flutter pub get
+          flutter build web
