@@ -16,6 +16,7 @@ features already setup.
 1. [ ] Setup the Windows build configuration, see [Build for Windows](#build-for-windows)
 1. [ ] Update contribution guidelines at [Contributing](#contributing)
 1. [ ] Setup GitPod for your environment, see the [GitPod](https://www.gitpod.io/docs/quickstart/flutter#flutter-quickstart) docs
+1. [ ] Setup Codecov for your repository, see the [Codecov](https://docs.codecov.com/docs/quick-start) docs
 
 ## Goals
 
