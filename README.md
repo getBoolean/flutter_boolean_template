@@ -131,17 +131,34 @@ instructions in the Flutter docs:
 This project automatically builds for all platforms without code signing using GitHub Actions. To build the project locally,
 follow the instructions in the [Flutter docs](https://flutter.dev/docs).
 
-Instructions for configuring the signed builds are below
+Instructions for building for release are below:
 
-### All Platforms
+### Build for Windows Release
 
-See the Flutter Deployment documentation for each platform for detailed instructions.
-
-### Build for Windows
-
-Customize `msix_config` in [pubspec.yaml](pubspec.yaml) according to the documentation
+1. Customize `msix_config` in [pubspec.yaml](pubspec.yaml) according to the documentation
 for [msix](https://pub.dev/packages/msix) for your method of publication. The default
 configuration is for CI/CD testing builds only, not releases.
+1. Run the corresponding command for your method of publication
+
+### Build for Android Release
+
+Follow the instructions in the [Flutter docs for Android](https://docs.flutter.dev/deployment/android).
+
+### Build for iOS Release
+
+Follow the instructions in the [Flutter docs for iOS](https://docs.flutter.dev/deployment/ios).
+
+### Build for MacOS Release
+
+Follow the instructions in the [Flutter docs for MacOS](https://docs.flutter.dev/deployment/macos).
+
+### Build for Linux Release
+
+Follow the instructions in the [Flutter docs for Linux](https://docs.flutter.dev/deployment/linux).
+
+### Build for Web Release
+
+Follow the instructions in the [Flutter docs for Web](https://docs.flutter.dev/deployment/web).
 
 ## Contributing
 
