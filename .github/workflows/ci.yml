@@ -158,7 +158,7 @@ jobs:
   build_windows:
     name: Build Flutter (Windows)
     needs: [flutter_test]
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
