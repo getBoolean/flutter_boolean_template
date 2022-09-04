@@ -7,14 +7,22 @@
 
 # The following line activates a set of recommended lints for Flutter apps,
 # packages, and plugins designed to encourage good coding practices.
-include: package:flutter_lints/flutter.yaml
+include: package:very_good_analysis/analysis_options.yaml
 
 analyzer:
+  language:
+    strict-casts: true
+    strict-inference: true
+    strict-raw-types: true
+
   errors:
     todo: ignore
     invalid_annotation_target: ignore
+    close_sinks: ignore
+    missing_required_param: error
+    missing_return: error
   exclude:
-    - "lib/generated_plugin_registrant.dart"
+    - lib/generated_plugin_registrant.dart
     - "**/*.g.dart"
     - "**/*.freezed.dart"
     - "**/*.iconfig.dart"
@@ -35,14 +43,16 @@ linter:
   # `// ignore_for_file: name_of_lint` syntax on the line or in the file
   # producing the lint.
   rules:
-    # Single quotes are easier to type and don't compromise on readability.
-    prefer_single_quotes: true
-
     # Type annotations are sometimes necessary for readability
+    #
+    # Note: incompatible with `always_specify_types`
     omit_local_variable_types: false
 
-    # Better to declare variables as final
-    prefer_final_locals: true
+    # Consider enabling this rule to make code more readable
+    # during code reviews.
+    #
+    # Note, incompatible with `omit_local_variable_types`
+    always_specify_types: false
 
     # Better to leave it up to the programmer
     prefer_int_literals: false
@@ -50,43 +60,19 @@ linter:
     # It is better to group related packages
     sort_pub_dependencies: false
 
-    directives_ordering: true
+    # It is good practice to keep lines shorter, but sometimes it is
+    # difficult to keep it readable and under 80 characters
+    lines_longer_than_80_chars: false
 
-    unawaited_futures: true
-
+    # When mixing relative and absolute imports it’s possible to create
+    # confusion where the same member gets imported in two different ways.
     prefer_relative_imports: false
     always_use_package_imports: true
 
-    cast_nullable_to_non_nullable: true
-
+    # Avoid annotating with dynamic when not required.
     avoid_annotating_with_dynamic: true
 
-    lines_longer_than_80_chars: false
-
-    unnecessary_await_in_return: true
-
-    unnecessary_lambdas: true
-
-    unnecessary_null_checks: true
-
-    unnecessary_parenthesis: true
-
-    unnecessary_raw_strings: true
-
-    use_decorated_box: true
-
-    use_is_even_rather_than_modulo: true
-
-    use_late_for_private_fields_and_variables: true
-
-    use_string_buffers: true
-
+    # Use throwsA matcher instead of fail().
     use_test_throws_matchers: true
-
-    void_checks: true
-
-    use_to_and_as_if_applicable: true
-
-    secure_pubspec_urls: true
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options
