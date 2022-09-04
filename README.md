@@ -8,6 +8,7 @@ features already setup.
 
 ## Todo After Using This Template
 
+1. [ ] Activate FVM, see [FVM](#fvm)
 1. [ ] Change the package name, see [Change Package Name](#change-package-name)
 1. [ ] Change the app icon, see [Change App Icon](#change-app-icon)
 1. [ ] Change the splash screen, see [Change Splash Screen](#change-the-splash-screen)
@@ -18,6 +19,7 @@ features already setup.
 
 ## Goals
 
+1. FVM configuration (Flutter version manager)
 1. Prebuilt flex_color_scheme with support for multiple themes. (other than light and dark themes)
 1. Linting preconfigured.
 1. CI/CD with GitHub Actions (all platforms)
@@ -50,6 +52,15 @@ features already setup.
    1. Remote Config
 
 ## Getting Started
+
+### FVM
+
+This project uses [FVM](https://fvm.app/) to manage Flutter versions. The project is
+configured to use the latest stable version of Flutter. To activate FVM, run the following:
+
+```bash
+dart pub global activate fvm
+```
 
 ### Change Package Name
 
