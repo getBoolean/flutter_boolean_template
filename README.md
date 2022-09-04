@@ -4,6 +4,8 @@ A new Flutter template project by @getBoolean that acts as a starting point for 
 This project is very opinionated and is meant to make it easier to start a new project with essential
 features already setup.
 
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/gitpod-io/template-flutter)
+
 ## Todo After Using This Template
 
 1. [ ] Change the package name, see [Change Package Name](#change-package-name)
@@ -12,6 +14,7 @@ features already setup.
 1. [ ] Change the app name and description in [pubspec.yaml](pubspec.yaml) and [README.md](README.md)
 1. [ ] Setup the Windows build configuration, see [Build for Windows](#build-for-windows)
 1. [ ] Update contribution guidelines at [Contributing](#contributing)
+1. [ ] Setup GitPod for your environment, see the [GitPod](https://www.gitpod.io/docs/quickstart/flutter#flutter-quickstart) docs
 
 ## Goals
 
