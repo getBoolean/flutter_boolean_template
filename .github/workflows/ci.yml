@@ -148,12 +148,12 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: android_apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: build/app/outputs/flutter-apk/*.apk
       - name: Upload Appbundle
         uses: actions/upload-artifact@v2
         with:
           name: android_appbundle
-          path: build/app/outputs/bundle/release/app-release.aab
+          path: build/app/outputs/bundle/release/*.aab
 
   build_windows:
     name: Build Flutter (Windows)
@@ -175,7 +175,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: app
-          path: build/windows/runner/Release/app-release.msix
+          path: build/windows/runner/Release/*.msix
 
   build_linux:
     runs-on: ubuntu-latest
