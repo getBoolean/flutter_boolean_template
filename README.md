@@ -121,9 +121,16 @@ flutter test
 
 ### Integration Tests
 
-Integration tests are located in the `integration_test` directory. To run the tests, see the instructions in the Flutter docs: [Integration Testing](https://docs.flutter.dev/cookbook/testing/integration/introduction#5-run-the-integration-test)
+Integration tests are located in the `integration_test` directory. To run the tests, see the
+instructions in the Flutter docs:
+[Integration Testing](https://docs.flutter.dev/cookbook/testing/integration/introduction#5-run-the-integration-test)
 
 ## Building
+
+This project automatically builds for all platforms without code signing using GitHub Actions. To build the project locally,
+follow the instructions in the [Flutter docs](https://flutter.dev/docs).
+
+Instructions for configuring the signed builds are below
 
 ### All Platforms
 
@@ -131,8 +138,9 @@ See the Flutter Deployment documentation for each platform for detailed instruct
 
 ### Build for Windows
 
-Customize `msix_config` in [pubspec.yaml](pubspec.yaml) to change the app name, publisher, and other options,
-according to the documentation for [msix](https://pub.dev/packages/msix).
+Customize `msix_config` in [pubspec.yaml](pubspec.yaml) according to the documentation
+for [msix](https://pub.dev/packages/msix) for your method of publication. The default
+configuration is for CI/CD testing builds only, not releases.
 
 ## Contributing
 

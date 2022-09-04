@@ -17,17 +17,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: Setup Java
-        uses: actions/setup-java@v1
-        with:
-          java-version: "12.x"
-
+        uses: actions/checkout@v3
+      - name: Use Flutter version from FVM
+        uses: kuhnroyal/flutter-fvm-config-action@v1
       - name: Install and set Flutter version
-        uses: subosito/flutter-action@v1
+        uses: subosito/flutter-action@v2
         with:
-          channel: "stable"
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: ${{ env.FLUTTER_CHANNEL }}
+          architecture: x64
 
       - name: Restore Packages
         run: flutter pub get
@@ -47,22 +45,20 @@ jobs:
         uses: codecov/codecov-action@v3.1.0
 
   build_ios_without_signing:
-    name: Build Flutter (iOS) Without Signing
+    name: Build Flutter for iOS (Without Signing)
     needs: [flutter_test]
     runs-on: macos-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
-      - name: Setup Java
-        uses: actions/setup-java@v1
+        uses: actions/checkout@v3
+      - name: Use Flutter version from FVM
+        uses: kuhnroyal/flutter-fvm-config-action@v1
+      - name: Use Flutter action
+        uses: subosito/flutter-action@v2
         with:
-          java-version: "12.x"
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v1
-        with:
-          channel: "stable"
-      - run: flutter pub get
-      - run: flutter clean
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: ${{ env.FLUTTER_CHANNEL }}
+          architecture: x64
       # Zip into IPA from here:
       # https://gist.github.com/devhammed/617d920b7ee886591a46c22633ab0093
       - name: Build Flutter IPA
@@ -73,20 +69,20 @@ jobs:
           cd Payload
           ln -s ../Runner.app
           cd ..
-          zip -r app.ipa Payload
+          zip -r app-release.ipa Payload
       - name: Upload IPA
         uses: actions/upload-artifact@v2
         with:
           name: ios_ipa
-          path: build/ios/iphoneos/*.ipa
+          path: build/ios/iphoneos/app-release.ipa
 
   # build_ios_with_signing:
-  #   name: Build Flutter (iOS) and Sign
+  #   name: Build Flutter for iOS (Signed)
   #   needs: [flutter_test]
   #   runs-on: macos-latest
   #   steps:
   #     - name: Checkout repository
-  #       uses: actions/checkout@v2
+  #       uses: actions/checkout@v3
   #       # From github documentation
   #     - name: Install the Apple certificate, provisioning profile, and Firebase google services
   #       env:
@@ -116,14 +112,15 @@ jobs:
   #         # apply provisioning profile
   #         mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
   #         cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
-  #     - name: Setup Java
-  #       uses: actions/setup-java@v1
+  #
+  #     - name: Use Flutter version from FVM
+  #       uses: kuhnroyal/flutter-fvm-config-action@v1
+  #     - name: Use Flutter action
+  #       uses: subosito/flutter-action@v2
   #       with:
-  #         java-version: "12.x"
-  #     - name: Setup Flutter
-  #       uses: subosito/flutter-action@v1
-  #       with:
-  #         channel: "stable"
+  #         flutter-version: ${{ env.FLUTTER_VERSION }}
+  #         channel: ${{ env.FLUTTER_CHANNEL }}
+  #         architecture: x64
   #     - run: flutter pub get
   #     - run: flutter clean
   #     # Zip into IPA from here:
@@ -143,75 +140,50 @@ jobs:
   #         name: ios_ipa
   #         path: build/ios/iphoneos/
 
-  build_appbundle:
-    name: Build Flutter (Android Appbundle)
+  build_android:
+    name: Build Flutter for Android
     needs: [flutter_test]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
-      - name: Setup Java
-        uses: actions/setup-java@v1
+        uses: actions/checkout@v3
+      - name: Use Flutter version from FVM
+        uses: kuhnroyal/flutter-fvm-config-action@v1
+      - name: Use Flutter action
+        uses: subosito/flutter-action@v2
         with:
-          java-version: "12.x"
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v1
-        with:
-          channel: "stable"
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: ${{ env.FLUTTER_CHANNEL }}
+          architecture: x64
       - run: flutter pub get
-      - run: flutter clean
-      - name: Build Android AppBundle
+      - name: Build Android APK
+        run: flutter build apk --release
+      - name: Build Android Appbundle
         run: flutter build appbundle --release
+      - name: Upload apk
+        uses: actions/upload-artifact@v2
+        with:
+          name: android_apk
+          path: build/app/outputs/flutter-apk/app-release.apk
       - name: Upload appbundle
         uses: actions/upload-artifact@v2
         with:
           name: android_appbundle
           path: build/app/outputs/bundle/release/app-release.aab
 
-  build_apk:
-    name: Build Flutter (Android APK)
+  build_windows:
+    name: Build Flutter (Windows)
     needs: [flutter_test]
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-      - name: Setup Java
-        uses: actions/setup-java@v1
-        with:
-          java-version: "12.x"
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v1
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
         with:
           channel: "stable"
       - run: flutter pub get
-      - run: flutter clean
-      - name: Build Android APK
-        run: flutter build apk --release
-      - name: Upload apk
+      - run: flutter pub run msix:publish
+      - name: Upload msix
         uses: actions/upload-artifact@v2
         with:
-          name: android_apk
-          path: build/app/outputs/flutter-apk/app-release.apk
-
-  # Disabled, not currently supported with Github
-  # build_windows:
-  #   name: Build Flutter (Windows)
-  #   needs: [flutter_test]
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: actions/setup-java@v1
-  #       with:
-  #         java-version: "12.x"
-  #     - uses: subosito/flutter-action@v1
-  #       with:
-  #         channel: "stable"
-  #     - run: flutter pub get
-  #     - run: flutter clean
-  #     - run: flutter build windows
-  #     - run: flutter pub run msix:create
-  #     - name: Upload msix
-  #       uses: actions/upload-artifact@v2
-  #       with:
-  #         name: app
-  #         path: build/windows/runner/Release/app-release.msix
+          name: app
+          path: build/windows/runner/Release/app-release.msix
