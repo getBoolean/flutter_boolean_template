@@ -1,0 +1,10 @@
+ignore:
+  - "**/example/"
+  - "**/*.g.dart"
+  - "**/*.gen.dart"
+  - "lib/generated_plugin_registrant.dart"
+  - "**/*.freezed.dart"
+  # This is generated from the i18n vscode extension
+  - "**/*.i18n.dart"
+  - "lib/generated/intl/messages*.dart"
+  - "packages/*"
