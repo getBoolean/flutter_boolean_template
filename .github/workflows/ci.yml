@@ -18,13 +18,10 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
-      - name: Use Flutter version from FVM
-        uses: kuhnroyal/flutter-fvm-config-action@v1
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-          channel: ${{ env.FLUTTER_CHANNEL }}
+          channel: "stable"
           architecture: x64
 
       - name: Restore Packages
@@ -51,13 +48,10 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
-      - name: Use Flutter version from FVM
-        uses: kuhnroyal/flutter-fvm-config-action@v1
-      - name: Use Flutter action
+      - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-          channel: ${{ env.FLUTTER_CHANNEL }}
+          channel: "stable"
           architecture: x64
       # Zip into IPA from here:
       # https://gist.github.com/devhammed/617d920b7ee886591a46c22633ab0093
@@ -114,13 +108,11 @@ jobs:
   #         cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
   #
   #     - name: Use Flutter version from FVM
-  #       uses: kuhnroyal/flutter-fvm-config-action@v1
-  #     - name: Use Flutter action
+  #     - name: Install and set Flutter version
   #       uses: subosito/flutter-action@v2
   #       with:
-  #         flutter-version: ${{ env.FLUTTER_VERSION }}
-  #         channel: ${{ env.FLUTTER_CHANNEL }}
-  #         architecture: x64
+  #         channel: 'stable'
+  #             architecture: x64
   #     - run: flutter pub get
   #     - run: flutter clean
   #     # Zip into IPA from here:
@@ -148,12 +140,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
       - name: Use Flutter version from FVM
-        uses: kuhnroyal/flutter-fvm-config-action@v1
-      - name: Use Flutter action
+      - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-          channel: ${{ env.FLUTTER_CHANNEL }}
+          channel: "stable"
           architecture: x64
       - run: flutter pub get
       - name: Build Android APK
