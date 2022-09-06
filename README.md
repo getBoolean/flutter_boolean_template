@@ -13,7 +13,7 @@ features already setup.
 1. [ ] Change the app icon, see [Change App Icon](#change-app-icon)
 1. [ ] Change the splash screen, see [Change Splash Screen](#change-the-splash-screen)
 1. [ ] Change the app name and description in [pubspec.yaml](pubspec.yaml) and [README.md](README.md)
-1. [ ] Setup the Windows build configuration, see [Build for Windows](#build-for-windows)
+1. [ ] Setup the release build configuration, see [Building](#building)
 1. [ ] Update contribution guidelines at [Contributing](#contributing)
 1. [ ] Setup GitPod for your environment, see the [GitPod](https://www.gitpod.io/docs/quickstart/flutter#flutter-quickstart) docs
 1. [ ] Setup Codecov for your repository, see the [Codecov](https://docs.codecov.com/docs/quick-start) docs
@@ -45,7 +45,7 @@ features already setup.
    1. Link to app store for apps published to app store
 1. Onboarding
 1. Feature discovery
-1. Firebase services which DO NOT require Google Play services
+1. Firebase services which DO NOT require Google Play services (or find alternatives for Desktop)
    1. App Check with custom and debug providers
    1. Crashlytics
    1. In-App Messaging
@@ -142,7 +142,8 @@ flutter run path/to/your/integration_test/main_test.dart --host-vmservice-port 9
 ## Building
 
 This project automatically builds for all platforms without code signing using GitHub Actions. To build the project locally,
-follow the instructions in the [Flutter docs](https://flutter.dev/docs).
+follow the instructions in the [Flutter docs](https://flutter.dev/docs). (Only Windows, Android, and iOS build files are
+uploaded to the action fragments)
 
 Instructions for building for release are below:
 
