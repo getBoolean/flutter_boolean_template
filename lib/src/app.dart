@@ -5,9 +5,6 @@ class App extends StatelessWidget {
   /// Creates the main app widget.
   const App({super.key});
 
-  /// The navigator key for the app, used by convenient_test.
-  static final navigatorKey = GlobalKey<NavigatorState>();
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
