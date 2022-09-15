@@ -53,7 +53,7 @@ dev_dependencies:
   freezed: ^2.1.0+1
   integration_test:
     sdk: flutter
-  json_serializable: ^6.3.1
+  json_serializable: ^6.3.2
   msix: ^3.6.3
   very_good_analysis: ^3.0.2
 
