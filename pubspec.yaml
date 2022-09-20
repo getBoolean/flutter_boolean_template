@@ -41,7 +41,7 @@ dependencies:
   hive: ^2.2.3
   hooks_riverpod: ^2.0.0-dev.9
   json_annotation: ^4.6.0
-  mason: ^0.1.0-dev.32
+  mason: ^0.1.0-dev.33
   mockito: ^5.3.1
 
 dev_dependencies:
