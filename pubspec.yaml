@@ -42,7 +42,7 @@ dependencies:
   hooks_riverpod: ^2.0.0-dev.9
   json_annotation: ^4.6.0
   mason: ^0.1.0-dev.33
-  mockito: ^5.3.1
+  mockito: ^5.3.2
 
 dev_dependencies:
   convenient_test_dev: ^1.2.0
