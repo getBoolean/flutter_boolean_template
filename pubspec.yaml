@@ -53,7 +53,7 @@ dev_dependencies:
   integration_test:
     sdk: flutter
   json_serializable: ^6.5.4
-  msix: ^3.6.3
+  msix: ^3.6.6
   very_good_analysis: ^3.1.0
 
 # For information on the generic Dart part of this file, see the
