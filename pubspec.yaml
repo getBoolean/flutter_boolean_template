@@ -45,7 +45,7 @@ dependencies:
   mockito: ^5.3.2
 
 dev_dependencies:
-  convenient_test_dev: ^1.2.0
+  convenient_test_dev: ^1.2.1
   build_runner: ^2.3.2
   flutter_test:
     sdk: flutter

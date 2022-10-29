@@ -182,7 +182,7 @@ packages:
       name: convenient_test_dev
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.0"
+    version: "1.2.1"
   convert:
     dependency: transitive
     description:
