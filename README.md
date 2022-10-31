@@ -129,6 +129,11 @@ to be added to the `@MappableClass` factory constructor annotation for each unio
 See the [dart_mappable#freezed](https://pub.dev/packages/dart_mappable#freezed) documentation for
 more information.
 
+### [Riverpod](https://pub.dev/packages/riverpod)
+
+This project is preconfigured to use [Riverpod generator](https://pub.dev/packages/riverpod_generator).
+The normal riverpod syntax is still supported.
+
 ## Testing
 
 ### Mocks
