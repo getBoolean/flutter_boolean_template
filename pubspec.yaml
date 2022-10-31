@@ -23,7 +23,7 @@ environment:
   sdk: ">=2.18.0 <3.0.0"
 
 dependency_overrides:
-  analyzer: ^5.2.0
+  analyzer: <5.0.0
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -46,7 +46,7 @@ dependencies:
   hooks_riverpod: ^2.0.2
   mason: ^0.1.0-dev.34
   mockito: ^5.3.2
-  dart_mappable: ^1.2.0
+  dart_mappable: ^2.0.0-dev.5
 
 dev_dependencies:
   convenient_test_dev: ^1.2.1
@@ -59,7 +59,7 @@ dev_dependencies:
     sdk: flutter
   msix: ^3.6.6
   very_good_analysis: ^3.1.0
-  dart_mappable_builder: ^1.2.0
+  dart_mappable_builder: ^2.0.0-dev.5
   build_verify: ^3.0.0
 
 # For information on the generic Dart part of this file, see the
