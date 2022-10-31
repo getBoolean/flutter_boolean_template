@@ -132,7 +132,9 @@ more information.
 ### State Management
 
 This project is preconfigured to use [Riverpod generator](https://pub.dev/packages/riverpod_generator).
-The normal riverpod syntax is still supported.
+The normal riverpod syntax is still supported. See Andea's article on
+[Riverpod architecture](https://codewithandrea.com/articles/flutter-app-architecture-riverpod-introduction/)
+for how to structure your code.
 
 ### Async Data Loading and Caching
 
