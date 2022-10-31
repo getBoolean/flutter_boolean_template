@@ -61,7 +61,7 @@ jobs:
           cd ..
           zip -r app-release.ipa Payload
       - name: Upload IPA
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ios_ipa
           path: build/ios/iphoneos/app-release.ipa
@@ -122,7 +122,7 @@ jobs:
   #         cd ..
   #         zip -r app.ipa Payload
   #     - name: Upload IPA
-  #       uses: actions/upload-artifact@v2
+  #       uses: actions/upload-artifact@v3
   #       with:
   #         name: ios_ipa
   #         path: build/ios/iphoneos/
@@ -145,12 +145,12 @@ jobs:
           flutter build apk --release
           flutter build appbundle --release
       - name: Upload APK
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: android_apk
           path: build/app/outputs/flutter-apk/*.apk
       - name: Upload Appbundle
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: android_appbundle
           path: build/app/outputs/bundle/release/*.aab
@@ -172,7 +172,7 @@ jobs:
           flutter pub get
           flutter pub run msix:create
       - name: Upload MSIX
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: windows_release
           path: build/windows/runner/Release/*.msix
