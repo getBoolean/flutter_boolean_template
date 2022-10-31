@@ -81,15 +81,6 @@ Follow the [flutter_launcher_icons](https://pub.dev/packages/flutter_launcher_ic
 
 Follow the instructions in the file [flutter_native_splash.yaml](flutter_native_splash.yaml)
 
-### Mason Bricks
-
-This project uses [Mason](https://pub.dev/packages/mason) to generate code for features and tests.
-To use the bricks, install the Mason VS Code extension. To create addition bricks, use the [Mason CLI](https://pub.dev/packages/mason_cli) package.
-
-### Using Freezed
-
-This project uses [Freezed](https://pub.dev/packages/freezed) to generate code for immutable classes with unions.
-
 ### Run the code generator
 
 Run the following command to generate the code for the entire project:
@@ -104,6 +95,21 @@ when changes are made:
 ```bash
 flutter pub run build_runner watch --delete-conflicting-outputs
 ```
+
+## Libraries
+
+### Mason Bricks
+
+This project uses [Mason](https://pub.dev/packages/mason) to generate code for features and tests.
+To use the bricks, install the Mason VS Code extension. To create addition bricks, use the [Mason CLI](https://pub.dev/packages/mason_cli) package.
+
+### Freezed
+
+This project uses [Freezed](https://pub.dev/packages/freezed) to generate code for immutable classes with unions.
+
+### Dart Mappable
+
+Generate data classes and json serialization using [dart_mappable](https://pub.dev/packages/dart_mappable)
 
 ## Testing
 
