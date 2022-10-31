@@ -24,7 +24,7 @@ environment:
   sdk: ">=2.18.0 <3.0.0"
 
 dependency_overrides:
-  analyzer: <5.0.0
+  analyzer: ">=4.0.0 <5.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
