@@ -1,3 +1,4 @@
+# If the package name is changed, it also needs to be updated in `build.yaml`
 name: flutter_boolean_template
 description: A new Flutter project.
 
@@ -45,8 +46,8 @@ dependencies:
   hive: ^2.2.3
   hooks_riverpod: ^2.0.2
   mason: ^0.1.0-dev.34
-  mockito: ^5.3.2
-  dart_mappable: ^2.0.0-dev.5
+  dart_mappable: ^1.2.0
+  mocktail: ^0.3.0
 
 dev_dependencies:
   convenient_test_dev: ^1.2.1
@@ -59,7 +60,7 @@ dev_dependencies:
     sdk: flutter
   msix: ^3.6.6
   very_good_analysis: ^3.1.0
-  dart_mappable_builder: ^2.0.0-dev.5
+  dart_mappable_builder: ^1.2.0
   build_verify: ^3.0.0
 
 # For information on the generic Dart part of this file, see the

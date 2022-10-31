@@ -219,3 +219,5 @@ linter:
 
     # Better to leave it up to the programmer
     prefer_int_literals: false
+
+    public_member_api_docs: false

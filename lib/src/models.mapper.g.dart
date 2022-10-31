@@ -1,7 +1,7 @@
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:dart_mappable/internals.dart';
 
-import 'src/models/union.dart';
+import 'models/union.dart';
 
 
 // === ALL STATICALLY REGISTERED MAPPERS ===
