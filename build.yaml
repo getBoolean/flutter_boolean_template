@@ -14,4 +14,4 @@ targets:
         # Generates for any imported files in the following locations (including nested imports)
         generate_for:
           - lib/main.dart # modify this if you have a different entry point
-          - lib/src/models.dart # multiple independent entry files
+          - lib/src/models/models.dart # multiple independent entry files

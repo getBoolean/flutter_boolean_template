@@ -2,7 +2,7 @@ import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../models.mapper.g.dart';
+import 'models.mapper.g.dart';
 
 part 'union.freezed.dart';
 
