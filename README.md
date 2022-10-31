@@ -12,11 +12,14 @@ features already setup.
 1. [ ] Change the package name, see [Change Package Name](#change-package-name)
 1. [ ] Change the app icon, see [Change App Icon](#change-app-icon)
 1. [ ] Change the splash screen, see [Change Splash Screen](#change-the-splash-screen)
-1. [ ] Change the app name and description in [pubspec.yaml](pubspec.yaml) and [README.md](README.md)
+1. [ ] Change the app name and description in [pubspec.yaml](pubspec.yaml) and
+[README.md](README.md)
 1. [ ] Setup the release build configuration, see [Building](#building)
 1. [ ] Update contribution guidelines at [Contributing](#contributing)
-1. [ ] Setup GitPod for your environment, see the [GitPod](https://www.gitpod.io/docs/quickstart/flutter#flutter-quickstart) docs
-1. [ ] Setup Codecov for your repository, see the [Codecov](https://docs.codecov.com/docs/quick-start) docs
+1. [ ] Setup GitPod for your environment, see the
+[GitPod](https://www.gitpod.io/docs/quickstart/flutter#flutter-quickstart) docs
+1. [ ] Setup Codecov for your repository, see the
+[Codecov](https://docs.codecov.com/docs/quick-start) docs
 
 ## Goals
 
@@ -27,8 +30,8 @@ features already setup.
 1. Gitpod support (maybe Zapp too?)
 1. Codecov support
 1. Template README
-1. Authentication with Appwrite and offline support, use a wrapper to make it easy to switch to other
-   providers.
+1. Authentication with Appwrite and offline support, use a wrapper to make it easy to switch to
+other providers.
 1. Localization support
 1. Basic project architecture using Riverpod
 1. Mason brick setup for easy architecture setup
@@ -71,11 +74,13 @@ Run the following command to change the package name:
 flutter pub run change_app_package_name:main com.new.package.name
 ```
 
-Where `com.new.package.name` is the new package name that you want for your app. replace it with any name you want.
+Where `com.new.package.name` is the new package name that you want for your app. replace it with
+any name you want.
 
 ### Change App Icon
 
-Follow the [flutter_launcher_icons](https://pub.dev/packages/flutter_launcher_icons) README instructions to change the app icon.
+Follow the [flutter_launcher_icons](https://pub.dev/packages/flutter_launcher_icons) README
+instructions to change the app icon.
 
 ### Change the Splash Screen
 
@@ -89,8 +94,8 @@ Run the following command to generate the code for the entire project:
 flutter pub run build_runner build --delete-conflicting-outputs
 ```
 
-Alternatively, you can run the following command to watch for changes and generate code automatically
-when changes are made:
+Alternatively, you can run the following command to watch for changes and generate code
+automatically when changes are made:
 
 ```bash
 flutter pub run build_runner watch --delete-conflicting-outputs
@@ -98,18 +103,31 @@ flutter pub run build_runner watch --delete-conflicting-outputs
 
 ## Libraries
 
-### Mason Bricks
+### [Mason Bricks](https://pub.dev/packages/mason)
 
-This project uses [Mason](https://pub.dev/packages/mason) to generate code for features and tests.
-To use the bricks, install the Mason VS Code extension. To create addition bricks, use the [Mason CLI](https://pub.dev/packages/mason_cli) package.
+This project uses [Mason](https://pub.dev/packages/mason) to generate code for features
+and tests using templates. To use the bricks, install the Mason VS Code extension. To create
+addition bricks, use [Mason CLI](https://pub.dev/packages/mason_cli).
 
-### Freezed
+### [Freezed](https://pub.dev/packages/freezed)
 
-This project uses [Freezed](https://pub.dev/packages/freezed) to generate code for immutable classes with unions.
+This project uses [Freezed](https://pub.dev/packages/freezed) to generate code for immutable
+classes with unions.
+See `dart_mappable`'s documentation on using
 
-### Dart Mappable
+### [Dart Mappable](https://pub.dev/packages/dart_mappable)
 
-Generate data classes and json serialization using [dart_mappable](https://pub.dev/packages/dart_mappable)
+This is used to generate data classes and json serialization using
+[dart_mappable](https://pub.dev/packages/dart_mappable). It also
+generates a `copyWith` with `null` assignment support, and provides
+[deep copy](https://pub.dev/packages/dart_mappable#deep-copy) forfields which are also
+`dart_mappable` objects.
+
+If a `freezed` union or sealed model is also `dart_mappable`, the `descriminatorKey` argument needs
+to be added to the `@MappableClass` class annotation, and the `discriminatorValue` argument needs
+to be added to the `@MappableClass` factory constructor annotation for each union or sealed class.
+See the [dart_mappable#freezed](https://pub.dev/packages/dart_mappable#freezed) documentation for
+more information.
 
 ## Testing
 
@@ -137,9 +155,10 @@ To run the tests, see the instructions in the `convienent_test` docs:
 
 ## Building
 
-This project automatically builds for all platforms without code signing using GitHub Actions. To build the project locally,
-follow the instructions in the [Flutter docs](https://flutter.dev/docs). (Only Windows, Android, and iOS build files are
-uploaded to the action fragments)
+This project automatically builds for all platforms without code signing using GitHub Actions.
+To build the project locally, follow the instructions in the
+[Flutter docs](https://flutter.dev/docs). Only Windows, Android, and iOS build files are currently
+uploaded to the CI action fragments.
 
 Instructions for building for release are below:
 
