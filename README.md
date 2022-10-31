@@ -122,22 +122,9 @@ flutter test
 
 ### Integration Tests
 
-Integration tests are located in the `integration_test` directory. This project used
-the package [convenient_test](https://pub.dev/packages/convenient_test) to provide a
-GUI for visuallizing the tests.
-
-To run the tests, clone the `convenient_test_manager`
-folder in the [flutter_convenient_test](https://github.com/fzyzcjy/flutter_convenient_test/tree/master/packages/convenient_test_manager)
-GitHub and run the app for your desktop platform using `flutter run`. Precompiled binaries are available in
-[the CI page](https://github.com/fzyzcjy/flutter_convenient_test/actions/workflows/ci.yaml)
-for MacOS and Linux only.
-
-It can be run in terminal using the following command:
-
-```bash
-dart run convenient_test_manager_dart # in one shell
-flutter run path/to/your/integration_test/main_test.dart --host-vmservice-port 9753 --disable-service-auth-codes --dart-define CONVENIENT_TEST_APP_CODE_DIR=sth # in another shell, run your worker app
-``
+Integration tests are located in the `integration_test` directory. To run the tests, see the
+instructions in the Flutter docs:
+[Integration Testing](https://docs.flutter.dev/cookbook/testing/integration/introduction#5-run-the-integration-test)
 
 ## Building
 
