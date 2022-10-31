@@ -48,7 +48,7 @@ dependencies:
   mason: ^0.1.0-dev.34
   dart_mappable: ^1.2.0
   mocktail: ^0.3.0
-  riverpod_annotation: ^1.0.4
+  riverpod_annotation: ^1.0.5
   stock: ^1.0.0
 
 dev_dependencies:
@@ -64,7 +64,7 @@ dev_dependencies:
   very_good_analysis: ^3.1.0
   dart_mappable_builder: ^1.2.0
   build_verify: ^3.0.0
-  riverpod_generator: ^1.0.4
+  riverpod_generator: ^1.0.5
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
