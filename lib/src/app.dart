@@ -1,3 +1,4 @@
+import 'package:convenient_test/convenient_test.dart';
 import 'package:flutter/material.dart';
 
 /// The main app widget at the root of the widget tree.
@@ -5,13 +6,19 @@ class App extends StatelessWidget {
   /// Creates the main app widget.
   const App({super.key});
 
+  /// The navigator key for the entire app, used by `convenient_test`
+  static final navigatorKey = GlobalKey<NavigatorState>();
+
   @override
-  Widget build(BuildContext context) => MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
+  Widget build(BuildContext context) => ConvenientTestWrapperWidget(
+        child: MaterialApp(
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          navigatorKey: App.navigatorKey,
+          home: const MyHomePage(title: 'Flutter Demo Home Page'),
         ),
-        home: const MyHomePage(title: 'Flutter Demo Home Page'),
       );
 }
 

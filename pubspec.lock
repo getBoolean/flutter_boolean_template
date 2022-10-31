@@ -156,12 +156,12 @@ packages:
     source: hosted
     version: "4.1.0"
   convenient_test:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: convenient_test
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.1"
+    version: "1.2.1"
   convenient_test_common:
     dependency: transitive
     description:
