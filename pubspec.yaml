@@ -49,6 +49,7 @@ dependencies:
   dart_mappable: ^1.2.0
   mocktail: ^0.3.0
   riverpod_annotation: ^1.0.4
+  stock: ^1.0.0
 
 dev_dependencies:
   convenient_test_dev: ^1.2.1

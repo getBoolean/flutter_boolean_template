@@ -109,13 +109,13 @@ This project uses [Mason](https://pub.dev/packages/mason) to generate code for f
 and tests using templates. To use the bricks, install the Mason VS Code extension. To create
 addition bricks, use [Mason CLI](https://pub.dev/packages/mason_cli).
 
-### [Freezed](https://pub.dev/packages/freezed)
+### Unions and Sealed Classes
 
 This project uses [Freezed](https://pub.dev/packages/freezed) to generate code for immutable
 classes with unions.
 See `dart_mappable`'s documentation on using
 
-### [Dart Mappable](https://pub.dev/packages/dart_mappable)
+### JSON Serialization and copyWith
 
 This is used to generate data classes and json serialization using
 [dart_mappable](https://pub.dev/packages/dart_mappable). It also
@@ -129,10 +129,22 @@ to be added to the `@MappableClass` factory constructor annotation for each unio
 See the [dart_mappable#freezed](https://pub.dev/packages/dart_mappable#freezed) documentation for
 more information.
 
-### [Riverpod](https://pub.dev/packages/riverpod)
+### State Management
 
 This project is preconfigured to use [Riverpod generator](https://pub.dev/packages/riverpod_generator).
 The normal riverpod syntax is still supported.
+
+### Async Data Loading and Caching
+
+This project uses [stock](https://pub.dev/packages/stock) for loading data from both remote and
+local sources. Its main goal is to prevent excessive calls to the network and disk cache. By
+utilizing it, you eliminate the possibility of flooding your network with the same request
+while, at the same time, adding layers of caching.
+
+Although you can use it without a local source, the greatest benefit comes from combining Stock with a local database such as Floor, Drift, Sqflite, Realm, etc. *(excerpt from the README)*
+
+See `stock`'s [Getting started](https://pub.dev/packages/stock#getting-started) section for usage
+information.
 
 ## Testing
 
