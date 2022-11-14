@@ -101,6 +101,8 @@ automatically when changes are made:
 flutter pub run build_runner watch --delete-conflicting-outputs
 ```
 
+Note: In VSCode, you should disable auto save while running the watch command so that the generated files do not get deleted while modifying a provider or freezed model.
+
 ## Libraries
 
 ### [Mason Bricks](https://pub.dev/packages/mason)
