@@ -1,5 +1,5 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'person.freezed.dart';
 part 'person.g.dart';
@@ -12,6 +12,5 @@ class Person with _$Person {
     required int age,
   }) = _Person;
 
-  factory Person.fromJson(Map<String, Object?> json)
-      => _$PersonFromJson(json);
+  factory Person.fromJson(Map<String, Object?> json) => _$PersonFromJson(json);
 }
