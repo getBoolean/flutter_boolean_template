@@ -20,9 +20,7 @@
 		"prefix": "providerg",
 		"body": [
 			"import 'package:riverpod_annotation/riverpod_annotation.dart';",
-			"import 'package:hooks_riverpod/hooks_riverpod.dart';",
 			"",
-			// get filename
 			"part '${TM_FILENAME_BASE}.g.dart';",
 			"",
 			"@riverpod",
