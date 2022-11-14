@@ -139,7 +139,8 @@ linter:
 
     join_return_with_assignment: true
 
-    prefer_expression_function_bodies: true
+    # set to true to prefer => functions when possible
+    prefer_expression_function_bodies: false
 
     avoid_implementing_value_types: true
 

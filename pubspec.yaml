@@ -46,10 +46,10 @@ dependencies:
   hive: ^2.2.3
   hooks_riverpod: ^2.1.1
   mason: ^0.1.0-dev.38
-  dart_mappable: ^2.0.0-dev.5
   mocktail: ^0.3.0
   riverpod_annotation: ^1.0.6
   stock: ^1.0.0
+  json_annotation: ^4.7.0
 
 dev_dependencies:
   convenient_test_dev: ^1.2.1
@@ -62,9 +62,9 @@ dev_dependencies:
     sdk: flutter
   msix: ^3.6.6
   very_good_analysis: ^3.1.0
-  dart_mappable_builder: ^2.0.0-dev.5
   build_verify: ^3.0.0
   riverpod_generator: ^1.0.6
+  json_serializable: ^6.5.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

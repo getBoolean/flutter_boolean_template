@@ -15,13 +15,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.2.0"
-  ansicolor:
-    dependency: transitive
-    description:
-      name: ansicolor
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.1"
   archive:
     dependency: transitive
     description:
@@ -182,14 +175,14 @@ packages:
       name: convenient_test_common
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.1"
+    version: "1.2.1"
   convenient_test_common_dart:
     dependency: transitive
     description:
       name: convenient_test_common_dart
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.1"
+    version: "1.2.1"
   convenient_test_dev:
     dependency: "direct dev"
     description:
@@ -232,20 +225,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.5"
-  dart_mappable:
-    dependency: "direct main"
-    description:
-      name: dart_mappable
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0-dev.5"
-  dart_mappable_builder:
-    dependency: "direct dev"
-    description:
-      name: dart_mappable_builder
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0-dev.5"
   dart_style:
     dependency: transitive
     description:
@@ -294,7 +273,7 @@ packages:
       name: flex_seed_scheme
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0"
+    version: "1.0.1"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -403,7 +382,7 @@ packages:
       name: grpc
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.2"
+    version: "3.1.0"
   hive:
     dependency: "direct main"
     description:
@@ -438,7 +417,7 @@ packages:
       name: http2
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.1"
   http_multi_server:
     dependency: transitive
     description:
@@ -487,12 +466,19 @@ packages:
     source: hosted
     version: "0.6.4"
   json_annotation:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: json_annotation
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.7.0"
+  json_serializable:
+    dependency: "direct dev"
+    description:
+      name: json_serializable
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.5.4"
   lint:
     dependency: transitive
     description:
@@ -555,7 +541,7 @@ packages:
       name: mobx
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.7+5"
+    version: "2.1.2"
   mocktail:
     dependency: "direct main"
     description:
@@ -569,7 +555,7 @@ packages:
       name: msix
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.6.6"
+    version: "3.7.0"
   mustache_template:
     dependency: transitive
     description:
@@ -618,7 +604,7 @@ packages:
       name: path_provider_android
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.20"
+    version: "2.0.21"
   path_provider_ios:
     dependency: transitive
     description:
@@ -646,7 +632,7 @@ packages:
       name: path_provider_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.4"
+    version: "2.0.5"
   path_provider_windows:
     dependency: transitive
     description:
@@ -660,7 +646,7 @@ packages:
       name: petitparser
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.0.0"
+    version: "5.1.0"
   platform:
     dependency: transitive
     description:
@@ -674,7 +660,7 @@ packages:
       name: plugin_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.2"
+    version: "2.1.3"
   pool:
     dependency: transitive
     description:
@@ -723,7 +709,7 @@ packages:
       name: recase
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.0"
+    version: "4.1.0"
   riverpod:
     dependency: transitive
     description:
@@ -751,7 +737,7 @@ packages:
       name: rxdart
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.27.5"
+    version: "0.27.6"
   shelf:
     dependency: transitive
     description:
@@ -792,6 +778,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.5"
+  source_helper:
+    dependency: transitive
+    description:
+      name: source_helper
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.3.3"
   source_map_stack_trace:
     dependency: transitive
     description:
@@ -903,14 +896,7 @@ packages:
       name: tuple
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
-  type_plus:
-    dependency: transitive
-    description:
-      name: type_plus
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.6.3"
+    version: "2.0.1"
   typed_data:
     dependency: transitive
     description:
@@ -980,7 +966,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.7.0"
+    version: "3.1.1"
   xdg_directories:
     dependency: transitive
     description:
