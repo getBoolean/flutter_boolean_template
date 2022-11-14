@@ -53,7 +53,6 @@ dependencies:
 
 dev_dependencies:
   convenient_test_dev: ^1.2.1
-  # Needs to be set to `any` to avoid conflicts with: `integration_test` and `build_verify`
   build_runner: ^2.3.2
   flutter_test:
     sdk: flutter
