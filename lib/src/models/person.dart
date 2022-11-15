@@ -1,16 +1,22 @@
+import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter/foundation.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'models.mapper.g.dart';
 
-part 'person.freezed.dart';
-part 'person.g.dart';
+@MappableClass()
+class Person with PersonMappable {
+  const Person({
+    required this.firstName,
+    required this.lastName,
+    required this.age,
+  });
+  factory Person.fromJson(String json) => Mapper.fromJson(json);
 
-@freezed
-class Person with _$Person {
-  const factory Person({
-    required String firstName,
-    required String lastName,
-    required int age,
-  }) = _Person;
+  factory Person.fromMap(Map<String, Object?> map) => Mapper.fromMap(map);
+  final String firstName;
+  final String lastName;
+  final int age;
 
-  factory Person.fromJson(Map<String, Object?> json) => _$PersonFromJson(json);
+  void method() {
+    debugPrint('$firstName $lastName says hello world');
+  }
 }
