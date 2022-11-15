@@ -117,13 +117,19 @@ This project uses [Freezed](https://pub.dev/packages/freezed) to generate code f
 classes with unions.
 See `dart_mappable`'s documentation on using
 
-### Json Serializable, Freezed, and copyWith
+### JSON Serialization and copyWith
 
-This is used to generate data classes and [freezed](https://pub.dev/packages/freezed)
-[json_serializable](https://pub.dev/packages/json_serializable). It suports
+This is used to generate data classes and json serialization using
+[dart_mappable](https://pub.dev/packages/dart_mappable). It also
 generates a `copyWith` with `null` assignment support, and provides
-[deep copy](https://pub.dev/packages/freezed#going-further-deep-copy) for fields which are also
-freezed objects.
+[deep copy](https://pub.dev/packages/dart_mappable#deep-copy) forfields which are also
+`dart_mappable` objects.
+
+If a `freezed` union or sealed model is also `dart_mappable`, the `descriminatorKey` argument needs
+to be added to the `@MappableClass` class annotation, and the `discriminatorValue` argument needs
+to be added to the `@MappableClass` factory constructor annotation for each union or sealed class.
+See the [dart_mappable#freezed](https://pub.dev/packages/dart_mappable#freezed) documentation for
+more information.
 
 ### State Management
 
