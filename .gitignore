@@ -50,3 +50,6 @@ app.*.map.json
 
 # Flutter Version Management
 .fvm/flutter_sdk
+
+# Monarch related
+.monarch/

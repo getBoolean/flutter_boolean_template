@@ -25,6 +25,7 @@ environment:
 
 dependency_overrides:
   test_api: 0.4.16
+  vm_service: ^9.4.0
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -50,10 +51,11 @@ dependencies:
   mocktail: ^0.3.0
   riverpod_annotation: ^1.0.6
   stock: ^1.0.0
+  monarch_annotations: ^1.0.2
 
 dev_dependencies:
   convenient_test_dev: ^1.2.1
-  build_runner: ^2.3.2
+  build_runner: ^2.1.11
   flutter_test:
     sdk: flutter
   freezed: ^2.2.1
@@ -64,6 +66,7 @@ dev_dependencies:
   dart_mappable_builder: ^2.0.0-dev.5
   build_verify: ^3.0.0
   riverpod_generator: ^1.0.6
+  monarch: ^3.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

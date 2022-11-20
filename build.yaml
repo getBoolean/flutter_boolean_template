@@ -5,6 +5,14 @@ targets:
         enabled: true
       riverpod_generator:riverpod_generator:
         enabled: false
+      monarch:meta_localizations_builder:
+        enabled: false
+      monarch:meta_themes_builder:
+        enabled: false
+      monarch:meta_stories_builder:
+        enabled: false
+      monarch:main_builder:
+        enabled: false
   $default:
     dependencies:
       # TODO: Change this value when changing the package name
@@ -17,3 +25,7 @@ targets:
         generate_for:
           - lib/main.dart # modify this if you have a different entry point
           - lib/src/models/models.dart # multiple independent entry files
+    sources:
+      - $package$
+      - lib/**
+      - stories/**
