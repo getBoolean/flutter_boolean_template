@@ -46,7 +46,7 @@ dependencies:
   freezed_annotation: ^2.1.0
   hive: ^2.2.3
   hooks_riverpod: ^2.1.1
-  mason: ^0.1.0-dev.38
+  mason: ^0.1.0-dev.40
   dart_mappable: ^2.0.0-dev.5
   mocktail: ^0.3.0
   riverpod_annotation: ^1.0.6
