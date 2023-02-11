@@ -2,8 +2,7 @@ import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'models.mapper.g.dart';
-
+part 'union.mapper.dart';
 part 'union.freezed.dart';
 
 @freezed
@@ -23,6 +22,6 @@ void testUnion() {
   final dataJson = data.toJson();
   debugPrint(dataJson); // {"mykey":42,"type":"data"}
 
-  final parsedData = Mapper.fromJson<Union>(dataJson);
+  final parsedData = UnionMapper.fromJson(dataJson);
   debugPrint(parsedData.toString()); // Union.data(value: 42)
 }

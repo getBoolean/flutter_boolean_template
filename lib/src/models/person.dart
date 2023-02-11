@@ -1,6 +1,6 @@
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter/foundation.dart';
-import 'models.mapper.g.dart';
+part 'person.mapper.dart';
 
 @MappableClass()
 class Person with PersonMappable {
@@ -9,9 +9,11 @@ class Person with PersonMappable {
     required this.lastName,
     required this.age,
   });
-  factory Person.fromJson(String json) => Mapper.fromJson(json);
+  
+  factory Person.fromJson(String json) => PersonMapper.fromJson(json);
 
-  factory Person.fromMap(Map<String, Object?> map) => Mapper.fromMap(map);
+  factory Person.fromMap(Map<String, Object?> map) => PersonMapper.fromMap(map);
+
   final String firstName;
   final String lastName;
   final int age;
