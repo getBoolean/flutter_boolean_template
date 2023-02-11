@@ -31,6 +31,7 @@ analyzer:
   exclude:
     - lib/generated_plugin_registrant.dart
     - "**/*.g.dart"
+    - "**/*.mapper.dart"
     - "**/*.freezed.dart"
     - "**/*.iconfig.dart"
     # This is generated from the i18n vscode extension
