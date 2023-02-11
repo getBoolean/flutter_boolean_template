@@ -7,7 +7,7 @@
 
 # The following line activates a set of recommended lints for Flutter apps,
 # packages, and plugins designed to encourage good coding practices.
-include: package:very_good_analysis/analysis_options.yaml
+include: package:flutter_lints/flutter.yaml
 
 analyzer:
   # Default for very_good_analysis
@@ -18,15 +18,13 @@ analyzer:
 
   errors:
     # Stop todos from showing in the "Problems" tab so that it can stay focused
-    # on actual problems. I recommended using an extension such as Todo Tree instead.
+    # on actual problems. I recommended using an extension such as "Todo Tree" instead.
     todo: ignore
     # Required for Freezed
     invalid_annotation_target: ignore
-    # Default for very_good_analysis
+    # Defaults from very_good_analysis example
     close_sinks: ignore
-    # Default for very_good_analysis
     missing_required_param: error
-    # Default for very_good_analysis
     missing_return: error
   exclude:
     - lib/generated_plugin_registrant.dart
