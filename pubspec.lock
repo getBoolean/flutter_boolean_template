@@ -363,11 +363,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.10.0"
-  flutter_localizations:
-    dependency: transitive
-    description: flutter
-    source: sdk
-    version: "0.0.0"
   flutter_native_splash:
     dependency: "direct main"
     description:
@@ -644,38 +639,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.3.0"
-  monarch:
-    dependency: "direct dev"
-    description:
-      name: monarch
-      sha256: da370f3c0db3c7ffcbac9c4d293239c8a8f7009100e6d7317d042cc7ebbef5b5
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.0"
-  monarch_annotations:
-    dependency: "direct main"
-    description:
-      name: monarch_annotations
-      sha256: "32386a395d48565ed413cec372144ea1abd594b0d9f3719377199be03976a99e"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.2"
-  monarch_definitions:
-    dependency: transitive
-    description:
-      name: monarch_definitions
-      sha256: b9dd247641b3be392f7d283d6be423be19b17d27b596bb2d144ce17e19b34d49
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.2.0"
-  monarch_utils:
-    dependency: transitive
-    description:
-      name: monarch_utils
-      sha256: "9f983f28971fc2955b3bb3e21a0fb3de3779837bb1739e2320b18959d9ed717f"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.0"
   msix:
     dependency: "direct dev"
     description:

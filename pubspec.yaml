@@ -47,7 +47,6 @@ dependencies:
   mocktail: ^0.3.0
   riverpod_annotation: ^1.0.6
   stock: ^1.0.0
-  monarch_annotations: ^1.0.2
 
 dev_dependencies:
   convenient_test_dev: ^1.2.1
@@ -62,7 +61,6 @@ dev_dependencies:
   dart_mappable_builder: ^2.0.0
   build_verify: ^3.0.0
   riverpod_generator: ^1.0.6
-  monarch: ^3.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

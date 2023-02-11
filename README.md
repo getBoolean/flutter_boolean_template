@@ -152,11 +152,6 @@ information.
 
 ## Testing
 
-### Widget Stories
-
-This project is configured for [Monarch](https://monarchapp.io/) to develop widgets in isolation
-and see your widgets across different devices, text scales, languages, themes, and more (without an emulator).
-
 ### Mocks
 
 This project uses Mocktail to generate mocks for classes. Follow the instructions in the
