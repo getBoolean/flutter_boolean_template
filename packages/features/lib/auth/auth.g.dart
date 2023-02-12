@@ -29,13 +29,13 @@ class _SystemHash {
   }
 }
 
-String $authHash() => r'042e047e27da3c7e5748926ca934f6e3618afe50';
+String _$authHash() => r'042e047e27da3c7e5748926ca934f6e3618afe50';
 
 /// See also [auth].
 final authProvider = AutoDisposeProvider<String>(
   auth,
   name: r'authProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : $authHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$authHash,
 );
 typedef AuthRef = AutoDisposeProviderRef<String>;
