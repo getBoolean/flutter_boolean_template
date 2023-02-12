@@ -21,8 +21,8 @@ class App extends ConsumerWidget {
     return ConvenientTestWrapperWidget(
       child: MaterialApp(
         title: 'Flutter Demo',
-        theme: FlexThemeData.light(scheme: FlexScheme.mandyRed),
-        darkTheme: FlexThemeData.dark(scheme: FlexScheme.mandyRed),
+        theme: FlexThemeData.light(scheme: FlexScheme.mandyRed, useMaterial3: true),
+        darkTheme: FlexThemeData.dark(scheme: FlexScheme.mandyRed, useMaterial3: true),
         themeMode: ThemeMode.system,
         navigatorKey: App.navigatorKey,
         home: MyHomePage(title: '${person.firstName} ${person.lastName}'),
