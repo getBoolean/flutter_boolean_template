@@ -107,7 +107,7 @@ Note: In VSCode, you should disable auto save while running the watch command so
 
 ## Libraries
 
-### [Melos](https://pub.dev/packages/melos)
+### Melos
 
 This project uses [Melos](https://pub.dev/packages/melos) to manage the monorepo. The following scripts are configured:
 
@@ -117,7 +117,7 @@ This project uses [Melos](https://pub.dev/packages/melos) to manage the monorepo
 * `melos run build` - Run `build_runner build` in all packages.
 * `melos run test:selective_unit_test` - Run Flutter tests for a specific package.
 
-### [Mason Bricks](https://pub.dev/packages/mason)
+### Mason Bricks
 
 This project uses [Mason](https://pub.dev/packages/mason) to generate code for features
 and tests using templates. To use the bricks, install the Mason VS Code extension. To create
