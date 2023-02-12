@@ -109,12 +109,13 @@ Note: In VSCode, you should disable auto save while running the watch command so
 
 ### [Melos](https://pub.dev/packages/melos)
 
-This project uses [Melos](https://pub.dev/packages/melos) to manage the monorepo. Melos is
-configured to run the following scripts:
+This project uses [Melos](https://pub.dev/packages/melos) to manage the monorepo. The following scripts are configured:
 
-* `melos run analyze` - runs `flutter analyze` in all packages
-* `melos run test` - runs `flutter test` in all packages
-* `melos run format` - runs `flutter format` in all packages
+* `melos run analyze` - Run `flutter analyze` in all packages.
+* `melos run test` - Run all Flutter tests.
+* `melos run format` - Run `dart format` in all packages.
+* `melos run build` - Run `build_runner build` in all packages.
+* `melos run test:selective_unit_test` - Run Flutter tests for a specific package.
 
 ### [Mason Bricks](https://pub.dev/packages/mason)
 
