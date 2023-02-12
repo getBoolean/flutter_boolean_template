@@ -1,18 +1,22 @@
 import 'package:convenient_test/convenient_test.dart';
+import 'package:features/auth/auth.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:models/models.dart';
 
 /// The main app widget at the root of the widget tree.
-class App extends StatelessWidget {
+class App extends ConsumerWidget {
   const App({super.key});
 
   /// The navigator key for the entire app, used by `convenient_test`
   static final navigatorKey = GlobalKey<NavigatorState>();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     const person = Person(firstName: 'John', lastName: 'Doe', age: 42);
+    final String auth = ref.watch(authProvider);
+    debugPrint(auth);
 
     return ConvenientTestWrapperWidget(
       child: MaterialApp(

@@ -41,7 +41,7 @@ linter:
 
     # Makes things easier to read. If you need types for a specific case,
     # just ignore it for that line
-    omit_local_variable_types: true
+    omit_local_variable_types: false
 
     # Better to declare variables as final
     prefer_final_locals: true
