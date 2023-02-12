@@ -6,7 +6,7 @@ features already setup.
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/gitpod-io/template-flutter)
 
-## Todo After Using This Template
+## Usage Checklist
 
 1. [ ] Activate FVM, see [FVM](#fvm)
 1. [ ] Change the package name, see [Change Package Name](#change-package-name)
@@ -20,6 +20,8 @@ features already setup.
 [GitPod](https://www.gitpod.io/docs/quickstart/flutter#flutter-quickstart) docs
 1. [ ] Setup Codecov for your repository, see the
 [Codecov](https://docs.codecov.com/docs/quick-start) docs
+1. [ ] Read about [melos](https://pub.dev/packages/melos) monorepos and the
+configured melos scripts in [melos.yaml](melos.yaml)
 
 ## Goals
 
@@ -105,6 +107,15 @@ Note: In VSCode, you should disable auto save while running the watch command so
 
 ## Libraries
 
+### [Melos](https://pub.dev/packages/melos)
+
+This project uses [Melos](https://pub.dev/packages/melos) to manage the monorepo. Melos is
+configured to run the following scripts:
+
+* `melos run analyze` - runs `flutter analyze` in all packages
+* `melos run test` - runs `flutter test` in all packages
+* `melos run format` - runs `flutter format` in all packages
+
 ### [Mason Bricks](https://pub.dev/packages/mason)
 
 This project uses [Mason](https://pub.dev/packages/mason) to generate code for features
@@ -114,8 +125,7 @@ addition bricks, use [Mason CLI](https://pub.dev/packages/mason_cli).
 ### Unions and Sealed Classes
 
 This project uses [Freezed](https://pub.dev/packages/freezed) to generate code for immutable
-classes with unions.
-See `dart_mappable`'s documentation on using
+union and sealed classes. See [dart_mappable](https://pub.dev/packages/dart_mappable#freezed)'s documentation on using it with freezed.
 
 ### JSON Serialization and copyWith
 
@@ -154,15 +164,15 @@ information.
 
 ### Mocks
 
-This project uses Mocktail to generate mocks for classes. Follow the instructions in the
-[Mocktail README](https://pub.dev/packages/mocktail) to generate mocks.
+This project uses Mocktail to create mocks and fakes. Follow the instructions in the
+[Mocktail README](https://pub.dev/packages/mocktail).
 
 ### Widget and Unit Tests
 
-Tests are located in the `test` directory. To run the tests, run the following command:
+Tests are located in the `test` root directory and each package. To run all tests, run the following command:
 
 ```bash
-flutter test
+melos run test
 ```
 
 ### Integration Tests
