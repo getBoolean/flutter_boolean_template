@@ -10,3 +10,14 @@ scripts:
   build:
     exec: dart run build_runner build --delete-conflicting-outputs
     description: Run `build_runner build` in all packages.
+
+  test:selective_unit_test:
+    run: melos exec --dir-exists="test" --fail-fast -- flutter test --no-pub --coverage
+    description: Run Flutter tests for a specific package in this project.
+    select-package:
+      flutter: true
+      dir-exists: test
+
+  test:
+    run: melos run test:selective_unit_test --no-select
+    description: Run all Flutter tests in this project.
