@@ -19,5 +19,5 @@ scripts:
       dir-exists: test
 
   test:
-    run: melos run test:selective_unit_test --no-select
+    run: flutter test --no-pub --coverage && melos run test:selective_unit_test --no-select
     description: Run all Flutter tests in this project.
