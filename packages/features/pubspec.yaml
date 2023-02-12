@@ -5,7 +5,7 @@ publish_to: none
 
 environment:
   sdk: ">=2.19.2 <3.0.0"
-  flutter: ">=1.17.0"
+  flutter: ">=3.7.0"
 
 dependencies:
   flutter:
@@ -14,7 +14,9 @@ dependencies:
   hooks_riverpod: ^2.1.1
   flutter_hooks: ^0.18.5+1
   models:
-    path: ../models
+    git:
+      url: https://github.com/getBoolean/flutter_boolean_template
+      path: packages/models
 
 dev_dependencies:
   flutter_test:
