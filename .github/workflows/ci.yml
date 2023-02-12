@@ -31,11 +31,16 @@ jobs:
 
       # Project needs to have tests in test/ and a dependency on
       # package:flutter_test for this step to succeed.
-      - name: Run Tests
+      - name: Run Root Tests
         run: flutter test --coverage
+
+      - name: Run Package Tests
+        run: melos run test
 
       - name: Upload Coverage to Codecov
         uses: codecov/codecov-action@v3.1.0
+        with:
+          files: "**/*/lcov.info"
 
   build_ios:
     name: Build Flutter for iOS (Without Signing)
