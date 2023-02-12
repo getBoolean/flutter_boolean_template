@@ -3,7 +3,7 @@ import 'package:features/auth/auth.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:models/models.dart';
+import 'package:models/person.dart';
 
 /// The main app widget at the root of the widget tree.
 class App extends ConsumerWidget {
