@@ -53,3 +53,4 @@ app.*.map.json
 
 # Monarch related
 .monarch/
+.vscode/settings.json
