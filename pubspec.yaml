@@ -1,7 +1,7 @@
 name: app_workspace
 description: An opinionated template for a Flutter project.
 
-publish_to: "none"
+publish_to: none
 
 version: 1.0.0+1
 
@@ -22,9 +22,9 @@ dependencies:
   hooks_riverpod: ^2.1.1
   mason: ^0.1.0-dev.38
   mocktail: ^0.3.0
-  riverpod_annotation: ^1.0.6
   models:
     path: packages/models
+  riverpod_annotation: ^1.0.6
 
 dev_dependencies:
   build_runner: ^2.3.3
