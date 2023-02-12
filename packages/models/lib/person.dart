@@ -8,7 +8,7 @@ class Person with PersonMappable {
     required this.lastName,
     required this.age,
   });
-  
+
   factory Person.fromJson(String json) => PersonMapper.fromJson(json);
 
   factory Person.fromMap(Map<String, Object?> map) => PersonMapper.fromMap(map);
