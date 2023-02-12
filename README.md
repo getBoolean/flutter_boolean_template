@@ -183,6 +183,12 @@ uploaded to the CI action fragments.
 
 Instructions for building for release are below:
 
+### Build for Windows Release
+
+Consider using the package [msix](https://pub.dev/packages/msix). Read more about
+packaging for windows on the [Flutter Windows Deployment](https://docs.flutter.dev/deployment/windows)
+documentation.
+
 ### Build for Android Release
 
 Follow the instructions in the [Flutter docs for Android](https://docs.flutter.dev/deployment/android).
