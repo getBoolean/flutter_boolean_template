@@ -54,3 +54,10 @@ app.*.map.json
 # Monarch related
 .monarch/
 .vscode/settings.json
+
+# Generated files
+**/android/local.properties
+**/ios/Flutter/flutter_export_environment.sh
+**/ios/Flutter/Generated.xcconfig
+**/macos/Flutter/ephemeral/Flutter-Generated.xcconfig
+**/macos/Flutter/ephemeral/flutter_export_environment.sh
