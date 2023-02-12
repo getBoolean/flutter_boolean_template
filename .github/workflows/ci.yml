@@ -31,10 +31,10 @@ jobs:
 
       # Project needs to have tests in test/ and a dependency on
       # package:flutter_test for this step to succeed.
-      - name: Run Root Tests
-        run: flutter test --coverage
-
-      - name: Run Package Tests
+      #
+      # Each package in the packages/ directory should have its own
+      # test/ directory with tests for that package.
+      - name: Run Tests
         run: melos run test
 
       - name: Upload Coverage to Codecov
