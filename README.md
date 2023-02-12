@@ -140,7 +140,7 @@ for how to structure your code.
 
 ### Async Data Loading and Caching
 
-This project uses [stock](https://pub.dev/packages/stock) for loading data from both remote and
+This project recommends [stock](https://pub.dev/packages/stock) for loading data from both remote and
 local sources. Its main goal is to prevent excessive calls to the network and disk cache. By
 utilizing it, you eliminate the possibility of flooding your network with the same request
 while, at the same time, adding layers of caching.

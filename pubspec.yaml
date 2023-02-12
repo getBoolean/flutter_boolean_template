@@ -23,7 +23,6 @@ dependencies:
   mason: ^0.1.0-dev.38
   mocktail: ^0.3.0
   riverpod_annotation: ^1.0.6
-  stock: ^1.0.0
   models:
     path: packages/models
 
