@@ -38,12 +38,7 @@ dev_dependencies:
   freezed: ^2.2.1
   integration_test:
     sdk: flutter
-  msix: ^3.6.6
   riverpod_generator: ^1.0.6
 
 flutter:
   uses-material-design: true
-
-msix_config:
-  display_name: Flutter Template App
-  install_certificate: false

@@ -183,13 +183,6 @@ uploaded to the CI action fragments.
 
 Instructions for building for release are below:
 
-### Build for Windows Release
-
-1. Customize `msix_config` in [pubspec.yaml](pubspec.yaml) according to the documentation
-for [msix](https://pub.dev/packages/msix) for your method of publication. The default
-configuration is for CI/CD testing builds only, not releases.
-1. Run the corresponding command for your method of publication
-
 ### Build for Android Release
 
 Follow the instructions in the [Flutter docs for Android](https://docs.flutter.dev/deployment/android).
