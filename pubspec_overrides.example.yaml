@@ -1,0 +1,5 @@
+dependency_overrides:
+  models:
+    path: packages/models
+  features:
+    path: packages/features
