@@ -1,5 +1,6 @@
 import 'package:convenient_test/convenient_test.dart';
 import 'package:flutter/material.dart';
+import 'package:models/models.dart';
 
 /// The main app widget at the root of the widget tree.
 class App extends StatelessWidget {
@@ -11,6 +12,8 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const person = Person(firstName: 'John', lastName: 'Doe', age: 42);
+
     return ConvenientTestWrapperWidget(
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -18,7 +21,7 @@ class App extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         navigatorKey: App.navigatorKey,
-        home: const MyHomePage(title: 'Flutter Demo Home Page'),
+        home: MyHomePage(title: '${person.firstName} ${person.lastName}'),
       ),
     );
   }

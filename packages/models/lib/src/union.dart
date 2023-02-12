@@ -1,5 +1,4 @@
 import 'package:dart_mappable/dart_mappable.dart';
-import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'union.mapper.dart';
@@ -14,14 +13,4 @@ class Union with _$Union {
   const factory Union.loading() = Loading;
   @MappableClass(discriminatorValue: 'error')
   const factory Union.error([String? message]) = ErrorDetails;
-}
-
-void testUnion() {
-  const data = Union.data(42);
-
-  final dataJson = data.toJson();
-  debugPrint(dataJson); // {"mykey":42,"type":"data"}
-
-  final parsedData = UnionMapper.fromJson(dataJson);
-  debugPrint(parsedData.toString()); // Union.data(value: 42)
 }

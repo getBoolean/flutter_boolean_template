@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'union.dart';
 
@@ -110,7 +110,7 @@ class __$$DataCopyWithImpl<$Res> extends _$UnionCopyWithImpl<$Res, _$Data>
 /// @nodoc
 
 @MappableClass(discriminatorValue: 'data')
-class _$Data with DiagnosticableTreeMixin implements Data {
+class _$Data implements Data {
   const _$Data(@MappableField(key: 'mykey') this.value);
 
   @override
@@ -118,16 +118,8 @@ class _$Data with DiagnosticableTreeMixin implements Data {
   final int value;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'Union.data(value: $value)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'Union.data'))
-      ..add(DiagnosticsProperty('value', value));
   }
 
   @override
@@ -241,18 +233,12 @@ class __$$LoadingCopyWithImpl<$Res> extends _$UnionCopyWithImpl<$Res, _$Loading>
 /// @nodoc
 
 @MappableClass(discriminatorValue: 'loading')
-class _$Loading with DiagnosticableTreeMixin implements Loading {
+class _$Loading implements Loading {
   const _$Loading();
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'Union.loading()';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty('type', 'Union.loading'));
   }
 
   @override
@@ -371,23 +357,15 @@ class __$$ErrorDetailsCopyWithImpl<$Res>
 /// @nodoc
 
 @MappableClass(discriminatorValue: 'error')
-class _$ErrorDetails with DiagnosticableTreeMixin implements ErrorDetails {
+class _$ErrorDetails implements ErrorDetails {
   const _$ErrorDetails([this.message]);
 
   @override
   final String? message;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'Union.error(message: $message)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'Union.error'))
-      ..add(DiagnosticsProperty('message', message));
   }
 
   @override

@@ -1,5 +1,4 @@
 import 'package:dart_mappable/dart_mappable.dart';
-import 'package:flutter/foundation.dart';
 part 'person.mapper.dart';
 
 @MappableClass()
@@ -18,7 +17,7 @@ class Person with PersonMappable {
   final String lastName;
   final int age;
 
-  void method() {
-    debugPrint('$firstName $lastName says hello world');
+  String testMethod() {
+    return '$firstName $lastName says hello world';
   }
 }
