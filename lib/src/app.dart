@@ -4,7 +4,6 @@ import 'package:models/models.dart';
 
 /// The main app widget at the root of the widget tree.
 class App extends StatelessWidget {
-  /// Creates the main app widget.
   const App({super.key});
 
   /// The navigator key for the entire app, used by `convenient_test`
@@ -29,10 +28,8 @@ class App extends StatelessWidget {
 
 /// Temporary home page widget.
 class MyHomePage extends StatefulWidget {
-  /// Creates the temporary home page widget.
   const MyHomePage({super.key, required this.title});
 
-  /// The title of the page.
   final String title;
 
   @override
