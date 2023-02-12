@@ -31,6 +31,9 @@ jobs:
       
       - name: Activate Melos
         run: dart pub global activate melos ^2.9.0
+      
+      - name: Bootstrap Melos
+        run: melos bootstrap
 
       # Project needs to have tests in test/ and a dependency on
       # package:flutter_test for this step to succeed.
