@@ -196,9 +196,10 @@ Instructions for building for release are below:
 
 ### Build for Windows Release
 
-Consider using the package [msix](https://pub.dev/packages/msix). Read more about
-packaging for windows on the [Flutter Windows Deployment](https://docs.flutter.dev/deployment/windows)
-documentation.
+1. Customize `msix_config` in [pubspec.yaml](pubspec.yaml) according to the documentation
+for [msix](https://pub.dev/packages/msix) for your method of publication. The default
+configuration is for CI/CD testing builds only, not releases.
+1. Run the corresponding command for your method of publication
 
 ### Build for Android Release
 

@@ -36,6 +36,11 @@ dev_dependencies:
   integration_test:
     sdk: flutter
   melos: ^2.9.0
+  msix: ^3.7.0
 
 flutter:
   uses-material-design: true
+
+msix_config:
+  display_name: Flutter Template App
+  install_certificate: false
