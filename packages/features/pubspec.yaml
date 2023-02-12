@@ -1,6 +1,7 @@
 name: features
 description: A new Flutter package project.
 version: 0.0.1
+publish_to: none
 
 environment:
   sdk: ">=2.19.2 <3.0.0"
@@ -12,6 +13,8 @@ dependencies:
   riverpod_annotation: ^1.0.6
   hooks_riverpod: ^2.1.1
   flutter_hooks: ^0.18.5+1
+  models:
+    path: ../models
 
 dev_dependencies:
   flutter_test:
