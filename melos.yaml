@@ -5,8 +5,8 @@ packages:
 
 scripts:
   analyze:
-    exec: dart analyze .
+    run: melos exec -- flutter analyze .
+    description: Run `dart analyze` in all packages.
   build:
     exec: dart run build_runner build --delete-conflicting-outputs
-  watch:
-    exec: dart run build_runner watch --delete-conflicting-outputs
+    description: Run `build_runner build` in all packages.
