@@ -39,6 +39,7 @@ configured melos scripts in [melos.yaml](melos.yaml)
 other providers.~~ (Better as a brick)
 - [x] Localization support
 - [x] Riverpod generator in features package
+- [ ] Logger
 - [ ] Mason brick setup for easy architecture setup
   - [ ] Brick for feature packages
   - ~~Bricks for tests~~ (Too situational)
