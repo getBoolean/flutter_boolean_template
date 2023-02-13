@@ -23,7 +23,7 @@ features already setup.
 1. [ ] Read about [melos](https://pub.dev/packages/melos) monorepos and the
 configured melos scripts in [melos.yaml](melos.yaml)
 
-## Goals
+## Feature Goals
 
 - [x] FVM configuration (Flutter version manager)
 - [ ] Prebuilt `flex_color_scheme` with support for multiple themes. (other than light and dark themes)
