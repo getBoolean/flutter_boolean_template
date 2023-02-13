@@ -9,7 +9,7 @@ features already setup.
 ## Usage Checklist
 
 1. [ ] Activate FVM, see [FVM](#fvm)
-1. [ ] Change the package name, see [Change Package Name](#change-package-name)
+1. [ ] Change the package name, see [Change App/Package Name](#change-apppackage-name)
 1. [ ] Change the app icon, see [Change App Icon](#change-app-icon)
 1. [ ] Change the splash screen, see [Change Splash Screen](#change-the-splash-screen)
 1. [ ] Change the app name and description in [pubspec.yaml](pubspec.yaml) and
@@ -112,11 +112,11 @@ Note: In VSCode, you should disable auto save while running the watch command so
 
 This project uses [Melos](https://pub.dev/packages/melos) to manage the monorepo. The following scripts are configured:
 
-* `melos run analyze` - Run `flutter analyze` in all packages.
-* `melos run test` - Run all Flutter tests.
-* `melos run format` - Run `dart format` in all packages.
-* `melos run build` - Run `build_runner build` in all packages.
-* `melos run test:selective_unit_test` - Run Flutter tests for a specific package.
+- `melos run analyze` - Run `flutter analyze` in all packages.
+- `melos run test` - Run all Flutter tests.
+- `melos run format` - Run `dart format` in all packages.
+- `melos run build` - Run `build_runner build` in all packages.
+- `melos run test:selective_unit_test` - Run Flutter tests for a specific package.
 
 ### Mason Bricks
 
