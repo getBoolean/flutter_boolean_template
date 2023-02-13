@@ -14,11 +14,11 @@ command:
 # See https://github.com/firebase/flutterfire/blob/master/melos.yaml for more examples
 scripts:
   analyze:
-    run: melos exec -- flutter analyze .
+    run: flutter analyze && melos exec -- flutter analyze .
     description: Run `flutter analyze` in all packages.
 
   format:
-    run: melos exec -- dart format .
+    run: dart format . && melos exec -- dart format .
     description: Run `dart format` in all packages.
 
   build:
