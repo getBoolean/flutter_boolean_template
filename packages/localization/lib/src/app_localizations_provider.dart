@@ -50,7 +50,7 @@ final appLocalizationsProvider = Provider<AppLocalizations>((ref) {
 /// Observer used to notify the caller when the locale changes
 class _LocaleObserver extends WidgetsBindingObserver {
   _LocaleObserver(this._didChangeLocales);
-  
+
   final void Function(List<Locale>? locales) _didChangeLocales;
 
   @override
