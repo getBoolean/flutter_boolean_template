@@ -3,6 +3,7 @@ import 'package:features/auth/auth.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:localization/localization.dart';
 import 'package:models/person.dart';
 
 /// The main app widget at the root of the widget tree.
@@ -20,7 +21,10 @@ class App extends ConsumerWidget {
 
     return ConvenientTestWrapperWidget(
       child: MaterialApp(
-        title: 'Flutter Demo',
+        onGenerateTitle: (context) => context.loc.appTitle,
+        restorationScopeId: 'app',
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         theme: FlexThemeData.light(
           scheme: FlexScheme.mandyRed,
           useMaterial3: true,
@@ -64,8 +68,8 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+            Text(
+              context.loc.timesButtonPressed,
             ),
             Text(
               '$_counter',
@@ -76,7 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        tooltip: context.loc.increment,
         child: const Icon(Icons.add),
       ),
     );

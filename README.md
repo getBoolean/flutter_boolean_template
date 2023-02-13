@@ -25,8 +25,10 @@ configured melos scripts in [melos.yaml](melos.yaml)
 
 ## Feature Goals
 
+- [x] Melos monorepo
 - [x] FVM configuration (Flutter version manager)
-- [ ] Prebuilt `flex_color_scheme` with support for multiple themes. (other than light and dark themes)
+- [x] Presetup `flex_color_scheme` light and dark themes
+- ~~`flex_color_scheme` with support for multiple themes. (other than light and dark themes)~~ (Better as a brick or package)
 - [x] Linting preconfigured.
 - [x] CI/CD with GitHub Actions (all platforms)
 - [x] Gitpod support
@@ -36,7 +38,7 @@ configured melos scripts in [melos.yaml](melos.yaml)
 - ~~Authentication with Appwrite and offline support using stock, use a wrapper to make it easy to switch to
 other providers.~~ (Better as a brick)
 - [ ] Localization support
-- [ ] Basic project architecture using Riverpod
+- [x] Riverpod generator in features package
 - [ ] Mason brick setup for easy architecture setup
   - [ ] Brick for feature packages
   - ~~Bricks for tests~~ (Too situational)
@@ -46,12 +48,12 @@ other providers.~~ (Better as a brick)
 - [ ] Adaptive UI Widgets for iOS, Android, Windows, Linux, MacOS, and Web
 - ~~Focus node setup (for keyboard navigation)~~
 - ~~Biometric/Local authentication~~ (Better as a brick)
-- ~~App updates~~ (Better as a brick)
+- ~~App updates~~ (Better as a package/cli)
   - ~~In-app updated for sideloaded apps~~
   - ~~Link to app store for apps published to app store~~
 - ~~Onboarding~~
 - ~~Feature discovery~~
-- [ ] Firebase services which do not require Google Play services (or use alternatives)
+- [ ] Firebase services which do not require Google Play services (or use alternatives). Disable safely if not setup properly.
   - [ ] App Check with custom and debug providers
   - [ ] Crashlytics
   - [ ] In-App Messaging
@@ -117,6 +119,8 @@ This project uses [Melos](https://pub.dev/packages/melos) to manage the monorepo
 - `melos run format` - Run `dart format` in all packages.
 - `melos run build` - Run `build_runner build` in all packages.
 - `melos run test:selective_unit_test` - Run Flutter tests for a specific package.
+- `melos run loc` - Run `flutter gen-l10n` in the localization package to generate
+  the localized strings from the arb files.
 
 ### Mason Bricks
 

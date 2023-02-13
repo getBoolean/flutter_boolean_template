@@ -306,6 +306,11 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
+  flutter_localizations:
+    dependency: transitive
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   flutter_native_splash:
     dependency: "direct main"
     description:
@@ -510,6 +515,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
+  localization:
+    dependency: "direct main"
+    description:
+      path: "packages/localization"
+      relative: true
+    source: path
+    version: "0.0.1"
   logging:
     dependency: transitive
     description:

@@ -35,3 +35,7 @@ scripts:
   test:
     run: flutter test --no-pub --coverage && melos run test:selective_unit_test --no-select
     description: Run all Flutter tests in this project.
+
+  loc:
+    run: melos exec --scope="localization" --dir-exists="lib/src/translations" --fail-fast -- flutter gen-l10n
+    description: Run `flutter gen-l10n` in the localization package.

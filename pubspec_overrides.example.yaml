@@ -3,3 +3,5 @@ dependency_overrides:
     path: packages/models
   features:
     path: packages/features
+  localization:
+    path: packages/localization

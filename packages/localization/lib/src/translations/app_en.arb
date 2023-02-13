@@ -1,0 +1,14 @@
+{
+  "appTitle": "flutter_boolean_template",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "timesButtonPressed": "You have pushed the button this many times:",
+  "@timesButtonPressed": {
+    "description": "The number of times the user has pressed the Add (+) button"
+  },
+  "increment": "Increment",
+  "@increment": {
+    "description": "Label for the Add (+) button which increments the counter"
+  }
+}
