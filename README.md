@@ -37,7 +37,7 @@ configured melos scripts in [melos.yaml](melos.yaml)
 - [x] Template README
 - ~~Authentication with Appwrite and offline support using stock, use a wrapper to make it easy to switch to
 other providers.~~ (Better as a brick)
-- [ ] Localization support
+- [x] Localization support
 - [x] Riverpod generator in features package
 - [ ] Mason brick setup for easy architecture setup
   - [ ] Brick for feature packages
