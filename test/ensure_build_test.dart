@@ -3,8 +3,10 @@
 import 'package:build_verify/build_verify.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-const _kDefaultCommand = ['melos', 'run', 'build'];
+const _kBuildCommand = ['melos', 'run', 'build'];
+const _kGenLocalizationCommand = ['melos', 'run', 'loc'];
 
 void main() {
-  test('ensure_build', () => expectBuildClean(customCommand: _kDefaultCommand));
+  test('ensure_build', () => expectBuildClean(customCommand: _kBuildCommand));
+  test('ensure_loc_gen', () => expectBuildClean(customCommand: _kGenLocalizationCommand));
 }
