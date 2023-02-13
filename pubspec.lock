@@ -229,10 +229,8 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/features"
-      ref: HEAD
-      resolved-ref: ab4a37df7adf08906e1382fa8d87277df9f9dfd8
-      url: "https://github.com/getBoolean/flutter_boolean_template"
-    source: git
+      relative: true
+    source: path
     version: "0.0.1"
   ffi:
     dependency: transitive
@@ -596,10 +594,8 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/models"
-      ref: HEAD
-      resolved-ref: ab4a37df7adf08906e1382fa8d87277df9f9dfd8
-      url: "https://github.com/getBoolean/flutter_boolean_template"
-    source: git
+      relative: true
+    source: path
     version: "1.0.0"
   msix:
     dependency: "direct dev"
@@ -1063,5 +1059,5 @@ packages:
     source: hosted
     version: "2.0.3"
 sdks:
-  dart: ">=2.19.2 <3.0.0"
+  dart: ">=2.19.0 <3.0.0"
   flutter: ">=3.7.0"

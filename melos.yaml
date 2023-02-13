@@ -1,4 +1,4 @@
-name: app_workspace
+name: flutter_boolean_template
 
 packages:
   - packages/*

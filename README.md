@@ -68,16 +68,16 @@ configured to use the latest stable version of Flutter. To activate FVM, run the
 dart pub global activate fvm
 ```
 
-### Change Package Name
+### Change App/Package Name
 
-Run the following command to change the package name:
+1. Run the following command to change the package name, where `com.new.package.name`
+is the new package name that you want for your app.
 
-```bash
-flutter pub run change_app_package_name:main com.new.package.name
-```
+   ```bash
+   flutter pub run change_app_package_name:main com.new.package.name
+   ```
 
-Where `com.new.package.name` is the new package name that you want for your app. replace it with
-any name you want.
+1. Replace all instances of `flutter_boolean_template` with your new Flutter package name.
 
 ### Change App Icon
 
