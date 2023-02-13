@@ -32,7 +32,6 @@ configured melos scripts in [melos.yaml](melos.yaml)
 - [x] Linting preconfigured.
 - [x] CI/CD with GitHub Actions (all platforms)
 - [x] Gitpod support
-- [ ] Zapp support
 - [x] Codecov support
 - [x] Template README
 - ~~Authentication with Appwrite and offline support using stock, use a wrapper to make it easy to switch to
