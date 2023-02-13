@@ -8,7 +8,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appTitle => 'flutter_boolean_template';
 
   @override
-  String get timesButtonPressed => 'You have pushed the button this many times:';
+  String get timesButtonPressed =>
+      'You have pushed the button this many times:';
 
   @override
   String get increment => 'Increment';
