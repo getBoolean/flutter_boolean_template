@@ -8,6 +8,8 @@ const _kGenLocalizationCommand = ['melos', 'run', 'loc'];
 
 void main() {
   test('ensure_build', () => expectBuildClean(customCommand: _kBuildCommand));
-  test('ensure_loc_gen',
-      () => expectBuildClean(customCommand: _kGenLocalizationCommand));
+  test(
+    'ensure_loc_gen',
+    () => expectBuildClean(customCommand: _kGenLocalizationCommand),
+  );
 }
