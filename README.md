@@ -25,37 +25,38 @@ configured melos scripts in [melos.yaml](melos.yaml)
 
 ## Goals
 
-1. FVM configuration (Flutter version manager)
-1. Prebuilt flex_color_scheme with support for multiple themes. (other than light and dark themes)
-1. Linting preconfigured.
-1. CI/CD with GitHub Actions (all platforms)
-1. Gitpod support (maybe Zapp too?)
-1. Codecov support
-1. Template README
-1. Authentication with Appwrite and offline support, use a wrapper to make it easy to switch to
-other providers.
-1. Localization support
-1. Basic project architecture using Riverpod
-1. Mason brick setup for easy architecture setup
-   1. Bricks for features
-   1. Bricks for tests
-   1. Bricks for freezed models
-1. Responsive UI for desktop, web, mobile, tablet, possibly watch (maybe support for TV and Cars??)
-   * Must have a unified navigation for when resizing the window
-1. Adaptive UI for iOS, Android, Windows, Linux, MacOS, and Web
-1. Focus node setup (for keyboard navigation)
-1. Biometric/Local authentication
-1. App updates
-   1. In-app updated for sideloaded apps
-   1. Link to app store for apps published to app store
-1. Onboarding
-1. Feature discovery
-1. Firebase services which DO NOT require Google Play services (or find alternatives for Desktop)
-   1. App Check with custom and debug providers
-   1. Crashlytics
-   1. In-App Messaging
-   1. Performance Monitoring
-   1. Remote Config
+- [x] FVM configuration (Flutter version manager)
+- [ ] Prebuilt `flex_color_scheme` with support for multiple themes. (other than light and dark themes)
+- [x] Linting preconfigured.
+- [x] CI/CD with GitHub Actions (all platforms)
+- [x] Gitpod support
+- [ ] Zapp support
+- [x] Codecov support
+- [x] Template README
+- ~~Authentication with Appwrite and offline support using stock, use a wrapper to make it easy to switch to
+other providers.~~ (Better as a brick)
+- [ ] Localization support
+- [ ] Basic project architecture using Riverpod
+- [ ] Mason brick setup for easy architecture setup
+  - [ ] Brick for feature packages
+  - ~~Bricks for tests~~ (Too situational)
+  - ~~Bricks for freezed models~~ (Probably already exists)
+- [ ] Responsive UI Widgets for desktop, web, mobile, tablet, and possibly watches and TV
+  - Must have a maintain navigation state when resizing the window
+- [ ] Adaptive UI Widgets for iOS, Android, Windows, Linux, MacOS, and Web
+- ~~Focus node setup (for keyboard navigation)~~
+- ~~Biometric/Local authentication~~ (Better as a brick)
+- ~~App updates~~ (Better as a brick)
+  - ~~In-app updated for sideloaded apps~~
+  - ~~Link to app store for apps published to app store~~
+- ~~Onboarding~~
+- ~~Feature discovery~~
+- [ ] Firebase services which do not require Google Play services (or use alternatives)
+  - [ ] App Check with custom and debug providers
+  - [ ] Crashlytics
+  - [ ] In-App Messaging
+  - [ ] Performance Monitoring
+  - [ ] Remote Config
 
 ## Getting Started
 
