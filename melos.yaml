@@ -11,7 +11,10 @@ command:
     runPubGetInParallel: false
     usePubspecOverrides: true
     hooks:
-      post: melos run generate && melos run loc
+      post: |
+        melos run generate && \
+        melos run loc && \
+        dart pub global activate coverage ^1.6.3
 
 # See https://github.com/firebase/flutterfire/blob/master/melos.yaml for more examples
 scripts:
@@ -54,7 +57,7 @@ scripts:
       ignore: localization
   
   dart_test:pkg:
-    exec: dart test --coverage=coverage
+    exec: dart pub global run coverage:test_with_coverage
     description: Run Dart tests for a specific package in this project.
     packageFilters:
       dirExists: test
