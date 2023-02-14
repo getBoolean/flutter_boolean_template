@@ -20,8 +20,13 @@ features already setup.
 [GitPod](https://www.gitpod.io/docs/quickstart/flutter#flutter-quickstart) docs
 1. [ ] Setup Codecov for your repository, see the
 [Codecov](https://docs.codecov.com/docs/quick-start) docs
-1. [ ] Read about [melos](https://pub.dev/packages/melos) monorepos and the
-configured melos scripts in [melos.yaml](melos.yaml)
+1. [ ] Activate [melos](https://pub.dev/packages/melos) globally, see the [Melos](#melos)
+section for the configured monorepo scripts
+
+  ```bash
+  dart pub global activate melos
+  melos bootstrap
+  ```
 
 ## Feature Goals
 
