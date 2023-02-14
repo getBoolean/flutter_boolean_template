@@ -2,6 +2,7 @@ name: flutter_boolean_template
 
 packages:
   - packages/*
+  - "./"
 
 command:
   bootstrap:
@@ -12,9 +13,6 @@ command:
     usePubspecOverrides: true
     hooks:
       post: |
-        flutter pub get && \
-        melos run generate && \
-        melos run loc && \
         dart pub global activate coverage ^1.6.3
 
 # See https://github.com/firebase/flutterfire/blob/master/melos.yaml for more examples
@@ -22,7 +20,7 @@ scripts:
   # Custom lint is only applied to the packages and not the root app because of a dependency conflict with `integration_test` and `melos`
   # which use different versions of `path`.
   analyze:
-    run: flutter analyze && melos run dart_analyze:pkg --no-select && melos run flutter_analyze:pkg --no-select && melos run custom_lint --no-select
+    run: melos run dart_analyze:pkg --no-select && melos run flutter_analyze:pkg --no-select && melos run custom_lint --no-select
     description: Run `flutter analyze` in all packages.
   
   custom_lint:
@@ -51,11 +49,11 @@ scripts:
       failFast: true
 
   format:
-    run: dart format . && melos exec -- dart format .
+    run: melos exec -- dart format .
     description: Run `dart format` in all packages.
 
   verify_format:
-    run: dart format --output=none --set-exit-if-changed . && melos exec --fail-fast -- dart format --output=none --set-exit-if-changed .
+    run: melos exec --fail-fast -- dart format --output=none --set-exit-if-changed .
     description: Verify formatting was applied.
 
   generate:
@@ -87,11 +85,11 @@ scripts:
       failFast: true
 
   test:
-    run: flutter test --no-pub --coverage && melos run flutter_test:pkg --no-select && melos run dart_test:pkg --no-select
+    run: melos run flutter_test && melos run dart_test
     description: Run all tests in this project.
 
   flutter_test:
-    run: flutter test --no-pub --coverage && melos run flutter_test:pkg --no-select
+    run: melos run flutter_test:pkg --no-select
     description: Run all Flutter tests in this project.
 
   dart_test:
@@ -99,5 +97,9 @@ scripts:
     description: Run all Flutter tests in this project.
 
   loc:
-    run: melos exec --scope="localization" --dir-exists="lib/src/translations" --fail-fast -- flutter gen-l10n
+    exec: flutter gen-l10n
     description: Run `flutter gen-l10n` in the localization package.
+    packageFilters:
+      dirExists: lib/src/translations
+      failFast: true
+      scope: localization
