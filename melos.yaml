@@ -32,8 +32,16 @@ scripts:
       failFast: true
       dependsOn: build_runner
       ignore: localization
+  
+  dart_test:pkg:
+    exec: dart test --coverage=coverage
+    description: Run Dart tests for a specific package in this project.
+    packageFilters:
+      dirExists: test
+      failFast: true
+      noDependsOn: flutter
 
-  test:pkg:
+  flutter_test:pkg:
     exec: flutter test --no-pub --coverage
     description: Run Flutter tests for a specific package in this project.
     packageFilters:
@@ -42,7 +50,15 @@ scripts:
       failFast: true
 
   test:
-    run: flutter test --no-pub --coverage && melos run test:pkg --no-select
+    run: flutter test --no-pub --coverage && melos run flutter_test:pkg --no-select && melos run dart_test:pkg --no-select
+    description: Run all tests in this project.
+
+  flutter_test:
+    run: flutter test --no-pub --coverage && melos run flutter_test:pkg --no-select
+    description: Run all Flutter tests in this project.
+
+  dart_test:
+    run: melos run dart_test:pkg --no-select
     description: Run all Flutter tests in this project.
 
   loc:
