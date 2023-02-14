@@ -6,22 +6,22 @@ features already setup.
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/gitpod-io/template-flutter)
 
-## Usage Checklist
+## Getting Started
 
 1. [ ] Activate FVM, see [FVM](#fvm)
+1. [ ] Activate [Melos](https://pub.dev/packages/melos) globally, see the [Melos](#melos)
+section for setup and the configured monorepo scripts
 1. [ ] Change the package name, see [Change App/Package Name](#change-apppackage-name)
+1. [ ] Change the project name using "replace all".
+1. [ ] Update the description in [pubspec.yaml](pubspec.yaml) and [README.md](README.md).
 1. [ ] Change the app icon, see [Change App Icon](#change-app-icon)
 1. [ ] Change the splash screen, see [Change Splash Screen](#change-the-splash-screen)
-1. [ ] Change the app name and description in [pubspec.yaml](pubspec.yaml) and
-[README.md](README.md)
 1. [ ] Setup the release build configuration, see [Building](#building)
-1. [ ] Update contribution guidelines at [Contributing](#contributing)
-1. [ ] Setup GitPod for your environment, see the
-[GitPod](https://www.gitpod.io/docs/quickstart/flutter#flutter-quickstart) docs
 1. [ ] Setup Codecov for your repository, see the
 [Codecov](https://docs.codecov.com/docs/quick-start) docs
-1. [ ] Activate [melos](https://pub.dev/packages/melos) globally, see the [Melos](#melos)
-section for setup and the configured monorepo scripts
+1. [ ] Setup GitPod for your environment, see the
+[GitPod](https://www.gitpod.io/docs/quickstart/flutter#flutter-quickstart) docs
+1. [ ] Update contribution guidelines at [Contributing](#contributing)
 
 ## Feature Goals
 
@@ -60,14 +60,14 @@ other providers.~~ (Better as a brick)
   - [ ] Performance Monitoring
   - [ ] Remote Config
 
-## Getting Started
+## Learn More
 
 ### FVM
 
-This project uses [FVM](https://fvm.app/) to manage Flutter versions. The project is
-configured to use the latest stable version of Flutter. To activate FVM, run the following:
+This project uses [FVM](https://fvm.app/) to manage Flutter versions, and is configured to use the latest stable version of Flutter. Either the CLI or the GUI app [Sidekick](https://github.com/fluttertools/sidekick) can be used.
 
 ```bash
+# FVM CLI
 dart pub global activate fvm
 ```
 
