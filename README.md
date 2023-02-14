@@ -41,8 +41,8 @@ other providers.~~ (Better as a brick)
 - [ ] Logger
 - [ ] Mason brick setup for easy architecture setup
   - [ ] Brick for feature packages
+  - [ ] Brick for freezed models
   - ~~Bricks for tests~~ (Too situational)
-  - ~~Bricks for freezed models~~ (Probably already exists)
 - [ ] Responsive UI Widgets for desktop, web, mobile, tablet, and possibly watches and TV
   - Must have a maintain navigation state when resizing the window
 - [ ] Adaptive UI Widgets for iOS, Android, Windows, Linux, MacOS, and Web
@@ -55,10 +55,10 @@ other providers.~~ (Better as a brick)
 - ~~Feature discovery~~
 - [ ] Firebase services which do not require Google Play services (or use alternatives). Disable safely if not setup properly.
   - [ ] App Check with custom and debug providers
-  - [ ] Crashlytics
+  - [ ] Crashlytics or [Sentry](https://pub.dev/packages/sentry_flutter)
   - [ ] In-App Messaging
   - [ ] Performance Monitoring
-  - [ ] Remote Config
+  - [ ] Remote Config or [Flagsmith](https://flagsmith.com/)
 
 ## Learn More
 
