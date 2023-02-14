@@ -11,9 +11,7 @@ command:
     runPubGetInParallel: false
     usePubspecOverrides: true
     hooks:
-      post:
-        - melos run generate
-        - melos run loc
+      post: melos run generate && melos run loc
 
 # See https://github.com/firebase/flutterfire/blob/master/melos.yaml for more examples
 scripts:
