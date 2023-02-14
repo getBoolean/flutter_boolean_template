@@ -73,6 +73,7 @@ scripts:
     description: Run Dart tests for a specific package in this project.
     packageFilters:
       dirExists: test
+      dependsOn: test
       failFast: true
       noDependsOn: flutter
 
@@ -83,6 +84,7 @@ scripts:
       flutter: true
       dirExists: test
       failFast: true
+      dependsOn: flutter_test
 
   test:
     run: melos run flutter_test && melos run dart_test
