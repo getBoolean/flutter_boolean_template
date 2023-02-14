@@ -26,6 +26,9 @@ section for the configured monorepo scripts
     ```bash
     dart pub global activate melos
     melos bootstrap
+
+    # Or if dart executables are not on your path
+    dart pub global run melos bootstrap
     ```
 
 ## Feature Goals
