@@ -21,15 +21,7 @@ features already setup.
 1. [ ] Setup Codecov for your repository, see the
 [Codecov](https://docs.codecov.com/docs/quick-start) docs
 1. [ ] Activate [melos](https://pub.dev/packages/melos) globally, see the [Melos](#melos)
-section for the configured monorepo scripts
-
-    ```bash
-    dart pub global activate melos
-    melos bootstrap
-
-    # Or if dart executables are not on your path
-    dart pub global run melos bootstrap
-    ```
+section for setup and the configured monorepo scripts
 
 ## Feature Goals
 
@@ -120,7 +112,19 @@ Note: In VSCode, you should disable auto save while running the watch command so
 
 ### Melos
 
-This project uses [Melos](https://pub.dev/packages/melos) to manage the monorepo. The following scripts are configured:
+This project uses [Melos](https://pub.dev/packages/melos) to manage the monorepo.
+
+  ```bash
+  # Install melos globally
+  dart pub global activate melos
+  # Setup local dependency overrides for packages in the monorepo
+  melos bootstrap
+
+  # Or if dart executables are not on your path
+  dart pub global run melos bootstrap
+  ```
+
+The following scripts are configured:
 
 - `melos run analyze` - Run `flutter analyze` in all packages.
 - `melos run test` - Run all Flutter tests.
