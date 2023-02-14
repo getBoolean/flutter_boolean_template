@@ -1,6 +1,8 @@
 name: flutter_boolean_template
 description: An opinionated template for a Flutter project.
 
+# Anything defined here must also be copied to your local
+# `pubspec_overrides.yaml` file.
 dependency_overrides:
   path: ^1.8.3
 
