@@ -27,7 +27,7 @@ scripts:
       failFast: true
   
   dart_analyze:pkg:
-    exec: dart analyze
+    exec: dart analyze --fatal-infos
     description: Run `dart analyze` dart packages.
     packageFilters:
       noDependsOn: flutter
@@ -36,6 +36,10 @@ scripts:
   format:
     run: dart format . && melos exec -- dart format .
     description: Run `dart format` in all packages.
+
+  verify_format:
+    run: dart format --output=none --set-exit-if-changed . && melos exec --fail-fast -- dart format --output=none --set-exit-if-changed .
+    description: Verify formatting was applied.
 
   generate:
     run: melos run generate:pkg --no-select

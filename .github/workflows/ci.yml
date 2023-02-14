@@ -30,8 +30,11 @@ jobs:
       - name: Bootstrap Melos
         run: melos bootstrap
 
+      - name: Verify Formatting
+        run: melos run verify_format
+
       - name: Analyze
-        run: melos analyze
+        run: melos run analyze
 
       # Project needs to have tests in test/ and a dependency on
       # package:flutter_test for this step to succeed.
