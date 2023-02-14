@@ -1,6 +1,9 @@
 name: flutter_boolean_template
 description: An opinionated template for a Flutter project.
 
+dependency_overrides:
+  path: ^1.8.3
+
 publish_to: none
 
 version: 1.0.0+1
@@ -44,7 +47,7 @@ dev_dependencies:
     sdk: flutter
   integration_test:
     sdk: flutter
-  melos: ^2.9.0
+  melos: ^3.0.0-dev.0
   msix: ^3.7.0
 
 flutter:

@@ -93,10 +93,9 @@ Follow the instructions in the file [flutter_native_splash.yaml](flutter_native_
 
 ### Run the code generator
 
-Run the following command to generate the code for the entire project:
-
 ```bash
-flutter pub run build_runner build --delete-conflicting-outputs
+# Generate the code for the entire project
+melos run generate
 ```
 
 Alternatively, you can run the following command to watch for changes and generate code
@@ -129,8 +128,9 @@ The following scripts are configured:
 - `melos run analyze` - Run `flutter analyze` in all packages.
 - `melos run test` - Run all Flutter tests.
 - `melos run format` - Run `dart format` in all packages.
-- `melos run build` - Run `build_runner build` in all packages.
-- `melos run test:selective_unit_test` - Run Flutter tests for a specific package.
+- `melos run generate` - Run `build_runner build` in all packages.
+- `melos run generate:pkg` - Run `build_runner build` for a specific package.
+- `melos run test:pkg` - Run Flutter tests for a specific package.
 - `melos run loc` - Run `flutter gen-l10n` in the localization package to generate
   the localized strings from the arb files.
 
