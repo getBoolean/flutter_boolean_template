@@ -23,10 +23,10 @@ features already setup.
 1. [ ] Activate [melos](https://pub.dev/packages/melos) globally, see the [Melos](#melos)
 section for the configured monorepo scripts
 
-  ```bash
-  dart pub global activate melos
-  melos bootstrap
-  ```
+    ```bash
+    dart pub global activate melos
+    melos bootstrap
+    ```
 
 ## Feature Goals
 
