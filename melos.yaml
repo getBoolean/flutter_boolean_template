@@ -10,19 +10,35 @@ command:
     # makes the CI much more stable.
     runPubGetInParallel: false
     usePubspecOverrides: true
+    hooks:
+      post: melos run generate
 
 # See https://github.com/firebase/flutterfire/blob/master/melos.yaml for more examples
 scripts:
   analyze:
-    run: flutter analyze && melos exec -- flutter analyze .
+    run: flutter analyze && melos run dart_analyze:pkg --no-select && melos run flutter_analyze:pkg --no-select
     description: Run `flutter analyze` in all packages.
+
+  flutter_analyze:pkg:
+    exec: flutter analyze
+    description: Run `flutter analyze` in the selected package.
+    packageFilters:
+      dependsOn: flutter
+      failFast: true
+  
+  dart_analyze:pkg:
+    exec: dart analyze
+    description: Run `dart analyze` dart packages.
+    packageFilters:
+      noDependsOn: flutter
+      failFast: true
 
   format:
     run: dart format . && melos exec -- dart format .
     description: Run `dart format` in all packages.
 
   generate:
-    run: melos run build:pkg --no-select
+    run: melos run generate:pkg --no-select
     description: Run `build_runner build` in all packages.
 
   generate:pkg:

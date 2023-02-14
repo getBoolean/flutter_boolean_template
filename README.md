@@ -130,11 +130,11 @@ The following scripts are configured:
 - `melos run format` - Run `dart format` in all packages.
 - `melos run generate` - Run `build_runner build` in all packages.
 - `melos run generate:pkg` - Run `build_runner build` for a specific package.
-- `melos run flutter_test:pkg` - Run Flutter tests for a specific package.
-- `melos run dart_test:pkg` - Run Dart tests for a specific (Dart only) package.
 - `melos run test` - Run all tests in the project.
 - `melos run flutter_test` - Run all Flutter tests in the project.
 - `melos run dart_test` - Run all Dart tests in the project.
+- `melos run flutter_test:pkg` - Run Flutter tests for a specific package.
+- `melos run dart_test:pkg` - Run Dart tests for a specific (Dart only) package.
 - `melos run loc` - Run `flutter gen-l10n` in the localization package to generate
   the localized strings from the arb files.
 
