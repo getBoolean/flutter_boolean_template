@@ -1,10 +1,1 @@
 include: flutter_lints.yaml
-
-analyzer:
-  plugins:
-    - custom_lint
-
-# Uncomment to disable custom lints
-# custom_lint:
-#   rules:
-#     - missing_provider_scope: false

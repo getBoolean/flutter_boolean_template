@@ -12,15 +12,29 @@ command:
     usePubspecOverrides: true
     hooks:
       post: |
+        flutter pub get && \
         melos run generate && \
         melos run loc && \
         dart pub global activate coverage ^1.6.3
 
 # See https://github.com/firebase/flutterfire/blob/master/melos.yaml for more examples
 scripts:
+  # Custom lint is only applied to the packages and not the root app because of a dependency conflict with `integration_test` and `melos`
+  # which use different versions of `path`.
   analyze:
-    run: flutter analyze && melos run dart_analyze:pkg --no-select && melos run flutter_analyze:pkg --no-select
+    run: flutter analyze && melos run dart_analyze:pkg --no-select && melos run flutter_analyze:pkg --no-select && melos run custom_lint --no-select
     description: Run `flutter analyze` in all packages.
+  
+  custom_lint:
+    run: melos run custom_lint:pkg --no-select
+    description: Run `dart run custom_lint` all packages with custom lints.
+  
+  custom_lint:pkg:
+    exec: dart run custom_lint
+    description: Run `dart run custom_lint` in the selected package.
+    packageFilters:
+      dependsOn: custom_lint
+      failFast: true
 
   flutter_analyze:pkg:
     exec: flutter analyze
