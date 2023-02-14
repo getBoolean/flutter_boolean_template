@@ -38,7 +38,6 @@ section for setup and the configured monorepo scripts
 other providers.~~ (Better as a brick)
 - [x] Localization support
 - [x] Riverpod generator in features package
-- [ ] Logger
 - [ ] Mason brick setup for easy architecture setup
   - [ ] Brick for feature packages
   - [ ] Brick for freezed models
@@ -46,6 +45,22 @@ other providers.~~ (Better as a brick)
 - [ ] Responsive UI Widgets for desktop, web, mobile, tablet, and possibly watches and TV
   - Must have a maintain navigation state when resizing the window
 - [ ] Adaptive UI Widgets for iOS, Android, Windows, Linux, MacOS, and Web
+- [ ] Logging ([example](https://github.com/levin-riegner/flutter-template#logging))
+  - `logging` for development
+  - `logger` and `logger_flutter` for QA
+  - `Papertrail` for production)
+- [ ] Firebase services which do not require Google Play services (or use alternatives). Disable safely if not setup properly.
+  - [ ] App Check with custom and debug providers
+  - [ ] Crashlytics or [Sentry](https://pub.dev/packages/sentry_flutter)
+  - [ ] In-App Messaging
+  - [ ] Performance Monitoring
+  - [ ] Remote Config or [Flagsmith](https://flagsmith.com/)
+- [ ] Optional firebase services which require Google Play services
+  - [ ] Dynamic Links
+  - [ ] Cloud Messaging
+- [ ] Navigator 2.0 Routing
+- [ ] Appwrite integration
+- [ ] Publishing via Codemagic or GitHub Actions on tag creation
 - ~~Focus node setup (for keyboard navigation)~~
 - ~~Biometric/Local authentication~~ (Better as a brick)
 - ~~App updates~~ (Better as a package/cli)
@@ -53,12 +68,6 @@ other providers.~~ (Better as a brick)
   - ~~Link to app store for apps published to app store~~
 - ~~Onboarding~~
 - ~~Feature discovery~~
-- [ ] Firebase services which do not require Google Play services (or use alternatives). Disable safely if not setup properly.
-  - [ ] App Check with custom and debug providers
-  - [ ] Crashlytics or [Sentry](https://pub.dev/packages/sentry_flutter)
-  - [ ] In-App Messaging
-  - [ ] Performance Monitoring
-  - [ ] Remote Config or [Flagsmith](https://flagsmith.com/)
 
 ## Learn More
 
