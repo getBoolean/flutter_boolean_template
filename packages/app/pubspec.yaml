@@ -23,10 +23,10 @@ dependencies:
     git:
       url: https://github.com/getBoolean/flutter_boolean_template
       path: packages/models
-  features:
+  auth_example:
     git:
       url: https://github.com/getBoolean/flutter_boolean_template
-      path: packages/features
+      path: packages/features/auth_example
 
 dev_dependencies:
   flutter_test:
