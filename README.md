@@ -208,12 +208,11 @@ melos run test
 
 ### Integration Tests
 
-This repository uses `convienent_test`, which provides visual feedback to the tester and
+This repository uses `patrol`, which provides visual feedback to the tester and
 takes screenshots automatically. Integration tests are located in the `integration_test`
 directory.
 
-To run the tests, see the instructions in the `convienent_test` docs:
-[Getting started](https://github.com/fzyzcjy/flutter_convenient_test#getting-started)
+To run the tests, see the instructions in the [Patrol documentation](https://pub.dev/packages/patrol)
 
 ## Building
 
