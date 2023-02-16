@@ -1,8 +1,8 @@
+import 'package:app/app.dart';
 import 'package:convenient_test/convenient_test.dart';
 import 'package:convenient_test_dev/convenient_test_dev.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_boolean_template/main.dart' as app;
-import 'package:app/app.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 /// See `convenient_test`'s [full example](https://github.com/fzyzcjy/flutter_convenient_test/blob/master/packages/convenient_test/example/integration_test/main_test.dart)

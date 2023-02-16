@@ -1,8 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:app/app.dart';
+import 'package:app/main.dart' as app;
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(const ProviderScope(child: App()));
+  // All code should be put in the app module
+  app.main();
 }
