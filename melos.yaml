@@ -1,7 +1,10 @@
 name: flutter_boolean_template
 
 packages:
-  - packages/*
+  - packages/app
+  - packages/localization
+  - packages/models
+  - packages/features/*
   - "./"
 
 command:
