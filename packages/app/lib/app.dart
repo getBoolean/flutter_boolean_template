@@ -1,7 +1,7 @@
 library app;
 
+import 'package:auth_example/auth/auth.dart';
 import 'package:convenient_test/convenient_test.dart';
-import 'package:features/auth/auth.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
