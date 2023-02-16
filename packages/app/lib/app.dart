@@ -7,23 +7,23 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:localization/localization.dart';
 import 'package:models/person.dart';
+import 'package:routing/routing.dart';
 
 /// The main app widget at the root of the widget tree.
 class App extends ConsumerWidget {
   const App({super.key});
 
-  /// The navigator key for the entire app, used by `convenient_test`
-  static final navigatorKey = GlobalKey<NavigatorState>();
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const person = Person(firstName: 'John', lastName: 'Doe', age: 42);
+    const _ = Person(firstName: 'John', lastName: 'Doe', age: 42);
     final String auth = ref.watch(authProvider);
     debugPrint(auth);
 
+    final goRouter = ref.watch(goRouterProvider);
     return ConvenientTestWrapperWidget(
-      child: MaterialApp(
+      child: MaterialApp.router(
         onGenerateTitle: (context) => context.loc.appTitle,
+        routerConfig: goRouter,
         restorationScopeId: 'app',
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
@@ -34,8 +34,6 @@ class App extends ConsumerWidget {
         darkTheme:
             FlexThemeData.dark(scheme: FlexScheme.mandyRed, useMaterial3: true),
         themeMode: ThemeMode.system,
-        navigatorKey: App.navigatorKey,
-        home: MyHomePage(title: '${person.firstName} ${person.lastName}'),
       ),
     );
   }
