@@ -27,6 +27,10 @@ dependencies:
     git:
       url: https://github.com/getBoolean/flutter_boolean_template
       path: packages/features/auth_example
+  routing:
+    git:
+      url: https://github.com/getBoolean/flutter_boolean_template
+      path: packages/features/routing
 
 dev_dependencies:
   flutter_test:
