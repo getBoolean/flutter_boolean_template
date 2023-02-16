@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'go_router_provider.dart';
+part of 'router_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -29,13 +29,13 @@ class _SystemHash {
   }
 }
 
-String _$goRouterHash() => r'79f50ba27877f988f80af98aece699f4d5408a43';
+String _$routerHash() => r'dffb263bcb5e9e4aadf7715bdc827ee13daf7fb0';
 
-/// See also [goRouter].
-final goRouterProvider = AutoDisposeProvider<GoRouter>(
-  goRouter,
-  name: r'goRouterProvider',
+/// See also [router].
+final routerProvider = AutoDisposeProvider<RouterConfig<Object>>(
+  router,
+  name: r'routerProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$goRouterHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$routerHash,
 );
-typedef GoRouterRef = AutoDisposeProviderRef<GoRouter>;
+typedef RouterRef = AutoDisposeProviderRef<RouterConfig<Object>>;
