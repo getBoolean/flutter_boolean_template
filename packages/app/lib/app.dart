@@ -1,3 +1,5 @@
+library app;
+
 import 'package:convenient_test/convenient_test.dart';
 import 'package:features/auth/auth.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
