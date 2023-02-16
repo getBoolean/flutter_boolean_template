@@ -1,7 +1,4 @@
 library routing;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'src/routes.dart';
+export 'src/go_router_provider.dart';
