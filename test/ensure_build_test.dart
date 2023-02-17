@@ -3,7 +3,7 @@
 import 'package:build_verify/build_verify.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-const _kBuildCommand = ['melos', 'run', 'build'];
+const _kBuildCommand = ['melos', 'run', 'generate'];
 const _kGenLocalizationCommand = ['melos', 'run', 'loc'];
 
 void main() {
