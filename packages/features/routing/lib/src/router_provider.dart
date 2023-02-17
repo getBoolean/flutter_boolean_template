@@ -9,7 +9,7 @@ part 'router_provider.g.dart';
 // Alternative: https://codewithandrea.com/articles/flutter-bottom-navigation-bar-nested-routes-gorouter-beamer/
 
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
-final _navigatorKey = GlobalKey<NavigatorState>();
+final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
 @riverpod
 RouterConfig<Object> router(RouterRef ref) {
@@ -37,7 +37,7 @@ RouterConfig<Object> router(RouterRef ref) {
   ];
 
   return GoRouter(
-    navigatorKey: _navigatorKey,
+    navigatorKey: _rootNavigatorKey,
     initialLocation: '/home',
     routes: <RouteBase>[
       ShellRoute(
