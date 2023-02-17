@@ -29,7 +29,7 @@ class _SystemHash {
   }
 }
 
-String _$routerHash() => r'dffb263bcb5e9e4aadf7715bdc827ee13daf7fb0';
+String _$routerHash() => r'ef40e5f021d047209cde622ece04047402b7f2f1';
 
 /// See also [router].
 final routerProvider = AutoDisposeProvider<RouterConfig<Object>>(

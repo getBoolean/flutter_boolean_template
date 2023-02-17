@@ -1,6 +1,7 @@
 name: routing
 description: A new Flutter package project.
 version: 0.0.1
+publish_to: none
 
 environment:
   sdk: '>=2.19.2 <3.0.0'
@@ -17,9 +18,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
-  go_router_builder: ^1.1.0
   build_runner: ^2.3.3
-  build_verify: ^3.1.0
   riverpod_generator: ^1.1.1
 
 # For information on the generic Dart part of this file, see the
