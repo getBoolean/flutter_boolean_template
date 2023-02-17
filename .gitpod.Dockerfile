@@ -2,6 +2,7 @@ FROM gitpod/workspace-full-vnc:2022-07-20-05-50-58
 SHELL ["/bin/bash", "-c"]
 ENV ANDROID_HOME=$HOME/androidsdk \
     FLUTTER_VERSION=3.7.3-stable \
+    MELOS_VERSION=3.0.0-dev.0 \
     QTWEBENGINE_DISABLE_SANDBOX=1
 ENV PATH="$HOME/flutter/bin:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH"
 ENV PATH="$PATH:$HOME/.pub-cache/bin"
@@ -35,4 +36,6 @@ RUN wget -q "https://storage.googleapis.com/flutter_infra_release/releases/stabl
     && flutter precache && for _plat in web linux-desktop; do flutter config --enable-${_plat}; done \
     && flutter config --android-sdk $ANDROID_HOME \
     && yes | flutter doctor --android-licenses \
-    && flutter doctor
+    && flutter doctor \
+    && dart --disable-analytics \
+    && dart pub global activate melos $MELOS_VERSION
