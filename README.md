@@ -59,7 +59,7 @@ other providers.~~ (Better as a brick)
   - [ ] Dynamic Links
   - [ ] Cloud Messaging
 - [ ] Navigator 2.0 Routing
-- [ ] [Deep Linking](https://docs.flutter.dev/development/ui/navigation/deep-linking)
+- [ ] [Deep Linking](https://docs.flutter.dev/development/ui/navigation/deep-linking) and [AppLinks](https://pub.dev/packages/app_links)
 - [ ] Appwrite integration
 - [ ] Publishing via Codemagic or GitHub Actions on tag creation
 - ~~Focus node setup (for keyboard navigation)~~
