@@ -2,17 +2,17 @@ image:
   file: .gitpod.Dockerfile
 tasks:
   - name: Android Appetize info
-    # Gitpod is not able to run emulators within a worspace at this stage as
-    # Google Kubernetes Engine does not support Nested Virtualization.
-    #
-    # If running Gitpod on your own infrastructure or via the Dockerfile locally
-    # on infrastructure that exposes vmx or svm then this command will launch
-    # the emulator.
-    #
-    # $ emulator -avd avd28 -no-audio -no-window
-    #
-    # Until this restriction is mitigated you can run native mobile apps in your
-    # browser via https://appetize.io/
+# Gitpod is not able to run emulators within a worspace at this stage as
+# Google Kubernetes Engine does not support Nested Virtualization.
+#
+# If running Gitpod on your own infrastructure or via the Dockerfile locally
+# on infrastructure that exposes vmx or svm then this command will launch
+# the emulator.
+#
+# $ emulator -avd avd28 -no-audio -no-window
+#
+# Until this restriction is mitigated you can run native mobile apps in your
+# browser via https://appetize.io/
     command: |
       printf "\033[3J\033c\033[3J"
       printf 'info[gitpod]: %s\n' \
@@ -64,10 +64,10 @@ tasks:
 ports:
   - port: 5900
     onOpen: ignore
-    # vnc
+# vnc
   - port: 6080
     onOpen: open-preview
-    # flutter
+# flutter
   - port: 8080
     onOpen: ignore
   - port: 5037
@@ -80,3 +80,8 @@ ports:
 vscode:
   extensions:
     - dart-code.flutter
+    - dart-code.dart-code
+    - robert-brunhage.flutter-riverpod-snippets
+    - Nash.awesome-flutter-snippets
+    - FelixAngelov.mason
+    - jeroen-meijer.pubspec-assist
