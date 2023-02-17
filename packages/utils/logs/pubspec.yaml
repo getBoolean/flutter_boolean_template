@@ -1,4 +1,4 @@
-name: logging
+name: logs
 description: A new Flutter package project.
 version: 0.0.1
 publish_to: none
@@ -10,6 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  logging: ^1.1.1
 
 dev_dependencies:
   flutter_test:

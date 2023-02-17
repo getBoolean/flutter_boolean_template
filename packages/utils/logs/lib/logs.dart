@@ -1,4 +1,4 @@
-library logging;
+library logs;
 
 /// A Calculator.
 class Calculator {
