@@ -38,6 +38,7 @@ tasks:
       fi
   - name: Build for different targets
     init: |
+      dart --disable-analytics
       if test ! -e "pubspec.yaml"; then {
         rm -f /workspace/.template_init
         flutter create --project-name gitpod_flutter_quickstart .
