@@ -85,7 +85,6 @@ app.*.map.json
 .classpath
 .project
 .settings/
-.vscode/
 
 # Flutter repo-specific
 /bin/cache/

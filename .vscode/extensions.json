@@ -5,15 +5,11 @@
     "dart-code.dart-code",
     "felixangelov.mason",
     "ryanluker.vscode-coverage-gutters",
-    "flutterando.flutter-coverage",
     "jeroen-meijer.pubspec-assist",
-    "plibither8.remove-comments",
     "usernamehw.remove-empty-lines",
     "albert.tabout",
     "pflannery.vscode-versionlens",
     "gruntfuggly.todo-tree",
-    "redhat.vscode-yaml",
-    "gaetschwartz.build-runner",
-    "blaxou.freezed"
+    "redhat.vscode-yaml"
   ]
 }
