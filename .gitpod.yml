@@ -39,6 +39,7 @@ tasks:
   - name: Build for different targets
     init: |
       dart --disable-analytics
+      dart pub global activate melos 3.0.0-dev.0
       if test ! -e "pubspec.yaml"; then {
         rm -f /workspace/.template_init
         flutter create --project-name gitpod_flutter_quickstart .
