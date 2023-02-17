@@ -60,7 +60,7 @@ tasks:
           sleep 0.5
         done
       } fi
-      flutter run
+      flutter run -d chrome
 ports:
   - port: 5900
     onOpen: ignore
