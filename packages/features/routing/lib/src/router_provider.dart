@@ -5,8 +5,10 @@ import 'ui/app_scaffold.dart';
 
 part 'router_provider.g.dart';
 
-// Bottom Navigation: https://snehmehta.medium.com/dynamic-bottom-navigation-with-go-router-flutter-power-series-part-1-2437e2d72546
-// Alternative: https://codewithandrea.com/articles/flutter-bottom-navigation-bar-nested-routes-gorouter-beamer/
+// Source: https://codewithandrea.com/articles/flutter-bottom-navigation-bar-nested-routes-gorouter-beamer/
+
+// Keep in mind that the navigation position of each page won't be preserved until StatefulShellRoute from
+// https://github.com/flutter/packages/pull/2650 is merged
 
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -43,7 +45,7 @@ RouterConfig<Object> router(RouterRef ref) {
       ShellRoute(
         navigatorKey: _shellNavigatorKey,
         builder: (context, state, child) {
-          return AppScaffold(child: child);
+          return ScaffoldWithBottomNavBar(child: child);
         },
         routes: navigationRoutes,
       ),
