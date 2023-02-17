@@ -5,6 +5,7 @@ packages:
   - packages/localization
   - packages/models
   - packages/features/*
+  - packages/utils/*
   - "./"
 
 command:
