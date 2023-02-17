@@ -72,6 +72,10 @@ other providers.~~ (Better as a brick)
 
 ## Learn More
 
+- Minimal OS Version:
+  - iOS: 13.0
+  - Other: Flutter default
+
 ### FVM
 
 This project uses [FVM](https://fvm.app/) to manage Flutter versions, and is configured to use the latest stable version of Flutter. Either the CLI or the GUI app [Sidekick](https://github.com/fluttertools/sidekick) can be used.
