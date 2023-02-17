@@ -74,6 +74,7 @@ other providers.~~ (Better as a brick)
 
 - Minimal OS Version:
   - iOS: 13.0
+  - Android: 4.3 (SDK 18)
   - Other: Flutter default
 
 ### FVM
