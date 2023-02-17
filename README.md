@@ -58,7 +58,8 @@ other providers.~~ (Better as a brick)
 - [ ] Optional firebase services which require Google Play services
   - [ ] Dynamic Links
   - [ ] Cloud Messaging
-- [ ] Navigator 2.0 Routing
+- [x] GoRouter
+  - [ ] StatefullShellRoute ([pending PR](https://github.com/flutter/packages/pull/2650))
 - [ ] [Deep Linking](https://docs.flutter.dev/development/ui/navigation/deep-linking) and [AppLinks](https://pub.dev/packages/app_links)
 - [ ] Appwrite integration
 - [ ] Publishing via Codemagic or GitHub Actions on tag creation
