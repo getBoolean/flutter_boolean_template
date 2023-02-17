@@ -97,7 +97,7 @@ RouterConfig<Object> router(RouterRef ref) {
     initialLocation: navigationRoutes.first.path,
     redirect: (context, state) {
       // If the current location is not found, redirect to the first tab
-      if (state.location == '') {
+      if (state.location.isEmpty) {
         debugPrint('ERROR: INVALID LOCATION\n\n${StackTrace.current}\n');
         return navigationRoutes.first.path;
       }
