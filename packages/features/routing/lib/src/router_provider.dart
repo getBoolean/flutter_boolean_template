@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'ui/app_scaffold.dart';
-
-part 'router_provider.g.dart';
-
 // Source: https://codewithandrea.com/articles/flutter-bottom-navigation-bar-nested-routes-gorouter-beamer/
 
 // Keep in mind that the navigation position of each page won't be preserved until StatefulShellRoute from
@@ -13,8 +10,7 @@ part 'router_provider.g.dart';
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
-@riverpod
-RouterConfig<Object> router(RouterRef ref) {
+final routerProvider = Provider<RouterConfig<Object>>((ref) {
   final navigationRoutes = <GoRoute>[
     GoRoute(
       name: 'home',
@@ -113,4 +109,4 @@ RouterConfig<Object> router(RouterRef ref) {
       ),
     ],
   );
-}
+});
