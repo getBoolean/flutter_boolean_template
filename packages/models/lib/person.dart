@@ -4,6 +4,7 @@ part 'person.mapper.dart';
 @MappableClass()
 class Person with PersonMappable {
   const Person({
+    @MappableField(key: 'first_name')
     required this.firstName,
     required this.lastName,
     required this.age,
