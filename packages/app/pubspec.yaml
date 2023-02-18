@@ -15,21 +15,13 @@ dependencies:
   cupertino_icons: ^1.0.5
   flex_color_scheme: ^6.0.1
   localization:
-    git:
-      url: https://github.com/getBoolean/flutter_boolean_template
-      path: packages/localization
+    path: ../localization
   models:
-    git:
-      url: https://github.com/getBoolean/flutter_boolean_template
-      path: packages/models
+    path: ../models
   auth_example:
-    git:
-      url: https://github.com/getBoolean/flutter_boolean_template
-      path: packages/features/auth_example
+    path: ../features/auth_example
   routing:
-    git:
-      url: https://github.com/getBoolean/flutter_boolean_template
-      path: packages/features/routing
+    path: ../features/routing
 
 dev_dependencies:
   flutter_test:

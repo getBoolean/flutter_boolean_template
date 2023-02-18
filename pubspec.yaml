@@ -15,21 +15,13 @@ dependencies:
   flutter_native_splash: ^2.2.16
   change_app_package_name: ^1.1.0
   models:
-    git:
-      url: https://github.com/getBoolean/flutter_boolean_template
-      path: packages/models
+    path: packages/models
   auth_example:
-    git:
-      url: https://github.com/getBoolean/flutter_boolean_template
-      path: packages/features/auth_example
+    path: packages/features/auth_example
   localization:
-    git:
-      url: https://github.com/getBoolean/flutter_boolean_template
-      path: packages/localization
+    path: packages/localization
   app:
-    git:
-      url: https://github.com/getBoolean/flutter_boolean_template
-      path: packages/app
+    path: packages/app
   flutter_riverpod: ^2.2.0
 
 dev_dependencies:
