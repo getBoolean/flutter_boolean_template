@@ -12,5 +12,7 @@ void main() {
       customCommand: _kGenLocalizationCommand,
       packageRelativeDirectory: 'packages/localization',
     ),
+    // Skipped because build_verify package does not support flutter gen-l10n.
+    skip: true,
   );
 }
