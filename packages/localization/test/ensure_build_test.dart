@@ -8,6 +8,6 @@ const _kGenLocalizationCommand = ['flutter', 'gen-l10n'];
 void main() {
   test(
     'ensure_loc_gen',
-    () => expectBuildClean(customCommand: _kGenLocalizationCommand),
+    () => expectBuildClean(customCommand: _kGenLocalizationCommand, packageRelativeDirectory: 'packages/localization'),
   );
 }
