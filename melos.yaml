@@ -53,8 +53,12 @@ scripts:
       failFast: true
 
   format:
-    run: melos exec -- dart format .
+    exec: dart format .
     description: Run `dart format` in all packages.
+
+  fix:
+    exec: dart fix --apply
+    description: Run `dart fix --apply` in all packages.
 
   verify_format:
     run: melos exec --fail-fast -- dart format --output=none --set-exit-if-changed .

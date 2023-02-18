@@ -146,6 +146,7 @@ The following scripts are configured:
 - `melos run analyze` - Run `flutter analyze` in all packages.
 - `melos run test` - Run all Flutter tests.
 - `melos run format` - Run `dart format` in all packages.
+- `melos run fix` - Run `dart fix --apply` in all packages.
 - `melos run generate` - Run `build_runner build` in all packages.
 - `melos run generate:pkg` - Run `build_runner build` for a specific package.
 - `melos run test` - Run all tests in the project.
