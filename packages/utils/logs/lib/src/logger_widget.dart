@@ -1,4 +1,6 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:logger_flutter_plus/logger_flutter_plus.dart';
 import 'package:logging/logging.dart';
 
 import 'log_config.dart';
@@ -17,14 +19,39 @@ class LoggerWidget extends StatefulWidget {
 }
 
 class _LoggerWidgetState extends State<LoggerWidget> {
+  late final LogConfig logConfig;
+
   @override
   void initState() {
-    LogConfig.init(widget.format);
+    logConfig = LogConfig(widget.format);
     super.initState();
   }
 
   @override
+  void dispose() {
+    logConfig.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    if (kProfileMode) {
+      return ShakeDetectorWidget(
+        shakeDetector: DefaultShakeDetector(
+          onPhoneShake: () => Navigator.push(
+            context,
+            MaterialPageRoute<dynamic>(
+              builder: (context) => Scaffold(
+                body: LogConsoleWidget(
+                  logConsoleManager: logConfig.consoleManager,
+                ),
+              ),
+            ),
+          ),
+        ),
+        child: widget.child,
+      );
+    }
     return widget.child;
   }
 }

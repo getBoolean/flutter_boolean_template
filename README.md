@@ -50,7 +50,10 @@ other providers.~~ (Better as a brick)
 - [ ] Logging ([example](https://github.com/levin-riegner/flutter-template#logging))
   - [x] [logging](https://pub.dev/packages/logging) for development
   - [ ] `logger` and `logger_flutter` for QA
-  - [ ] `Papertrail` or `Sentry Logging` for production
+  - [ ] `Sentry Logging` for production`
+- [ ] Database for user preferences
+  - Offline first, but should be able to use cloud sync with it
+- [ ] ENVied for environment variables
 - [ ] Firebase services which do not require Google Play services (or use alternatives). Disable safely if not setup properly.
   - [ ] App Check with custom and debug providers
   - [ ] ~~Crashlytics~~ (use Sentry)
