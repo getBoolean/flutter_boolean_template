@@ -22,8 +22,6 @@ dependencies:
     path: ../features/auth_example
   routing:
     path: ../features/routing
-  sentry_flutter: ^6.20.1
-  sentry_logging: ^6.20.1
 
 dev_dependencies:
   flutter_test:

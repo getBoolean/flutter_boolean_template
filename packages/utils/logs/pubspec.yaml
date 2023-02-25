@@ -13,8 +13,6 @@ dependencies:
   logger: ^1.2.2
   logger_flutter_plus: ^1.0.5
   logging: ^1.1.1
-  sentry_flutter: ^6.20.1
-  sentry_logging: ^6.20.1
 
 dev_dependencies:
   flutter_test:
