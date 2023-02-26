@@ -34,6 +34,7 @@ section for details.
 - [x] Presetup `flex_color_scheme` light and dark themes
 - ~~`flex_color_scheme` with support for multiple themes. (other than light and dark themes)~~ (Better as a brick or package)
 - [x] Linting preconfigured.
+- [ ] Code metrics via [dart_code_metrics](https://pub.dev/packages/dart_code_metrics)
 - [x] CI/CD with GitHub Actions (all platforms)
 - [x] Gitpod support
 - [x] Codecov support
