@@ -19,7 +19,7 @@ dev_dependencies:
 
 flutter:
   assets:
-    - assets/
+    - ./assets/
 
 assets_gen:
   code_style: lowerCamelCase
