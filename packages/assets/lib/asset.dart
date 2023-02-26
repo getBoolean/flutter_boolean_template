@@ -13,7 +13,7 @@ class Asset extends Equatable {
 
   ImageProvider toImageProvider() => AssetImage(path, package: Assets.package);
 
-  AssetImage toAssetImage() => AssetImage(path, package: Assets.package);
+  ImageProvider toAssetImage() => toImageProvider();
 
   @override
   List<Object> get props => [path];

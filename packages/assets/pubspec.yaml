@@ -21,7 +21,7 @@ flutter:
   # Must use full path to assets (cannot use directory paths)
   # since this is in a package.
   assets:
-    - packages/assets/assets/images/flutter_logo.png
+    - packages/assets/images/flutter_logo.png
 
 assets_gen:
   code_style: lowerCamelCase
