@@ -18,6 +18,7 @@ command:
     hooks:
       post: |
         dart pub global activate coverage ^1.6.3
+        melos run generate
 
 # See https://github.com/firebase/flutterfire/blob/master/melos.yaml for more examples
 scripts:
