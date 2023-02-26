@@ -153,7 +153,7 @@ This project uses [Melos](https://pub.dev/packages/melos) to manage the monorepo
 
 The following scripts are configured:
 
-- `melos run analyze` - Run `flutter analyze` in all packages.
+- `melos run analyze` - Run `dart analyze` in all packages.
 - `melos run test` - Run all Flutter tests.
 - `melos run format` - Run `dart format` in all packages.
 - `melos run fix` - Run `dart fix --apply` in all packages.

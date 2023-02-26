@@ -33,8 +33,14 @@ scripts:
   # Custom lint is only applied to the packages and not the root app because of a dependency conflict with `integration_test` and `melos`
   # which use different versions of `path`.
   analyze:
-    run: melos run dart_analyze:pkg --no-select && melos run flutter_analyze:pkg --no-select && melos run custom_lint --no-select
-    description: Run `flutter analyze` in all packages.
+    run: melos run analyze:pkg --no-select && melos run custom_lint --no-select
+    description: Run `dart analyze` in all packages.
+  
+  analyze:pkg:
+    exec: dart analyze --fatal-infos lib
+    description: Run `dart analyze` on all packages.
+    packageFilters:
+      failFast: true
   
   custom_lint:
     run: melos run custom_lint:pkg --no-select
@@ -45,20 +51,6 @@ scripts:
     description: Run `dart run custom_lint` in the selected package.
     packageFilters:
       dependsOn: custom_lint
-      failFast: true
-
-  flutter_analyze:pkg:
-    exec: flutter analyze
-    description: Run `flutter analyze` in the selected package.
-    packageFilters:
-      dependsOn: flutter
-      failFast: true
-  
-  dart_analyze:pkg:
-    exec: dart analyze --fatal-infos
-    description: Run `dart analyze` dart packages.
-    packageFilters:
-      noDependsOn: flutter
       failFast: true
 
   format:
