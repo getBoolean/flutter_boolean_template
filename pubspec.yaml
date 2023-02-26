@@ -23,8 +23,6 @@ dependencies:
   app:
     path: packages/app
   flutter_riverpod: ^2.2.0
-  assets:
-    path: packages/assets
   env:
     path: packages/utils/env
 
@@ -43,8 +41,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  assets:
-    - packages/assets/images/flutter_logo.png
 
 msix_config:
   display_name: Flutter Template App
