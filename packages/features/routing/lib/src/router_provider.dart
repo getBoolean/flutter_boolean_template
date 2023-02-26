@@ -1,3 +1,4 @@
+import 'package:assets/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -34,7 +35,14 @@ final routerProvider = Provider<RouterConfig<Object>>((ref) {
             appBar: AppBar(
               title: const Text('Home'),
             ),
-            body: const Center(child: Text('Home Details')),
+            body: Center(
+              child: Column(
+                children: <Widget>[
+                  const Text('Home Details'),
+                  Asset.image(Assets.packagesAssetsImagesFlutterLogoPng),
+                ],
+              ),
+            ),
           ),
         ),
       ],

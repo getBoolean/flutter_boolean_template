@@ -6,6 +6,8 @@ import '../assets.dart';
 class Asset extends Equatable {
   const Asset(this.path);
 
+  static Image image(String path) => Image.asset(path);
+
   /// Path to the asset defined in [Assets]
   final String path;
 
