@@ -20,6 +20,7 @@ class LoggerWidget extends StatefulWidget {
 
 class _LoggerWidgetState extends State<LoggerWidget> {
   late final LogConfig logConfig;
+  bool isShowingConsole = false;
 
   @override
   void initState() {
@@ -38,16 +39,25 @@ class _LoggerWidgetState extends State<LoggerWidget> {
     if (kProfileMode) {
       return ShakeDetectorWidget(
         shakeDetector: DefaultShakeDetector(
-          onPhoneShake: () => Navigator.push(
-            context,
-            MaterialPageRoute<dynamic>(
-              builder: (context) => Scaffold(
-                body: LogConsoleWidget(
-                  logConsoleManager: logConfig.consoleManager,
+          onPhoneShake: () async {
+            if (isShowingConsole) {
+              return;
+            }
+            isShowingConsole = true;
+            final theme = Theme.of(context);
+            await Navigator.push(
+              context,
+              MaterialPageRoute<dynamic>(
+                builder: (context) => Scaffold(
+                  body: LogConsoleWidget(
+                    theme: LogConsoleTheme.byTheme(theme),
+                    logConsoleManager: logConfig.consoleManager,
+                  ),
                 ),
               ),
-            ),
-          ),
+            );
+            isShowingConsole = false;
+          },
         ),
         child: widget.child,
       );

@@ -12,6 +12,8 @@ dependencies:
     sdk: flutter
   flutter_riverpod: ^2.2.0
   go_router: ^6.0.7
+  logs:
+    path: ../../utils/logs
 
 dev_dependencies:
   flutter_test:

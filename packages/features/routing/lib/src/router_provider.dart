@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:logs/logs.dart';
 import 'ui/app_scaffold.dart';
 // Source: https://codewithandrea.com/articles/flutter-bottom-navigation-bar-nested-routes-gorouter-beamer/
 
@@ -103,7 +104,7 @@ final routerProvider = Provider<RouterConfig<Object>>((ref) {
       ShellRoute(
         navigatorKey: _shellNavigatorKey,
         builder: (context, state, child) {
-          return ScaffoldWithBottomNavBar(child: child);
+          return LoggerWidget(child: ScaffoldWithBottomNavBar(child: child));
         },
         routes: navigationRoutes,
       ),
