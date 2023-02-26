@@ -23,6 +23,8 @@ dependencies:
   routing:
     path: ../features/routing
   leak_tracker: ^2.0.1
+  env:
+    path: ../utils/env
 
 dev_dependencies:
   flutter_test:

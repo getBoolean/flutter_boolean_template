@@ -25,6 +25,8 @@ dependencies:
   flutter_riverpod: ^2.2.0
   assets:
     path: packages/assets
+  env:
+    path: packages/utils/env
 
 dev_dependencies:
   build_verify: ^3.0.0
