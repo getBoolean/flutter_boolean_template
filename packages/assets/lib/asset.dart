@@ -9,9 +9,9 @@ class Asset extends Equatable {
   /// Path to the asset defined in [Assets]
   final String path;
 
-  Image toImage() => Image.asset(path, package: Assets.package);
+  Image toImage() => Image.asset(path);
 
-  ImageProvider toImageProvider() => AssetImage(path, package: Assets.package);
+  ImageProvider toImageProvider() => AssetImage(path);
 
   ImageProvider toAssetImage() => toImageProvider();
 
