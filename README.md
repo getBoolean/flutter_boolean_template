@@ -53,7 +53,7 @@ other providers.~~ (Better as a brick)
   - [ ] `Sentry` for production
 - [ ] Database for user preferences
   - Offline first, but should be able to use cloud sync with it
-- [ ] ENVied for environment variables
+- [x] [ENVied](https://pub.dev/packages/envied) for environment variables
 - [ ] Firebase services which do not require Google Play services (or use alternatives). Disable safely if not setup properly.
   - [ ] App Check with custom and debug providers
   - [ ] ~~Crashlytics~~ (use Sentry)
