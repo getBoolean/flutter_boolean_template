@@ -11,17 +11,21 @@ features already setup.
 1. [ ] Activate FVM, see [FVM](#fvm)
 1. [ ] Activate [Melos](https://pub.dev/packages/melos) globally, see the [Melos](#melos)
 section for setup and the configured monorepo scripts
+   1. [ ] Run `melos bootstrap` to install dependencies for all packages
 1. [ ] Change the package name, see [Change App/Package Name](#change-apppackage-name)
-1. [ ] Change the project name using "replace all".
+1. [ ] Change the project name using the "replace all" tool.
 1. [ ] Update the description in [pubspec.yaml](pubspec.yaml) and [README.md](README.md).
+1. [ ] Add needed environment variables, see the [ENVied Environment Variables](#envied-environment-variables)
+section for details.
 1. [ ] Change the app icon, see [Change App Icon](#change-app-icon)
 1. [ ] Change the splash screen, see [Change Splash Screen](#change-the-splash-screen)
-1. [ ] Setup the release build configuration, see [Building](#building)
+1. [ ] Setup the release build configuration, see the [Building](#building) section.
 1. [ ] Setup Codecov for your repository, see the
-[Codecov](https://docs.codecov.com/docs/quick-start) docs
+[Codecov](https://docs.codecov.com/docs/quick-start) documentation.
 1. [ ] Setup GitPod for your environment, see the
-[GitPod](https://www.gitpod.io/docs/quickstart/flutter#flutter-quickstart) docs
-1. [ ] Update contribution guidelines at [Contributing](#contributing)
+[GitPod](https://www.gitpod.io/docs/quickstart/flutter#flutter-quickstart) documentation.
+1. [ ] Update contribution guidelines at the [Contributing](#contributing) section.
+1. [ ] Update the [LICENSE](LICENSE) file with your preferred license (**important!**)
 
 ## Feature Goals
 
@@ -159,6 +163,25 @@ The following scripts are configured:
 - `melos run dart_test:pkg` - Run Dart tests for a specific (Dart only) package.
 - `melos run loc` - Run `flutter gen-l10n` in the localization package to generate
   the localized strings from the arb files.
+
+### ENVied Environment Variables
+
+Environment variables are setup using [ENVied](https://pub.dev/packages/envied)
+in the [utils/env](packages/utils/env/) package. Environment variables need to be
+defined for debug, profile, and release modes.
+
+1. Remove the `.example` extension from `.env_debug.example`, `.env_profile.example`,
+and `.env_release.example`.
+2. Add the values for the environment variables in the respective `.env*` file.
+   - Each key must be added to each `.env*` file, unless a non null default value is added
+     to the `@EnviedField` annotation.
+3. Update [src/env/app_env_fields.dart](packages/utils/env/lib/src/env/app_env_fields.dart)
+with the new environment variables.
+4. Add the new environment variables to `debug_env.dart`, `profile_env.dart`, and
+`release_env.dart` in the [src/env](packages/utils/env/src/env/) directory.
+5. Enable `obfuscate` for API keys in the `@EnviedField` annotation.
+6. Optionally, add a `defaultValue` to the `@EnviedField` annotation for keys which are
+not required in all modes.
 
 ### Mason Bricks
 
