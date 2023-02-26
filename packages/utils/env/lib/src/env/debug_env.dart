@@ -10,18 +10,18 @@ class DebugEnv implements AppEnv, AppEnvFields {
   DebugEnv();
 
   @override
-  @EnviedField(varName: 'KEY1')
+  @EnviedField(varName: 'KEY1', defaultValue: 'test1')
   final String key1 = _Env.key1;
   @override
-  @EnviedField(varName: 'KEY2')
+  @EnviedField(varName: 'KEY2', defaultValue: 'test2')
   final String key2 = _Env.key2;
   @override
-  @EnviedField(varName: 'KEY3', obfuscate: true)
+  @EnviedField(varName: 'KEY3', obfuscate: true, defaultValue: 'test3')
   final String key3 = _Env.key3;
   @override
-  @EnviedField(varName: 'KEY4')
+  @EnviedField(varName: 'KEY4', defaultValue: 1)
   final int key4 = _Env.key4;
   @override
-  @EnviedField(varName: 'KEY5')
+  @EnviedField(varName: 'KEY5', defaultValue: false)
   final bool key5 = _Env.key5;
 }
