@@ -48,9 +48,9 @@ other providers.~~ (Better as a brick)
 - [ ] [Sentry](https://pub.dev/packages/sentry_flutter)
   - [ ] [Sentry Logging](https://pub.dev/packages/sentry_logging)
 - [ ] Logging ([example](https://github.com/levin-riegner/flutter-template#logging))
-  - [x] [logging](https://pub.dev/packages/logging) for development
-  - [ ] `logger` and `logger_flutter` for QA
-  - [ ] `Sentry Logging` for production`
+  - [x] [logging](https://pub.dev/packages/logging) for development/debug mode
+  - [x] `logger` and `logger_flutter_plus` for profile mode
+  - [ ] `Sentry` for production
 - [ ] Database for user preferences
   - Offline first, but should be able to use cloud sync with it
 - [ ] ENVied for environment variables
