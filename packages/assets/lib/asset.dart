@@ -14,8 +14,6 @@ class Asset extends Equatable {
 
   AssetImage toAssetImage() => AssetImage(path, package: Assets.package);
 
-  String toUrl() => 'packages/$path';
-
   @override
   List<Object> get props => [path];
 
