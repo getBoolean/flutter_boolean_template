@@ -4,6 +4,7 @@ packages:
   - packages/app
   - packages/localization
   - packages/models
+  - packages/assets
   - packages/features/*
   - packages/utils/*
   - "./"
