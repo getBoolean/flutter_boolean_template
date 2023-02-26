@@ -1,0 +1,27 @@
+name: assets
+description: A new Flutter package project.
+version: 0.0.1
+
+environment:
+  sdk: ">=2.19.2 <3.0.0"
+  flutter: ">=1.17.0"
+
+dependencies:
+  equatable: ^2.0.5
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+  assets_gen: ^1.5.0
+
+flutter:
+  assets:
+    - assets/images/flutter_logo.png
+
+assets_gen:
+  code_style: lowerCamelCase
+  format_dart_code: true
+  gen_package_path: false

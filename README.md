@@ -35,6 +35,7 @@ section for details.
 - ~~`flex_color_scheme` with support for multiple themes. (other than light and dark themes)~~ (Better as a brick or package)
 - [x] Linting preconfigured.
 - [ ] Code metrics via [dart_code_metrics](https://pub.dev/packages/dart_code_metrics)
+- [ ] [Assets Gen](https://pub.dev/packages/assets_gen) for assets
 - [x] CI/CD with GitHub Actions (all platforms)
 - [x] Gitpod support
 - [x] Codecov support
@@ -156,8 +157,10 @@ The following scripts are configured:
 - `melos run test` - Run all Flutter tests.
 - `melos run format` - Run `dart format` in all packages.
 - `melos run fix` - Run `dart fix --apply` in all packages.
-- `melos run generate` - Run `build_runner build` in all packages.
+- `melos run generate` - Run `build_runner build` in all packages that depend on `build_runner`.
 - `melos run generate:pkg` - Run `build_runner build` for a specific package.
+- `melos run assets` - Run `assets_gen build` in all packages that depend on `assets_gen`.
+- `melos run assets:pkg` - Run `assets_gen build` for a specific package.
 - `melos run test` - Run all tests in the project.
 - `melos run flutter_test` - Run all Flutter tests in the project.
 - `melos run dart_test` - Run all Dart tests in the project.
