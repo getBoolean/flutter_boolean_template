@@ -12,6 +12,8 @@ class Asset extends Equatable {
 
   ImageProvider toImageProvider() => AssetImage(path, package: Assets.package);
 
+  AssetImage toAssetImage() => AssetImage(path, package: Assets.package);
+
   String toUrl() => 'packages/$path';
 
   @override
