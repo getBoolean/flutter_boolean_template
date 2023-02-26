@@ -13,6 +13,8 @@ final _shellNavigatorKey = GlobalKey<NavigatorState>();
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
 final routerProvider = Provider<RouterConfig<Object>>((ref) {
+  final log = Logger('routerProvider');
+
   final navigationRoutes = <GoRoute>[
     GoRoute(
       name: 'home',
@@ -103,7 +105,7 @@ final routerProvider = Provider<RouterConfig<Object>>((ref) {
     redirect: (context, state) {
       // If the current location is not found, redirect to the first tab
       if (state.location.isEmpty) {
-        debugPrint('ERROR: INVALID LOCATION\n\n${StackTrace.current}\n');
+        log.severe('INVALID LOCATION', null, StackTrace.current);
         return navigationRoutes.first.path;
       }
       return null;
