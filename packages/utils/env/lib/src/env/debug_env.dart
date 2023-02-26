@@ -9,6 +9,10 @@ part 'debug_env.g.dart';
 class DebugEnv implements AppEnv, AppEnvFields {
   DebugEnv();
 
+  // Providing a default value for everything allows the app to be build
+  // without setting up the .env file. This might be useful for someone
+  // who wants to build the app without setting up cloud services.
+  
   @override
   @EnviedField(varName: 'KEY1', defaultValue: 'test1')
   final String key1 = _Env.key1;
