@@ -38,6 +38,7 @@ jobs:
       - name: Bootstrap Melos
         run: melos bootstrap
 
+      # Comment out this task if you don't want to enforce formatting.
       - name: Verify Formatting
         run: melos run verify_format
 
