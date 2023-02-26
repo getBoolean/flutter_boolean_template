@@ -33,6 +33,15 @@ jobs:
       - name: Verify Formatting
         run: melos run verify_format
 
+      # Generated environment files should not be committed to the repository.
+      # Instead, they are generated during the CI process before checking
+      # if the rest of the package's code generation is up to date.
+      #
+      # The environment variables need to be defined in the repository secrets
+      - name: Generate Environment Files
+        working-directory: ./packages/utils/env
+        run: flutter run build_runner build --delete-conflicting-outputs
+
       - name: Analyze
         run: melos run analyze
 
