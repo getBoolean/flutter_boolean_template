@@ -20,7 +20,7 @@ dev_dependencies:
 flutter:
   # When used in a package, must also specify path to asset in the package's pubspec.yaml
   assets:
-    - packages/assets/images/flutter_logo.png
+    - lib/images/flutter_logo.png
 
 assets_gen:
   code_style: lowerCamelCase
