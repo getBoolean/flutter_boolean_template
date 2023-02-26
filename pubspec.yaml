@@ -39,6 +39,10 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  # Must use full path to assets (cannot use directory paths)
+  # since this is in a package.
+  assets:
+    - packages/assets/assets/images/flutter_logo.png
 
 msix_config:
   display_name: Flutter Template App
