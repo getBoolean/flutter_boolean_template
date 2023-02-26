@@ -24,6 +24,14 @@ jobs:
           channel: "stable"
           architecture: x64
 
+      # Make environment variables available to the melos generate script.
+      #
+      # The environment variables need to be defined in the repository secrets
+      - name: Load Environment Variables
+        uses: oNaiPs/secrets-to-env-action@v1.2
+        with:
+          secrets: ${{ toJSON(secrets) }}
+
       - name: Activate Melos
         run: dart pub global activate melos ^3.0.0-dev.0
 
@@ -32,14 +40,6 @@ jobs:
 
       - name: Verify Formatting
         run: melos run verify_format
-
-      # Make environment variables available to the build script.
-      #
-      # The environment variables need to be defined in the repository secrets
-      - name: Load Environment Variables
-        uses: oNaiPs/secrets-to-env-action@v1.2
-        with:
-          secrets: ${{ toJSON(secrets) }}
 
       - name: Analyze
         run: melos run analyze
