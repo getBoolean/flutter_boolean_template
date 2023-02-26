@@ -16,9 +16,16 @@ command:
     runPubGetInParallel: false
     usePubspecOverrides: true
     hooks:
+      # Activate the coverage package globally so that it can be used in the
+      # `test` command.
+      #
+      # Generate environment files which should not be committed to the repository.
+      # Instead, they are generated during the CI process before checking
+      # if the rest of the package's code generation is up to date.
       post: |
         dart pub global activate coverage ^1.6.3
-        melos run generate
+        cd packages/utils/env
+        dart run build_runner build --delete-conflicting-outputs
 
 # See https://github.com/firebase/flutterfire/blob/master/melos.yaml for more examples
 scripts:
