@@ -18,6 +18,8 @@ dev_dependencies:
   assets_gen: ^1.5.0
 
 flutter:
+  # Must use full path to assets (cannot use directory paths)
+  # since this is in a package.
   assets:
     - assets/images/flutter_logo.png
 
