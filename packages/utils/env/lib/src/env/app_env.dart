@@ -6,9 +6,9 @@ import 'profile_env.dart';
 import 'release_env.dart';
 
 abstract class AppEnv implements AppEnvFields {
-  factory AppEnv() => _instance;
+  factory AppEnv() => instance;
 
-  static final AppEnv _instance = kDebugMode
+  static final AppEnv instance = kDebugMode
       ? DebugEnv()
       : kProfileMode
           ? ProfileEnv()
