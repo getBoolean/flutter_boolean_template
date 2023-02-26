@@ -26,3 +26,4 @@ assets_gen:
   code_style: lowerCamelCase
   format_dart_code: true
   gen_package_path: false
+  output: src/assets.dart

@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
 
-import 'assets.dart';
+import '../assets.dart';
 
 class Asset extends Equatable {
   const Asset(this.path);
