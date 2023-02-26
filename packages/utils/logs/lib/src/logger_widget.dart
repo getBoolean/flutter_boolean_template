@@ -50,6 +50,7 @@ class _LoggerWidgetState extends State<LoggerWidget> {
               MaterialPageRoute<dynamic>(
                 builder: (context) => Scaffold(
                   body: LogConsoleWidget(
+                    showCloseButton: true,
                     theme: LogConsoleTheme.byTheme(theme),
                     logConsoleManager: logConfig.consoleManager,
                   ),
