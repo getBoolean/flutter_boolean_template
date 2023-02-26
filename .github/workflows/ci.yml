@@ -33,6 +33,12 @@ jobs:
       - name: Verify Formatting
         run: melos run verify_format
 
+      # Make environment variables available to the build script.
+      - name: Load Environment Variables
+        uses: oNaiPs/secrets-to-env-action@v1.2
+        with:
+          secrets: ${{ toJSON(secrets) }}
+
       # Generated environment files should not be committed to the repository.
       # Instead, they are generated during the CI process before checking
       # if the rest of the package's code generation is up to date.
