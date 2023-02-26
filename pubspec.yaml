@@ -43,6 +43,8 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - packages/assets/images/flutter_logo.png
 
 msix_config:
   display_name: Flutter Template App

@@ -18,7 +18,7 @@ dev_dependencies:
   assets_gen: ^1.5.0
 
 flutter:
-  # Must also specify path to asset in the package's pubspec.yaml it is used in
+  # When used in a package, must also specify path to asset in the package's pubspec.yaml
   assets:
     - packages/assets/images/flutter_logo.png
 
