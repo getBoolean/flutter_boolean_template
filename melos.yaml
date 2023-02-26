@@ -87,7 +87,7 @@ scripts:
       ignore: localization
   
   assets:
-    run: melos run assets_gen:pkg --no-select
+    run: melos run assets:pkg --no-select
     description: Run `flutter pub run assets_gen build` all packages with assets gen.
   
   assets:pkg:
