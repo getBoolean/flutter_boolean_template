@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:leak_tracker/leak_tracker.dart';
 import 'package:logger_flutter_plus/logger_flutter_plus.dart' as logger;
 import 'package:logging/logging.dart';
 
@@ -15,9 +16,18 @@ class LogConfig {
 
   void close() {
     appLogger.close();
+    dispatchObjectDisposed(object: this);
   }
 
+  static const _library = 'package:logs/src/log_config.dart';
+
   LogConfig(String Function(LogRecord)? format) {
+    dispatchObjectCreated(
+      library: _library,
+      className: '$LogConfig',
+      object: this,
+    );
+
     if (kDebugMode) {
       Logger.root.level = Level.ALL;
       Logger.root.onRecord.listen((record) {

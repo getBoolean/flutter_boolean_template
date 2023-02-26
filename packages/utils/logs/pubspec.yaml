@@ -10,6 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  leak_tracker: ^2.0.1
   logger: ^1.2.2
   logger_flutter_plus: ^1.0.5
   logging: ^1.1.1

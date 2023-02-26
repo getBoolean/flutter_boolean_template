@@ -22,6 +22,7 @@ dependencies:
     path: ../features/auth_example
   routing:
     path: ../features/routing
+  leak_tracker: ^2.0.1
 
 dev_dependencies:
   flutter_test:

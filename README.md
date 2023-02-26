@@ -55,6 +55,7 @@ other providers.~~ (Better as a brick)
   - [x] [logging](https://pub.dev/packages/logging) for development/debug mode
   - [x] `logger` and `logger_flutter_plus` for profile mode
   - [ ] `Sentry` for production
+- [x] [leak_tracker](https://pub.dev/packages/leak_tracker)
 - [ ] Database for user preferences
   - Offline first, but should be able to use cloud sync with it
 - [x] [ENVied](https://pub.dev/packages/envied) for environment variables
@@ -226,6 +227,13 @@ Although you can use it without a local source, the greatest benefit comes from 
 
 See `stock`'s [Getting started](https://pub.dev/packages/stock#getting-started) section for usage
 information.
+
+### Leak Tracking
+
+The package [leak_tracker](https://pub.dev/packages/leak_tracker) is used to track memory leaks.
+This works automatically for instrumented Flutter classes, but requires manual instrumentation
+for code outside of the Flutter framework. See the [leak_tracker README](https://pub.dev/packages/leak_tracker#instrument-your-code)
+for more information.
 
 ## Testing
 
