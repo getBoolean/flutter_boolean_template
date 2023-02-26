@@ -9,8 +9,6 @@
 class Assets {
   static const String package = 'assets';
 
-  static const String assetsImagesFlutterLogoPng =
-      'assets/images/flutter_logo.png';
-  static const String assets$assetsImagesFlutterLogoPng =
-      'packages/assets/assets/images/flutter_logo.png';
+  static const String packagesAssetsImagesFlutterLogoPng =
+      'packages/assets/images/flutter_logo.png';
 }
