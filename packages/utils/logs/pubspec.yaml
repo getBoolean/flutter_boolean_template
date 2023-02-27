@@ -4,7 +4,7 @@ version: 0.0.1
 publish_to: none
 
 environment:
-  sdk: '>=2.19.2 <3.0.0'
+  sdk: ">=2.19.2 <3.0.0"
   flutter: ">=3.7.0"
 
 dependencies:
@@ -14,8 +14,9 @@ dependencies:
   logger: ^1.2.2
   logger_flutter_plus: ^1.0.5
   logging: ^1.1.1
+  riverpod: ^2.2.0
 
 dev_dependencies:
+  flutter_lints: ^2.0.1
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.1
