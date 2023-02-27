@@ -12,8 +12,8 @@ import 'ui/app_scaffold.dart';
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
-final routerProvider = Provider<RouterConfig<Object>>((ref) {
-  final log = Logger('routerProvider');
+final routerProvider = Provider.autoDispose<RouterConfig<Object>>((ref) {
+  final log = ref.watch(logProvider('routerProvider'));
 
   final navigationRoutes = <GoRoute>[
     GoRoute(
