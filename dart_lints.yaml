@@ -141,7 +141,7 @@ linter:
 
     avoid_setters_without_getters: true
 
-    avoid_types_on_closure_parameters: true
+    avoid_types_on_closure_parameters: false
 
     avoid_unused_constructor_parameters: true
 
