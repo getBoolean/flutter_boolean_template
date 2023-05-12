@@ -34,10 +34,10 @@ import 'localization/app_localizations.dart';
 /// ```
 final appLocalizationsProvider = Provider<AppLocalizations>((ref) {
   // Initialize from the initial locale
-  ref.state = lookupAppLocalizations(ui.window.locale);
+  ref.state = lookupAppLocalizations(ui.PlatformDispatcher.instance.locale);
   // Create an observer to update the state
   final observer = _LocaleObserver((locales) {
-    ref.state = lookupAppLocalizations(ui.window.locale);
+    ref.state = lookupAppLocalizations(ui.PlatformDispatcher.instance.locale);
   });
 
   // Register the observer and dispose it when no longer needed
