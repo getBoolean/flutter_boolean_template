@@ -1,5 +1,5 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class ScaffoldWithBottomNavBar extends StatefulWidget {
   const ScaffoldWithBottomNavBar({Key? key, required this.child})
@@ -14,7 +14,7 @@ class ScaffoldWithBottomNavBar extends StatefulWidget {
 class _ScaffoldWithBottomNavBarState extends State<ScaffoldWithBottomNavBar> {
   // getter that computes the current index from the current location,
   // using the helper method below
-  int get _currentIndex => _locationToTabIndex(GoRouter.of(context).location);
+  int get _currentIndex => _locationToTabIndex(AutoRouter.of(context).currentPath);
 
   int _locationToTabIndex(String location) {
     final index =
@@ -27,7 +27,7 @@ class _ScaffoldWithBottomNavBarState extends State<ScaffoldWithBottomNavBar> {
   void _onItemTapped(BuildContext context, int tabIndex) {
     if (tabIndex != _currentIndex) {
       // go to the initial location of the selected tab (by index)
-      context.go(tabs[tabIndex].initialLocation);
+      context.router.replaceNamed(tabs[tabIndex].initialLocation);
     }
   }
 
