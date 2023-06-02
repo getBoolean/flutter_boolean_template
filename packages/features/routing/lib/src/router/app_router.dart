@@ -17,24 +17,25 @@ class AppRouter extends _$AppRouter {
   @override
   List<AutoRoute> get routes => [
         AutoRoute(
-            page: HomeRoute.page,
-            initial: true,
-            path: '/dashboard',
-            children: [
-              RedirectRoute(path: '', redirectTo: 'books'),
-              AutoRoute(path: 'books', page: BooksTab.page, children: [
-                AutoRoute(path: '', page: BooksRoute.page),
-                AutoRoute(path: 'details', page: BookDetailsRoute.page),
-              ]),
-              AutoRoute(path: 'profile', page: ProfileTab.page, children: [
-                AutoRoute(path: '', page: ProfileRoute.page),
-                AutoRoute(path: 'comments', page: ProfileDetailsRoute.page),
-              ]),
-              AutoRoute(path: 'settings', page: SettingsTab.page, children: [
-                AutoRoute(path: '', page: SettingsRoute.page),
-                AutoRoute(path: 'option', page: SettingsDetailsRoute.page),
-              ]),
+          page: HomeRoute.page,
+          initial: true,
+          path: '/dashboard',
+          children: [
+            RedirectRoute(path: '', redirectTo: 'books'),
+            AutoRoute(path: 'books', page: BooksTab.page, children: [
+              AutoRoute(path: '', page: BooksRoute.page),
+              AutoRoute(path: 'details', page: BookDetailsRoute.page),
             ]),
+            AutoRoute(path: 'profile', page: ProfileTab.page, children: [
+              AutoRoute(path: '', page: ProfileRoute.page),
+              AutoRoute(path: 'comments', page: ProfileDetailsRoute.page),
+            ]),
+            AutoRoute(path: 'settings', page: SettingsTab.page, children: [
+              AutoRoute(path: '', page: SettingsRoute.page),
+              AutoRoute(path: 'option', page: SettingsDetailsRoute.page),
+            ]),
+          ],
+        ),
       ];
 }
 
