@@ -11,5 +11,5 @@ import 'ui/app_scaffold.dart';
 // https://github.com/flutter/packages/pull/2650 is merged
 final routerProvider = Provider.autoDispose<AppRouter>((ref) {
   final log = ref.watch(logProvider('routerProvider'));
-  return AppRouter();
+  return AppRouter(log: log);
 });

@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:logs/logs.dart';
 
 @RoutePage()
 class HomeScreenShell extends StatelessWidget {
@@ -7,7 +8,7 @@ class HomeScreenShell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return HomeScreen(); from ui folder
-    return const Placeholder();
+    // TODO: implement HomeScreen widget to use instead of Placeholder
+    return const LoggerWidget(child: Placeholder());
   }
 }
