@@ -51,28 +51,28 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const ProfileScreen(),
       );
     },
-    ProfileDetailsRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const ProfileDetailsScreen(),
-      );
-    },
     BookDetailsRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const BookDetailsScreen(),
       );
     },
-    SettingsDetailsRoute.name: (routeData) {
+    ProfileDetailsRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const SettingsDetailsScreen(),
+        child: const ProfileDetailsScreen(),
       );
     },
     HomeRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: WrappedRoute(child: const HomeScreen()),
+      );
+    },
+    SettingsDetailsRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SettingsDetailsScreen(),
       );
     },
   };
@@ -163,20 +163,6 @@ class ProfileRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [ProfileDetailsScreen]
-class ProfileDetailsRoute extends PageRouteInfo<void> {
-  const ProfileDetailsRoute({List<PageRouteInfo>? children})
-      : super(
-          ProfileDetailsRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'ProfileDetailsRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
 /// [BookDetailsScreen]
 class BookDetailsRoute extends PageRouteInfo<void> {
   const BookDetailsRoute({List<PageRouteInfo>? children})
@@ -191,15 +177,15 @@ class BookDetailsRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [SettingsDetailsScreen]
-class SettingsDetailsRoute extends PageRouteInfo<void> {
-  const SettingsDetailsRoute({List<PageRouteInfo>? children})
+/// [ProfileDetailsScreen]
+class ProfileDetailsRoute extends PageRouteInfo<void> {
+  const ProfileDetailsRoute({List<PageRouteInfo>? children})
       : super(
-          SettingsDetailsRoute.name,
+          ProfileDetailsRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'SettingsDetailsRoute';
+  static const String name = 'ProfileDetailsRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -214,6 +200,20 @@ class HomeRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'HomeRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SettingsDetailsScreen]
+class SettingsDetailsRoute extends PageRouteInfo<void> {
+  const SettingsDetailsRoute({List<PageRouteInfo>? children})
+      : super(
+          SettingsDetailsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SettingsDetailsRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
