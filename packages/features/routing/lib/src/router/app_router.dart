@@ -16,6 +16,7 @@ class AppRouter extends _$AppRouter {
 
   @override
   List<AutoRoute> get routes => [
+        // route inspiration: https://github.com/Milad-Akarie/auto_route_library/issues/1548
         AutoRoute(
           page: HomeRoute.page,
           initial: true,
