@@ -38,6 +38,7 @@ dev_dependencies:
   msix: ^3.8.2
   mason: ^0.1.0-dev.46
   patrol: ^1.0.4
+  build_runner: any
 
 flutter:
   uses-material-design: true
