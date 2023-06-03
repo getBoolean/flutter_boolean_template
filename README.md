@@ -34,7 +34,7 @@ section for details.
 - [x] Presetup `flex_color_scheme` light and dark themes
 - ~~`flex_color_scheme` with support for multiple themes. (other than light and dark themes)~~ (Better as a brick or package)
 - [x] Linting preconfigured.
-- [ ] Code metrics via [dart_code_metrics](https://pub.dev/packages/dart_code_metrics)
+- [x] Code metrics via [dart_code_metrics](https://pub.dev/packages/dart_code_metrics)
 - [x] [Assets Gen](https://pub.dev/packages/assets_gen) for assets
 - [x] CI/CD with GitHub Actions (all platforms)
 - [x] Gitpod support
@@ -69,7 +69,7 @@ other providers.~~ (Better as a brick)
   - [ ] Performance Monitoring
   - [ ] Remote Config or [Flagsmith](https://flagsmith.com/)
 - [ ] Optional firebase services which require Google Play services
-  - [ ] Dynamic Links
+  - [ ] ~~Dynamic Links~~ (Discontinued)
   - [ ] Cloud Messaging
 - [x] AutoRoute
 - ~~[Deep Linking](https://docs.flutter.dev/development/ui/navigation/deep-linking) and [AppLinks](https://pub.dev/packages/app_links)~~ (AutoRoute supports deep links by default, only native platform support needs to be added by the app. This can't be done in a template.)
