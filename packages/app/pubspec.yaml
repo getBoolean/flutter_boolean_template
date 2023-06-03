@@ -26,6 +26,7 @@ dependencies:
   env:
     path: ../utils/env
   flutter_riverpod: ^2.2.0
+  fpdart: ^0.6.0
 
 dev_dependencies:
   flutter_test:
