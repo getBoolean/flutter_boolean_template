@@ -16,6 +16,7 @@ analyzer:
   exclude:
     - lib/generated_plugin_registrant.dart
     - "**/*.g.dart"
+    # - "**/*.gr.dart"
     - "**/*.mapper.dart"
     - "**/*.freezed.dart"
     - "**/*.iconfig.dart"
@@ -181,7 +182,7 @@ linter:
 
     prefer_null_aware_method_calls: true
 
-    require_trailing_commas: true
+    require_trailing_commas: false
 
     sized_box_shrink_expand: true
 

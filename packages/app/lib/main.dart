@@ -6,6 +6,7 @@ import 'package:leak_tracker/leak_tracker.dart';
 import 'app.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   // Leak tracking automatically disabled in release mode.
   enableLeakTracking();
   MemoryAllocations.instance

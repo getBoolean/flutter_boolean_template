@@ -18,10 +18,10 @@ class App extends ConsumerWidget {
     final String auth = ref.watch(authProvider);
     debugPrint(auth);
 
-    final router = ref.watch(routerProvider);
+    final AppRouter router = ref.watch(routerProvider);
     return MaterialApp.router(
       onGenerateTitle: (context) => context.loc.appTitle,
-      routerConfig: router,
+      routerConfig: router.config(),
       restorationScopeId: 'app',
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
