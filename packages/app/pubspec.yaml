@@ -13,7 +13,7 @@ dependencies:
   flutter_hooks: ^0.18.6
   hooks_riverpod: ^2.2.0
   cupertino_icons: ^1.0.5
-  flex_color_scheme: ^6.1.2
+  flex_color_scheme: ^7.1.2
   localization:
     path: ../localization
   models:
@@ -22,7 +22,7 @@ dependencies:
     path: ../features/auth_example
   routing:
     path: ../features/routing
-  leak_tracker: ^2.0.1
+  leak_tracker: ^4.0.0
   env:
     path: ../utils/env
   flutter_riverpod: ^2.2.0
@@ -31,5 +31,5 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.1
-  custom_lint: ^0.2.5
+  custom_lint: ^0.4.0
   riverpod_lint: ^1.0.1

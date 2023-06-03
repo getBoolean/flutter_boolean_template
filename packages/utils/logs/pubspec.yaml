@@ -11,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_riverpod: ^2.3.6
-  leak_tracker: ^2.0.1
+  leak_tracker: ^4.0.0
   logger: ^1.2.2
   logger_flutter_plus: ^1.0.5
   logging: ^1.1.1
