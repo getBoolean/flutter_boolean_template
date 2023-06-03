@@ -51,12 +51,13 @@ other providers.~~ (Better as a brick)
 - [ ] Responsive UI Widgets for desktop, web, mobile, tablet, and possibly watches and TV
   - Must have a maintain navigation state when resizing the window
 - [ ] Adaptive UI Widgets for iOS, Android, Windows, Linux, MacOS, and Web
-- [ ] [Sentry](https://pub.dev/packages/sentry_flutter)
-  - [ ] [Sentry Logging](https://pub.dev/packages/sentry_logging)
-- [ ] Logging ([example](https://github.com/levin-riegner/flutter-template#logging))
+- ~~[Sentry](https://pub.dev/packages/sentry_flutter)~~
+  - ~~[Sentry Logging](https://pub.dev/packages/sentry_logging)~~
+- [x] Logging ([example](https://github.com/levin-riegner/flutter-template#logging))
   - [x] [logging](https://pub.dev/packages/logging) for development/debug mode
   - [x] `logger` and `logger_flutter_plus` for profile mode
-  - [ ] `Sentry` for production
+  - [x] Ability to add production routing when needed
+  - ~~`Sentry` for production~~
 - [x] [leak_tracker](https://pub.dev/packages/leak_tracker)
 - [ ] Database for user preferences
   - Offline first, but should be able to use cloud sync with it
@@ -70,9 +71,8 @@ other providers.~~ (Better as a brick)
 - [ ] Optional firebase services which require Google Play services
   - [ ] Dynamic Links
   - [ ] Cloud Messaging
-- [x] GoRouter
-  - [ ] StatefullShellRoute ([pending PR](https://github.com/flutter/packages/pull/2650))
-- [ ] [Deep Linking](https://docs.flutter.dev/development/ui/navigation/deep-linking) and [AppLinks](https://pub.dev/packages/app_links)
+- [x] AutoRoute
+- ~~[Deep Linking](https://docs.flutter.dev/development/ui/navigation/deep-linking) and [AppLinks](https://pub.dev/packages/app_links)~~ (AutoRoute supports deep links by default, only native platform support needs to be added by the app. This can't be done in a template.)
 - [ ] Appwrite integration
 - [ ] Publishing via Codemagic or GitHub Actions on tag creation
 - ~~Focus node setup (for keyboard navigation)~~
@@ -124,13 +124,13 @@ Follow the instructions in the file [flutter_native_splash.yaml](flutter_native_
 ```bash
 # Generate the code for the entire project
 melos run generate
-```
 
-Alternatively, you can run the following command to watch for changes and generate code
-automatically when changes are made:
+# Generate code for a specific package
+melos run generate:pkg
 
-```bash
-flutter pub run build_runner watch --delete-conflicting-outputs
+# Watch for changes in a specific package
+# Do not select "all" in the package selection prompt, it will not work
+melos run watch:pkg
 ```
 
 Note: In VSCode, you should disable auto save while running the watch command so that the generated files do not get deleted while modifying a provider or freezed model.
@@ -159,6 +159,7 @@ The following scripts are configured:
 - `melos run fix` - Run `dart fix --apply` in all packages.
 - `melos run generate` - Run `build_runner build` in all packages that depend on `build_runner`.
 - `melos run generate:pkg` - Run `build_runner build` for a specific package.
+- `melos run watch:pkg` - Run `build_runner watch` for a specific package. It will not work if you choose "all" in the package selection prompt.
 - `melos run assets` - Run `assets_gen build` in all packages that depend on `assets_gen`.
 - `melos run assets:pkg` - Run `assets_gen build` for a specific package.
 - `melos run test` - Run all tests in the project.
@@ -190,13 +191,17 @@ not required in all modes.
 
 ### Mason Bricks
 
-This project uses [Mason](https://pub.dev/packages/mason) to generate code for features
+[Mason](https://pub.dev/packages/mason) to generate code for features
 and tests using templates. To use the bricks, install the Mason VS Code extension. To create
 addition bricks, use [Mason CLI](https://pub.dev/packages/mason_cli).
 
+### Routing
+
+AutoRoute is used, see the [routing](packages/features/routing/README.md) package README for more information.
+
 ### Unions and Sealed Classes
 
-This project uses [Freezed](https://pub.dev/packages/freezed) to generate code for immutable
+[Freezed](https://pub.dev/packages/freezed) is used to generate code for immutable
 union and sealed classes. See [dart_mappable](https://pub.dev/packages/dart_mappable#freezed)'s documentation on using it with freezed.
 
 ### JSON Serialization and copyWith
@@ -215,8 +220,8 @@ more information.
 
 ### State Management
 
-This project is preconfigured to use [Riverpod generator](https://pub.dev/packages/riverpod_generator).
-The normal riverpod syntax is still supported. See Andea's article on
+This project is preconfigured to use [Riverpod Generator](https://pub.dev/packages/riverpod_generator).
+The normal riverpod syntax is still supported. See Andrea's article on
 [Riverpod architecture](https://codewithandrea.com/articles/flutter-app-architecture-riverpod-introduction/)
 for how to structure your code.
 
