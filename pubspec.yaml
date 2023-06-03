@@ -39,6 +39,7 @@ dev_dependencies:
   mason: ^0.1.0-dev.46
   patrol: ^1.0.4
   build_runner: any
+  dart_code_metrics: ^5.7.2
 
 flutter:
   uses-material-design: true

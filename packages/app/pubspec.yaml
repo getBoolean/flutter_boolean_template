@@ -25,6 +25,7 @@ dependencies:
   leak_tracker: ^2.0.1
   env:
     path: ../utils/env
+  flutter_riverpod: ^2.2.0
 
 dev_dependencies:
   flutter_test:
