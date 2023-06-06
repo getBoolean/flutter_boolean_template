@@ -1,3 +1,0 @@
-dependency_overrides:
-  # Fix dependency conflict with `modddels_annotation_fpdart`
-  fpdart: ">=0.5.0 <1.0.0"
