@@ -14,7 +14,8 @@ class App extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const _ = Person(firstName: 'John', lastName: 'Doe', age: 42);
+    final person = Person(firstName: 'John', lastName: 'Doe', age: Age(42));
+    debugPrint(person.toJson());
     final String auth = ref.watch(authProvider);
     debugPrint(auth);
 
