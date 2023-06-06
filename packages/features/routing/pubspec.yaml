@@ -18,6 +18,7 @@ dependencies:
     path: ../../assets
   localization:
     path: ../../localization
+  fpdart: ^0.6.0
 
 dev_dependencies:
   flutter_test:

@@ -201,8 +201,10 @@ AutoRoute is used, see the [routing](packages/features/routing/README.md) packag
 
 ### Unions and Sealed Classes
 
-[Freezed](https://pub.dev/packages/freezed) is used to generate code for immutable
-union and sealed classes. See [dart_mappable](https://pub.dev/packages/dart_mappable#freezed)'s documentation on using it with freezed.
+[Freezed](https://pub.dev/packages/freezed), [dart_mappable](https://pub.dev/packages/dart_mappable#freezed), and
+[modddels](https://pub.dev/packages/modddels#freezed) are used to create unions and sealed classes. Modddels
+also provides type-safe data validation, see the [modddels](packages/models/README.md) package README
+for more information.
 
 ### JSON Serialization and copyWith
 

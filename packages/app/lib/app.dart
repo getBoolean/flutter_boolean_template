@@ -5,7 +5,7 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:localization/localization.dart';
-import 'package:models/person.dart';
+import 'package:models/models.dart';
 import 'package:routing/routing.dart';
 
 /// The main app widget at the root of the widget tree.
@@ -14,7 +14,8 @@ class App extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const _ = Person(firstName: 'John', lastName: 'Doe', age: 42);
+    final person = Person(firstName: 'John', lastName: 'Doe', age: Age(42));
+    debugPrint(person.toJson());
     final String auth = ref.watch(authProvider);
     debugPrint(auth);
 

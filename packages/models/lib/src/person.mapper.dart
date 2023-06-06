@@ -12,6 +12,7 @@ class PersonMapper extends ClassMapperBase<Person> {
   static PersonMapper ensureInitialized() {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = PersonMapper._());
+      MapperContainer.globals.use(AgeMapper());
     }
     return _instance!;
   }
@@ -30,8 +31,8 @@ class PersonMapper extends ClassMapperBase<Person> {
   static String _$lastName(Person v) => v.lastName;
   static const Field<Person, String> _f$lastName =
       Field('lastName', _$lastName);
-  static int _$age(Person v) => v.age;
-  static const Field<Person, int> _f$age = Field('age', _$age);
+  static Age _$age(Person v) => v.age;
+  static const Field<Person, Age> _f$age = Field('age', _$age);
 
   @override
   final Map<Symbol, Field<Person, dynamic>> fields = const {
@@ -95,7 +96,7 @@ extension PersonValueCopy<$R, $Out> on ObjectCopyWith<$R, Person, $Out> {
 
 abstract class PersonCopyWith<$R, $In extends Person, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
-  $R call({String? firstName, String? lastName, int? age});
+  $R call({String? firstName, String? lastName, Age? age});
   PersonCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -106,7 +107,7 @@ class _PersonCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Person, $Out>
   @override
   late final ClassMapperBase<Person> $mapper = PersonMapper.ensureInitialized();
   @override
-  $R call({String? firstName, String? lastName, int? age}) =>
+  $R call({String? firstName, String? lastName, Age? age}) =>
       $apply(FieldCopyWithData({
         if (firstName != null) #firstName: firstName,
         if (lastName != null) #lastName: lastName,
