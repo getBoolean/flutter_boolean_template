@@ -14,3 +14,4 @@ validation and is recommended for all models. This can work together, but a cust
 
 - [Modddels Documentation](https://docs.modddels.dev/)
 - [Dart Mappable Documentation](https://pub.dev/documentation/dart_mappable/latest/topics/Introduction-topic.html)
+- [Freezed Package](https://pub.dev/packages/freezed)
