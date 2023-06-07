@@ -15,6 +15,10 @@ features already setup.
   - MacOS: 10.14
   - Other: Flutter default
 
+## Feature Goals
+
+- See issue [#53](https://github.com/getBoolean/flutter_boolean_template/issues/53) for a detailed list of planned features.
+
 ## Getting Started
 
 1. [ ] Activate [Melos](https://pub.dev/packages/melos) globally, see the [Melos](#melos)
@@ -34,10 +38,6 @@ section for details.
 [GitPod](https://www.gitpod.io/docs/quickstart/flutter#flutter-quickstart) documentation.
 1. [ ] Update contribution guidelines at the [Contributing](#contributing) section.
 1. [ ] Update the [LICENSE](LICENSE) file with your preferred license (**important!**)
-
-## Feature Goals
-
-- See issue [#53](https://github.com/getBoolean/flutter_boolean_template/issues/53) for a detailed list of planned features.
 
 ### Change App/Package Name
 
@@ -139,26 +139,14 @@ addition bricks, use [Mason CLI](https://pub.dev/packages/mason_cli).
 
 AutoRoute is used, see the [routing](packages/features/routing/README.md) package README for more information.
 
-### Unions and Sealed Classes
+### JSON Serialization, Unions, Sealed Classes and copyWith
 
-[Freezed](https://pub.dev/packages/freezed), [dart_mappable](https://pub.dev/packages/dart_mappable#freezed), and
-[modddels](https://pub.dev/packages/modddels#freezed) are used to create unions and sealed classes. Modddels
-also provides type-safe data validation, see the [modddels](packages/models/README.md) package README
-for more information.
-
-### JSON Serialization and copyWith
-
-This is used to generate data classes and json serialization using
-[dart_mappable](https://pub.dev/packages/dart_mappable). It also
-generates a `copyWith` with `null` assignment support, and provides
-[deep copy](https://pub.dev/packages/dart_mappable#deep-copy) forfields which are also
-`dart_mappable` objects.
-
-If a `freezed` union or sealed model is also `dart_mappable`, the `descriminatorKey` argument needs
-to be added to the `@MappableClass` class annotation, and the `discriminatorValue` argument needs
-to be added to the `@MappableClass` factory constructor annotation for each union or sealed class.
-See the [dart_mappable#freezed](https://pub.dev/packages/dart_mappable#freezed) documentation for
-more information.
+- [dart_mappable](https://pub.dev/packages/dart_mappable)
+  - see [models README.md](packages/models/README.md) for more info.
+  - Used for Unions, JSON serialization, and copyWith
+- [modddels](https://pub.dev/packages/modddels)
+  - see [domain README.md](packages/models/README.md) for more info.
+  - Used for type-safe data validation, NOT serialization
 
 ### State Management
 
@@ -203,9 +191,8 @@ melos run test
 
 ### Integration Tests
 
-This repository uses `patrol`, which provides visual feedback to the tester and
-takes screenshots automatically. Integration tests are located in the `integration_test`
-directory.
+`patrol` provides visual feedback to the tester andtakes screenshots automatically.
+These integration tests are located in the `integration_test` directory.
 
 To run the tests, see the instructions in the [Patrol documentation](https://pub.dev/packages/patrol)
 
