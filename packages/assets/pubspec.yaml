@@ -10,7 +10,7 @@ dependencies:
   equatable: ^2.0.5
   flutter:
     sdk: flutter
-  flutter_riverpod: ^2.3.6
+  hooks_riverpod: ^2.3.6
   fpdart: ^0.6.0
 
 dev_dependencies:

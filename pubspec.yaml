@@ -22,7 +22,7 @@ dependencies:
     path: packages/localization
   app:
     path: packages/app
-  flutter_riverpod: ^2.2.0
+  hooks_riverpod: ^2.3.6
   env:
     path: packages/utils/env
   fpdart: ^0.6.0

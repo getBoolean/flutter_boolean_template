@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_riverpod: ^2.3.6
+  hooks_riverpod: ^2.3.6
   auto_route: ^7.4.0
   logs:
     path: ../../utils/logs

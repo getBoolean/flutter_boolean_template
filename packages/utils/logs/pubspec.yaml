@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_riverpod: ^2.3.6
+  hooks_riverpod: ^2.3.6
   fpdart: ^0.6.0
   leak_tracker: ^4.0.0
   logger: ^1.2.2
