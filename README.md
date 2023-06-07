@@ -1,10 +1,19 @@
 # flutter_boolean_template
 
-A new Flutter template project by @getBoolean that acts as a starting point for new Flutter projects.
+An opinionated starting point for a Flutter app.
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/gitpod-io/template-flutter)
+
+## About
+
 This project is very opinionated and is meant to make it easier to start a new project with essential
 features already setup.
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/gitpod-io/template-flutter)
+- Minimal OS Version:
+  - iOS: 13.0
+  - Android: 4.3 (SDK 18)
+  - MacOS: 10.14
+  - Other: Flutter default
 
 ## Getting Started
 
@@ -29,13 +38,6 @@ section for details.
 ## Feature Goals
 
 - See issue [#53](https://github.com/getBoolean/flutter_boolean_template/issues/53) for a detailed list of planned features.
-
-## Learn More
-
-- Minimal OS Version:
-  - iOS: 13.0
-  - Android: 4.3 (SDK 18)
-  - Other: Flutter default
 
 ### Change App/Package Name
 
