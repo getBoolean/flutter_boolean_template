@@ -29,59 +29,7 @@ section for details.
 
 ## Feature Goals
 
-- [x] Melos monorepo
-- [x] FVM configuration (Flutter version manager)
-- [x] Presetup `flex_color_scheme` light and dark themes
-- ~~`flex_color_scheme` with support for multiple themes. (other than light and dark themes)~~ (Better as a brick or package)
-- [x] Linting preconfigured.
-- [x] Code metrics via [dart_code_metrics](https://pub.dev/packages/dart_code_metrics)
-- [x] [Assets Gen](https://pub.dev/packages/assets_gen) for assets
-- [x] CI/CD with GitHub Actions (all platforms)
-- [x] Gitpod support
-- [x] Codecov support
-- [x] Template README
-- ~~Authentication with Appwrite and offline support using stock, use a wrapper to make it easy to switch to
-other providers.~~ (Better as a brick)
-- [x] Localization support
-- [x] Riverpod generator in features package
-- [ ] Mason brick setup for easy architecture setup
-  - [ ] Brick for feature packages
-  - [ ] Brick for freezed models
-  - ~~Bricks for tests~~ (Too situational)
-- [ ] Responsive UI Widgets for desktop, web, mobile, tablet, and possibly watches and TV
-  - Must have a maintain navigation state when resizing the window
-- [ ] Adaptive UI Widgets for iOS, Android, Windows, Linux, MacOS, and Web
-- ~~[Sentry](https://pub.dev/packages/sentry_flutter)~~
-  - ~~[Sentry Logging](https://pub.dev/packages/sentry_logging)~~
-- [x] Logging ([example](https://github.com/levin-riegner/flutter-template#logging))
-  - [x] [logging](https://pub.dev/packages/logging) for development/debug mode
-  - [x] `logger` and `logger_flutter_plus` for profile mode
-  - [x] Ability to add production routing when needed
-  - ~~`Sentry` for production~~
-- [x] [leak_tracker](https://pub.dev/packages/leak_tracker)
-- [ ] Database for user preferences
-  - Offline first, but should be able to use cloud sync with it
-- [x] [ENVied](https://pub.dev/packages/envied) for environment variables
-- [ ] Firebase services which do not require Google Play services (or use alternatives). Disable safely if not setup properly.
-  - [ ] App Check with custom and debug providers
-  - [ ] ~~Crashlytics~~ (use Sentry)
-  - [ ] In-App Messaging
-  - [ ] Performance Monitoring
-  - [ ] Remote Config or [Flagsmith](https://flagsmith.com/)
-- [ ] Optional firebase services which require Google Play services
-  - [ ] ~~Dynamic Links~~ (Discontinued)
-  - [ ] Cloud Messaging
-- [x] AutoRoute
-- ~~[Deep Linking](https://docs.flutter.dev/development/ui/navigation/deep-linking) and [AppLinks](https://pub.dev/packages/app_links)~~ (AutoRoute supports deep links by default, only native platform support needs to be added by the app. This can't be done in a template.)
-- [ ] Appwrite integration
-- [ ] Publishing via Codemagic or GitHub Actions on tag creation
-- ~~Focus node setup (for keyboard navigation)~~
-- ~~Biometric/Local authentication~~ (Better as a brick)
-- ~~App updates~~ (Better as a package/cli)
-  - ~~In-app updated for sideloaded apps~~
-  - ~~Link to app store for apps published to app store~~
-- ~~Onboarding~~
-- ~~Feature discovery~~
+- See issue https://github.com/getBoolean/flutter_boolean_template/issues/53 for a detailed list of planned features.
 
 ## Learn More
 
