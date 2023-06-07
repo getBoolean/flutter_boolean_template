@@ -8,7 +8,6 @@ features already setup.
 
 ## Getting Started
 
-1. [ ] Activate FVM, see [FVM](#fvm)
 1. [ ] Activate [Melos](https://pub.dev/packages/melos) globally, see the [Melos](#melos)
 section for setup and the configured monorepo scripts
    1. [ ] Run `melos bootstrap` to install dependencies for all packages
@@ -29,7 +28,7 @@ section for details.
 
 ## Feature Goals
 
-- See issue https://github.com/getBoolean/flutter_boolean_template/issues/53 for a detailed list of planned features.
+- See issue [#53](https://github.com/getBoolean/flutter_boolean_template/issues/53) for a detailed list of planned features.
 
 ## Learn More
 
@@ -37,15 +36,6 @@ section for details.
   - iOS: 13.0
   - Android: 4.3 (SDK 18)
   - Other: Flutter default
-
-### FVM
-
-This project uses [FVM](https://fvm.app/) to manage Flutter versions, and is configured to use the latest stable version of Flutter. Either the CLI or the GUI app [Sidekick](https://github.com/fluttertools/sidekick) can be used.
-
-```bash
-# FVM CLI
-dart pub global activate fvm
-```
 
 ### Change App/Package Name
 
