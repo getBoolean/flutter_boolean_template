@@ -1,16 +1,26 @@
 import 'package:dart_mappable/dart_mappable.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'union.mapper.dart';
-part 'union.freezed.dart';
 
-@freezed
-@MappableClass(discriminatorKey: 'type')
-class Union with _$Union {
-  @MappableClass(discriminatorValue: 'data')
-  const factory Union.data(@MappableField(key: 'mykey') int value) = Data;
-  @MappableClass(discriminatorValue: 'loading')
-  const factory Union.loading() = Loading;
-  @MappableClass(discriminatorValue: 'error')
-  const factory Union.error([String? message]) = ErrorDetails;
+@MappableClass(discriminatorKey: 'union_type')
+abstract class Union with UnionMappable {
+  const Union();
+  const factory Union.data() = UnionData;
+  const factory Union.loading() = UnionLoading;
+  const factory Union.error() = UnionError;
+}
+
+@MappableClass(discriminatorValue: 'union_data')
+class UnionData extends Union with UnionDataMappable {
+  const UnionData();
+}
+
+@MappableClass(discriminatorValue: 'union_loading')
+class UnionLoading extends Union with UnionLoadingMappable {
+  const UnionLoading();
+}
+
+@MappableClass(discriminatorValue: 'union_error')
+class UnionError extends Union with UnionErrorMappable {
+  const UnionError();
 }

@@ -97,7 +97,7 @@ mixin _$Age {
     };
   }
 
-  Option<AgeLegalFailure> validateLegal(_ValidateAgeLegal age);
+  Option<AgeFailure> validateLegal(_ValidateAgeLegal age);
 
   List<Object?> get props => throw _$unimplementedError;
 }
@@ -144,13 +144,13 @@ mixin InvalidAge implements Age, InvalidValueObject {
   }
 
   TResult whenInvalid<TResult extends Object?>(
-      {required TResult Function(AgeLegalFailure legalFailure) valueFailures}) {
+      {required TResult Function(AgeFailure legalFailure) valueFailures}) {
     return maybeWhenInvalid(
         valueFailures: valueFailures, orElse: () => throw UnreachableError());
   }
 
   TResult maybeWhenInvalid<TResult extends Object?>(
-      {TResult Function(AgeLegalFailure legalFailure)? valueFailures,
+      {TResult Function(AgeFailure legalFailure)? valueFailures,
       required TResult Function() orElse}) {
     return maybeMap(
         invalidValue: valueFailures != null
@@ -160,7 +160,7 @@ mixin InvalidAge implements Age, InvalidValueObject {
   }
 
   TResult? whenOrNullInvalid<TResult extends Object?>(
-      {TResult Function(AgeLegalFailure legalFailure)? valueFailures}) {
+      {TResult Function(AgeFailure legalFailure)? valueFailures}) {
     return maybeWhenInvalid(valueFailures: valueFailures, orElse: () => null);
   }
 }
@@ -172,7 +172,7 @@ class InvalidAgeValue extends Age with InvalidAge {
   @override
   final int value;
 
-  final AgeLegalFailure legalFailure;
+  final AgeFailure legalFailure;
 
   @override
   List<ValueFailure> get failures => [legalFailure];

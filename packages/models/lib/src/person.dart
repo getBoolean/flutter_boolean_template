@@ -1,10 +1,8 @@
 import 'package:dart_mappable/dart_mappable.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:modddels_annotation_fpdart/modddels_annotation_fpdart.dart';
 
 part 'person.modddel.dart';
 part 'person.mapper.dart';
-part 'person.freezed.dart';
 
 @MappableClass(includeCustomMappers: [AgeMapper()])
 class Person with PersonMappable {
@@ -29,7 +27,7 @@ class Person with PersonMappable {
 
 @Modddel(validationSteps: [
   ValidationStep([
-    Validation('legal', FailureType<AgeLegalFailure>()),
+    Validation('legal', FailureType<AgeFailure>()),
   ], name: 'Value'),
 ])
 class Age extends SingleValueObject<InvalidAge, ValidAge> with _$Age {
@@ -42,21 +40,32 @@ class Age extends SingleValueObject<InvalidAge, ValidAge> with _$Age {
   }
 
   @override
-  Option<AgeLegalFailure> validateLegal(age) {
+  Option<AgeFailure> validateLegal(age) {
     if (age.value < 0) {
-      return some(const AgeLegalFailure.invalid());
+      return some(const AgeFailure.invalid());
     }
     if (age.value < 18) {
-      return some(const AgeLegalFailure.minor());
+      return some(const AgeFailure.minor());
     }
     return none();
   }
 }
 
-@freezed
-class AgeLegalFailure extends ValueFailure with _$AgeLegalFailure {
-  const factory AgeLegalFailure.minor() = _Minor;
-  const factory AgeLegalFailure.invalid() = _Invalid;
+@MappableClass(discriminatorValue: 'age_failure_minor')
+class AgeFailureMinor extends AgeFailure with AgeFailureMinorMappable {
+  const AgeFailureMinor();
+}
+
+@MappableClass(discriminatorValue: 'age_failure_invalid')
+class AgeFailureInvalid extends AgeFailure with AgeFailureInvalidMappable {
+  const AgeFailureInvalid();
+}
+
+@MappableClass(discriminatorKey: 'age_failure_type')
+abstract class AgeFailure extends ValueFailure with AgeFailureMappable {
+  const AgeFailure();
+  const factory AgeFailure.minor() = AgeFailureMinor;
+  const factory AgeFailure.invalid() = AgeFailureInvalid;
 }
 
 class SingleValueObjectHook extends MappingHook {

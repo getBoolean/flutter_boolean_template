@@ -12,9 +12,9 @@ class UnionMapper extends ClassMapperBase<Union> {
   static UnionMapper ensureInitialized() {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = UnionMapper._());
-      DataMapper.ensureInitialized();
-      LoadingMapper.ensureInitialized();
-      ErrorDetailsMapper.ensureInitialized();
+      UnionDataMapper.ensureInitialized();
+      UnionLoadingMapper.ensureInitialized();
+      UnionErrorMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -32,7 +32,7 @@ class UnionMapper extends ClassMapperBase<Union> {
 
   static Union _instantiate(DecodingData data) {
     throw MapperException.missingSubclass(
-        'Union', 'type', '${data.value['type']}');
+        'Union', 'union_type', '${data.value['union_type']}');
   }
 
   @override
@@ -47,14 +47,10 @@ class UnionMapper extends ClassMapperBase<Union> {
   }
 }
 
-extension UnionMapperExtension on Union {
-  String toJson() {
-    return UnionMapper._guard((c) => c.toJson(this));
-  }
-
-  Map<String, dynamic> toMap() {
-    return UnionMapper._guard((c) => c.toMap(this));
-  }
+mixin UnionMappable {
+  String toJson();
+  Map<String, dynamic> toMap();
+  UnionCopyWith<Union, Union, Union> get copyWith;
 }
 
 abstract class UnionCopyWith<$R, $In extends Union, $Out>
@@ -63,13 +59,13 @@ abstract class UnionCopyWith<$R, $In extends Union, $Out>
   UnionCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
-class DataMapper extends SubClassMapperBase<Data> {
-  DataMapper._();
+class UnionDataMapper extends SubClassMapperBase<UnionData> {
+  UnionDataMapper._();
 
-  static DataMapper? _instance;
-  static DataMapper ensureInitialized() {
+  static UnionDataMapper? _instance;
+  static UnionDataMapper ensureInitialized() {
     if (_instance == null) {
-      MapperContainer.globals.use(_instance = DataMapper._());
+      MapperContainer.globals.use(_instance = UnionDataMapper._());
       UnionMapper.ensureInitialized().addSubMapper(_instance!);
     }
     return _instance!;
@@ -81,57 +77,101 @@ class DataMapper extends SubClassMapperBase<Data> {
   }
 
   @override
-  final String id = 'Data';
-
-  static int _$value(Data v) => v.value;
-  static const Field<Data, int> _f$value =
-      Field('value', _$value, key: 'mykey');
+  final String id = 'UnionData';
 
   @override
-  final Map<Symbol, Field<Data, dynamic>> fields = const {
-    #value: _f$value,
-  };
+  final Map<Symbol, Field<UnionData, dynamic>> fields = const {};
 
   @override
-  final String discriminatorKey = 'type';
+  final String discriminatorKey = 'union_type';
   @override
-  final dynamic discriminatorValue = 'data';
+  final dynamic discriminatorValue = 'union_data';
   @override
   late final ClassMapperBase superMapper = UnionMapper.ensureInitialized();
 
-  static Data _instantiate(DecodingData data) {
-    return Data(data.dec(_f$value));
+  static UnionData _instantiate(DecodingData data) {
+    return UnionData();
   }
 
   @override
   final Function instantiate = _instantiate;
 
-  static Data fromMap(Map<String, dynamic> map) {
-    return _guard((c) => c.fromMap<Data>(map));
+  static UnionData fromMap(Map<String, dynamic> map) {
+    return _guard((c) => c.fromMap<UnionData>(map));
   }
 
-  static Data fromJson(String json) {
-    return _guard((c) => c.fromJson<Data>(json));
+  static UnionData fromJson(String json) {
+    return _guard((c) => c.fromJson<UnionData>(json));
   }
 }
 
-extension DataMapperExtension on Data {
+mixin UnionDataMappable {
   String toJson() {
-    return DataMapper._guard((c) => c.toJson(this));
+    return UnionDataMapper._guard((c) => c.toJson(this as UnionData));
   }
 
   Map<String, dynamic> toMap() {
-    return DataMapper._guard((c) => c.toMap(this));
+    return UnionDataMapper._guard((c) => c.toMap(this as UnionData));
+  }
+
+  UnionDataCopyWith<UnionData, UnionData, UnionData> get copyWith =>
+      _UnionDataCopyWithImpl(this as UnionData, $identity, $identity);
+  @override
+  String toString() {
+    return UnionDataMapper._guard((c) => c.asString(this));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (runtimeType == other.runtimeType &&
+            UnionDataMapper._guard((c) => c.isEqual(this, other)));
+  }
+
+  @override
+  int get hashCode {
+    return UnionDataMapper._guard((c) => c.hash(this));
   }
 }
 
-class LoadingMapper extends SubClassMapperBase<Loading> {
-  LoadingMapper._();
+extension UnionDataValueCopy<$R, $Out> on ObjectCopyWith<$R, UnionData, $Out> {
+  UnionDataCopyWith<$R, UnionData, $Out> get $asUnionData =>
+      $base.as((v, t, t2) => _UnionDataCopyWithImpl(v, t, t2));
+}
 
-  static LoadingMapper? _instance;
-  static LoadingMapper ensureInitialized() {
+abstract class UnionDataCopyWith<$R, $In extends UnionData, $Out>
+    implements UnionCopyWith<$R, $In, $Out> {
+  @override
+  $R call();
+  UnionDataCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
+}
+
+class _UnionDataCopyWithImpl<$R, $Out>
+    extends ClassCopyWithBase<$R, UnionData, $Out>
+    implements UnionDataCopyWith<$R, UnionData, $Out> {
+  _UnionDataCopyWithImpl(super.value, super.then, super.then2);
+
+  @override
+  late final ClassMapperBase<UnionData> $mapper =
+      UnionDataMapper.ensureInitialized();
+  @override
+  $R call() => $apply(FieldCopyWithData({}));
+  @override
+  UnionData $make(CopyWithData data) => UnionData();
+
+  @override
+  UnionDataCopyWith<$R2, UnionData, $Out2> $chain<$R2, $Out2>(
+          Then<$Out2, $R2> t) =>
+      _UnionDataCopyWithImpl($value, $cast, t);
+}
+
+class UnionLoadingMapper extends SubClassMapperBase<UnionLoading> {
+  UnionLoadingMapper._();
+
+  static UnionLoadingMapper? _instance;
+  static UnionLoadingMapper ensureInitialized() {
     if (_instance == null) {
-      MapperContainer.globals.use(_instance = LoadingMapper._());
+      MapperContainer.globals.use(_instance = UnionLoadingMapper._());
       UnionMapper.ensureInitialized().addSubMapper(_instance!);
     }
     return _instance!;
@@ -143,51 +183,102 @@ class LoadingMapper extends SubClassMapperBase<Loading> {
   }
 
   @override
-  final String id = 'Loading';
+  final String id = 'UnionLoading';
 
   @override
-  final Map<Symbol, Field<Loading, dynamic>> fields = const {};
+  final Map<Symbol, Field<UnionLoading, dynamic>> fields = const {};
 
   @override
-  final String discriminatorKey = 'type';
+  final String discriminatorKey = 'union_type';
   @override
-  final dynamic discriminatorValue = 'loading';
+  final dynamic discriminatorValue = 'union_loading';
   @override
   late final ClassMapperBase superMapper = UnionMapper.ensureInitialized();
 
-  static Loading _instantiate(DecodingData data) {
-    return Loading();
+  static UnionLoading _instantiate(DecodingData data) {
+    return UnionLoading();
   }
 
   @override
   final Function instantiate = _instantiate;
 
-  static Loading fromMap(Map<String, dynamic> map) {
-    return _guard((c) => c.fromMap<Loading>(map));
+  static UnionLoading fromMap(Map<String, dynamic> map) {
+    return _guard((c) => c.fromMap<UnionLoading>(map));
   }
 
-  static Loading fromJson(String json) {
-    return _guard((c) => c.fromJson<Loading>(json));
+  static UnionLoading fromJson(String json) {
+    return _guard((c) => c.fromJson<UnionLoading>(json));
   }
 }
 
-extension LoadingMapperExtension on Loading {
+mixin UnionLoadingMappable {
   String toJson() {
-    return LoadingMapper._guard((c) => c.toJson(this));
+    return UnionLoadingMapper._guard((c) => c.toJson(this as UnionLoading));
   }
 
   Map<String, dynamic> toMap() {
-    return LoadingMapper._guard((c) => c.toMap(this));
+    return UnionLoadingMapper._guard((c) => c.toMap(this as UnionLoading));
+  }
+
+  UnionLoadingCopyWith<UnionLoading, UnionLoading, UnionLoading> get copyWith =>
+      _UnionLoadingCopyWithImpl(this as UnionLoading, $identity, $identity);
+  @override
+  String toString() {
+    return UnionLoadingMapper._guard((c) => c.asString(this));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (runtimeType == other.runtimeType &&
+            UnionLoadingMapper._guard((c) => c.isEqual(this, other)));
+  }
+
+  @override
+  int get hashCode {
+    return UnionLoadingMapper._guard((c) => c.hash(this));
   }
 }
 
-class ErrorDetailsMapper extends SubClassMapperBase<ErrorDetails> {
-  ErrorDetailsMapper._();
+extension UnionLoadingValueCopy<$R, $Out>
+    on ObjectCopyWith<$R, UnionLoading, $Out> {
+  UnionLoadingCopyWith<$R, UnionLoading, $Out> get $asUnionLoading =>
+      $base.as((v, t, t2) => _UnionLoadingCopyWithImpl(v, t, t2));
+}
 
-  static ErrorDetailsMapper? _instance;
-  static ErrorDetailsMapper ensureInitialized() {
+abstract class UnionLoadingCopyWith<$R, $In extends UnionLoading, $Out>
+    implements UnionCopyWith<$R, $In, $Out> {
+  @override
+  $R call();
+  UnionLoadingCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
+}
+
+class _UnionLoadingCopyWithImpl<$R, $Out>
+    extends ClassCopyWithBase<$R, UnionLoading, $Out>
+    implements UnionLoadingCopyWith<$R, UnionLoading, $Out> {
+  _UnionLoadingCopyWithImpl(super.value, super.then, super.then2);
+
+  @override
+  late final ClassMapperBase<UnionLoading> $mapper =
+      UnionLoadingMapper.ensureInitialized();
+  @override
+  $R call() => $apply(FieldCopyWithData({}));
+  @override
+  UnionLoading $make(CopyWithData data) => UnionLoading();
+
+  @override
+  UnionLoadingCopyWith<$R2, UnionLoading, $Out2> $chain<$R2, $Out2>(
+          Then<$Out2, $R2> t) =>
+      _UnionLoadingCopyWithImpl($value, $cast, t);
+}
+
+class UnionErrorMapper extends SubClassMapperBase<UnionError> {
+  UnionErrorMapper._();
+
+  static UnionErrorMapper? _instance;
+  static UnionErrorMapper ensureInitialized() {
     if (_instance == null) {
-      MapperContainer.globals.use(_instance = ErrorDetailsMapper._());
+      MapperContainer.globals.use(_instance = UnionErrorMapper._());
       UnionMapper.ensureInitialized().addSubMapper(_instance!);
     }
     return _instance!;
@@ -199,46 +290,91 @@ class ErrorDetailsMapper extends SubClassMapperBase<ErrorDetails> {
   }
 
   @override
-  final String id = 'ErrorDetails';
-
-  static String? _$message(ErrorDetails v) => v.message;
-  static const Field<ErrorDetails, String> _f$message =
-      Field('message', _$message, opt: true);
+  final String id = 'UnionError';
 
   @override
-  final Map<Symbol, Field<ErrorDetails, dynamic>> fields = const {
-    #message: _f$message,
-  };
+  final Map<Symbol, Field<UnionError, dynamic>> fields = const {};
 
   @override
-  final String discriminatorKey = 'type';
+  final String discriminatorKey = 'union_type';
   @override
-  final dynamic discriminatorValue = 'error';
+  final dynamic discriminatorValue = 'union_error';
   @override
   late final ClassMapperBase superMapper = UnionMapper.ensureInitialized();
 
-  static ErrorDetails _instantiate(DecodingData data) {
-    return ErrorDetails(data.dec(_f$message));
+  static UnionError _instantiate(DecodingData data) {
+    return UnionError();
   }
 
   @override
   final Function instantiate = _instantiate;
 
-  static ErrorDetails fromMap(Map<String, dynamic> map) {
-    return _guard((c) => c.fromMap<ErrorDetails>(map));
+  static UnionError fromMap(Map<String, dynamic> map) {
+    return _guard((c) => c.fromMap<UnionError>(map));
   }
 
-  static ErrorDetails fromJson(String json) {
-    return _guard((c) => c.fromJson<ErrorDetails>(json));
+  static UnionError fromJson(String json) {
+    return _guard((c) => c.fromJson<UnionError>(json));
   }
 }
 
-extension ErrorDetailsMapperExtension on ErrorDetails {
+mixin UnionErrorMappable {
   String toJson() {
-    return ErrorDetailsMapper._guard((c) => c.toJson(this));
+    return UnionErrorMapper._guard((c) => c.toJson(this as UnionError));
   }
 
   Map<String, dynamic> toMap() {
-    return ErrorDetailsMapper._guard((c) => c.toMap(this));
+    return UnionErrorMapper._guard((c) => c.toMap(this as UnionError));
   }
+
+  UnionErrorCopyWith<UnionError, UnionError, UnionError> get copyWith =>
+      _UnionErrorCopyWithImpl(this as UnionError, $identity, $identity);
+  @override
+  String toString() {
+    return UnionErrorMapper._guard((c) => c.asString(this));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (runtimeType == other.runtimeType &&
+            UnionErrorMapper._guard((c) => c.isEqual(this, other)));
+  }
+
+  @override
+  int get hashCode {
+    return UnionErrorMapper._guard((c) => c.hash(this));
+  }
+}
+
+extension UnionErrorValueCopy<$R, $Out>
+    on ObjectCopyWith<$R, UnionError, $Out> {
+  UnionErrorCopyWith<$R, UnionError, $Out> get $asUnionError =>
+      $base.as((v, t, t2) => _UnionErrorCopyWithImpl(v, t, t2));
+}
+
+abstract class UnionErrorCopyWith<$R, $In extends UnionError, $Out>
+    implements UnionCopyWith<$R, $In, $Out> {
+  @override
+  $R call();
+  UnionErrorCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
+}
+
+class _UnionErrorCopyWithImpl<$R, $Out>
+    extends ClassCopyWithBase<$R, UnionError, $Out>
+    implements UnionErrorCopyWith<$R, UnionError, $Out> {
+  _UnionErrorCopyWithImpl(super.value, super.then, super.then2);
+
+  @override
+  late final ClassMapperBase<UnionError> $mapper =
+      UnionErrorMapper.ensureInitialized();
+  @override
+  $R call() => $apply(FieldCopyWithData({}));
+  @override
+  UnionError $make(CopyWithData data) => UnionError();
+
+  @override
+  UnionErrorCopyWith<$R2, UnionError, $Out2> $chain<$R2, $Out2>(
+          Then<$Out2, $R2> t) =>
+      _UnionErrorCopyWithImpl($value, $cast, t);
 }
