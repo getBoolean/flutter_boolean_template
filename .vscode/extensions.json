@@ -10,6 +10,7 @@
     "albert.tabout",
     "pflannery.vscode-versionlens",
     "gruntfuggly.todo-tree",
-    "redhat.vscode-yaml"
+    "redhat.vscode-yaml",
+    "blaugold.melos-code"
   ]
 }

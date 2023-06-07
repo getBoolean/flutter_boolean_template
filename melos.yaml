@@ -15,7 +15,6 @@ command:
     # https://github.com/dart-lang/pub/issues/3404). Disabling this feature
     # makes the CI much more stable.
     runPubGetInParallel: false
-    usePubspecOverrides: true
     hooks:
       # Activate the coverage package globally so that it can be used in the
       # `test` command.
@@ -34,32 +33,34 @@ scripts:
     description: Run `dart analyze` in all packages.
 
   analyze:pkg:
-    exec: dart analyze --fatal-infos lib
-    description: Run `dart analyze` on all packages.
-    packageFilters:
+    run: dart analyze --fatal-infos lib
+    exec: 
       failFast: true
+    description: Run `dart analyze` on all packages.
   
   code_metrics:
     run: melos run code_metrics:pkg --no-select
     description: Run `dart_code_metrics:metrics analyze` in all packages.
 
   code_metrics:pkg:
-    exec: dart run dart_code_metrics:metrics analyze lib --set-exit-on-violation-level=noted
+    run: dart run dart_code_metrics:metrics analyze lib --set-exit-on-violation-level=noted
+    exec:
+      failFast: true
     description: Run `dart run custom_lint` in the selected package.
     packageFilters:
       dependsOn: dart_code_metrics
-      failFast: true
 
   custom_lint:
     run: melos run custom_lint:pkg --no-select
     description: Run `dart run custom_lint` all packages with custom lints.
 
   custom_lint:pkg:
-    exec: dart run custom_lint
+    run: dart run custom_lint
+    exec:
+      failFast: true
     description: Run `dart run custom_lint` in the selected package.
     packageFilters:
       dependsOn: custom_lint
-      failFast: true
 
   format:
     exec: dart format .
@@ -70,29 +71,32 @@ scripts:
     description: Run `dart fix --apply` in all packages.
 
   verify_format:
-    exec: dart format --output=none --set-exit-if-changed .
+    run: dart format --output=none --set-exit-if-changed .
+    exec: 
+      failFast: true
     description: Verify formatting was applied.
-    failFast: true
 
   generate:
     run: melos run assets && melos run generate:pkg --no-select
     description: Run `build_runner build` in all packages.
 
   generate:pkg:
-    exec: dart run build_runner build --delete-conflicting-outputs
-    description: Run `build_runner build` in the selected packages.
-    packageFilters:
+    run: dart run build_runner build --delete-conflicting-outputs
+    exec:
       concurrency: 5
       failFast: true
+    description: Run `build_runner build` in the selected packages.
+    packageFilters:
       dependsOn: build_runner
       ignore: localization
 
   watch:pkg:
-    exec: dart run build_runner watch --delete-conflicting-outputs
-    description: Run `build_runner watch` in the selected package. If all is selected, the command will only run in the first package.
-    packageFilters:
+    run: dart run build_runner watch --delete-conflicting-outputs
+    exec:
       concurrency: 1
       failFast: true
+    description: Run `build_runner watch` in the selected package. If all is selected, the command will only run in the first package.
+    packageFilters:
       dependsOn: build_runner
       ignore: localization
 
@@ -101,30 +105,33 @@ scripts:
     description: Run `flutter pub run assets_gen build` all packages with assets gen.
 
   assets:pkg:
-    exec: flutter pub run assets_gen build
+    run: flutter pub run assets_gen build
+    exec:
+      failFast: true
     description: Run `flutter pub run assets_gen build` in the selected package.
     packageFilters:
       dependsOn: assets_gen
-      failFast: true
 
   dart_test:pkg:
-    exec: dart pub global run coverage:test_with_coverage
+    run: dart pub global run coverage:test_with_coverage
+    exec:
+      failFast: true
+      concurrency: 1
     description: Run Dart tests for a specific package in this project.
     packageFilters:
-      concurrency: 1
       dirExists: test
       dependsOn: test
-      failFast: true
       noDependsOn: flutter
 
   flutter_test:pkg:
-    exec: flutter test --no-pub --coverage
+    run: flutter test --no-pub --coverage
+    exec:
+      failFast: true
+      concurrency: 1
     description: Run Flutter tests for a specific package in this project.
     packageFilters:
-      concurrency: 1
       flutter: true
       dirExists: test
-      failFast: true
       dependsOn: flutter_test
 
   test:
@@ -140,9 +147,10 @@ scripts:
     description: Run all Flutter tests in this project.
 
   loc:
-    exec: flutter gen-l10n
+    run: flutter gen-l10n
+    exec:
+      failFast: true
     description: Run `flutter gen-l10n` in the localization package.
     packageFilters:
       dirExists: lib/src/translations
-      failFast: true
       scope: localization
