@@ -5,7 +5,7 @@ part 'weather.mapper.dart';
 // Converted to dart_mappable. Original: https://github.com/bizz84/open_weather_example_flutter/blob/main/lib/src/entities/weather/weather.dart
 
 @MappableClass()
-class WeatherParams {
+class WeatherParams with WeatherParamsMappable {
   @MappableField(key: 'temp')
   final double temp;
   @MappableField(key: 'temp_min')
@@ -24,7 +24,7 @@ class WeatherParams {
 }
 
 @MappableClass()
-class WeatherInfo {
+class WeatherInfo with WeatherInfoMappable {
   @MappableField()
   final String main;
   @MappableField()
@@ -43,7 +43,7 @@ class WeatherInfo {
 }
 
 @MappableClass()
-class Weather {
+class Weather with WeatherMappable {
   @MappableField(key: 'main')
   final WeatherParams weatherParams;
   @MappableField(key: 'weather')
