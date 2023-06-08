@@ -168,7 +168,7 @@ linter:
 
     no_runtimeType_toString: true
 
-    one_member_abstracts: true
+    one_member_abstracts: false
 
     only_throw_errors: true
 
