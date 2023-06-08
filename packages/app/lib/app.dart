@@ -4,7 +4,6 @@ import 'package:auth_example/auth/auth.dart';
 import 'package:domain/domain.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
-import 'package:fpdart/fpdart.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:localization/localization.dart';
 import 'package:routing/routing.dart';
@@ -15,13 +14,14 @@ class App extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = UserAccount(
+    UserAccount(
       name: Name(firstName: 'John', lastName: 'Doe'),
       email: Email('test@gmail.com'),
-      id: '5646532',
-    );
-    user.name.toOption().fold(() => null, (name) => debugPrint(name.toString()));
-    
+      id: Id('5646532'),
+    ).mapValidity(
+        valid: (validUser) => debugPrint(validUser.toString()),
+        invalid: (invalidUser) => debugPrint(invalidUser.toString()));
+
     final String auth = ref.watch(authProvider);
     debugPrint(auth);
 

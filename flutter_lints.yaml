@@ -18,7 +18,7 @@ analyzer:
     - "**/*.g.dart"
     - "**/*.gr.dart"
     - "**/*.mapper.dart"
-    - "**/*.modddel.dart"
+    # - "**/*.modddel.dart"
     - "**/*.freezed.dart"
     - "**/*.iconfig.dart"
     # This is generated from the i18n vscode extension
