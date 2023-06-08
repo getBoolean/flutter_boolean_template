@@ -18,6 +18,7 @@ serialization.
 
 - Immutable objects that represent a value in an entity.
 - Value objects do not have an identity (e.g., `customer.address`).
+- Freezed is only unsed on Union error types.
 
 ## Resources
 

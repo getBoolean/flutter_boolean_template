@@ -1,56 +1,46 @@
-import 'package:dart_mappable/dart_mappable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:modddels_annotation_fpdart/modddels_annotation_fpdart.dart';
 
+part 'email.freezed.dart';
 part 'email.modddel.dart';
-part 'email.mapper.dart';
 
 @Modddel(validationSteps: [
   ValidationStep([
-    Validation('format', FailureType<EmailFailure>()),
-    Validation('available', FailureType<EmailFailure>()),
+    Validation('format', FailureType<EmailFormatFailure>()),
+    Validation('available', FailureType<EmailAvailableFailure>()),
   ], name: 'Value'),
 ])
 class Email extends SingleValueObject<InvalidEmail, ValidEmail> with _$Email {
   const Email._();
 
-  factory Email(String value) {
-    return _$Email._create(
-      value: value,
-    );
-  }
+  factory Email(String value) => _$Email._create(value: value);
 
   @override
-  Option<EmailFailure> validateFormat(email) {
+  Option<EmailFormatFailure> validateFormat(email) {
     if (email.value.isEmpty) {
       // also check for valid email format
-      return some(const EmailFailure.invalid());
+      return some(const EmailFormatFailure.invalid());
     }
     return none();
   }
 
   @override
-  Option<EmailFailure> validateAvailable(email) {
+  Option<EmailAvailableFailure> validateAvailable(email) {
     if (email.value == 'example_taken@gmail.com') {
-      return some(const EmailFailure.taken());
+      return some(const EmailAvailableFailure.taken());
     }
     return none();
   }
 }
 
-@MappableClass(discriminatorValue: 'email_failure_taken')
-class EmailFailureTaken extends EmailFailure with EmailFailureTakenMappable {
-  const EmailFailureTaken();
+@freezed
+class EmailAvailableFailure extends ValueFailure with _$EmailAvailableFailure {
+  const factory EmailAvailableFailure.taken() = _Taken;
+  const factory EmailAvailableFailure.reserved() = _Reserved;
+  const factory EmailAvailableFailure.banned() = _Banned;
 }
 
-@MappableClass(discriminatorValue: 'email_failure_invalid')
-class EmailFailureInvalid extends EmailFailure
-    with EmailFailureInvalidMappable {
-  const EmailFailureInvalid();
-}
-
-@MappableClass(discriminatorKey: 'email_failure_type')
-abstract class EmailFailure extends ValueFailure with EmailFailureMappable {
-  const EmailFailure();
-  const factory EmailFailure.taken() = EmailFailureTaken;
-  const factory EmailFailure.invalid() = EmailFailureInvalid;
+@freezed
+class EmailFormatFailure extends ValueFailure with _$EmailFormatFailure {
+  const factory EmailFormatFailure.invalid() = _Invalid;
 }

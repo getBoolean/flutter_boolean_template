@@ -103,8 +103,9 @@ mixin _$Email {
     };
   }
 
-  Option<EmailFailure> validateFormat(_ValidateEmailFormat email);
-  Option<EmailFailure> validateAvailable(_ValidateEmailAvailable email);
+  Option<EmailFormatFailure> validateFormat(_ValidateEmailFormat email);
+  Option<EmailAvailableFailure> validateAvailable(
+      _ValidateEmailAvailable email);
 
   List<Object?> get props => throw _$unimplementedError;
 }
@@ -151,16 +152,16 @@ mixin InvalidEmail implements Email, InvalidValueObject {
   }
 
   TResult whenInvalid<TResult extends Object?>(
-      {required TResult Function(
-              EmailFailure? formatFailure, EmailFailure? availableFailure)
+      {required TResult Function(EmailFormatFailure? formatFailure,
+              EmailAvailableFailure? availableFailure)
           valueFailures}) {
     return maybeWhenInvalid(
         valueFailures: valueFailures, orElse: () => throw UnreachableError());
   }
 
   TResult maybeWhenInvalid<TResult extends Object?>(
-      {TResult Function(
-              EmailFailure? formatFailure, EmailFailure? availableFailure)?
+      {TResult Function(EmailFormatFailure? formatFailure,
+              EmailAvailableFailure? availableFailure)?
           valueFailures,
       required TResult Function() orElse}) {
     return maybeMap(
@@ -172,8 +173,8 @@ mixin InvalidEmail implements Email, InvalidValueObject {
   }
 
   TResult? whenOrNullInvalid<TResult extends Object?>(
-      {TResult Function(
-              EmailFailure? formatFailure, EmailFailure? availableFailure)?
+      {TResult Function(EmailFormatFailure? formatFailure,
+              EmailAvailableFailure? availableFailure)?
           valueFailures}) {
     return maybeWhenInvalid(valueFailures: valueFailures, orElse: () => null);
   }
@@ -189,9 +190,9 @@ class InvalidEmailValue extends Email with InvalidEmail {
   @override
   final String value;
 
-  final EmailFailure? formatFailure;
+  final EmailFormatFailure? formatFailure;
 
-  final EmailFailure? availableFailure;
+  final EmailAvailableFailure? availableFailure;
 
   bool get hasFormatFailure => formatFailure != null;
 
