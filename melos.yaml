@@ -5,6 +5,7 @@ packages:
   - packages/localization
   - packages/models
   - packages/data
+  - packages/domain
   - packages/assets
   - packages/features/*
   - packages/utils/*
