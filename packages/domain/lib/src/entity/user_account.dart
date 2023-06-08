@@ -18,9 +18,10 @@ part 'user_account.modddel.dart';
     ], name: 'Value')
   ],
 )
-class UserAccount extends SimpleEntity<InvalidUserAccount, ValidUserAccount> with _$UserAccount {
+class UserAccount extends SimpleEntity<InvalidUserAccount, ValidUserAccount>
+    with _$UserAccount {
   UserAccount._();
-  
+
   factory UserAccount({
     required Id id,
     required Name name,
@@ -36,6 +37,7 @@ class UserAccount extends SimpleEntity<InvalidUserAccount, ValidUserAccount> wit
 }
 
 @freezed
-class UserAccountValidFailure extends EntityFailure with _$UserAccountValidFailure {
+class UserAccountValidFailure extends EntityFailure
+    with _$UserAccountValidFailure {
   const factory UserAccountValidFailure.invalid() = _Invalid;
 }

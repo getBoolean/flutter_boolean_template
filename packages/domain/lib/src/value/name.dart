@@ -26,7 +26,7 @@ class Name extends MultiValueObject<InvalidName, ValidName> with _$Name {
       // also check for valid email format
       return some(const NameValidFailure.empty());
     }
-    
+
     return none();
   }
 }

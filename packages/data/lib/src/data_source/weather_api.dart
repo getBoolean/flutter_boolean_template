@@ -1,5 +1,5 @@
 /// Uri builder class for the OpenWeatherMap API
-/// 
+///
 /// https://github.com/bizz84/open_weather_example_flutter/blob/main/lib/src/api/api.dart
 class OpenWeatherMapAPI {
   OpenWeatherMapAPI(this.apiKey);

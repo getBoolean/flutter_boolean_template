@@ -23,7 +23,7 @@ class Id extends SingleValueObject<InvalidId, ValidId> with _$Id {
       // also check for valid email format
       return some(const IdValidFailure.invalid());
     }
-    
+
     return none();
   }
 }
