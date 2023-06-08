@@ -1,4 +1,5 @@
 /// Contains domain models, usually created by user interaction.
-library;
+library domain;
 
-export 'src/domain_base.dart';
+export 'src/domain.dart';
+export 'src/value.dart';

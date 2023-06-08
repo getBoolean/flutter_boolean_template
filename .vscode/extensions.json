@@ -11,6 +11,7 @@
     "pflannery.vscode-versionlens",
     "gruntfuggly.todo-tree",
     "redhat.vscode-yaml",
-    "blaugold.melos-code"
+    "blaugold.melos-code",
+    "peterschmalfeldt.explorer-exclude"
   ]
 }
