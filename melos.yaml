@@ -3,7 +3,8 @@ name: flutter_boolean_template
 packages:
   - packages/app
   - packages/localization
-  - packages/models
+  - packages/data
+  - packages/domain
   - packages/assets
   - packages/features/*
   - packages/utils/*
@@ -29,7 +30,7 @@ scripts:
   # Custom lint is only applied to the packages and not the root app because of a dependency conflict with `integration_test` and `melos`
   # which use different versions of `path`.
   analyze:
-    run: melos run analyze:pkg --no-select && melos run custom_lint && melos run code_metrics
+    run: melos run analyze:pkg --no-select && melos run custom_lint
     description: Run `dart analyze` in all packages.
 
   analyze:pkg:
@@ -37,18 +38,6 @@ scripts:
     exec: 
       failFast: true
     description: Run `dart analyze` on all packages.
-  
-  code_metrics:
-    run: melos run code_metrics:pkg --no-select
-    description: Run `dart_code_metrics:metrics analyze` in all packages.
-
-  code_metrics:pkg:
-    run: dart run dart_code_metrics:metrics analyze lib --set-exit-on-violation-level=noted
-    exec:
-      failFast: true
-    description: Run `dart run custom_lint` in the selected package.
-    packageFilters:
-      dependsOn: dart_code_metrics
 
   custom_lint:
     run: melos run custom_lint:pkg --no-select
@@ -91,7 +80,7 @@ scripts:
       ignore: localization
 
   watch:pkg:
-    run: dart run build_runner watch --delete-conflicting-outputs
+    run: dart run build_runner watch
     exec:
       concurrency: 1
       failFast: true

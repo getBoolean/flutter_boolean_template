@@ -33,7 +33,7 @@ jobs:
           secrets: ${{ toJSON(secrets) }}
 
       - name: Activate Melos
-        run: dart pub global activate melos ^3.0.0-dev.0
+        run: dart pub global activate melos ^3.1.0
 
       - name: Bootstrap Melos
         run: melos bootstrap

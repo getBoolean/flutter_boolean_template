@@ -15,17 +15,36 @@
 	// 	],
 	// 	"description": "Log output to console"
 	// }m
-	"Dart Modddel Setup": {
-		"prefix": "modddel",
+	"Dart Modddel Single Value Object": {
+		"prefix": "singleValueModddel",
 		"body": [
-		"import 'package:freezed_annotation/freezed_annotation.dart';",
-		"import 'package:modddels_annotation_fpdart/modddels_annotation_fpdart.dart';",
-		"",
-		"part '${1:${TM_FILENAME_BASE}}.modddel.dart';",
-		"part '${1:${TM_FILENAME_BASE}}.mapper.dart';",
-		"part '${1:${TM_FILENAME_BASE}}.freezed.dart';",
-		""
-	  ],
-	  "description": "Modddel Setup"
+			"import 'package:freezed_annotation/freezed_annotation.dart';",
+			"import 'package:modddels_annotation_fpdart/modddels_annotation_fpdart.dart';",
+			"",
+			"part '${1:${TM_FILENAME_BASE}}.freezed.dart';",
+			"part '${1:${TM_FILENAME_BASE}}.modddel.dart';",
+			"",
+			"@Modddel(validationSteps: [",
+			"  ValidationStep([",
+			"    Validation('${TM_FILENAME_BASE/(.*)/${1:/camelcase}/}', FailureType<${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}ValueFailure>()),",
+			"  ], name: 'Value')",
+			"])",
+			"class ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/} extends SingleValueObject<Invalid${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}, Valid${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}> with _$${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/} {",
+			"",
+			"  const ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}._();",
+			"",
+			"  factory ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}(${3:DataTypeHere} value) => _$${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}._create(value: value);",
+			"",
+			"  @override",
+			"  Option<${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}ValueFailure> validate${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}(${TM_FILENAME_BASE/(.*)/${1:/camelcase}/}) {",
+			"    return none();",
+			"  }",
+			"",
+			"}",
+			"",
+			"@freezed",
+			"class ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}ValueFailure extends ValueFailure with _$${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}ValueFailure {}"
+		],
+		"description": "Modddel Setup for Single Value Object"
 	},
 }

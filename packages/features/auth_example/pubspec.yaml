@@ -13,8 +13,8 @@ dependencies:
   riverpod_annotation: ^2.1.1
   hooks_riverpod: ^2.3.6
   flutter_hooks: ^0.18.6
-  models:
-    path: ../../models
+  domain:
+    path: ../../domain
   fpdart: ^0.6.0
 
 dev_dependencies:

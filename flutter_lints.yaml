@@ -18,7 +18,7 @@ analyzer:
     - "**/*.g.dart"
     - "**/*.gr.dart"
     - "**/*.mapper.dart"
-    - "**/*.modddel.dart"
+    # - "**/*.modddel.dart"
     - "**/*.freezed.dart"
     - "**/*.iconfig.dart"
     # This is generated from the i18n vscode extension
@@ -84,7 +84,9 @@ linter:
 
     prefer_interpolation_to_compose_strings: true
 
-    unnecessary_await_in_return: true
+    # Function call will not be in call stack if enabled
+    # https://twitter.com/devangelslondon/status/1666474038540001289
+    unnecessary_await_in_return: false
 
     unnecessary_late: true
 
@@ -168,7 +170,7 @@ linter:
 
     no_runtimeType_toString: true
 
-    one_member_abstracts: true
+    one_member_abstracts: false
 
     only_throw_errors: true
 
