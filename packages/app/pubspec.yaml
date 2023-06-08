@@ -15,8 +15,8 @@ dependencies:
   flex_color_scheme: ^7.1.2
   localization:
     path: ../localization
-  models:
-    path: ../models
+  domain:
+    path: ../domain
   auth_example:
     path: ../features/auth_example
   routing:

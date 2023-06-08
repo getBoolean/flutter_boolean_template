@@ -14,8 +14,8 @@ dependencies:
     sdk: flutter
   flutter_native_splash: ^2.2.16
   change_app_package_name: ^1.1.0
-  models:
-    path: packages/models
+  domain:
+    path: packages/domain
   auth_example:
     path: packages/features/auth_example
   localization:

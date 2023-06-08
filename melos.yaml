@@ -3,7 +3,6 @@ name: flutter_boolean_template
 packages:
   - packages/app
   - packages/localization
-  - packages/models
   - packages/data
   - packages/domain
   - packages/assets
