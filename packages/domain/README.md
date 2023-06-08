@@ -13,6 +13,7 @@ serialization.
 - JSON serialization is implemented using [dart_mappable](https://pub.dev/packages/dart_mappable).
 - Data validation is implemented using [modddels](https://pub.dev/packages/moddels).
 - Entities have an identity (e.g., `customer.id`).
+- All entity fields must be value objects. (i.e., not `String`, `int`, `double`, etc.)
 
 ### Value Objects
 
