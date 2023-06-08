@@ -18,12 +18,10 @@
 	"Dart Modddel Setup": {
 		"prefix": "modddel",
 		"body": [
-		"import 'package:freezed_annotation/freezed_annotation.dart';",
 		"import 'package:modddels_annotation_fpdart/modddels_annotation_fpdart.dart';",
 		"",
 		"part '${1:${TM_FILENAME_BASE}}.modddel.dart';",
 		"part '${1:${TM_FILENAME_BASE}}.mapper.dart';",
-		"part '${1:${TM_FILENAME_BASE}}.freezed.dart';",
 		""
 	  ],
 	  "description": "Modddel Setup"

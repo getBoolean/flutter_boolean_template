@@ -73,8 +73,6 @@ melos run generate:pkg
 melos run watch:pkg
 ```
 
-Note: In VSCode, you should disable auto save while running the watch command so that the generated files do not get deleted while modifying a provider or freezed model.
-
 ## Libraries
 
 ### Melos
