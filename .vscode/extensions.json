@@ -12,6 +12,7 @@
     "gruntfuggly.todo-tree",
     "redhat.vscode-yaml",
     "blaugold.melos-code",
-    "peterschmalfeldt.explorer-exclude"
+    "peterschmalfeldt.explorer-exclude",
+    "irongeek.vscode-env"
   ]
 }
