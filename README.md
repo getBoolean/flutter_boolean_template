@@ -1,25 +1,43 @@
 # flutter_boolean_template
 
-An opinionated starting point for a Flutter app.
+An opinionated starting point for a Flutter app intended to provide the boilerplate
+needed to create a large app that utilizes code generation by separating
+code generation into separate packages.
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/gitpod-io/template-flutter)
 
-## About
+## Motivation
 
-This project is very opinionated and is meant to make it easier to start a new project with essential
-features already setup.
+Many developers have begun to depend on packages which use code generation, and this has
+resulted in large apps with code generation that can take multiple minutes. The solution is to
+split the codebase into separate packages to isolate the code generation, this ensures code generation
+does not run for unrelated packages. This is enabled by [melos](https://pub.dev/packages/melos) and
+custom Melos scripts, however, this comes with the tradeoff that `build_runner watch` only works
+for a single package at a time, it cannot be used across all packages.
 
-- Minimal OS Version:
-  - iOS: 13.0
-  - Android: 4.3 (SDK 18)
-  - MacOS: 10.14
-  - Other: Flutter default
+I've created separate packages for [assets/](./packages/assets/), [utils/env/](./packages/utils/env/),
+[features/routing/](./packages/features/routing/), [localization/](./packages/localization/)
+and others to separate code generation from the main app, which speeds up code generation time.
+These mentioned packages provide type-safe access to assets, `.env` variables, routes, and
+localized strings.
+
+This repository also follows [Riverpod App Architecture](https://codewithandrea.com/articles/flutter-app-architecture-riverpod-introduction/),
+I highly recommend reading the article. Each `Layer` is a separate pacakge in the [packages/](./packages/) folder.
 
 ## Feature Goals
 
 - See issue [#53](https://github.com/getBoolean/flutter_boolean_template/issues/53) for a detailed list of planned features.
 
-## Getting Started
+## About
+
+- Minimal OS Version:
+  - iOS: 13.0
+  - Android: 4.3 (SDK 18)
+  - MacOS: 10.14
+  - Windows 10
+  - Linux: Whatever the Flutter's is
+
+## Template: Getting Started
 
 1. [ ] Activate [Melos](https://pub.dev/packages/melos) globally, see the [Melos](#melos)
 section for setup and the configured monorepo scripts
@@ -32,12 +50,13 @@ section for details.
 1. [ ] Change the app icon, see [Change App Icon](#change-app-icon)
 1. [ ] Change the splash screen, see [Change Splash Screen](#change-the-splash-screen)
 1. [ ] Setup the release build configuration, see the [Building](#building) section.
-1. [ ] Setup Codecov for your repository, see the
+1. [ ] Setup Codecov for the repository, see the
 [Codecov](https://docs.codecov.com/docs/quick-start) documentation.
-1. [ ] Setup GitPod for your environment, see the
+1. [ ] Setup GitPod for the environment, see the
 [GitPod](https://www.gitpod.io/docs/quickstart/flutter#flutter-quickstart) documentation.
 1. [ ] Update contribution guidelines at the [Contributing](#contributing) section.
-1. [ ] Update the [LICENSE](LICENSE) file with your preferred license (**important!**)
+1. [ ] (**Important!**) Update the [LICENSE](./LICENSE.md) file. I give permission to relicense any
+repository based on this template, but the licenses of the packages must still be followed.
 
 ### Change App/Package Name
 
