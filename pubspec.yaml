@@ -14,18 +14,9 @@ dependencies:
     sdk: flutter
   flutter_native_splash: ^2.2.16
   change_app_package_name: ^1.1.0
-  domain:
-    path: packages/domain
-  auth_example:
-    path: packages/features/auth_example
-  localization:
-    path: packages/localization
   app:
     path: packages/app
   hooks_riverpod: ^2.3.6
-  env:
-    path: packages/utils/env
-  fpdart: ^0.6.0
 
 dev_dependencies:
   build_verify: ^3.1.0

@@ -159,10 +159,10 @@ AutoRoute is used, see the [routing](packages/features/routing/README.md) packag
 ### JSON Serialization, Unions, Sealed Classes and copyWith
 
 - [dart_mappable](https://pub.dev/packages/dart_mappable)
-  - see [data README.md](packages/data/README.md) for more info.
+  - see [data README.md](packages/layers/data/README.md) for more info.
   - Used for Unions, JSON serialization, and copyWith
 - [modddels](https://pub.dev/packages/modddels)
-  - see [domain README.md](packages/models/README.md) for more info.
+  - see [domain README.md](packages/layers/domain/README.md) for more info.
   - Used for type-safe data validation, NOT serialization
 
 ### State Management

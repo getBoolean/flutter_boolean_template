@@ -6,7 +6,7 @@ This package should contain all Entities (DTOs), Repositories, and Data Sources 
 ## Entities
 
 - These models should only be created by the data layer. Any models created by user interaction
-  should be created in the `domain` package.
+  should be created in the [domain](/packages/layers/domain/) package.
 
 ## Resources
 

@@ -9,7 +9,7 @@ serialization.
 ### Entity Objects (Models)
 
 - These models are instantiated after user interaction, such as filling out a form.
-  - Any models created by API repositories should instead be created in the [data](/packages/data/) package.
+  - Any models created by API repositories should instead be created in the [data](/packages/layers/data/) package.
 - JSON serialization is implemented using [dart_mappable](https://pub.dev/packages/dart_mappable).
 - Data validation is implemented using [modddels](https://pub.dev/packages/moddels).
 - Entities have an identity (e.g., `customer.id`).

@@ -7,6 +7,6 @@ import 'package:test/test.dart';
 void main() {
   test(
     'ensure_build',
-    () => expectBuildClean(packageRelativeDirectory: 'packages/domain'),
+    () => expectBuildClean(packageRelativeDirectory: 'packages/layers/domain'),
   );
 }

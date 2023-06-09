@@ -16,7 +16,7 @@ dependencies:
   localization:
     path: ../localization
   domain:
-    path: ../domain
+    path: ../layers/domain
   auth_example:
     path: ../features/auth_example
   routing:
