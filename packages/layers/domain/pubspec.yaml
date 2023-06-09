@@ -22,3 +22,5 @@ dev_dependencies:
   riverpod_generator: ^2.2.3
   modddels: ^0.1.3
   freezed: ^2.3.5
+  custom_lint: ^0.4.0
+  riverpod_lint: ^1.3.2
