@@ -14,11 +14,16 @@ class App extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    UserAccount(
+    final userJohnDoe = UserAccount(
       name: Name(firstName: 'John', lastName: 'Doe'),
       email: Email('test@gmail.com'),
       id: Id('5646532'),
-    ).mapValidity(
+    );
+    final userJohnDeer = userJohnDoe.copyWith(name: Name(firstName: 'John', lastName: 'Deer'));
+    userJohnDoe.mapValidity(
+        valid: (validUser) => debugPrint(validUser.toString()),
+        invalid: (invalidUser) => debugPrint(invalidUser.toString()));
+    userJohnDeer.mapValidity(
         valid: (validUser) => debugPrint(validUser.toString()),
         invalid: (invalidUser) => debugPrint(invalidUser.toString()));
 
