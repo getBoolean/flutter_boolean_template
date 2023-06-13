@@ -1,11 +1,11 @@
 
-# Data
+# DTOs (Entities)
 
-This package should contain all Entities (DTOs), Repositories, and Data Sources (e.g., API access) for the application.
+This package is part of the data layer, which contains Entities (DTOs), Repositories, and Data Sources (e.g., API access) for the application.
 
 ## Entities
 
-- These models should only be created by the data layer. Any models created by user interaction
+- These models should only be created by the `repository` package. Any models that require data validation
   should be created in the [domain](/packages/layers/domain/) package.
 
 ## Resources
