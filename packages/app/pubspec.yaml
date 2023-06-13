@@ -17,8 +17,6 @@ dependencies:
     path: ../localization
   repository:
     path: ../layers/data/repository
-  dto:
-    path: ../layers/data/dto
   domain:
     path: ../layers/domain
   auth_example:
