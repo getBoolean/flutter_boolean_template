@@ -41,3 +41,9 @@ class UserAccountValidFailure extends EntityFailure
     with _$UserAccountValidFailure {
   const factory UserAccountValidFailure.invalid() = _Invalid;
 }
+
+final UserAccount user = UserAccount(
+  id: Id('id'),
+  name: Name(firstName: 'firstName', lastName: 'lastName'),
+  email: Email('email'),
+);

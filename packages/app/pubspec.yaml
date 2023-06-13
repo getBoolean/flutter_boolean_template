@@ -15,8 +15,10 @@ dependencies:
   flex_color_scheme: ^7.1.2
   localization:
     path: ../localization
-  data:
-    path: ../layers/data
+  repository:
+    path: ../layers/data/repository
+  dto:
+    path: ../layers/data/dto
   domain:
     path: ../layers/domain
   auth_example:

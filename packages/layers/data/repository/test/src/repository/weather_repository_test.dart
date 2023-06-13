@@ -1,4 +1,6 @@
-import 'package:data/data.dart';
+import 'package:data_source/data_source.dart';
+import 'package:dto/dto.dart';
+import 'package:repository/repository.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:mocktail/mocktail.dart';

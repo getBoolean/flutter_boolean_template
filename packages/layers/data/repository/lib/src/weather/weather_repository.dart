@@ -1,7 +1,6 @@
+import 'package:data_source/data_source.dart';
+import 'package:dto/dto.dart';
 import 'package:http/http.dart' as http;
-
-import '../data_source/weather_api.dart';
-import '../entity/weather.dart';
 
 class HttpWeatherRepository implements WeatherRepository {
   HttpWeatherRepository({required this.api, required this.client});
