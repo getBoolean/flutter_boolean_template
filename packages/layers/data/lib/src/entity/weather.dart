@@ -13,7 +13,7 @@ class WeatherParams with WeatherParamsMappable {
   @MappableField(key: 'temp_max')
   final double tempMax;
 
-  WeatherParams({
+  const WeatherParams({
     required this.temp,
     required this.tempMin,
     required this.tempMax,
@@ -32,7 +32,7 @@ class WeatherInfo with WeatherInfoMappable {
   @MappableField()
   final String icon;
 
-  WeatherInfo({
+  const WeatherInfo({
     required this.main,
     required this.description,
     required this.icon,
@@ -51,7 +51,7 @@ class Weather with WeatherMappable {
   @MappableField()
   final int dt;
 
-  Weather({
+  const Weather({
     required this.weatherParams,
     required this.weatherInfo,
     required this.dt,
