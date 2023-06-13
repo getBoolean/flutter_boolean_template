@@ -1,12 +1,12 @@
 import 'package:data_source/data_source.dart';
 import 'package:dto/dto.dart';
-import 'package:repository/repository.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:repository/repository.dart';
 import 'package:test/test.dart';
 
 class MockWeatherRepository extends Mock implements HttpWeatherRepository {}
+
 class MockHttpClient extends Mock implements http.Client {}
 
 const kWeather = Weather(
@@ -44,7 +44,7 @@ void main() {
     );
 
     when(() => mockHttpClient.get(api.weather('London')))
-        .thenAnswer((_) => Future.value(Response('''
+        .thenAnswer((_) => Future.value(http.Response('''
 {"main":{"temp":5.0,"temp_min":0.0,"temp_max":10.0},"weather":[],"dt":0}
 ''', 200)));
 
