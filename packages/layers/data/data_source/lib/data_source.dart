@@ -1,4 +1,4 @@
-/// DAOs, Repositories, and Data Sources.
-library data;
+/// Data Sources
+library data_source;
 
 export 'src/weather/weather_api.dart';
