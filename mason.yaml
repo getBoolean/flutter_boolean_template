@@ -1,3 +1,4 @@
 bricks:
-  feature:
-    path: bricks/feature
+  plugin:
+    path: bricks/plugin
+  
