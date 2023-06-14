@@ -1,4 +1,4 @@
-name: feature_package
+name: feature_package_riverpod_architecture
 description: A new Flutter feature package with Riverpod Architecture.
 
 # The following defines the brick repository url.
