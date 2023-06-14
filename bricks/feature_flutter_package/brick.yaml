@@ -1,5 +1,5 @@
-name: flutter_plugin
-description: Prebuilt Flutter plugin for native access with boilerplate included
+name: feature_flutter_package
+description: Prebuilt Flutter package with boilerplate included
 
 # The following defines the brick repository url.
 # Uncomment and update the following line before publishing the brick.

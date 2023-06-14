@@ -1,5 +1,5 @@
-name: flutter_package
-description: Prebuild Flutter package with boilerplate included
+name: feature_dart_package
+description: Prebuild Dart package with boilerplate included
 
 # The following defines the brick repository url.
 # Uncomment and update the following line before publishing the brick.
