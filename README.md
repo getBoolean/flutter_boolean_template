@@ -22,7 +22,7 @@ These mentioned packages provide type-safe access to assets, `.env` variables, r
 localized strings.
 
 This repository also follows [Riverpod App Architecture](https://codewithandrea.com/articles/flutter-app-architecture-riverpod-introduction/),
-I highly recommend reading the article. Each `Layer` is a separate pacakge in the [packages/](./packages/) folder.
+I highly recommend reading the article. Each `layer` has its own folder per feature in the [packages/features/](./packages/features/) folder.
 
 ## Feature Goals
 
@@ -159,10 +159,8 @@ AutoRoute is used, see the [routing](packages/features/routing/README.md) packag
 ### JSON Serialization, Unions, Sealed Classes and copyWith
 
 - [dart_mappable](https://pub.dev/packages/dart_mappable)
-  - see [data README.md](packages/layers/data/README.md) for more info.
   - Used for Unions, JSON serialization, and copyWith
 - [modddels](https://pub.dev/packages/modddels)
-  - see [domain README.md](packages/layers/domain/README.md) for more info.
   - Used for type-safe data validation, NOT serialization
 
 ### State Management
