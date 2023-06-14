@@ -22,7 +22,7 @@ dependencies:
   auth_example:
     path: ../features/auth_example
   routing:
-    path: ../features/routing
+    path: ../routing
   leak_tracker: ^4.0.0
   env:
     path: ../utils/env

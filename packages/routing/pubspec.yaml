@@ -13,11 +13,11 @@ dependencies:
   hooks_riverpod: ^2.3.6
   auto_route: ^7.4.0
   logs:
-    path: ../../utils/logs
+    path: ../utils/logs
   assets:
-    path: ../../assets
+    path: ../assets
   localization:
-    path: ../../localization
+    path: ../localization
   fpdart: ^0.6.0
 
 dev_dependencies:
