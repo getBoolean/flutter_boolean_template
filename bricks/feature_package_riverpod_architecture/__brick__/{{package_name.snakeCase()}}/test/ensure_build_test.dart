@@ -8,7 +8,8 @@ void main() {
   test(
     'ensure_build',
     () => expectBuildClean(
-      packageRelativeDirectory: 'packages/features/{{package_name.snakeCase()}}',
+      packageRelativeDirectory:
+          'packages/features/{{package_name.snakeCase()}}',
     ),
   );
 }
