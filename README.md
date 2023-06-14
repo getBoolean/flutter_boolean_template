@@ -256,10 +256,3 @@ Follow the instructions in the [Flutter docs for Web](https://docs.flutter.dev/d
 1. Commit your changes (git commit -am 'Add some fooBar')
 1. Push to the branch (git push origin feature/fooBar)
 1. Create a new Pull Request
-
-## TODO
-
-1. [x] Move `routing` to `packages` from `packages/features`
-2. [x] Create feature first example package in `packages/features`
-   1. [x] Move `packages/layers` packages to example package
-3. [ ] Create Brick for feature first package
