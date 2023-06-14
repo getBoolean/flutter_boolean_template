@@ -259,7 +259,7 @@ Follow the instructions in the [Flutter docs for Web](https://docs.flutter.dev/d
 
 ## TODO
 
-1. Move `routing` to `packages` from `packages/features`
-2. Create feature first example package in `packages/features`
-   1. Move `packages/layers` packages to example package
-3. Create Brick for feature first package
+1. [x] Move `routing` to `packages` from `packages/features`
+2. [ ] Create feature first example package in `packages/features`
+   1. [ ] Move `packages/layers` packages to example package
+3. [ ] Create Brick for feature first package
