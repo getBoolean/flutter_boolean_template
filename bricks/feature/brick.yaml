@@ -1,5 +1,5 @@
-name: feature_dart_package
-description: Prebuild Dart package with boilerplate included
+name: feature
+description: Prebuilt Flutter package with boilerplate included
 
 # The following defines the brick repository url.
 # Uncomment and update the following line before publishing the brick.
@@ -27,6 +27,15 @@ environment:
 vars:
   name:
     type: string
-    description: Your name
-    default: Dash
-    prompt: What is your name?
+    description: The name of the feature
+    default: feature
+    prompt: What is name of the feature?
+  package_type:
+    type: enum
+    description: The name of the feature
+    default: flutter
+    prompt: What type of package?
+    values:
+      - "plugin"
+      - "flutter"
+      - "dart"

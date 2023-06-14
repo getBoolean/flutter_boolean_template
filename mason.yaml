@@ -1,7 +1,3 @@
 bricks:
-  feature_dart_package:
-    path: bricks/feature_dart_package
-  feature_flutter_package:
-    path: bricks/feature_flutter_package
-  feature_flutter_plugin:
-    path: bricks/feature_flutter_plugin
+  feature:
+    path: bricks/feature
