@@ -227,25 +227,13 @@ for [msix](https://pub.dev/packages/msix) for your method of publication. The de
 configuration is for CI/CD testing builds only, not releases.
 1. Run the corresponding command for your method of publication
 
-### Build for Android Release
+### Build for other platforms
 
-Follow the instructions in the [Flutter docs for Android](https://docs.flutter.dev/deployment/android).
-
-### Build for iOS Release
-
-Follow the instructions in the [Flutter docs for iOS](https://docs.flutter.dev/deployment/ios).
-
-### Build for MacOS Release
-
-Follow the instructions in the [Flutter docs for MacOS](https://docs.flutter.dev/deployment/macos).
-
-### Build for Linux Release
-
-Follow the instructions in the [Flutter docs for Linux](https://docs.flutter.dev/deployment/linux).
-
-### Build for Web Release
-
-Follow the instructions in the [Flutter docs for Web](https://docs.flutter.dev/deployment/web).
+- [Flutter Docs for Android](https://docs.flutter.dev/deployment/android).
+- [Flutter Docs for iOS](https://docs.flutter.dev/deployment/ios).
+- [Flutter Docs for MacOS](https://docs.flutter.dev/deployment/macos).
+- [Flutter Docs for Linux](https://docs.flutter.dev/deployment/linux).
+- [Flutter Docs for Web](https://docs.flutter.dev/deployment/web).
 
 ## Contributing
 
