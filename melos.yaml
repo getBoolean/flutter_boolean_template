@@ -1,13 +1,7 @@
 name: flutter_boolean_template
 
 packages:
-  - packages/app
-  - packages/localization
-  - packages/assets
-  - packages/layers/**
-  - packages/features/*
-  - packages/utils/*
-  - "./"
+  - packages/**
 
 command:
   bootstrap:

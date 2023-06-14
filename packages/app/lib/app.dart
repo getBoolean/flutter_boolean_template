@@ -1,7 +1,9 @@
 library app;
 
-import 'package:auth_example/auth/auth.dart';
-import 'package:domain/domain.dart';
+import 'package:feature_first/domain/entity/user_account.dart';
+import 'package:feature_first/domain/value/email.dart';
+import 'package:feature_first/domain/value/id.dart';
+import 'package:feature_first/domain/value/name.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -27,9 +29,6 @@ class App extends ConsumerWidget {
     userJohnDeer.mapValidity(
         valid: (validUser) => debugPrint(validUser.toString()),
         invalid: (invalidUser) => debugPrint(invalidUser.toString()));
-
-    final String auth = ref.watch(authProvider);
-    debugPrint(auth);
 
     final AppRouter router = ref.watch(routerProvider);
     return MaterialApp.router(

@@ -24,6 +24,7 @@ analyzer:
     # This is generated from the i18n vscode extension
     - "**/i18n.dart"
     - "lib/generated/intl/messages*.dart"
+    - "bricks/**"
 
 linter:
   rules:

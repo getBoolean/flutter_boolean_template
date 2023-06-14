@@ -40,6 +40,8 @@ migrate_working_dir/
 /build/
 coverage/
 pubspec_overrides.yaml
+.mason/
+mason-lock.json
 
 # Symbolication related
 app.*.symbols

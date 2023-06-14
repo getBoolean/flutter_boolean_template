@@ -4,4 +4,10 @@ Provides assets to the entire project, and prevents the need to copy assets to e
 
 ## Usage
 
-TODO
+Run the following command to generate the assets:
+
+```bash
+melos run assets
+# or
+melos run generate
+```

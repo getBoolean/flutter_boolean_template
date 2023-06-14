@@ -15,14 +15,10 @@ dependencies:
   flex_color_scheme: ^7.1.2
   localization:
     path: ../localization
-  repository:
-    path: ../layers/data/repository
-  domain:
-    path: ../layers/domain
-  auth_example:
-    path: ../features/auth_example
+  feature_first:
+    path: ../features/feature_first
   routing:
-    path: ../features/routing
+    path: ../routing
   leak_tracker: ^4.0.0
   env:
     path: ../utils/env
