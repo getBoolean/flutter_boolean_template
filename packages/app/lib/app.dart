@@ -1,5 +1,6 @@
 library app;
 
+import 'package:constants/constants.dart';
 import 'package:feature_first/domain/entity/user_account.dart';
 import 'package:feature_first/domain/value/email.dart';
 import 'package:feature_first/domain/value/id.dart';
@@ -31,19 +32,24 @@ class App extends ConsumerWidget {
         invalid: (invalidUser) => debugPrint(invalidUser.toString()));
 
     final AppRouter router = ref.watch(routerProvider);
-    return MaterialApp.router(
-      onGenerateTitle: (context) => context.loc.appTitle,
-      routerConfig: router.config(),
-      restorationScopeId: 'app',
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      theme: FlexThemeData.light(
-        scheme: FlexScheme.mandyRed,
-        useMaterial3: true,
+
+    // TODO: Button to hide banner
+    return FlavorBanner(
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        onGenerateTitle: (context) => context.loc.appTitle,
+        routerConfig: router.config(),
+        restorationScopeId: 'app',
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        theme: FlexThemeData.light(
+          scheme: FlexScheme.mandyRed,
+          useMaterial3: true,
+        ),
+        darkTheme:
+            FlexThemeData.dark(scheme: FlexScheme.mandyRed, useMaterial3: true),
+        themeMode: ThemeMode.system,
       ),
-      darkTheme:
-          FlexThemeData.dark(scheme: FlexScheme.mandyRed, useMaterial3: true),
-      themeMode: ThemeMode.system,
     );
   }
 }
