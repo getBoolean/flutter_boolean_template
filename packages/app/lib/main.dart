@@ -1,3 +1,4 @@
+import 'package:constants/constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -15,6 +16,7 @@ void main() async {
   // * Register error handlers. For more info, see:
   // * https://docs.flutter.dev/testing/errors
   registerErrorHandlers();
+  Constants.instance.createFlavorConfig();
   runApp(const ProviderScope(child: App()));
 }
 

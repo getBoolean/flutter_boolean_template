@@ -19,6 +19,8 @@ dependencies:
     path: ../features/feature_first
   routing:
     path: ../routing
+  constants:
+    path: ../constants
   leak_tracker: ^4.0.0
   env:
     path: ../utils/env
