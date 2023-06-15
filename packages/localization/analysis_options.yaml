@@ -1,5 +1,0 @@
-include: ../../flutter_lints.yaml
-
-analyzer:
-  exclude:
-    - "lib/src/localization/*.dart"
