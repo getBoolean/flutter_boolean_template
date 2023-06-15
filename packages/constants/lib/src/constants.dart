@@ -58,7 +58,7 @@ extension _FlavorToConfig on Flavor {
           variables: {},
         ),
       Flavor.dev => FlavorConfig(
-          name: 'DEV',
+          name: 'DEVELOP',
           color: Colors.red,
           location: BannerLocation.topEnd,
           variables: {},
