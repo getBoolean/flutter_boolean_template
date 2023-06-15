@@ -3,3 +3,16 @@ include: flutter_lints.yaml
 analyzer:
   plugins:
     - custom_lint
+  exclude:
+    - lib/generated_plugin_registrant.dart
+    - "**/*.g.dart"
+    - "**/*.gr.dart"
+    - "**/*.mapper.dart"
+    # - "**/*.modddel.dart"
+    - "**/*.freezed.dart"
+    - "**/*.iconfig.dart"
+    # This is generated from the i18n vscode extension
+    - "**/i18n.dart"
+    - "lib/generated/intl/messages*.dart"
+    - "bricks/**"
+    - "**/localization/*.dart"
