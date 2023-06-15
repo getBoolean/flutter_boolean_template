@@ -99,6 +99,7 @@ melos run watch:pkg
 This project uses [Melos](https://pub.dev/packages/melos) to manage the monorepo.
 
   ```bash
+  flutter pub get
   # Install melos globally
   dart pub global activate melos
   # Setup local dependency overrides for packages in the monorepo
@@ -245,6 +246,49 @@ configuration is for CI/CD testing builds only, not releases.
 - [Flutter Docs for MacOS](https://docs.flutter.dev/deployment/macos).
 - [Flutter Docs for Linux](https://docs.flutter.dev/deployment/linux).
 - [Flutter Docs for Web](https://docs.flutter.dev/deployment/web).
+
+### Architecture
+
+This project uses the [Riverpod App Architecture](https://codewithandrea.com/articles/flutter-app-architecture-riverpod-introduction/)
+in a feature-first manner where each feature is a separate package in the [packages/features/](./packages/features/) folder.
+Each feature has its own layers, which separate the business logic from the UI.
+
+#### Data Layer (Repositories)
+
+The repository pattern consists of Repositories, DTOs, and Data Sources. Their jobs are the following:
+
+1. isolate domain models (or entities) from the implementation details of the data sources in the data layer.
+2. convert data transfer objects to validated entities that are understood by the domain layer
+3. (optionally) perform operations such as data caching.
+
+Repository pattern use cases:
+
+1. talking to REST APIs
+2. talking to local or remote databases (e.g. Sembast, Hive, Firestore, etc.)
+3. talking to device-specific APIs (e.g. permissions, camera, location, etc.)
+
+#### Domain Layer (Models)
+
+Domain Models, which consist of entity and value objects. It should solve domain-related problems.
+
+The domain models can contain logic for mutating them in an immutable manner, but they should not contain any serialization.
+
+- Note: it is a simple data classes that doesn't have access to repositories, services, or
+  other objects that belong outside the domain layer.
+
+#### Presentation Layer (Controllers)
+
+- holds business logic
+- manage the widget state
+- interact with repositories in the data layer
+
+#### Application Layer (Service)
+
+Implements application-specific logic by accessing the relevant repositories as needed.
+The service classes are not concerned about:
+
+- managing and updating the widget state (that's the job of the controller)
+- data parsing and serialization (that's the job of the repositories)
 
 ## Contributing
 
