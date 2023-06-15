@@ -59,7 +59,7 @@ scripts:
     description: Verify formatting was applied.
 
   generate:
-    run: melos run assets && melos run generate:pkg --no-select
+    run: melos run assets && melos run env --no-select && melos run generate:pkg --no-select
     description: Run `build_runner build` in all packages.
 
   generate:pkg:
@@ -70,6 +70,7 @@ scripts:
     description: Run `build_runner build` in the selected packages.
     packageFilters:
       dependsOn: build_runner
+      noDependsOn: envied
       ignore: localization
 
   watch:pkg:
@@ -80,7 +81,20 @@ scripts:
     description: Run `build_runner watch` in the selected package. If all is selected, the command will only run in the first package.
     packageFilters:
       dependsOn: build_runner
+      noDependsOn: envied
       ignore: localization
+
+  env:
+    run: melos run env:pkg --no-select
+    description: Run `build_runner` in all packages that depends on `envied`.
+
+  env:pkg:
+    run: dart run build_runner clean && dart run build_runner build --delete-conflicting-outputs
+    exec:
+      failFast: true
+    description: Run `build_runner` in a specific package that depends on `envied`.
+    packageFilters:
+      dependsOn: envied
 
   assets:
     run: melos run assets:pkg --no-select

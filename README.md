@@ -84,10 +84,14 @@ Follow the instructions in the file [flutter_native_splash.yaml](flutter_native_
 # Generate the code for the entire project
 melos run generate
 
-# Generate code for a specific package
+# Generate code for a specific `build_runner` package (excluding `env` and `assets`)
 melos run generate:pkg
+# Generate code for the `env` package
+melos run env
+# Generate code for the `assets` package
+melos run assets
 
-# Watch for changes in a specific package
+# Watch for changes in a specific package (excluding `env` and `assets`)
 # Do not select "all" in the package selection prompt, it will not work
 melos run watch:pkg
 ```
@@ -116,10 +120,12 @@ The following scripts are configured:
 - `melos run format` - Run `dart format` in all packages.
 - `melos run fix` - Run `dart fix --apply` in all packages.
 - `melos run generate` - Run `build_runner build` in all packages that depend on `build_runner`.
-- `melos run generate:pkg` - Run `build_runner build` for a specific package.
-- `melos run watch:pkg` - Run `build_runner watch` for a specific package. It will not work if you choose "all" in the package selection prompt.
+- `melos run generate:pkg` - Run `build_runner build` for a specific package (except `envied` packages).
+- `melos run watch:pkg` - Run `build_runner watch` for a specific package (except `envied` packages). It will not work if you choose "all" in the package selection prompt.
 - `melos run assets` - Run `assets_gen build` in all packages that depend on `assets_gen`.
 - `melos run assets:pkg` - Run `assets_gen build` for a specific package.
+- `melos run env` - Run `build_runner` in all packages that depends on `envied`.
+- `melos run env:pkg` - Run `build_runner` in a specific package that depends on `envied`.
 - `melos run test` - Run all tests in the project.
 - `melos run flutter_test` - Run all Flutter tests in the project.
 - `melos run dart_test` - Run all Dart tests in the project.
