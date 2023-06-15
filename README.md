@@ -220,6 +220,17 @@ uploaded to the CI action fragments.
 
 Instructions for building for release are below:
 
+### Flavors
+
+By default, the app uses the "local" flavor. Run/build the app with `--dart-define FLAVOR=<flavorname>`
+to change the flavor. The following flavors are supported:
+
+- `local` - Local development. The text banner changes to "Debug" when in debug mode, otherwise it is "Local"
+- `dev` - Development build not intended for release.
+- `beta` - Beta build intended for release to testers.
+- `staging` - Staging build intended for device integration testing.
+- `prod` - Production build intended for release to stores.
+
 ### Build for Windows Release
 
 1. Customize `msix_config` in [pubspec.yaml](pubspec.yaml) according to the documentation
