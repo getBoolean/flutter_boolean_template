@@ -1,16 +1,23 @@
-import 'package:flutter/foundation.dart';
+import 'package:constants/constants.dart';
 
 import 'app_env_fields.dart';
-import 'debug_env.dart';
-import 'profile_env.dart';
-import 'release_env.dart';
+import 'dev_env.dart';
+import 'local_env.dart';
+import 'prod_env.dart';
+import 'staging_env.dart';
 
 abstract class AppEnv implements AppEnvFields {
-  factory AppEnv() => instance;
+  // ignore: prefer_constructors_over_static_methods
+  static AppEnv get instance => _instance ??= AppEnv._();
 
-  static final AppEnv instance = kDebugMode
-      ? DebugEnv()
-      : kProfileMode
-          ? ProfileEnv()
-          : ReleaseEnv();
+  factory AppEnv._() {
+    return switch (Constants.flavor) {
+      Flavor.prod || Flavor.beta => const ProdEnv(),
+      Flavor.staging => const StagingEnv(),
+      Flavor.dev => const DevEnv(),
+      Flavor.local => const LocalEnv(),
+    };
+  }
+
+  static AppEnv? _instance;
 }
