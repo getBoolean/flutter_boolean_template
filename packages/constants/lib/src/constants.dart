@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_flavor/flutter_flavor.dart';
 
@@ -18,7 +19,7 @@ class Constants {
 
   final Flavor flavor = Flavor.values.byName(
     Flavor.values.map((type) => type.name).contains(_flavorRaw)
-        ? _flavorRaw
+        ? _flavorRaw.toLowerCase()
         : 'local',
   );
 
@@ -28,6 +29,9 @@ class Constants {
 enum Flavor {
   /// Production version, usually built and signed using CodeMagic or other CI/CD and deployed to stores
   prod,
+
+  /// Staging version, usually built and signed and deployed for internal testing (such as integration tests)
+  staging,
 
   /// Pre-release version, usually branch intended for release on TestFlight or other beta testing platform
   beta,
@@ -42,7 +46,6 @@ enum Flavor {
 extension _FlavorToConfig on Flavor {
   FlavorConfig? get config {
     return switch (this) {
-      Flavor.prod => null,
       Flavor.beta => FlavorConfig(
           name: 'Beta',
           color: Colors.orange,
@@ -55,12 +58,22 @@ extension _FlavorToConfig on Flavor {
           location: BannerLocation.topStart,
           variables: {},
         ),
-      Flavor.local => FlavorConfig(
+      Flavor.local => _createDebugModeFlavor(),
+      _ => null,
+    };
+  }
+
+  FlavorConfig _createDebugModeFlavor() => kDebugMode
+      ? FlavorConfig(
+          name: 'Debug',
+          color: Colors.blue,
+          location: BannerLocation.topStart,
+          variables: {},
+        )
+      : FlavorConfig(
           name: 'Local',
           color: Colors.blue,
           location: BannerLocation.topStart,
           variables: {},
-        ),
-    };
-  }
+        );
 }
