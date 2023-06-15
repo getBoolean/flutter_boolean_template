@@ -14,6 +14,6 @@ class StagingEnv implements AppEnv, AppEnvFields {
   // who wants to build the app without setting up cloud services.
 
   @override
-  @EnviedField(varName: 'BASE_URL', defaultValue: 'test1')
+  @EnviedField(varName: 'BASE_URL', defaultValue: '')
   final String baseUrl = _Env.baseUrl;
 }
