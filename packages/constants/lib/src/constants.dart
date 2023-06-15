@@ -21,11 +21,14 @@ class Constants {
         : 'local',
   );
 
+  static FlavorConfig? _flavorConfig;
+
   /// Creates a [FlavorConfig] based on the current [flavor].
   ///
   /// If the [flavor] is [Flavor.prod] or [Flavor.staging],
   /// then no [FlavorConfig] is created.
-  static FlavorConfig? createFlavorConfig() => flavor.createConfig();
+  static FlavorConfig? get flavorConfig =>
+      _flavorConfig ??= flavor.createConfig();
 }
 
 enum Flavor {
@@ -49,15 +52,15 @@ extension _FlavorToConfig on Flavor {
   FlavorConfig? createConfig() {
     return switch (this) {
       Flavor.beta => FlavorConfig(
-          name: 'Beta',
-          color: Colors.orange,
-          location: BannerLocation.topStart,
+          name: 'BETA',
+          color: Colors.deepOrange,
+          location: BannerLocation.topEnd,
           variables: {},
         ),
       Flavor.dev => FlavorConfig(
-          name: 'Dev',
+          name: 'DEV',
           color: Colors.red,
-          location: BannerLocation.topStart,
+          location: BannerLocation.topEnd,
           variables: {},
         ),
       Flavor.local => _createDebugModeFlavor(),
@@ -67,15 +70,15 @@ extension _FlavorToConfig on Flavor {
 
   FlavorConfig _createDebugModeFlavor() => kDebugMode
       ? FlavorConfig(
-          name: 'Debug',
+          name: 'DEBUG',
           color: Colors.blue,
-          location: BannerLocation.topStart,
+          location: BannerLocation.topEnd,
           variables: {},
         )
       : FlavorConfig(
-          name: 'Local',
+          name: 'LOCAL',
           color: Colors.blue,
-          location: BannerLocation.topStart,
+          location: BannerLocation.topEnd,
           variables: {},
         );
 }

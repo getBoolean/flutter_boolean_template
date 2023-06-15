@@ -19,6 +19,8 @@ dependencies:
   localization:
     path: ../localization
   fpdart: ^0.6.0
+  constants:
+    path: ../constants
 
 dev_dependencies:
   flutter_test:

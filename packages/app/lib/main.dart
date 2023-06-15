@@ -16,7 +16,7 @@ void main() async {
   // * Register error handlers. For more info, see:
   // * https://docs.flutter.dev/testing/errors
   registerErrorHandlers();
-  Constants.createFlavorConfig();
+  Constants.flavorConfig;
   runApp(const ProviderScope(child: App()));
 }
 
