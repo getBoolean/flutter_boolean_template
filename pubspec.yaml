@@ -6,7 +6,9 @@ publish_to: none
 version: 1.0.0+1
 
 dependency_overrides:
+  # http overridden because melos requires ^0.13.1 and prevents from using 1.0.0
   http: ^1.0.0
+  # file and vm_service overridden because integration_test pins it and custom_lint requires latest version
   file: ^7.0.0
   vm_service: ^11.7.1
 
