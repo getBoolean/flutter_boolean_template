@@ -191,7 +191,7 @@ jobs:
       - name: Build Windows
         run: |
           flutter pub get
-          flutter build windows --dart-define FLAVOR=dev "&" flutter pub run msix:create --build-windows false
+          flutter build windows --dart-define FLAVOR=dev "&" dart run msix:create --build-windows false
       - name: Upload MSIX
         uses: actions/upload-artifact@v3
         with:
