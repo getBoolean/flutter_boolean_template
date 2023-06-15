@@ -35,6 +35,7 @@ void registerErrorHandlers() {
   // * Show some error UI when any widget in teh app fails to build
   ErrorWidget.builder = (FlutterErrorDetails details) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           title: const Text('An error occured'),
