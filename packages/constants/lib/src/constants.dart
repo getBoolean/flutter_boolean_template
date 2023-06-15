@@ -7,9 +7,7 @@ import 'package:flutter_flavor/flutter_flavor.dart';
 /// {@endtemplate}
 class Constants {
   /// {@macro constants}
-  Constants._();
-
-  static final Constants instance = Constants._();
+  const Constants._();
 
   // ignore: do_not_use_environment
   static const String _flavorRaw = String.fromEnvironment(
@@ -17,34 +15,38 @@ class Constants {
     defaultValue: 'local',
   );
 
-  final Flavor flavor = Flavor.values.byName(
+  static final Flavor flavor = Flavor.values.byName(
     Flavor.values.map((type) => type.name).contains(_flavorRaw)
         ? _flavorRaw.toLowerCase()
         : 'local',
   );
 
-  FlavorConfig? createFlavorConfig() => flavor.config;
+  /// Creates a [FlavorConfig] based on the current [flavor].
+  ///
+  /// If the [flavor] is [Flavor.prod] or [Flavor.staging],
+  /// then no [FlavorConfig] is created.
+  static FlavorConfig? createFlavorConfig() => flavor.createConfig();
 }
 
 enum Flavor {
   /// Production version, usually built and signed using CodeMagic or other CI/CD and deployed to stores
   prod,
 
-  /// Staging version, usually built and signed and deployed for internal testing (such as integration tests)
-  staging,
-
   /// Pre-release version, usually branch intended for release on TestFlight or other beta testing platform
   beta,
 
-  /// Development version, usually either branch `main` or `dev`
+  /// Staging version, usually built and signed and deployed for internal testing (such as integration tests)
+  staging,
+
+  /// Development version, usually either branch `main` or `dev`.
   dev,
 
-  /// Locally built, usually for debugging
+  /// Locally built, usually for debugging or testing changes.
   local,
 }
 
 extension _FlavorToConfig on Flavor {
-  FlavorConfig? get config {
+  FlavorConfig? createConfig() {
     return switch (this) {
       Flavor.beta => FlavorConfig(
           name: 'Beta',

@@ -7,7 +7,7 @@ void main() {
   group('Constants', () {
     test('flavor can be accessed', () {
       // not an actual test
-      expect(Constants.instance.flavor, isNotNull);
+      expect(Constants.flavor, isNotNull);
     });
   });
 }
