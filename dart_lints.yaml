@@ -25,6 +25,7 @@ analyzer:
     - "**/i18n.dart"
     - "lib/generated/intl/messages*.dart"
     - "bricks/**"
+    - "**/localization/*.dart"
 
 linter:
   rules:
