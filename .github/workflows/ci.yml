@@ -74,7 +74,7 @@ jobs:
       # https://gist.github.com/devhammed/617d920b7ee886591a46c22633ab0093
       - name: Build Flutter IPA
         run: |
-          flutter build ios --release --no-codesign
+          flutter build ios --release --no-codesign --dart-define FLAVOR=dev
           cd build/ios/iphoneos
           mkdir Payload
           cd Payload
@@ -135,7 +135,7 @@ jobs:
   #     # https://gist.github.com/devhammed/617d920b7ee886591a46c22633ab0093
   #     - name: Build Flutter IPA
   #       run: |
-  #         flutter build ios --release
+  #         flutter build ios --release --dart-define FLAVOR=dev
   #         cd build/ios/iphoneos
   #         mkdir Payload
   #         cd Payload
@@ -163,8 +163,8 @@ jobs:
       - name: Build Android APK and Appbundle
         run: |
           flutter pub get
-          flutter build apk --release
-          flutter build appbundle --release
+          flutter build apk --release --dart-define FLAVOR=dev
+          flutter build appbundle --release --dart-define FLAVOR=dev
       - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
@@ -191,7 +191,7 @@ jobs:
       - name: Build Windows
         run: |
           flutter pub get
-          flutter pub run msix:create
+          flutter pub run msix:create --dart-define FLAVOR=dev
       - name: Upload MSIX
         uses: actions/upload-artifact@v3
         with:
@@ -218,7 +218,7 @@ jobs:
       - name: Build Linux
         run: |
           flutter pub get
-          flutter build linux --release
+          flutter build linux --release --dart-define FLAVOR=dev
 
   build_macos:
     name: Build Flutter for MacOS
@@ -237,7 +237,7 @@ jobs:
       - name: Build MacOS
         run: |
           flutter pub get
-          flutter build macos --release
+          flutter build macos --release --dart-define FLAVOR=dev
 
   build_web:
     name: Build Flutter for Web
@@ -253,4 +253,4 @@ jobs:
       - name: Build Web
         run: |
           flutter pub get
-          flutter build web
+          flutter build web --dart-define FLAVOR=dev
