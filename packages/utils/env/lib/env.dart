@@ -1,3 +1,3 @@
 library env;
 
-export 'src/env/app_env.dart';
+export 'src/env/env.dart';

@@ -6,7 +6,7 @@ import 'app_env_fields.dart';
 part 'staging_env.g.dart';
 
 @Envied(name: 'Env', path: 'staging.env')
-class StagingEnv implements AppEnv, AppEnvFields {
+class StagingEnv implements AppEnv, AppEnvFieldsGenerated {
   const StagingEnv();
 
   // Providing a default value for everything allows the app to be build

@@ -6,7 +6,7 @@ import 'local_env.dart';
 import 'prod_env.dart';
 import 'staging_env.dart';
 
-abstract class AppEnv implements AppEnvFields {
+abstract class AppEnv implements AppEnvFieldsGenerated {
   // ignore: prefer_constructors_over_static_methods
   static AppEnv get instance => _instance ??= AppEnv._();
 

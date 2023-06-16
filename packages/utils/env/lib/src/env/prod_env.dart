@@ -6,7 +6,7 @@ import 'app_env_fields.dart';
 part 'prod_env.g.dart';
 
 @Envied(name: 'Env', path: 'prod.env')
-class ProdEnv implements AppEnv, AppEnvFields {
+class ProdEnv implements AppEnv, AppEnvFieldsGenerated {
   const ProdEnv();
 
   // Providing a default value for everything allows the app to be build

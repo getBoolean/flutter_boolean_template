@@ -140,17 +140,17 @@ Environment variables are setup using [ENVied](https://pub.dev/packages/envied)
 in the [utils/env](packages/utils/env/) package. Environment variables need to be
 defined for debug, profile, and release modes.
 
-1. Remove the `.example` extension from `.env_debug.example`, `.env_profile.example`,
-and `.env_release.example`.
-2. Add the values for the environment variables in the respective `.env*` file.
+1. Copy the `*.env.example` files and remove the `.example` extension from them.
+1. Add the values for the environment variables in the respective `.env*` file.
    - Each key must be added to each `.env*` file, unless a non null default value is added
      to the `@EnviedField` annotation.
-3. Update [src/env/app_env_fields.dart](packages/utils/env/lib/src/env/app_env_fields.dart)
-with the new environment variables.
-4. Add the new environment variables to `debug_env.dart`, `profile_env.dart`, and
-`release_env.dart` in the [src/env](packages/utils/env/src/env/) directory.
-5. Enable `obfuscate` for API keys in the `@EnviedField` annotation.
-6. Optionally, add a `defaultValue` to the `@EnviedField` annotation for keys which are
+   - It is recommended to use an empty string for the default and use `Env`'s getter to access the value.
+1. Update [src/env/app_env_fields.dart](packages/utils/env/lib/src/env/app_env_fields.dart)
+with the new environment variables for `AppEnvFieldsGenerated` and `AppEnvFieldsNullable`.
+1. Add the new environment variables to the implementing `*Env` classes in the [src/env](packages/utils/env/src/env/) directory.
+   - It must be done for *all* even if only one `.env` file is planned to be used
+1. Enable `obfuscate` for API keys in the `@EnviedField` annotation. (Note: still assume it is not secure)
+1. Optionally, add a `defaultValue` to the `@EnviedField` annotation for keys which are
 not required in all modes.
 
 ### Mason Bricks

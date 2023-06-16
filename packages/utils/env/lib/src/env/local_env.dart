@@ -6,7 +6,7 @@ import 'app_env_fields.dart';
 part 'local_env.g.dart';
 
 @Envied(name: 'Env', path: 'local.env')
-class LocalEnv implements AppEnv, AppEnvFields {
+class LocalEnv implements AppEnv, AppEnvFieldsGenerated {
   const LocalEnv();
 
   // Providing a default value for everything allows the app to be build
