@@ -11,6 +11,10 @@ on:
       - release
       - feature/*
 
+env:
+  FLUTTER_CHANNEL: "stable"
+  FLUTTER_VERSION: "3.10.6"
+
 jobs:
   flutter_test:
     name: Run flutter test and analyze
@@ -21,8 +25,8 @@ jobs:
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
         with:
-          channel: "stable"
-          flutter-version: '3.10.6'
+          channel: $FLUTTER_CHANNEL
+          flutter-version: $FLUTTER_VERSION
           architecture: x64
 
       - name: Check Flutter Version
@@ -72,7 +76,8 @@ jobs:
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
         with:
-          channel: "stable"
+          channel: $FLUTTER_CHANNEL
+          flutter-version: $FLUTTER_VERSION
           architecture: x64
       # Zip into IPA from here:
       # https://gist.github.com/devhammed/617d920b7ee886591a46c22633ab0093
@@ -132,7 +137,8 @@ jobs:
   #       uses: subosito/flutter-action@v2
   #       with:
   #         channel: 'stable'
-  #             architecture: x64
+  #         flutter-version: $FLUTTER_VERSION
+  #         architecture: x64
   #     - run: flutter pub get
   #     - run: flutter clean
   #     # Zip into IPA from here:
@@ -162,7 +168,8 @@ jobs:
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
         with:
-          channel: "stable"
+          channel: $FLUTTER_CHANNEL
+          flutter-version: $FLUTTER_VERSION
           architecture: x64
       - name: Build Android APK and Appbundle
         run: |
@@ -190,7 +197,8 @@ jobs:
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
         with:
-          channel: "stable"
+          channel: $FLUTTER_CHANNEL
+          flutter-version: $FLUTTER_VERSION
           architecture: x64
       - name: Build Windows
         run: |
@@ -212,7 +220,8 @@ jobs:
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
         with:
-          channel: "stable"
+          channel: $FLUTTER_CHANNEL
+          flutter-version: $FLUTTER_VERSION
           architecture: x64
       - run: |
           sudo apt-get update -y
@@ -234,7 +243,8 @@ jobs:
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
         with:
-          channel: "stable"
+          channel: $FLUTTER_CHANNEL
+          flutter-version: $FLUTTER_VERSION
           architecture: x64
       - name: Enable Linux
         run: flutter config --enable-macos-desktop
@@ -253,7 +263,8 @@ jobs:
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
         with:
-          channel: "stable"
+          channel: $FLUTTER_CHANNEL
+          flutter-version: $FLUTTER_VERSION
       - name: Build Web
         run: |
           flutter pub get
