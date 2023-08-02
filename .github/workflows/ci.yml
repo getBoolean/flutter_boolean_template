@@ -22,7 +22,11 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: "stable"
+          flutter-version: '3.10.6'
           architecture: x64
+
+      - name: Check Flutter Version
+        run: flutter --version
 
       # Make environment variables available to the melos generate script.
       #
