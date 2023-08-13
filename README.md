@@ -115,6 +115,8 @@ This project uses [Melos](https://pub.dev/packages/melos) to manage the monorepo
 
 The following scripts are configured:
 
+- `melos run upgrade` - Run `pub upgrade` in all packages.
+- `melos run upgrade:pkg` - Run `pub upgrade` in the selected package.
 - `melos run analyze` - Run `dart analyze` in all packages.
 - `melos run test` - Run all Flutter tests.
 - `melos run format` - Run `dart format` in all packages.

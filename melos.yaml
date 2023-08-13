@@ -34,7 +34,7 @@ scripts:
 
   custom_lint:
     run: melos run custom_lint:pkg --no-select
-    description: Run `dart run custom_lint` all packages with custom lints.
+    description: Run `dart run custom_lint` in all packages with custom lints.
 
   custom_lint:pkg:
     run: dart run custom_lint
@@ -43,6 +43,16 @@ scripts:
     description: Run `dart run custom_lint` in the selected package.
     packageFilters:
       dependsOn: custom_lint
+
+  upgrade:
+    run: melos run upgrade:pkg --no-select
+    description: Run `dart pub upgrade` in all packages.
+
+  upgrade:pkg:
+    run: dart pub upgrade
+    exec:
+      failFast: true
+    description: Run `dart pub upgrade` in the selected package.
 
   format:
     exec: dart format .
