@@ -15,22 +15,10 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
-    SettingsRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const SettingsScreen(),
-      );
-    },
     BookDetailsRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const BookDetailsScreen(),
-      );
-    },
-    ProfileDetailsRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const ProfileDetailsScreen(),
       );
     },
     BooksRoute.name: (routeData) {
@@ -39,16 +27,22 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const BooksScreen(),
       );
     },
+    BooksTab.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const BooksTabPage(),
+      );
+    },
     HomeRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: WrappedRoute(child: const HomeScreen()),
       );
     },
-    SettingsDetailsRoute.name: (routeData) {
+    ProfileDetailsRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const SettingsDetailsScreen(),
+        child: const ProfileDetailsScreen(),
       );
     },
     ProfileRoute.name: (routeData) {
@@ -57,16 +51,22 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const ProfileScreen(),
       );
     },
-    BooksTab.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const BooksTabPage(),
-      );
-    },
     ProfileTab.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const ProfileTabPage(),
+      );
+    },
+    SettingsDetailsRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SettingsDetailsScreen(),
+      );
+    },
+    SettingsRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SettingsScreen(),
       );
     },
     SettingsTab.name: (routeData) {
@@ -79,20 +79,6 @@ abstract class _$AppRouter extends RootStackRouter {
 }
 
 /// generated route for
-/// [SettingsScreen]
-class SettingsRoute extends PageRouteInfo<void> {
-  const SettingsRoute({List<PageRouteInfo>? children})
-      : super(
-          SettingsRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'SettingsRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
 /// [BookDetailsScreen]
 class BookDetailsRoute extends PageRouteInfo<void> {
   const BookDetailsRoute({List<PageRouteInfo>? children})
@@ -102,20 +88,6 @@ class BookDetailsRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'BookDetailsRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [ProfileDetailsScreen]
-class ProfileDetailsRoute extends PageRouteInfo<void> {
-  const ProfileDetailsRoute({List<PageRouteInfo>? children})
-      : super(
-          ProfileDetailsRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'ProfileDetailsRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -135,6 +107,20 @@ class BooksRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [BooksTabPage]
+class BooksTab extends PageRouteInfo<void> {
+  const BooksTab({List<PageRouteInfo>? children})
+      : super(
+          BooksTab.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'BooksTab';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [HomeScreen]
 class HomeRoute extends PageRouteInfo<void> {
   const HomeRoute({List<PageRouteInfo>? children})
@@ -149,15 +135,15 @@ class HomeRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [SettingsDetailsScreen]
-class SettingsDetailsRoute extends PageRouteInfo<void> {
-  const SettingsDetailsRoute({List<PageRouteInfo>? children})
+/// [ProfileDetailsScreen]
+class ProfileDetailsRoute extends PageRouteInfo<void> {
+  const ProfileDetailsRoute({List<PageRouteInfo>? children})
       : super(
-          SettingsDetailsRoute.name,
+          ProfileDetailsRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'SettingsDetailsRoute';
+  static const String name = 'ProfileDetailsRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -177,20 +163,6 @@ class ProfileRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [BooksTabPage]
-class BooksTab extends PageRouteInfo<void> {
-  const BooksTab({List<PageRouteInfo>? children})
-      : super(
-          BooksTab.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'BooksTab';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
 /// [ProfileTabPage]
 class ProfileTab extends PageRouteInfo<void> {
   const ProfileTab({List<PageRouteInfo>? children})
@@ -200,6 +172,34 @@ class ProfileTab extends PageRouteInfo<void> {
         );
 
   static const String name = 'ProfileTab';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SettingsDetailsScreen]
+class SettingsDetailsRoute extends PageRouteInfo<void> {
+  const SettingsDetailsRoute({List<PageRouteInfo>? children})
+      : super(
+          SettingsDetailsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SettingsDetailsRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SettingsScreen]
+class SettingsRoute extends PageRouteInfo<void> {
+  const SettingsRoute({List<PageRouteInfo>? children})
+      : super(
+          SettingsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SettingsRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
