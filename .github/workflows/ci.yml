@@ -13,7 +13,7 @@ on:
 
 env:
   FLUTTER_CHANNEL: "stable"
-  FLUTTER_VERSION: "latest"
+  FLUTTER_VERSION: "any"
 
 jobs:
   flutter_test:
