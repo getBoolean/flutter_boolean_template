@@ -188,6 +188,7 @@ while, at the same time, adding layers of caching.
 
 Although you can use it without a local source, the greatest benefit comes from combining Stock with a local database such as Floor, Drift, Sqflite, Realm, etc. *(excerpt from the README)*
 
+The [packages/store](./packages/store/) package has included a starting point for your database.
 See `stock`'s [Getting started](https://pub.dev/packages/stock#getting-started) section for usage
 information.
 
