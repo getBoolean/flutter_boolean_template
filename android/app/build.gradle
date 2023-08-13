@@ -48,8 +48,8 @@ android {
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
 
-        // 19 required by patrol
-        minSdkVersion 19 // flutter.minSdkVersion
+        // 21 required by patrol
+        minSdkVersion 21 // flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
