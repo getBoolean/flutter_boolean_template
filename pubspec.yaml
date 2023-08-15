@@ -19,7 +19,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_native_splash: ^2.2.16
+  flutter_native_splash: ^2.3.2
   change_app_package_name: ^1.1.0
   app:
     path: packages/app
