@@ -45,7 +45,9 @@ scripts:
       dependsOn: custom_lint
 
   upgrade:
-    run: melos run upgrade:pkg --no-select
+    run: |
+      dart pub upgrade
+      melos run upgrade:pkg --no-select
     description: Run `dart pub upgrade` in all packages.
 
   upgrade:pkg:
