@@ -841,10 +841,10 @@ packages:
     dependency: "direct dev"
     description:
       name: patrol
-      sha256: "4b244396a82f5c30b8af9bd39466fc5d2465cd53f0db44db2cd1750ac574fc52"
+      sha256: fa6550d33785ad9b8f497c81d3d74a25fd0f4c6491ab967d3cd9081c318a4da2
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.4"
+    version: "2.2.5"
   patrol_finders:
     dependency: transitive
     description:
