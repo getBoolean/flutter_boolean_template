@@ -388,6 +388,14 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
+  ffi:
+    dependency: transitive
+    description:
+      name: ffi
+      sha256: "7bf0adc28a23d395f19f3f1eb21dd7cfd1dd9f8e1c50051c069122e6853bc878"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
   file:
     dependency: "direct overridden"
     description:
@@ -729,18 +737,18 @@ packages:
     dependency: "direct dev"
     description:
       name: mason
-      sha256: fdc9ea905e7c690fe39d2f9946b7aead86fd976f8edf97d2521a65d260bbf509
+      sha256: c036d801a53bba2eb70deb5ed0cce8adc6cd11bed597aaffa8d4f011d7037976
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.0-dev.50"
+    version: "0.1.0-dev.51"
   mason_logger:
     dependency: transitive
     description:
       name: mason_logger
-      sha256: c12860ae81f0bdc5d05d7914fe473bfb294047e9dc64e8995b5753c7207e81b9
+      sha256: "5d2819827d53bf0178637b64c090be546b1801550fa0af7b2780fa7e3ad7b4b7"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.8"
+    version: "0.2.9"
   matcher:
     dependency: transitive
     description:
@@ -1281,6 +1289,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  win32:
+    dependency: transitive
+    description:
+      name: win32
+      sha256: c97defd418eef4ec88c0d1652cdce84b9f7b63dd7198e266d06ac1710d527067
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.8"
   xml:
     dependency: transitive
     description:
