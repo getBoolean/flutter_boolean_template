@@ -1001,10 +1001,10 @@ packages:
     dependency: "direct dev"
     description:
       name: riverpod_lint
-      sha256: ac720622fde22356eca69a4831c15ab811615bf256a2ce37f1fff06b7f86cacf
+      sha256: "70198738c3047ae4f6517ef1a2011a8514a980a52576c7f629a3a08810319a02"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.0"
+    version: "2.1.1"
   routing:
     dependency: transitive
     description:
