@@ -41,7 +41,7 @@ dev_dependencies:
   melos: ^3.1.0
   msix: ^3.16.4
   mason: ^0.1.0-dev.51
-  patrol: ^2.2.5
+  patrol: ^2.3.0
 
 flutter:
   uses-material-design: true
