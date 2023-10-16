@@ -1,4 +1,4 @@
-import 'package:flutter_boolean_template/core/routing/router/app_router.dart';
+import 'package:flutter_boolean_template/src/core/routing/router/app_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:log/log.dart';
 // Source: https://codewithandrea.com/articles/flutter-bottom-navigation-bar-nested-routes-gorouter-beamer/

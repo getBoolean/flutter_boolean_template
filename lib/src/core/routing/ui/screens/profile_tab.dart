@@ -1,23 +1,23 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flutter_boolean_template/core/routing/router/app_router.dart';
+import 'package:flutter_boolean_template/src/core/routing/router/app_router.dart';
 
 @RoutePage()
-class BooksScreen extends StatelessWidget {
-  const BooksScreen({super.key});
+class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Books'),
+        title: const Text('Profile'),
         leading: const AutoLeadingButton(),
       ),
-      backgroundColor: Colors.blue,
+      backgroundColor: Colors.deepPurple,
       body: Center(
         child: FilledButton(
           onPressed: () {
-            context.pushRoute(const BookDetailsRoute());
+            context.pushRoute(const ProfileDetailsRoute());
           },
           child: const Text('Push Details'),
         ),
