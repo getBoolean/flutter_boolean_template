@@ -17,7 +17,7 @@ command:
       # Generate environment files which should not be committed to the repository.
       # Instead, they are generated during the CI process before checking
       # if the rest of the package's code generation is up to date.
-      post: puro flutter pub get && dart pub global activate coverage ^1.6.3 && cd packages/env && puro dart run build_runner build --delete-conflicting-outputs
+      post: puro flutter pub get && dart pub global activate coverage ^1.6.4 && cd packages/env && puro dart run build_runner build --delete-conflicting-outputs
 
 # See https://github.com/firebase/flutterfire/blob/master/melos.yaml for more examples
 scripts:
