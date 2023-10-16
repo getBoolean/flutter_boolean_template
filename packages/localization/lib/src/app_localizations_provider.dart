@@ -4,7 +4,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'localization/app_localizations.dart';
+import 'package:localization/src/localization/app_localizations.dart';
 
 // Source: https://codewithandrea.com/articles/app-localizations-outside-widgets-riverpod/
 

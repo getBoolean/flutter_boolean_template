@@ -1,7 +1,6 @@
+import 'package:flutter_boolean_template/core/features/example_feature/data/data_source/weather_api.dart';
+import 'package:flutter_boolean_template/core/features/example_feature/data/dto/weather.dart';
 import 'package:http/http.dart' as http;
-
-import '../data_source/weather_api.dart';
-import '../dto/weather.dart';
 
 class HttpWeatherRepository implements WeatherRepository {
   HttpWeatherRepository({required this.api, required this.client});

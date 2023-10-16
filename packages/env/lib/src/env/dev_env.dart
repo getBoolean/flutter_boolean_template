@@ -1,7 +1,6 @@
+import 'package:env/src/env/app_env.dart';
+import 'package:env/src/env/app_env_fields.dart';
 import 'package:envied/envied.dart';
-
-import 'app_env.dart';
-import 'app_env_fields.dart';
 
 part 'dev_env.g.dart';
 

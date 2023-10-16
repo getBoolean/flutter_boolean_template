@@ -69,8 +69,8 @@ linter:
 
     # When mixing relative and absolute imports it’s possible to create
     # confusion where the same member gets imported in two different ways.
-    prefer_relative_imports: true
-    always_use_package_imports: false
+    prefer_relative_imports: false
+    always_use_package_imports: true
 
     cast_nullable_to_non_nullable: true
 

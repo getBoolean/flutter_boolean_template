@@ -1,9 +1,8 @@
+import 'package:flutter_boolean_template/core/features/example_feature/domain/value/email.dart';
+import 'package:flutter_boolean_template/core/features/example_feature/domain/value/id.dart';
+import 'package:flutter_boolean_template/core/features/example_feature/domain/value/name.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:modddels_annotation_fpdart/modddels_annotation_fpdart.dart';
-
-import '../value/email.dart';
-import '../value/id.dart';
-import '../value/name.dart';
 
 part 'user_account.freezed.dart';
 part 'user_account.modddel.dart';

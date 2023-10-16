@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:logs/logs.dart';
-
-import '../ui/ui.dart';
+import 'package:flutter_boolean_template/core/routing/ui/ui.dart';
+import 'package:flutter_boolean_template/utils/log.dart';
 
 part 'app_router.gr.dart';
 

@@ -1,10 +1,9 @@
+import 'package:env/src/env/app_env_fields.dart';
+import 'package:env/src/env/dev_env.dart';
+import 'package:env/src/env/local_env.dart';
+import 'package:env/src/env/prod_env.dart';
+import 'package:env/src/env/staging_env.dart';
 import 'package:flutter_boolean_template/utils/constants.dart';
-
-import 'app_env_fields.dart';
-import 'dev_env.dart';
-import 'local_env.dart';
-import 'prod_env.dart';
-import 'staging_env.dart';
 
 abstract class AppEnv implements AppEnvFieldsGenerated {
   // ignore: prefer_constructors_over_static_methods

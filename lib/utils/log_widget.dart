@@ -1,9 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_boolean_template/utils/log.dart';
 import 'package:logger_flutter_plus/logger_flutter_plus.dart';
 import 'package:logging/logging.dart';
-
-import 'log.dart';
 
 /// A widget that initializes logging for the app.
 ///

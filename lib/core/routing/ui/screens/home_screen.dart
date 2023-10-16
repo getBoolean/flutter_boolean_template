@@ -1,8 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-
-import 'package:flutter_boolean_template/utils/log_widget.dart';
 import 'package:flutter_boolean_template/core/routing/router/app_router.dart';
+import 'package:flutter_boolean_template/utils/log_widget.dart';
 
 @RoutePage()
 class HomeScreen extends StatelessWidget implements AutoRouteWrapper {
