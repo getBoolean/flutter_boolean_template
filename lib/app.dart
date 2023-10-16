@@ -2,12 +2,12 @@ library app;
 
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_boolean_template/core/features/example_feature/domain/entity/user_account.dart';
-import 'package:flutter_boolean_template/core/features/example_feature/domain/value/email.dart';
-import 'package:flutter_boolean_template/core/features/example_feature/domain/value/id.dart';
-import 'package:flutter_boolean_template/core/features/example_feature/domain/value/name.dart';
 import 'package:flutter_boolean_template/core/routing/router/app_router.dart';
 import 'package:flutter_boolean_template/core/routing/router_provider.dart';
+import 'package:flutter_boolean_template/features/example_feature/domain/entity/user_account.dart';
+import 'package:flutter_boolean_template/features/example_feature/domain/value/email.dart';
+import 'package:flutter_boolean_template/features/example_feature/domain/value/id.dart';
+import 'package:flutter_boolean_template/features/example_feature/domain/value/name.dart';
 import 'package:flutter_flavor/flutter_flavor.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:localization/localization.dart';
