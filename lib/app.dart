@@ -1,15 +1,17 @@
 library app;
 
-import 'package:constants/constants.dart';
-import 'package:feature_first/domain/entity/user_account.dart';
-import 'package:feature_first/domain/value/email.dart';
-import 'package:feature_first/domain/value/id.dart';
-import 'package:feature_first/domain/value/name.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_flavor/flutter_flavor.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:localization/localization.dart';
-import 'package:routing/routing.dart';
+
+import 'src/core/features/example_feature/domain/entity/user_account.dart';
+import 'src/core/features/example_feature/domain/value/email.dart';
+import 'src/core/features/example_feature/domain/value/id.dart';
+import 'src/core/features/example_feature/domain/value/name.dart';
+import 'src/core/routing/router/app_router.dart';
+import 'src/core/routing/router_provider.dart';
 
 /// The main app widget at the root of the widget tree.
 class App extends ConsumerWidget {

@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'id.dart';
+part of 'user_account.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,7 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$IdValidFailure {
+mixin _$UserAccountValidFailure {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() invalid,
@@ -51,16 +51,17 @@ mixin _$IdValidFailure {
 }
 
 /// @nodoc
-abstract class $IdValidFailureCopyWith<$Res> {
-  factory $IdValidFailureCopyWith(
-          IdValidFailure value, $Res Function(IdValidFailure) then) =
-      _$IdValidFailureCopyWithImpl<$Res, IdValidFailure>;
+abstract class $UserAccountValidFailureCopyWith<$Res> {
+  factory $UserAccountValidFailureCopyWith(UserAccountValidFailure value,
+          $Res Function(UserAccountValidFailure) then) =
+      _$UserAccountValidFailureCopyWithImpl<$Res, UserAccountValidFailure>;
 }
 
 /// @nodoc
-class _$IdValidFailureCopyWithImpl<$Res, $Val extends IdValidFailure>
-    implements $IdValidFailureCopyWith<$Res> {
-  _$IdValidFailureCopyWithImpl(this._value, this._then);
+class _$UserAccountValidFailureCopyWithImpl<$Res,
+        $Val extends UserAccountValidFailure>
+    implements $UserAccountValidFailureCopyWith<$Res> {
+  _$UserAccountValidFailureCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -69,34 +70,35 @@ class _$IdValidFailureCopyWithImpl<$Res, $Val extends IdValidFailure>
 }
 
 /// @nodoc
-abstract class _$$_InvalidCopyWith<$Res> {
-  factory _$$_InvalidCopyWith(
-          _$_Invalid value, $Res Function(_$_Invalid) then) =
-      __$$_InvalidCopyWithImpl<$Res>;
+abstract class _$$InvalidImplCopyWith<$Res> {
+  factory _$$InvalidImplCopyWith(
+          _$InvalidImpl value, $Res Function(_$InvalidImpl) then) =
+      __$$InvalidImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_InvalidCopyWithImpl<$Res>
-    extends _$IdValidFailureCopyWithImpl<$Res, _$_Invalid>
-    implements _$$_InvalidCopyWith<$Res> {
-  __$$_InvalidCopyWithImpl(_$_Invalid _value, $Res Function(_$_Invalid) _then)
+class __$$InvalidImplCopyWithImpl<$Res>
+    extends _$UserAccountValidFailureCopyWithImpl<$Res, _$InvalidImpl>
+    implements _$$InvalidImplCopyWith<$Res> {
+  __$$InvalidImplCopyWithImpl(
+      _$InvalidImpl _value, $Res Function(_$InvalidImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_Invalid implements _Invalid {
-  const _$_Invalid();
+class _$InvalidImpl implements _Invalid {
+  const _$InvalidImpl();
 
   @override
   String toString() {
-    return 'IdValidFailure.invalid()';
+    return 'UserAccountValidFailure.invalid()';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_Invalid);
+        (other.runtimeType == runtimeType && other is _$InvalidImpl);
   }
 
   @override
@@ -159,6 +161,6 @@ class _$_Invalid implements _Invalid {
   }
 }
 
-abstract class _Invalid implements IdValidFailure {
-  const factory _Invalid() = _$_Invalid;
+abstract class _Invalid implements UserAccountValidFailure {
+  const factory _Invalid() = _$InvalidImpl;
 }

@@ -1,10 +1,10 @@
-import 'package:constants/constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:leak_tracker/leak_tracker.dart';
 
-import 'src/app.dart';
+import 'app.dart';
+import 'src/utils/constants.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

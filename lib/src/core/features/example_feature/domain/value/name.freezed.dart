@@ -81,25 +81,25 @@ class _$NameValidFailureCopyWithImpl<$Res, $Val extends NameValidFailure>
 }
 
 /// @nodoc
-abstract class _$$_IllegalCharactersCopyWith<$Res> {
-  factory _$$_IllegalCharactersCopyWith(_$_IllegalCharacters value,
-          $Res Function(_$_IllegalCharacters) then) =
-      __$$_IllegalCharactersCopyWithImpl<$Res>;
+abstract class _$$IllegalCharactersImplCopyWith<$Res> {
+  factory _$$IllegalCharactersImplCopyWith(_$IllegalCharactersImpl value,
+          $Res Function(_$IllegalCharactersImpl) then) =
+      __$$IllegalCharactersImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_IllegalCharactersCopyWithImpl<$Res>
-    extends _$NameValidFailureCopyWithImpl<$Res, _$_IllegalCharacters>
-    implements _$$_IllegalCharactersCopyWith<$Res> {
-  __$$_IllegalCharactersCopyWithImpl(
-      _$_IllegalCharacters _value, $Res Function(_$_IllegalCharacters) _then)
+class __$$IllegalCharactersImplCopyWithImpl<$Res>
+    extends _$NameValidFailureCopyWithImpl<$Res, _$IllegalCharactersImpl>
+    implements _$$IllegalCharactersImplCopyWith<$Res> {
+  __$$IllegalCharactersImplCopyWithImpl(_$IllegalCharactersImpl _value,
+      $Res Function(_$IllegalCharactersImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_IllegalCharacters implements _IllegalCharacters {
-  const _$_IllegalCharacters();
+class _$IllegalCharactersImpl implements _IllegalCharacters {
+  const _$IllegalCharactersImpl();
 
   @override
   String toString() {
@@ -109,7 +109,7 @@ class _$_IllegalCharacters implements _IllegalCharacters {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_IllegalCharacters);
+        (other.runtimeType == runtimeType && other is _$IllegalCharactersImpl);
   }
 
   @override
@@ -185,28 +185,29 @@ class _$_IllegalCharacters implements _IllegalCharacters {
 }
 
 abstract class _IllegalCharacters implements NameValidFailure {
-  const factory _IllegalCharacters() = _$_IllegalCharacters;
+  const factory _IllegalCharacters() = _$IllegalCharactersImpl;
 }
 
 /// @nodoc
-abstract class _$$_ObsceneCopyWith<$Res> {
-  factory _$$_ObsceneCopyWith(
-          _$_Obscene value, $Res Function(_$_Obscene) then) =
-      __$$_ObsceneCopyWithImpl<$Res>;
+abstract class _$$ObsceneImplCopyWith<$Res> {
+  factory _$$ObsceneImplCopyWith(
+          _$ObsceneImpl value, $Res Function(_$ObsceneImpl) then) =
+      __$$ObsceneImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_ObsceneCopyWithImpl<$Res>
-    extends _$NameValidFailureCopyWithImpl<$Res, _$_Obscene>
-    implements _$$_ObsceneCopyWith<$Res> {
-  __$$_ObsceneCopyWithImpl(_$_Obscene _value, $Res Function(_$_Obscene) _then)
+class __$$ObsceneImplCopyWithImpl<$Res>
+    extends _$NameValidFailureCopyWithImpl<$Res, _$ObsceneImpl>
+    implements _$$ObsceneImplCopyWith<$Res> {
+  __$$ObsceneImplCopyWithImpl(
+      _$ObsceneImpl _value, $Res Function(_$ObsceneImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_Obscene implements _Obscene {
-  const _$_Obscene();
+class _$ObsceneImpl implements _Obscene {
+  const _$ObsceneImpl();
 
   @override
   String toString() {
@@ -216,7 +217,7 @@ class _$_Obscene implements _Obscene {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_Obscene);
+        (other.runtimeType == runtimeType && other is _$ObsceneImpl);
   }
 
   @override
@@ -292,27 +293,29 @@ class _$_Obscene implements _Obscene {
 }
 
 abstract class _Obscene implements NameValidFailure {
-  const factory _Obscene() = _$_Obscene;
+  const factory _Obscene() = _$ObsceneImpl;
 }
 
 /// @nodoc
-abstract class _$$_EmptyCopyWith<$Res> {
-  factory _$$_EmptyCopyWith(_$_Empty value, $Res Function(_$_Empty) then) =
-      __$$_EmptyCopyWithImpl<$Res>;
+abstract class _$$EmptyImplCopyWith<$Res> {
+  factory _$$EmptyImplCopyWith(
+          _$EmptyImpl value, $Res Function(_$EmptyImpl) then) =
+      __$$EmptyImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_EmptyCopyWithImpl<$Res>
-    extends _$NameValidFailureCopyWithImpl<$Res, _$_Empty>
-    implements _$$_EmptyCopyWith<$Res> {
-  __$$_EmptyCopyWithImpl(_$_Empty _value, $Res Function(_$_Empty) _then)
+class __$$EmptyImplCopyWithImpl<$Res>
+    extends _$NameValidFailureCopyWithImpl<$Res, _$EmptyImpl>
+    implements _$$EmptyImplCopyWith<$Res> {
+  __$$EmptyImplCopyWithImpl(
+      _$EmptyImpl _value, $Res Function(_$EmptyImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_Empty implements _Empty {
-  const _$_Empty();
+class _$EmptyImpl implements _Empty {
+  const _$EmptyImpl();
 
   @override
   String toString() {
@@ -322,7 +325,7 @@ class _$_Empty implements _Empty {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_Empty);
+        (other.runtimeType == runtimeType && other is _$EmptyImpl);
   }
 
   @override
@@ -398,5 +401,5 @@ class _$_Empty implements _Empty {
 }
 
 abstract class _Empty implements NameValidFailure {
-  const factory _Empty() = _$_Empty;
+  const factory _Empty() = _$EmptyImpl;
 }

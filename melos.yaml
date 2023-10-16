@@ -1,6 +1,7 @@
 name: flutter_boolean_template
 
 packages:
+  - .
   - packages/**
 
 command:

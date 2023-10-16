@@ -82,23 +82,25 @@ class _$EmailAvailableFailureCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_TakenCopyWith<$Res> {
-  factory _$$_TakenCopyWith(_$_Taken value, $Res Function(_$_Taken) then) =
-      __$$_TakenCopyWithImpl<$Res>;
+abstract class _$$TakenImplCopyWith<$Res> {
+  factory _$$TakenImplCopyWith(
+          _$TakenImpl value, $Res Function(_$TakenImpl) then) =
+      __$$TakenImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_TakenCopyWithImpl<$Res>
-    extends _$EmailAvailableFailureCopyWithImpl<$Res, _$_Taken>
-    implements _$$_TakenCopyWith<$Res> {
-  __$$_TakenCopyWithImpl(_$_Taken _value, $Res Function(_$_Taken) _then)
+class __$$TakenImplCopyWithImpl<$Res>
+    extends _$EmailAvailableFailureCopyWithImpl<$Res, _$TakenImpl>
+    implements _$$TakenImplCopyWith<$Res> {
+  __$$TakenImplCopyWithImpl(
+      _$TakenImpl _value, $Res Function(_$TakenImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_Taken implements _Taken {
-  const _$_Taken();
+class _$TakenImpl implements _Taken {
+  const _$TakenImpl();
 
   @override
   String toString() {
@@ -108,7 +110,7 @@ class _$_Taken implements _Taken {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_Taken);
+        (other.runtimeType == runtimeType && other is _$TakenImpl);
   }
 
   @override
@@ -184,29 +186,29 @@ class _$_Taken implements _Taken {
 }
 
 abstract class _Taken implements EmailAvailableFailure {
-  const factory _Taken() = _$_Taken;
+  const factory _Taken() = _$TakenImpl;
 }
 
 /// @nodoc
-abstract class _$$_ReservedCopyWith<$Res> {
-  factory _$$_ReservedCopyWith(
-          _$_Reserved value, $Res Function(_$_Reserved) then) =
-      __$$_ReservedCopyWithImpl<$Res>;
+abstract class _$$ReservedImplCopyWith<$Res> {
+  factory _$$ReservedImplCopyWith(
+          _$ReservedImpl value, $Res Function(_$ReservedImpl) then) =
+      __$$ReservedImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_ReservedCopyWithImpl<$Res>
-    extends _$EmailAvailableFailureCopyWithImpl<$Res, _$_Reserved>
-    implements _$$_ReservedCopyWith<$Res> {
-  __$$_ReservedCopyWithImpl(
-      _$_Reserved _value, $Res Function(_$_Reserved) _then)
+class __$$ReservedImplCopyWithImpl<$Res>
+    extends _$EmailAvailableFailureCopyWithImpl<$Res, _$ReservedImpl>
+    implements _$$ReservedImplCopyWith<$Res> {
+  __$$ReservedImplCopyWithImpl(
+      _$ReservedImpl _value, $Res Function(_$ReservedImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_Reserved implements _Reserved {
-  const _$_Reserved();
+class _$ReservedImpl implements _Reserved {
+  const _$ReservedImpl();
 
   @override
   String toString() {
@@ -216,7 +218,7 @@ class _$_Reserved implements _Reserved {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_Reserved);
+        (other.runtimeType == runtimeType && other is _$ReservedImpl);
   }
 
   @override
@@ -292,27 +294,29 @@ class _$_Reserved implements _Reserved {
 }
 
 abstract class _Reserved implements EmailAvailableFailure {
-  const factory _Reserved() = _$_Reserved;
+  const factory _Reserved() = _$ReservedImpl;
 }
 
 /// @nodoc
-abstract class _$$_BannedCopyWith<$Res> {
-  factory _$$_BannedCopyWith(_$_Banned value, $Res Function(_$_Banned) then) =
-      __$$_BannedCopyWithImpl<$Res>;
+abstract class _$$BannedImplCopyWith<$Res> {
+  factory _$$BannedImplCopyWith(
+          _$BannedImpl value, $Res Function(_$BannedImpl) then) =
+      __$$BannedImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_BannedCopyWithImpl<$Res>
-    extends _$EmailAvailableFailureCopyWithImpl<$Res, _$_Banned>
-    implements _$$_BannedCopyWith<$Res> {
-  __$$_BannedCopyWithImpl(_$_Banned _value, $Res Function(_$_Banned) _then)
+class __$$BannedImplCopyWithImpl<$Res>
+    extends _$EmailAvailableFailureCopyWithImpl<$Res, _$BannedImpl>
+    implements _$$BannedImplCopyWith<$Res> {
+  __$$BannedImplCopyWithImpl(
+      _$BannedImpl _value, $Res Function(_$BannedImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_Banned implements _Banned {
-  const _$_Banned();
+class _$BannedImpl implements _Banned {
+  const _$BannedImpl();
 
   @override
   String toString() {
@@ -322,7 +326,7 @@ class _$_Banned implements _Banned {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_Banned);
+        (other.runtimeType == runtimeType && other is _$BannedImpl);
   }
 
   @override
@@ -398,7 +402,7 @@ class _$_Banned implements _Banned {
 }
 
 abstract class _Banned implements EmailAvailableFailure {
-  const factory _Banned() = _$_Banned;
+  const factory _Banned() = _$BannedImpl;
 }
 
 /// @nodoc
@@ -456,24 +460,25 @@ class _$EmailFormatFailureCopyWithImpl<$Res, $Val extends EmailFormatFailure>
 }
 
 /// @nodoc
-abstract class _$$_InvalidCopyWith<$Res> {
-  factory _$$_InvalidCopyWith(
-          _$_Invalid value, $Res Function(_$_Invalid) then) =
-      __$$_InvalidCopyWithImpl<$Res>;
+abstract class _$$InvalidImplCopyWith<$Res> {
+  factory _$$InvalidImplCopyWith(
+          _$InvalidImpl value, $Res Function(_$InvalidImpl) then) =
+      __$$InvalidImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_InvalidCopyWithImpl<$Res>
-    extends _$EmailFormatFailureCopyWithImpl<$Res, _$_Invalid>
-    implements _$$_InvalidCopyWith<$Res> {
-  __$$_InvalidCopyWithImpl(_$_Invalid _value, $Res Function(_$_Invalid) _then)
+class __$$InvalidImplCopyWithImpl<$Res>
+    extends _$EmailFormatFailureCopyWithImpl<$Res, _$InvalidImpl>
+    implements _$$InvalidImplCopyWith<$Res> {
+  __$$InvalidImplCopyWithImpl(
+      _$InvalidImpl _value, $Res Function(_$InvalidImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_Invalid implements _Invalid {
-  const _$_Invalid();
+class _$InvalidImpl implements _Invalid {
+  const _$InvalidImpl();
 
   @override
   String toString() {
@@ -483,7 +488,7 @@ class _$_Invalid implements _Invalid {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_Invalid);
+        (other.runtimeType == runtimeType && other is _$InvalidImpl);
   }
 
   @override
@@ -547,5 +552,5 @@ class _$_Invalid implements _Invalid {
 }
 
 abstract class _Invalid implements EmailFormatFailure {
-  const factory _Invalid() = _$_Invalid;
+  const factory _Invalid() = _$InvalidImpl;
 }
