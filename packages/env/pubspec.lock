@@ -34,7 +34,7 @@ packages:
     source: hosted
     version: "2.4.2"
   assets:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       path: "../assets"
       relative: true
@@ -484,7 +484,7 @@ packages:
     source: hosted
     version: "4.0.3"
   localization:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       path: "../localization"
       relative: true
