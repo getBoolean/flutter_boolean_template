@@ -32,7 +32,7 @@ I highly recommend reading the article. Each `layer` has its own folder per feat
 
 - Minimal OS Version:
   - iOS: 13.0
-  - Android: 4.3 (SDK 18)
+  - Android: 5.0 (SDK 21)
   - MacOS: 10.14
   - Windows 10
   - Linux: Whatever the Flutter's is
@@ -161,10 +161,6 @@ not required in all modes.
 and tests using templates. To use the bricks, install the Mason VS Code extension. To create
 addition bricks, use [Mason CLI](https://pub.dev/packages/mason_cli).
 
-### Routing
-
-AutoRoute is used, see the [routing](packages/features/routing/README.md) package README for more information.
-
 ### JSON Serialization, Unions, Sealed Classes and copyWith
 
 - [dart_mappable](https://pub.dev/packages/dart_mappable)
@@ -188,10 +184,6 @@ while, at the same time, adding layers of caching.
 
 Although you can use it without a local source, the greatest benefit comes from combining Stock with a local database such as Floor, Drift, Sqflite, Realm, etc. *(excerpt from the README)*
 
-The [packages/store](./packages/store/) package has included a starting point for your database.
-See `stock`'s [Getting started](https://pub.dev/packages/stock#getting-started) section for usage
-information.
-
 ### Leak Tracking
 
 The package [leak_tracker](https://pub.dev/packages/leak_tracker) is used to track memory leaks.
@@ -201,14 +193,9 @@ for more information.
 
 ## Testing
 
-### Mocks
-
-This project uses Mocktail to create mocks and fakes. Follow the instructions in the
+- This project uses Mocktail to create mocks and fakes. Follow the instructions in the
 [Mocktail README](https://pub.dev/packages/mocktail).
-
-### Widget and Unit Tests
-
-Tests are located in the `test` root directory and each package. To run all tests, run the following command:
+- Tests are located in the `test` root directory and each package. To run all tests, run the following command:
 
 ```bash
 melos run test
