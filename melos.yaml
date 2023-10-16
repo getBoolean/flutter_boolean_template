@@ -17,7 +17,7 @@ command:
       # Generate environment files which should not be committed to the repository.
       # Instead, they are generated during the CI process before checking
       # if the rest of the package's code generation is up to date.
-      post: puro flutter pub get && dart pub global activate coverage ^1.6.4 && cd packages/env && puro dart run build_runner build --delete-conflicting-outputs
+      post: flutter pub get && dart pub global activate coverage ^1.6.4 && cd packages/env && dart run build_runner build --delete-conflicting-outputs
 
 # See https://github.com/firebase/flutterfire/blob/master/melos.yaml for more examples
 scripts:
@@ -27,7 +27,7 @@ scripts:
     description: Run `dart pub get` in all packages.
   
   dart:pkg:
-    run: puro dart pub get
+    run: dart pub get
     exec:
       failFast: true
     description: Run `dart pub get` in the selected package.
@@ -35,7 +35,7 @@ scripts:
       noDependsOn: flutter
   
   flutter:pkg:
-    run: puro flutter pub get
+    run: flutter pub get
     exec:
       failFast: true
     description: Run `flutter pub get` in the selected package.
@@ -67,26 +67,26 @@ scripts:
 
   upgrade:
     run: |
-      puro dart pub upgrade
+      dart pub upgrade
       melos run upgrade:pkg --no-select
     description: Run `dart pub upgrade` in all packages.
 
   upgrade:pkg:
-    run: puro dart pub upgrade
+    run: dart pub upgrade
     exec:
       failFast: true
     description: Run `dart pub upgrade` in the selected package.
 
   format:
-    exec: puro dart format .
+    exec: dart format .
     description: Run `dart format` in all packages.
 
   fix:
-    exec: puro dart fix --apply
+    exec: dart fix --apply
     description: Run `dart fix --apply` in all packages.
 
   verify_format:
-    run: puro dart format --output=none --set-exit-if-changed .
+    run: dart format --output=none --set-exit-if-changed .
     exec: 
       failFast: true
     description: Verify formatting was applied.
@@ -96,7 +96,7 @@ scripts:
     description: Run `build_runner build` in all packages.
 
   generate:pkg:
-    run: puro dart run build_runner build --delete-conflicting-outputs
+    run: dart run build_runner build --delete-conflicting-outputs
     exec:
       concurrency: 5
       failFast: true
@@ -107,7 +107,7 @@ scripts:
       ignore: localization
 
   watch:pkg:
-    run: puro dart run build_runner watch
+    run: dart run build_runner watch
     exec:
       concurrency: 1
       failFast: true
@@ -122,7 +122,7 @@ scripts:
     description: Run `build_runner` in all packages that depends on `envied`.
 
   env:pkg:
-    run: puro dart run build_runner clean && dart run build_runner build --delete-conflicting-outputs
+    run: dart run build_runner clean && dart run build_runner build --delete-conflicting-outputs
     exec:
       failFast: true
     description: Run `build_runner` in a specific package that depends on `envied`.
@@ -134,7 +134,7 @@ scripts:
     description: Run `flutter pub run assets_gen build` all packages with assets gen.
 
   assets:pkg:
-    run: puro flutter pub run assets_gen build
+    run: flutter pub run assets_gen build
     exec:
       failFast: true
     description: Run `flutter pub run assets_gen build` in the selected package.
@@ -142,7 +142,7 @@ scripts:
       dependsOn: assets_gen
 
   dart_test:pkg:
-    run: puro dart pub global run coverage:test_with_coverage
+    run: dart pub global run coverage:test_with_coverage
     exec:
       failFast: true
       concurrency: 1
@@ -153,7 +153,7 @@ scripts:
       noDependsOn: flutter
 
   flutter_test:pkg:
-    run: puro flutter test --no-pub --coverage
+    run: flutter test --no-pub --coverage
     exec:
       failFast: true
       concurrency: 1
@@ -176,7 +176,7 @@ scripts:
     description: Run all Flutter tests in this project.
 
   loc:
-    run: puro flutter gen-l10n
+    run: flutter gen-l10n
     exec:
       failFast: true
     description: Run `flutter gen-l10n` in the localization package.
