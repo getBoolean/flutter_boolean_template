@@ -30,6 +30,7 @@ scripts:
     run: dart pub get
     exec:
       failFast: true
+      concurrency: 1
     description: Run `dart pub get` in the selected package.
     packageFilters:
       noDependsOn: flutter
@@ -38,6 +39,7 @@ scripts:
     run: flutter pub get
     exec:
       failFast: true
+      concurrency: 1
     description: Run `flutter pub get` in the selected package.
     packageFilters:
       dependsOn: flutter
@@ -51,6 +53,7 @@ scripts:
     run: dart analyze --fatal-infos lib
     exec: 
       failFast: true
+      concurrency: 1
     description: Run `dart analyze` on all packages.
 
   custom_lint:
@@ -61,6 +64,7 @@ scripts:
     run: dart run custom_lint
     exec:
       failFast: true
+      concurrency: 1
     description: Run `dart run custom_lint` in the selected package.
     packageFilters:
       dependsOn: custom_lint
