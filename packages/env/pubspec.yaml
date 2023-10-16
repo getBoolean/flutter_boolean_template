@@ -13,8 +13,6 @@ dependencies:
     sdk: flutter
   hooks_riverpod: ^2.3.6
   fpdart: ^0.6.0
-  constants:
-    path: ../../constants
 
 dev_dependencies:
   build_runner: ^2.4.5

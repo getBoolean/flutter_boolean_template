@@ -15,7 +15,7 @@ does not run for unrelated packages. This is enabled by [melos](https://pub.dev/
 custom Melos scripts, however, this comes with the tradeoff that `build_runner watch` only works
 for a single package at a time, it cannot be used across all packages.
 
-I've created separate packages for [assets/](./packages/assets/), [utils/env/](./packages/utils/env/),
+I've created separate packages for [assets/](./packages/assets/), [env/](./packages/env/),
 [features/routing/](./packages/features/routing/), [localization/](./packages/localization/)
 and others to separate code generation from the main app, which speeds up code generation time.
 These mentioned packages provide type-safe access to assets, `.env` variables, routes, and
@@ -139,7 +139,7 @@ The following scripts are configured:
 ### ENVied Environment Variables
 
 Environment variables are setup using [ENVied](https://pub.dev/packages/envied)
-in the [utils/env](packages/utils/env/) package. Environment variables need to be
+in the [env](packages/env/) package. Environment variables need to be
 defined for debug, profile, and release modes.
 
 1. Copy the `*.env.example` files and remove the `.example` extension from them.
@@ -147,9 +147,9 @@ defined for debug, profile, and release modes.
    - Each key must be added to each `.env*` file, unless a non null default value is added
      to the `@EnviedField` annotation.
    - It is recommended to use an empty string for the default and use `Env`'s getter to access the value.
-1. Update [src/env/app_env_fields.dart](packages/utils/env/lib/src/env/app_env_fields.dart)
+1. Update [src/env/app_env_fields.dart](packages/env/lib/src/env/app_env_fields.dart)
 with the new environment variables for `AppEnvFieldsGenerated` and `AppEnvFieldsNullable`.
-1. Add the new environment variables to the implementing `*Env` classes in the [src/env](packages/utils/env/src/env/) directory.
+1. Add the new environment variables to the implementing `*Env` classes in the [src/env](packages/env/src/env/) directory.
    - It must be done for *all* even if only one `.env` file is planned to be used
 1. Enable `obfuscate` for API keys in the `@EnviedField` annotation. (Note: still assume it is not secure)
 1. Optionally, add a `defaultValue` to the `@EnviedField` annotation for keys which are
