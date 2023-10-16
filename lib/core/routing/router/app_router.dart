@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_boolean_template/core/routing/ui/ui.dart';
-import 'package:flutter_boolean_template/utils/log.dart';
+import 'package:log/log.dart';
 
 part 'app_router.gr.dart';
 
@@ -8,7 +8,7 @@ part 'app_router.gr.dart';
 class AppRouter extends _$AppRouter {
   AppRouter({required this.log});
 
-  final AppLogger log;
+  final Logger log;
 
   @override
   RouteType get defaultRouteType => const RouteType.adaptive();

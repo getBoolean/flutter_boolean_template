@@ -17,9 +17,6 @@ dependencies:
   riverpod_annotation: ^2.2.0
   flutter_flavor: ^3.1.1
   fpdart: ^0.6.0
-  logger: ^1.2.2
-  logger_flutter_plus: ^1.0.5
-  logging: ^1.1.1
   stock: ^1.0.1
   auto_route: ^7.4.0
   flex_color_scheme: ^7.3.1
@@ -35,6 +32,8 @@ dependencies:
     path: packages/env
   assets:
     path: packages/assets
+  log:
+    path: packages/log
 
 dev_dependencies:
   flutter_lints: ^2.0.3
