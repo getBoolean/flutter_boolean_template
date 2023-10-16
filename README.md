@@ -41,60 +41,35 @@ I highly recommend reading the article. Each `layer` has its own folder per feat
 
 1. [ ] Activate [Melos](https://pub.dev/packages/melos) globally, see the [Melos](#melos)
 section for setup and the configured monorepo scripts
-   1. [ ] Run `melos bootstrap` to install dependencies for all packages
-1. [ ] Change the package name, see [Change App/Package Name](#change-apppackage-name)
-1. [ ] Change the project name using the "replace all" tool.
-1. [ ] Update the description in [pubspec.yaml](pubspec.yaml) and [README.md](README.md).
-1. [ ] Add needed environment variables, see the [ENVied Environment Variables](#envied-environment-variables)
-section for details.
-1. [ ] Change the app icon, see [Change App Icon](#change-app-icon)
-1. [ ] Change the splash screen, see [Change Splash Screen](#change-the-splash-screen)
+1. [ ] Run `melos bootstrap` to install dependencies for all packages
+1. [ ] Rename App: [Change App/Package Name](#change-apppackage-name)
+1. [ ] Update Description: [pubspec.yaml](pubspec.yaml) and [README.md](README.md).
+1. [ ] Add Environment Variables: [ENVied Environment Variables](#envied-environment-variables) section for details.
+1. [ ] [Change App Icon: flutter_launcher_icons](https://pub.dev/packages/flutter_launcher_icons)
+1. [ ] [Change Splash Screen: flutter_native_splash](https://pub.dev/packages/flutter_native_splash)
 1. [ ] Setup the release build configuration, see the [Building](#building) section.
-1. [ ] Setup Codecov for the repository, see the
-[Codecov](https://docs.codecov.com/docs/quick-start) documentation.
-1. [ ] Setup GitPod for the environment, see the
-[GitPod](https://www.gitpod.io/docs/quickstart/flutter#flutter-quickstart) documentation.
+1. [ ] Setup Codecov for the repository, see the[Codecov documentation](https://docs.codecov.com/docs/quick-start).
 1. [ ] Update contribution guidelines at the [Contributing](#contributing) section.
+1. [ ] Setup GitPod for the environment, see the [GitPod documentation](https://www.gitpod.io/docs/quickstart/flutter#flutter-quickstart).
 1. [ ] (**Important!**) Update the [LICENSE](./LICENSE.md) file. I give permission to relicense any
 repository based on this template, but the licenses of the packages must still be followed.
+1. [ ] Delete this `Template: Getting Started` section from the README.
 
 ### Change App/Package Name
 
-1. Run the following command to change the package name, where `com.new.package.name`
-is the new package name that you want for your app.
+1. [ ] Run the following command to change the package name, where `com.author.app_name` is the new name for the app.
 
    ```bash
-   flutter pub run change_app_package_name:main com.new.package.name
+   flutter pub run change_app_package_name:main com.author.app_name
    ```
 
-1. Replace all instances of `flutter_boolean_template` with your new Flutter package name.
-
-### Change App Icon
-
-Follow the [flutter_launcher_icons](https://pub.dev/packages/flutter_launcher_icons) README
-instructions to change the app icon.
+1. [ ] Search for `flutter_boolean_template` and replace it with your new package identifier
+1. [ ] Search for `Flutter Boolean Template` and replace it with your new app name
+1. [ ] Search for `com.example.flutterBooleanTemplate` and replace it with your new bundle identifier
 
 ### Change the Splash Screen
 
 Follow the instructions in the file [flutter_native_splash.yaml](flutter_native_splash.yaml)
-
-### Run the code generator
-
-```bash
-# Generate the code for the entire project
-melos run generate
-
-# Generate code for a specific `build_runner` package (excluding `env` and `assets`)
-melos run generate:pkg
-# Generate code for the `env` package
-melos run env
-# Generate code for the `assets` package
-melos run assets
-
-# Watch for changes in a specific package (excluding `env` and `assets`)
-# Do not select "all" in the package selection prompt, it will not work
-melos run watch:pkg
-```
 
 ## Libraries
 
@@ -113,14 +88,19 @@ This project uses [Melos](https://pub.dev/packages/melos) to manage the monorepo
   dart pub global run melos bootstrap
   ```
 
-The following scripts are configured:
+#### Scripts
 
+Pub:
+
+- `melos run pub` - Run `pub get` in all packages.
+- `melos run dart:pkg` - Run `dart pub get` in the selected dart package.
+- `melos run flutter:pkg` - Run `flutter pub get` in the selected flutter package.
 - `melos run upgrade` - Run `pub upgrade` in all packages.
 - `melos run upgrade:pkg` - Run `pub upgrade` in the selected package.
-- `melos run analyze` - Run `dart analyze` in all packages.
-- `melos run test` - Run all Flutter tests.
-- `melos run format` - Run `dart format` in all packages.
-- `melos run fix` - Run `dart fix --apply` in all packages.
+
+Code Generation:
+
+- `dart run build_runner watch -d` - Watch and generate code for the app, does not work with subpackages
 - `melos run generate` - Run `build_runner build` in all packages that depend on `build_runner`.
 - `melos run generate:pkg` - Run `build_runner build` for a specific package (except `envied` packages).
 - `melos run watch:pkg` - Run `build_runner watch` for a specific package (except `envied` packages). It will not work if you choose "all" in the package selection prompt.
@@ -128,13 +108,20 @@ The following scripts are configured:
 - `melos run assets:pkg` - Run `assets_gen build` for a specific package.
 - `melos run env` - Run `build_runner` in all packages that depends on `envied`.
 - `melos run env:pkg` - Run `build_runner` in a specific package that depends on `envied`.
+- `melos run loc` - Run `flutter gen-l10n` in the localization package to generate
+  the localized strings from the arb files.
+
+Tests:
+
+- `melos run analyze` - Run `dart analyze` in all packages.
+- `melos run test` - Run all Flutter tests.
+- `melos run format` - Run `dart format` in all packages.
+- `melos run fix` - Run `dart fix --apply` in all packages.
 - `melos run test` - Run all tests in the project.
 - `melos run flutter_test` - Run all Flutter tests in the project.
 - `melos run dart_test` - Run all Dart tests in the project.
 - `melos run flutter_test:pkg` - Run Flutter tests for a specific package.
 - `melos run dart_test:pkg` - Run Dart tests for a specific (Dart only) package.
-- `melos run loc` - Run `flutter gen-l10n` in the localization package to generate
-  the localized strings from the arb files.
 
 ### ENVied Environment Variables
 
@@ -190,6 +177,14 @@ The package [leak_tracker](https://pub.dev/packages/leak_tracker) is used to tra
 This works automatically for instrumented Flutter classes, but requires manual instrumentation
 for code outside of the Flutter framework. See the [leak_tracker README](https://pub.dev/packages/leak_tracker#instrument-your-code)
 for more information.
+
+## Setup
+
+1. Install [puro](https://puro.dev) Flutter Environment Manager
+   - Install Flutter using Puro
+1. Install [Melos](https://pub.dev/packages/melos) globally
+1. Install [Mason CLI](https://docs.brickhub.dev/)
+1. Run `melos bootstrap` to install dependencies for all packages and generate env files.
 
 ## Testing
 
