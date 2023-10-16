@@ -17,7 +17,6 @@ dependencies:
   riverpod_annotation: ^2.2.0
   flutter_flavor: ^3.1.1
   fpdart: ^0.6.0
-  leak_tracker: ^4.0.0
   logger: ^1.2.2
   logger_flutter_plus: ^1.0.5
   logging: ^1.1.1

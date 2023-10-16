@@ -3,14 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/app.dart';
 import 'package:flutter_boolean_template/utils/constants.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:leak_tracker/leak_tracker.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // Leak tracking automatically disabled in release mode.
-  enableLeakTracking();
-  MemoryAllocations.instance
-      .addListener((event) => dispatchObjectEvent(event.toMap()));
 
   // * Register error handlers. For more info, see:
   // * https://docs.flutter.dev/testing/errors

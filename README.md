@@ -283,12 +283,6 @@ while, at the same time, adding layers of caching.
 
 Although you can use it without a local source, the greatest benefit comes from combining Stock with a local database such as Floor, Drift, Sqflite, Realm, etc. *(excerpt from the README)*
 
-### Leak Tracking
-
-Track memory leaks using [leak_tracker](https://pub.dev/packages/leak_tracker). This works automatically
-for instrumented Flutter classes, but requires manual instrumentation for code outside of the Flutter framework.
-See the [leak_tracker README](https://pub.dev/packages/leak_tracker#instrument-your-code) for more information.
-
 ### Native Splash Screen
 
 Follow the instructions in the file [flutter_native_splash.yaml](flutter_native_splash.yaml)

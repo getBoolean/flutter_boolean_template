@@ -1,14 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:leak_tracker/leak_tracker.dart';
 import 'package:logger_flutter_plus/logger_flutter_plus.dart' as logger;
 import 'package:logging/logging.dart' as logging;
-
-final logProvider =
-    Provider.autoDispose.family((Ref ref, String name) => AppLogger(name));
-
-typedef AppLogger = logging.Logger;
-typedef Logging = logging.Logger;
 
 class LogConfig {
   final logger.LogConsoleManager consoleManager = logger.LogConsoleManager(
@@ -23,18 +15,9 @@ class LogConfig {
 
   void close() {
     appLogger.close();
-    dispatchObjectDisposed(object: this);
   }
 
-  static const _library = 'package:logs/src/log_config.dart';
-
   LogConfig(String Function(logging.LogRecord)? format) {
-    dispatchObjectCreated(
-      library: _library,
-      className: '$LogConfig',
-      object: this,
-    );
-
     if (kDebugMode) {
       logging.Logger.root.level = logging.Level.ALL;
       logging.Logger.root.onRecord.listen((record) {
