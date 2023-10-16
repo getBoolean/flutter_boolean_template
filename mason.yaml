@@ -4,4 +4,4 @@ bricks:
   very_good_flutter_package: ^0.4.0
   very_good_dart_package: ^0.4.0
   feature_package_riverpod_architecture:
-    path: bricks/feature_package_riverpod_architecture
+    path: bricks/feature_riverpod_architecture

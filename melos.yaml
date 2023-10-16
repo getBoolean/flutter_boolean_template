@@ -1,6 +1,7 @@
 name: flutter_boolean_template
 
 packages:
+  - .
   - packages/**
 
 command:
@@ -16,11 +17,33 @@ command:
       # Generate environment files which should not be committed to the repository.
       # Instead, they are generated during the CI process before checking
       # if the rest of the package's code generation is up to date.
-      post: flutter pub get && dart pub global activate coverage ^1.6.3 && cd packages/utils/env && dart run build_runner build --delete-conflicting-outputs
+      post: flutter pub get && dart pub global activate coverage ^1.6.4 && cd packages/env && dart run build_runner build --delete-conflicting-outputs
 
 # See https://github.com/firebase/flutterfire/blob/master/melos.yaml for more examples
 scripts:
   # Custom lint is only applied to the packages and not the root app because of a dependency conflict with `integration_test` and `melos`
+  pub:
+    run: melos run dart:pkg --no-select && melos run flutter:pkg --no-select
+    description: Run `dart pub get` in all packages.
+  
+  dart:pkg:
+    run: dart pub get
+    exec:
+      failFast: true
+      concurrency: 1
+    description: Run `dart pub get` in the selected package.
+    packageFilters:
+      noDependsOn: flutter
+  
+  flutter:pkg:
+    run: flutter pub get
+    exec:
+      failFast: true
+      concurrency: 1
+    description: Run `flutter pub get` in the selected package.
+    packageFilters:
+      dependsOn: flutter
+
   # which use different versions of `path`.
   analyze:
     run: melos run analyze:pkg --no-select && melos run custom_lint
@@ -30,6 +53,7 @@ scripts:
     run: dart analyze --fatal-infos lib
     exec: 
       failFast: true
+      concurrency: 1
     description: Run `dart analyze` on all packages.
 
   custom_lint:
@@ -40,6 +64,7 @@ scripts:
     run: dart run custom_lint
     exec:
       failFast: true
+      concurrency: 1
     description: Run `dart run custom_lint` in the selected package.
     packageFilters:
       dependsOn: custom_lint
