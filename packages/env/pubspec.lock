@@ -482,6 +482,13 @@ packages:
       relative: true
     source: path
     version: "1.0.0"
+  log:
+    dependency: "direct overridden"
+    description:
+      path: "../log"
+      relative: true
+    source: path
+    version: "0.0.1"
   logger:
     dependency: transitive
     description:

@@ -1,3 +1,3 @@
 library env;
 
-export 'src/env/env.dart';
+export 'src/env/config/env_fields.dart';

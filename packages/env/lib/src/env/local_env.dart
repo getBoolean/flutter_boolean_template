@@ -1,11 +1,11 @@
-import 'package:env/src/env/app_env.dart';
-import 'package:env/src/env/app_env_fields.dart';
+import 'package:env/src/env/config/env_fields.dart';
+import 'package:env/src/env/config/env_flavor.dart';
 import 'package:envied/envied.dart';
 
 part 'local_env.g.dart';
 
 @Envied(name: 'Env', path: 'local.env')
-class LocalEnv implements AppEnv, AppEnvFieldsGenerated {
+class LocalEnv implements EnvFlavor, EnvFieldsNonNull {
   const LocalEnv();
 
   // Providing a default value for everything allows the app to be build

@@ -1,22 +1,19 @@
-import 'package:env/src/env/app_env_fields.dart';
+import 'package:env/src/env/config/env_fields.dart' show EnvFieldsNonNull;
 import 'package:env/src/env/dev_env.dart';
 import 'package:env/src/env/local_env.dart';
 import 'package:env/src/env/prod_env.dart';
 import 'package:env/src/env/staging_env.dart';
 import 'package:flutter_boolean_template/constants/constants.dart';
 
-abstract class AppEnv implements AppEnvFieldsGenerated {
-  // ignore: prefer_constructors_over_static_methods
-  static AppEnv get instance => _instance ??= AppEnv._();
+abstract class EnvFlavor implements EnvFieldsNonNull {
+  static EnvFlavor? _instance;
 
-  factory AppEnv._() {
-    return switch (Constants.flavor) {
+  factory EnvFlavor() {
+    return _instance ??= switch (Constants.flavor) {
       Flavor.prod || Flavor.beta => const ProdEnv(),
       Flavor.staging => const StagingEnv(),
       Flavor.dev => const DevEnv(),
       Flavor.local => const LocalEnv(),
     };
   }
-
-  static AppEnv? _instance;
 }
