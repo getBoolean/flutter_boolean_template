@@ -73,3 +73,10 @@ flutter:
 msix_config:
   display_name: Flutter Template App
   install_certificate: false
+
+patrol:
+  app_name: Flutter Boolean Template
+  android:
+    package_name: com.example.flutter_boolean_template
+  ios:
+    bundle_id: com.example.flutterBooleanTemplate
