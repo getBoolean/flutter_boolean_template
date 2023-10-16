@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-
-import 'package:flutter_boolean_template/src/core/routing/router/app_router.dart';
+import 'package:flutter_boolean_template/src/routing/router/app_router.dart';
 
 @RoutePage()
 class ProfileScreen extends StatelessWidget {
