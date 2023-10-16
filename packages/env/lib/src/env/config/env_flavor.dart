@@ -1,9 +1,9 @@
+import 'package:constants/constants.dart';
 import 'package:env/src/env/config/env_fields.dart' show EnvFieldsNonNull;
 import 'package:env/src/env/dev_env.dart';
 import 'package:env/src/env/local_env.dart';
 import 'package:env/src/env/prod_env.dart';
 import 'package:env/src/env/staging_env.dart';
-import 'package:flutter_boolean_template/constants/constants.dart';
 
 abstract class EnvFlavor implements EnvFieldsNonNull {
   static EnvFlavor? _instance;
