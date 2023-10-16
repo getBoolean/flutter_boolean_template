@@ -9,7 +9,7 @@ part 'app_router.gr.dart';
 class AppRouter extends _$AppRouter {
   AppRouter({required this.log});
 
-  final Logger log;
+  final AppLogger log;
 
   @override
   RouteType get defaultRouteType => const RouteType.adaptive();

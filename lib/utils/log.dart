@@ -2,10 +2,13 @@ import 'package:flutter/foundation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:leak_tracker/leak_tracker.dart';
 import 'package:logger_flutter_plus/logger_flutter_plus.dart' as logger;
-import 'package:logging/logging.dart';
+import 'package:logging/logging.dart' as logging;
 
 final logProvider =
-    Provider.autoDispose.family((Ref ref, String name) => Logger(name));
+    Provider.autoDispose.family((Ref ref, String name) => AppLogger(name));
+
+typedef AppLogger = logging.Logger;
+typedef Logging = logging.Logger;
 
 class LogConfig {
   final logger.LogConsoleManager consoleManager = logger.LogConsoleManager(
@@ -25,7 +28,7 @@ class LogConfig {
 
   static const _library = 'package:logs/src/log_config.dart';
 
-  LogConfig(String Function(LogRecord)? format) {
+  LogConfig(String Function(logging.LogRecord)? format) {
     dispatchObjectCreated(
       library: _library,
       className: '$LogConfig',
@@ -33,18 +36,18 @@ class LogConfig {
     );
 
     if (kDebugMode) {
-      Logger.root.level = Level.ALL;
-      Logger.root.onRecord.listen((record) {
+      logging.Logger.root.level = logging.Level.ALL;
+      logging.Logger.root.onRecord.listen((record) {
         debugPrint(
           format?.call(record) ??
               '${record.level.name} - ${record.time}: ${record.message}',
         );
       });
     } else if (kProfileMode) {
-      Logger.root.level = Level.WARNING;
+      logging.Logger.root.level = logging.Level.WARNING;
       logger.Logger.level = logger.Level.warning;
 
-      Logger.root.onRecord.listen((record) {
+      logging.Logger.root.onRecord.listen((record) {
         final loggerLevel = record.level.toLoggerLevel();
         if (loggerLevel == null) return;
 
@@ -56,27 +59,27 @@ class LogConfig {
         );
       });
     } else if (kReleaseMode) {
-      Logger.root.level = Level.SEVERE;
-      Logger.root.onRecord.listen((record) {
+      logging.Logger.root.level = logging.Level.SEVERE;
+      logging.Logger.root.onRecord.listen((record) {
         // TODO: Upload to Sentry
       });
     }
   }
 }
 
-extension LoggingLevelToLoggerLevel on Level {
+extension LoggingLevelToLoggerLevel on logging.Level {
   logger.Level? toLoggerLevel() {
-    return <Level, logger.Level?>{
-      Level.ALL: logger.Level.verbose,
-      Level.FINEST: logger.Level.verbose,
-      Level.FINER: logger.Level.debug,
-      Level.FINE: logger.Level.debug,
-      Level.CONFIG: logger.Level.debug,
-      Level.INFO: logger.Level.info,
-      Level.WARNING: logger.Level.warning,
-      Level.SEVERE: logger.Level.error,
-      Level.SHOUT: logger.Level.wtf,
-      Level.OFF: null,
+    return <logging.Level, logger.Level?>{
+      logging.Level.ALL: logger.Level.verbose,
+      logging.Level.FINEST: logger.Level.verbose,
+      logging.Level.FINER: logger.Level.debug,
+      logging.Level.FINE: logger.Level.debug,
+      logging.Level.CONFIG: logger.Level.debug,
+      logging.Level.INFO: logger.Level.info,
+      logging.Level.WARNING: logger.Level.warning,
+      logging.Level.SEVERE: logger.Level.error,
+      logging.Level.SHOUT: logger.Level.wtf,
+      logging.Level.OFF: null,
     }[this];
   }
 }
