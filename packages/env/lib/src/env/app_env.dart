@@ -1,3 +1,5 @@
+import 'package:flutter_boolean_template/utils/constants.dart';
+
 import 'app_env_fields.dart';
 import 'dev_env.dart';
 import 'local_env.dart';
