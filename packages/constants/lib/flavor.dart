@@ -4,12 +4,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_flavor/flutter_flavor.dart';
 
-/// {@template constants}
-/// Shared constant variables for Dart/Flutter
+/// {@template flavor}
+/// Flavor configuration based on the environment variable `FLAVOR`.
 /// {@endtemplate}
-class Constants {
+class AppFlavor {
   /// {@macro constants}
-  const Constants._();
+  const AppFlavor._();
 
   // ignore: do_not_use_environment
   static const String _flavorRaw = String.fromEnvironment(
@@ -17,7 +17,7 @@ class Constants {
     defaultValue: 'local',
   );
 
-  static final Flavor flavor = Flavor.values.byName(
+  static final Flavor fromEnvironment = Flavor.values.byName(
     Flavor.values.map((type) => type.name).contains(_flavorRaw)
         ? _flavorRaw.toLowerCase()
         : 'local',
@@ -25,12 +25,14 @@ class Constants {
 
   static FlavorConfig? _flavorConfig;
 
-  /// Creates a [FlavorConfig] based on the current [flavor].
+  static FlavorConfig? initConfig() => config;
+
+  /// Creates a [FlavorConfig] based on the current [fromEnvironment].
   ///
-  /// If the [flavor] is [Flavor.prod] or [Flavor.staging],
+  /// If the [fromEnvironment] is [Flavor.prod] or [Flavor.staging],
   /// then no [FlavorConfig] is created.
-  static FlavorConfig? get flavorConfig =>
-      _flavorConfig ??= flavor.createConfig();
+  static FlavorConfig? get config =>
+      _flavorConfig ??= fromEnvironment.createConfig();
 }
 
 enum Flavor {
