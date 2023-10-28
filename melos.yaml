@@ -81,6 +81,18 @@ scripts:
       failFast: true
     description: Run `dart pub upgrade` in the selected package.
 
+  upgrade-major:
+    run: |
+      dart pub upgrade
+      melos run upgrade:pkg --no-select
+    description: Run `dart pub upgrade --major-versions` in all packages.
+
+  upgrade-major:pkg:
+    run: dart pub upgrade --major-versions
+    exec:
+      failFast: true
+    description: Run `dart pub upgrade --major-versions` in the selected package.
+
   format:
     exec: dart format .
     description: Run `dart format` in all packages.
