@@ -4,7 +4,7 @@ import 'package:envied/envied.dart';
 
 part 'staging_env.g.dart';
 
-@Envied(name: 'Env', path: 'staging.env')
+@Envied(name: 'Env', path: 'staging.env', allowOptionalFields: true)
 class StagingEnv implements EnvFlavor, EnvFields {
   const StagingEnv();
 

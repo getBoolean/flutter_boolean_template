@@ -4,7 +4,7 @@ import 'package:envied/envied.dart';
 
 part 'dev_env.g.dart';
 
-@Envied(name: 'Env', path: 'dev.env')
+@Envied(name: 'Env', path: 'dev.env', allowOptionalFields: true)
 class DevEnv implements EnvFlavor, EnvFields {
   const DevEnv();
 
