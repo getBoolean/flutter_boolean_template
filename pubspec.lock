@@ -361,11 +361,12 @@ packages:
   envied:
     dependency: transitive
     description:
-      name: envied
-      sha256: "60d3f5606c7b35bc6ef493e650d916b34351d8af2e58b7ac45881ba59dfcf039"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.3.0+3"
+      path: "packages/envied"
+      ref: null_value_support_testing
+      resolved-ref: d6f8caed7de6fbe9e36f5bec190488debf363cae
+      url: "https://github.com/getBoolean/envied.git"
+    source: git
+    version: "0.5.0"
   equatable:
     dependency: transitive
     description:

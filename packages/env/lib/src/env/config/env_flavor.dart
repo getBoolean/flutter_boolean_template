@@ -1,11 +1,11 @@
 import 'package:constants/flavor.dart';
-import 'package:env/src/env/config/env_fields.dart' show EnvFieldsNonNull;
+import 'package:env/src/env/config/env_fields.dart';
 import 'package:env/src/env/dev_env.dart';
 import 'package:env/src/env/local_env.dart';
 import 'package:env/src/env/prod_env.dart';
 import 'package:env/src/env/staging_env.dart';
 
-abstract class EnvFlavor implements EnvFieldsNonNull {
+abstract class EnvFlavor implements EnvFields {
   static EnvFlavor? _instance;
 
   factory EnvFlavor() {

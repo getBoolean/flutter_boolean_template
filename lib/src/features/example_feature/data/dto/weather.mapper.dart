@@ -16,11 +16,6 @@ class WeatherParamsMapper extends ClassMapperBase<WeatherParams> {
     return _instance!;
   }
 
-  static T _guard<T>(T Function(MapperContainer) fn) {
-    ensureInitialized();
-    return fn(MapperContainer.globals);
-  }
-
   @override
   final String id = 'WeatherParams';
 
@@ -51,21 +46,23 @@ class WeatherParamsMapper extends ClassMapperBase<WeatherParams> {
   final Function instantiate = _instantiate;
 
   static WeatherParams fromMap(Map<String, dynamic> map) {
-    return _guard((c) => c.fromMap<WeatherParams>(map));
+    return ensureInitialized().decodeMap<WeatherParams>(map);
   }
 
   static WeatherParams fromJson(String json) {
-    return _guard((c) => c.fromJson<WeatherParams>(json));
+    return ensureInitialized().decodeJson<WeatherParams>(json);
   }
 }
 
 mixin WeatherParamsMappable {
   String toJson() {
-    return WeatherParamsMapper._guard((c) => c.toJson(this as WeatherParams));
+    return WeatherParamsMapper.ensureInitialized()
+        .encodeJson<WeatherParams>(this as WeatherParams);
   }
 
   Map<String, dynamic> toMap() {
-    return WeatherParamsMapper._guard((c) => c.toMap(this as WeatherParams));
+    return WeatherParamsMapper.ensureInitialized()
+        .encodeMap<WeatherParams>(this as WeatherParams);
   }
 
   WeatherParamsCopyWith<WeatherParams, WeatherParams, WeatherParams>
@@ -73,19 +70,22 @@ mixin WeatherParamsMappable {
           this as WeatherParams, $identity, $identity);
   @override
   String toString() {
-    return WeatherParamsMapper._guard((c) => c.asString(this));
+    return WeatherParamsMapper.ensureInitialized()
+        .stringifyValue(this as WeatherParams);
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (runtimeType == other.runtimeType &&
-            WeatherParamsMapper._guard((c) => c.isEqual(this, other)));
+            WeatherParamsMapper.ensureInitialized()
+                .isValueEqual(this as WeatherParams, other));
   }
 
   @override
   int get hashCode {
-    return WeatherParamsMapper._guard((c) => c.hash(this));
+    return WeatherParamsMapper.ensureInitialized()
+        .hashValue(this as WeatherParams);
   }
 }
 
@@ -139,11 +139,6 @@ class WeatherInfoMapper extends ClassMapperBase<WeatherInfo> {
     return _instance!;
   }
 
-  static T _guard<T>(T Function(MapperContainer) fn) {
-    ensureInitialized();
-    return fn(MapperContainer.globals);
-  }
-
   @override
   final String id = 'WeatherInfo';
 
@@ -173,40 +168,44 @@ class WeatherInfoMapper extends ClassMapperBase<WeatherInfo> {
   final Function instantiate = _instantiate;
 
   static WeatherInfo fromMap(Map<String, dynamic> map) {
-    return _guard((c) => c.fromMap<WeatherInfo>(map));
+    return ensureInitialized().decodeMap<WeatherInfo>(map);
   }
 
   static WeatherInfo fromJson(String json) {
-    return _guard((c) => c.fromJson<WeatherInfo>(json));
+    return ensureInitialized().decodeJson<WeatherInfo>(json);
   }
 }
 
 mixin WeatherInfoMappable {
   String toJson() {
-    return WeatherInfoMapper._guard((c) => c.toJson(this as WeatherInfo));
+    return WeatherInfoMapper.ensureInitialized()
+        .encodeJson<WeatherInfo>(this as WeatherInfo);
   }
 
   Map<String, dynamic> toMap() {
-    return WeatherInfoMapper._guard((c) => c.toMap(this as WeatherInfo));
+    return WeatherInfoMapper.ensureInitialized()
+        .encodeMap<WeatherInfo>(this as WeatherInfo);
   }
 
   WeatherInfoCopyWith<WeatherInfo, WeatherInfo, WeatherInfo> get copyWith =>
       _WeatherInfoCopyWithImpl(this as WeatherInfo, $identity, $identity);
   @override
   String toString() {
-    return WeatherInfoMapper._guard((c) => c.asString(this));
+    return WeatherInfoMapper.ensureInitialized()
+        .stringifyValue(this as WeatherInfo);
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (runtimeType == other.runtimeType &&
-            WeatherInfoMapper._guard((c) => c.isEqual(this, other)));
+            WeatherInfoMapper.ensureInitialized()
+                .isValueEqual(this as WeatherInfo, other));
   }
 
   @override
   int get hashCode {
-    return WeatherInfoMapper._guard((c) => c.hash(this));
+    return WeatherInfoMapper.ensureInitialized().hashValue(this as WeatherInfo);
   }
 }
 
@@ -262,11 +261,6 @@ class WeatherMapper extends ClassMapperBase<Weather> {
     return _instance!;
   }
 
-  static T _guard<T>(T Function(MapperContainer) fn) {
-    ensureInitialized();
-    return fn(MapperContainer.globals);
-  }
-
   @override
   final String id = 'Weather';
 
@@ -297,40 +291,43 @@ class WeatherMapper extends ClassMapperBase<Weather> {
   final Function instantiate = _instantiate;
 
   static Weather fromMap(Map<String, dynamic> map) {
-    return _guard((c) => c.fromMap<Weather>(map));
+    return ensureInitialized().decodeMap<Weather>(map);
   }
 
   static Weather fromJson(String json) {
-    return _guard((c) => c.fromJson<Weather>(json));
+    return ensureInitialized().decodeJson<Weather>(json);
   }
 }
 
 mixin WeatherMappable {
   String toJson() {
-    return WeatherMapper._guard((c) => c.toJson(this as Weather));
+    return WeatherMapper.ensureInitialized()
+        .encodeJson<Weather>(this as Weather);
   }
 
   Map<String, dynamic> toMap() {
-    return WeatherMapper._guard((c) => c.toMap(this as Weather));
+    return WeatherMapper.ensureInitialized()
+        .encodeMap<Weather>(this as Weather);
   }
 
   WeatherCopyWith<Weather, Weather, Weather> get copyWith =>
       _WeatherCopyWithImpl(this as Weather, $identity, $identity);
   @override
   String toString() {
-    return WeatherMapper._guard((c) => c.asString(this));
+    return WeatherMapper.ensureInitialized().stringifyValue(this as Weather);
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (runtimeType == other.runtimeType &&
-            WeatherMapper._guard((c) => c.isEqual(this, other)));
+            WeatherMapper.ensureInitialized()
+                .isValueEqual(this as Weather, other));
   }
 
   @override
   int get hashCode {
-    return WeatherMapper._guard((c) => c.hash(this));
+    return WeatherMapper.ensureInitialized().hashValue(this as Weather);
   }
 }
 
