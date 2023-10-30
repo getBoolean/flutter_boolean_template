@@ -181,7 +181,7 @@ packages:
     description:
       path: "packages/envied"
       ref: null_value_support_testing
-      resolved-ref: "15cb036b8c3c0658df40e5c2b442eb3288dbdf11"
+      resolved-ref: "926d3b92aa9b0d585dea155323f141a852288218"
       url: "https://github.com/getBoolean/envied.git"
     source: git
     version: "0.5.0"
@@ -190,7 +190,7 @@ packages:
     description:
       path: "packages/envied_generator"
       ref: null_value_support_testing
-      resolved-ref: "15cb036b8c3c0658df40e5c2b442eb3288dbdf11"
+      resolved-ref: "926d3b92aa9b0d585dea155323f141a852288218"
       url: "https://github.com/getBoolean/envied.git"
     source: git
     version: "0.5.0"
