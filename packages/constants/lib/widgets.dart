@@ -1,12 +1,21 @@
 import 'package:flutter/widgets.dart';
+import 'package:gap/gap.dart';
 
-const SizedBox gap4 = SizedBox.square(dimension: 4);
-const SizedBox gap8 = SizedBox.square(dimension: 8);
-const SizedBox gap12 = SizedBox.square(dimension: 12);
-const SizedBox gap16 = SizedBox.square(dimension: 16);
-const SizedBox gap24 = SizedBox.square(dimension: 24);
-const SizedBox gap32 = SizedBox.square(dimension: 32);
-const SizedBox gap48 = SizedBox.square(dimension: 40);
+const Gap gap4 = Gap(4);
+const Gap gap8 = Gap(8);
+const Gap gap12 = Gap(12);
+const Gap gap16 = Gap(16);
+const Gap gap24 = Gap(24);
+const Gap gap32 = Gap(32);
+const Gap gap48 = Gap(48);
+
+const SliverGap sgap4 = SliverGap(4);
+const SliverGap sgap8 = SliverGap(8);
+const SliverGap sgap12 = SliverGap(12);
+const SliverGap sgap16 = SliverGap(16);
+const SliverGap sgap24 = SliverGap(24);
+const SliverGap sgap32 = SliverGap(32);
+const SliverGap sgap48 = SliverGap(48);
 
 const EdgeInsets p4 = EdgeInsets.all(4);
 const EdgeInsets p8 = EdgeInsets.all(8);
