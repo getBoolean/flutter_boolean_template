@@ -26,7 +26,7 @@ migrate_working_dir/
 
 # Visual Studio Code launch profile is not included in version control
 # because it may contain machine specific configuration.
-.vscode/launch.json
+# .vscode/launch.json
 
 # Flutter/Dart/Pub related
 **/doc/api/
