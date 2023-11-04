@@ -5,7 +5,14 @@ import 'package:flutter/widgets.dart';
 class Asset extends Equatable {
   const Asset(this.path);
 
-  static Image image(String path) => Image.asset(path);
+  /// Creates an [Image.asset] widget that displays an image from `path`.
+  ///
+  /// Arguments:
+  /// * `path` - Path to the asset defined in [Assets]
+  static Image image(
+    String path,
+  ) =>
+      Image.asset(path);
 
   /// Path to the asset defined in [Assets]
   final String path;

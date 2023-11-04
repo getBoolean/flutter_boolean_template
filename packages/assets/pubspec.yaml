@@ -20,8 +20,10 @@ dev_dependencies:
   assets_gen: ^1.5.0
 
 flutter:
-  # Must specify full path to assets, directories will not work
-  # since this is in a package
+  # Must specify full path to each asset, directories will not work
+  # since this is in a package. All assets must also be in the lib directory.
+  #
+  # Run the generator with `melos run assets`
   assets:
     - packages/assets/images/flutter_logo.png
 
