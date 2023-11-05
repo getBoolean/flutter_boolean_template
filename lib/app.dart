@@ -9,6 +9,7 @@ import 'package:flutter_boolean_template/src/features/example_feature/domain/val
 import 'package:flutter_boolean_template/src/routing/router/app_router.dart';
 import 'package:flutter_boolean_template/src/routing/router_provider.dart';
 import 'package:flutter_flavor/flutter_flavor.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:localization/localization.dart';
 
@@ -43,12 +44,45 @@ class App extends ConsumerWidget {
         restorationScopeId: 'app',
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
+        // Theme config for FlexColorScheme version 7.3.x. Make sure you use
+        // same or higher package version, but still same major version. If you
+        // use a lower package version, some properties may not be supported.
+        // In that case remove them after copying this theme to your app.
         theme: FlexThemeData.light(
-          scheme: FlexScheme.mandyRed,
+          scheme: FlexScheme.bahamaBlue,
+          surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
+          blendLevel: 7,
+          subThemesData: const FlexSubThemesData(
+            blendOnLevel: 10,
+            blendOnColors: false,
+            useTextTheme: true,
+            useM2StyleDividerInM3: true,
+            alignedDropdown: true,
+            useInputDecoratorThemeInDialogs: true,
+          ),
+          visualDensity: FlexColorScheme.comfortablePlatformDensity,
           useMaterial3: true,
+          swapLegacyOnMaterial3: true,
+          // To use the Playground font, add GoogleFonts package and uncomment
+          fontFamily: GoogleFonts.notoSans().fontFamily,
         ),
-        darkTheme:
-            FlexThemeData.dark(scheme: FlexScheme.mandyRed, useMaterial3: true),
+        darkTheme: FlexThemeData.dark(
+          scheme: FlexScheme.bahamaBlue,
+          surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
+          blendLevel: 13,
+          subThemesData: const FlexSubThemesData(
+            blendOnLevel: 20,
+            useTextTheme: true,
+            useM2StyleDividerInM3: true,
+            alignedDropdown: true,
+            useInputDecoratorThemeInDialogs: true,
+          ),
+          visualDensity: FlexColorScheme.comfortablePlatformDensity,
+          useMaterial3: true,
+          swapLegacyOnMaterial3: true,
+          // To use the Playground font, add GoogleFonts package and uncomment
+          fontFamily: GoogleFonts.notoSans().fontFamily,
+        ),
         themeMode: ThemeMode.system,
       ),
     );
