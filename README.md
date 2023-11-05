@@ -291,6 +291,14 @@ Follow the instructions in the file [flutter_native_splash.yaml](flutter_native_
 
 Use [flutter_native_dialog](https://pub.dev/packages/flutter_native_dialog) to show native dialogs/alerts.
 
+### Bottom Sheets
+
+Use [wolt_modal_sheet](https://pub.dev/packages/wolt_modal_sheet) to show customizable and responsive bottom sheets.
+
+### Layout List/Grid
+
+Use [wolt_responsive_layout_grid](https://pub.dev/packages/wolt_responsive_layout_grid) to show a responsive list/grid.
+
 ## Contributing
 
 1. Fork it [https://github.com/getBoolean/flutter_boolean_template/fork](https://github.com/getBoolean/flutter_boolean_template/fork)
