@@ -1,3 +1,4 @@
+import 'package:adaptive_navigation/adaptive_navigation.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/routing/router/app_router.dart';
@@ -17,24 +18,23 @@ class HomeScreen extends StatelessWidget implements AutoRouteWrapper {
       ],
       builder: (context, child, _) {
         final tabsRouter = AutoTabsRouter.of(context);
-        return Scaffold(
+        return AdaptiveNavigationScaffold(
+          selectedIndex: tabsRouter.activeIndex,
+          onDestinationSelected: (index) {
+            if (tabsRouter.activeIndex == index) {
+              tabsRouter.innerRouterOf(tabsRouter.current.name)?.popTop();
+            }
+            tabsRouter.setActiveIndex(index);
+          },
+          destinations: const [
+            AdaptiveScaffoldDestination(title: 'Books', icon: Icons.book),
+            AdaptiveScaffoldDestination(title: 'Profile', icon: Icons.person),
+            AdaptiveScaffoldDestination(
+              title: 'Settings',
+              icon: Icons.settings,
+            ),
+          ],
           body: child,
-          bottomNavigationBar: BottomNavigationBar(
-            currentIndex: tabsRouter.activeIndex,
-            onTap: (index) {
-              if (tabsRouter.activeIndex == index) {
-                tabsRouter.innerRouterOf(tabsRouter.current.name)?.popTop();
-              }
-              tabsRouter.setActiveIndex(index);
-            },
-            items: const [
-              BottomNavigationBarItem(label: 'Books', icon: Icon(Icons.book)),
-              BottomNavigationBarItem(
-                  label: 'Profile', icon: Icon(Icons.person)),
-              BottomNavigationBarItem(
-                  label: 'Settings', icon: Icon(Icons.settings)),
-            ],
-          ),
         );
       },
     );

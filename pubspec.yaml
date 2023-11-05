@@ -39,6 +39,7 @@ dependencies:
     path: packages/log
   constants:
     path: packages/constants
+  adaptive_navigation: ^0.0.9
 
 dev_dependencies:
   flutter_lints: ^3.0.0
