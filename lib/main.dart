@@ -2,6 +2,7 @@ import 'package:constants/flavor.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/app.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 void main() async {
@@ -11,6 +12,7 @@ void main() async {
   // * https://docs.flutter.dev/testing/errors
   registerErrorHandlers();
   AppFlavor.initConfig();
+  usePathUrlStrategy();
   runApp(const ProviderScope(child: App()));
 }
 

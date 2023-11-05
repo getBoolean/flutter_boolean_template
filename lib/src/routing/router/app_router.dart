@@ -19,7 +19,7 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           page: HomeRoute.page,
           initial: true,
-          path: '/dashboard',
+          path: '/',
           children: [
             RedirectRoute(path: '', redirectTo: 'books'),
             AutoRoute(path: 'books', page: BooksTab.page, children: [
