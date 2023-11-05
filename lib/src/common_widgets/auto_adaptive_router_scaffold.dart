@@ -348,16 +348,16 @@ class _AutoAppBarState extends State<AutoAppBar> {
 }
 
 NavigationType defaultNavigationTypeResolver(BuildContext context) {
-  if (_isLargeScreen(context)) {
+  if (defaultIsLargeScreen(context)) {
     return NavigationType.permanentDrawer;
-  } else if (_isMediumScreen(context)) {
+  } else if (defaultIsMediumScreen(context)) {
     return NavigationType.rail;
   } else {
     return NavigationType.bottom;
   }
 }
 
-bool _isLargeScreen(BuildContext context) =>
+bool defaultIsLargeScreen(BuildContext context) =>
     getWindowType(context) >= AdaptiveWindowType.large;
-bool _isMediumScreen(BuildContext context) =>
+bool defaultIsMediumScreen(BuildContext context) =>
     getWindowType(context) == AdaptiveWindowType.medium;
