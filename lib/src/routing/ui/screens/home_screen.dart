@@ -1,6 +1,6 @@
-import 'package:adaptive_navigation/adaptive_navigation.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_boolean_template/src/common_widgets/auto_adaptive_router_scaffold.dart';
 import 'package:flutter_boolean_template/src/routing/router/app_router.dart';
 import 'package:log/log.dart';
 
@@ -10,33 +10,39 @@ class HomeScreen extends StatelessWidget implements AutoRouteWrapper {
 
   @override
   Widget build(BuildContext context) {
-    return AutoTabsRouter.pageView(
-      routes: const [
-        BooksRoute(),
-        ProfileRoute(),
-        SettingsRoute(),
-      ],
-      builder: (context, child, _) {
-        final tabsRouter = AutoTabsRouter.of(context);
-        return AdaptiveNavigationScaffold(
-          selectedIndex: tabsRouter.activeIndex,
-          onDestinationSelected: (index) {
-            if (tabsRouter.activeIndex == index) {
-              tabsRouter.innerRouterOf(tabsRouter.current.name)?.popTop();
-            }
-            tabsRouter.setActiveIndex(index);
-          },
-          destinations: const [
-            AdaptiveScaffoldDestination(title: 'Books', icon: Icons.book),
-            AdaptiveScaffoldDestination(title: 'Profile', icon: Icons.person),
-            AdaptiveScaffoldDestination(
-              title: 'Settings',
-              icon: Icons.settings,
+    return AutoAdaptiveRouterScaffold(
+      drawerFooter: Row(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: OutlinedButton(
+                onPressed: () {},
+                child: const Text('Add'),
+              ),
             ),
-          ],
-          body: child,
-        );
-      },
+          ),
+        ],
+      ),
+      floatingActionButton:
+          FloatingActionButton(onPressed: () {}, child: const Icon(Icons.add)),
+      destinations: const [
+        RouterDestination(
+          title: 'Books',
+          icon: Icons.book,
+          route: BooksRoute(),
+        ),
+        RouterDestination(
+          title: 'Profile',
+          icon: Icons.person,
+          route: ProfileRoute(),
+        ),
+        RouterDestination(
+          title: 'Settings',
+          icon: Icons.settings,
+          route: SettingsRoute(),
+        ),
+      ],
     );
   }
 

@@ -8,15 +8,11 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile'),
-        leading: const AutoLeadingButton(),
-      ),
       backgroundColor: Colors.deepPurple,
       body: Center(
         child: FilledButton(
           onPressed: () {
-            context.pushRoute(const ProfileDetailsRoute());
+            context.navigateTo(const ProfileDetailsRoute());
           },
           child: const Text('Push Details'),
         ),

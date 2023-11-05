@@ -8,15 +8,11 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Settings'),
-        leading: const AutoLeadingButton(),
-      ),
       backgroundColor: Colors.red,
       body: Center(
         child: FilledButton(
           onPressed: () {
-            context.pushRoute(const SettingsDetailsRoute());
+            context.navigateTo(const SettingsDetailsRoute());
           },
           child: const Text('Push Details'),
         ),

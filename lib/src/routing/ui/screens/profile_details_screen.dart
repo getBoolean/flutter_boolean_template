@@ -7,13 +7,9 @@ class ProfileDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(context.topRoute.name),
-        leading: const AutoLeadingButton(),
-      ),
+    return const Scaffold(
       backgroundColor: Colors.deepPurpleAccent,
-      body: const Center(child: Text('Profile Details Screen')),
+      body: Center(child: Text('Profile Details Screen')),
     );
   }
 }

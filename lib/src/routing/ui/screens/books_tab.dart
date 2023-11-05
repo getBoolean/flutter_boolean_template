@@ -8,15 +8,11 @@ class BooksScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Books'),
-        leading: const AutoLeadingButton(),
-      ),
       backgroundColor: Colors.blue,
       body: Center(
         child: FilledButton(
           onPressed: () {
-            context.pushRoute(const BookDetailsRoute());
+            context.navigateTo(const BookDetailsRoute());
           },
           child: const Text('Push Details'),
         ),

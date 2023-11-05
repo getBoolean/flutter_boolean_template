@@ -7,13 +7,9 @@ class SettingsDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(context.topRoute.name),
-        leading: const AutoLeadingButton(),
-      ),
+    return const Scaffold(
       backgroundColor: Colors.redAccent,
-      body: const Center(child: Text('Setting Option Screen')),
+      body: Center(child: Text('Setting Option Screen')),
     );
   }
 }
