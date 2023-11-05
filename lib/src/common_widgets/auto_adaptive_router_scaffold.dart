@@ -135,6 +135,7 @@ class AutoAdaptiveRouterScaffold extends StatelessWidget {
     final NavigationTypeResolver navigationTypeResolver =
         this.navigationTypeResolver ?? defaultNavigationTypeResolver;
     final navigationType = navigationTypeResolver(context);
+    final ThemeData theme = Theme.of(context);
     return AutoTabsRouter.pageView(
       routes: destinations.map((destination) => destination.route).toList(),
       animatePageTransition: navigationType == NavigationType.bottom,
@@ -175,6 +176,7 @@ class AutoAdaptiveRouterScaffold extends StatelessWidget {
                             destinations.indexOf(destination),
                           ),
                           style: ListTileStyle.drawer,
+                          selectedColor: theme.colorScheme.secondary,
                         ),
                       const Spacer(),
                       if (drawerFooter != null) drawerFooter!,
@@ -223,6 +225,8 @@ class AutoAdaptiveRouterScaffold extends StatelessWidget {
                           tabsRouter,
                           destinations.indexOf(destination),
                         ),
+                        style: ListTileStyle.drawer,
+                        selectedColor: theme.colorScheme.secondary,
                       ),
                     const Spacer(),
                     if (drawerFooter != null) drawerFooter!,
