@@ -33,6 +33,8 @@ class AppFlavor {
   /// then no [FlavorConfig] is created.
   static FlavorConfig? get config =>
       _flavorConfig ??= fromEnvironment.createConfig();
+
+  static bool get isBannerEnabled => config != null && !kReleaseMode;
 }
 
 enum Flavor {
