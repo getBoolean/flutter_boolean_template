@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_boolean_template/src/common_widgets/auto_adaptive_router_scaffold.dart';
 
 @RoutePage()
 class ProfileDetailsScreen extends StatelessWidget {
@@ -7,9 +8,12 @@ class ProfileDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
+      appBar: AutoAppBar(
+        title: Text(context.topRoute.name),
+      ),
       backgroundColor: Colors.deepPurpleAccent,
-      body: Center(child: Text('Profile Details Screen')),
+      body: const Center(child: Text('Profile Details Screen')),
     );
   }
 }

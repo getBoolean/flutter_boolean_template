@@ -36,6 +36,14 @@ class AutoAdaptiveRouterScaffold extends StatelessWidget {
     this.railDestinationsOverflow = 7,
   });
 
+  static AutoAdaptiveRouterScaffold of(BuildContext context) {
+    final scaffold =
+        context.findAncestorWidgetOfExactType<AutoAdaptiveRouterScaffold>();
+    assert(scaffold != null,
+        'No AutoAdaptiveRouterScaffold found in context. Wrap your app in an AutoAdaptiveRouterScaffold to fix this error.');
+    return scaffold!;
+  }
+
   /// The index into [destinations] for the current selected
   /// [RouterDestination].
   final List<RouterDestination> destinations;
@@ -125,7 +133,7 @@ class AutoAdaptiveRouterScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final NavigationTypeResolver navigationTypeResolver =
-        this.navigationTypeResolver ?? _defaultNavigationTypeResolver;
+        this.navigationTypeResolver ?? defaultNavigationTypeResolver;
     final navigationType = navigationTypeResolver(context);
     return AutoTabsRouter.pageView(
       routes: destinations.map((destination) => destination.route).toList(),
@@ -143,15 +151,12 @@ class AutoAdaptiveRouterScaffold extends StatelessWidget {
           math.min(destinations.length, railDestinationsOverflow),
         );
         return Scaffold(
-          appBar: AppBar(
-            title: Text(
-              destinations[tabsRouter.activeIndex].title,
-            ),
-            leading: navigationType == NavigationType.drawer ||
-                    navigationType == NavigationType.permanentDrawer
-                ? const AutoLeadingButton()
-                : null,
-          ),
+          appBar: navigationType == NavigationType.drawer
+              ? AppBar(
+                  title: Text(destinations[tabsRouter.activeIndex].title),
+                  leading: const AutoLeadingButton(),
+                )
+              : null,
           body: Row(
             children: [
               if (navigationType == NavigationType.permanentDrawer) ...[
@@ -290,7 +295,55 @@ enum NavigationType {
   permanentDrawer,
 }
 
-NavigationType _defaultNavigationTypeResolver(BuildContext context) {
+class RouterDestination {
+  const RouterDestination({
+    required this.title,
+    required this.icon,
+    required this.route,
+  });
+
+  final String title;
+  final IconData icon;
+  final PageRouteInfo<void> route;
+}
+
+class AutoAppBar extends StatefulWidget implements PreferredSizeWidget {
+  const AutoAppBar({super.key, this.title, this.navigationTypeResolver});
+
+  final Widget? title;
+
+  /// Determines the navigation type that the scaffold uses.
+  final NavigationTypeResolver? navigationTypeResolver;
+
+  @override
+  State<AutoAppBar> createState() => _AutoAppBarState();
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}
+
+class _AutoAppBarState extends State<AutoAppBar> {
+  @override
+  Widget build(BuildContext context) {
+    final NavigationTypeResolver navigationTypeResolver =
+        widget.navigationTypeResolver ?? defaultNavigationTypeResolver;
+    final navigationType = navigationTypeResolver(context);
+    final destinationScaffold = AutoAdaptiveRouterScaffold.of(context);
+    final tabsRouter = AutoTabsRouter.of(context, watch: true);
+    return switch (navigationType) {
+      NavigationType.drawer => const SizedBox.shrink(),
+      _ => AppBar(
+          title: widget.title ??
+              Text(
+                destinationScaffold.destinations[tabsRouter.activeIndex].title,
+              ),
+          leading: const AutoLeadingButton(),
+        ),
+    };
+  }
+}
+
+NavigationType defaultNavigationTypeResolver(BuildContext context) {
   if (_isLargeScreen(context)) {
     return NavigationType.permanentDrawer;
   } else if (_isMediumScreen(context)) {
@@ -304,15 +357,3 @@ bool _isLargeScreen(BuildContext context) =>
     getWindowType(context) >= AdaptiveWindowType.large;
 bool _isMediumScreen(BuildContext context) =>
     getWindowType(context) == AdaptiveWindowType.medium;
-
-class RouterDestination {
-  const RouterDestination({
-    required this.title,
-    required this.icon,
-    required this.route,
-  });
-
-  final String title;
-  final IconData icon;
-  final PageRouteInfo<void> route;
-}
