@@ -287,6 +287,10 @@ Although you can use it without a local source, the greatest benefit comes from 
 
 Follow the instructions in the file [flutter_native_splash.yaml](flutter_native_splash.yaml)
 
+### Native Platform Dialogs/Alerts
+
+Use [flutter_native_dialog](https://pub.dev/packages/flutter_native_dialog) to show native dialogs/alerts.
+
 ## Contributing
 
 1. Fork it [https://github.com/getBoolean/flutter_boolean_template/fork](https://github.com/getBoolean/flutter_boolean_template/fork)
