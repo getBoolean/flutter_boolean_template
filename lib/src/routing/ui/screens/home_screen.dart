@@ -10,39 +10,41 @@ class HomeScreen extends StatelessWidget implements AutoRouteWrapper {
 
   @override
   Widget build(BuildContext context) {
-    return AutoAdaptiveRouterScaffold(
-      drawerFooter: Row(
-        children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: OutlinedButton(
-                onPressed: () {},
-                child: const Text('Add'),
+    return SafeArea(
+      child: AutoAdaptiveRouterScaffold(
+        drawerFooter: Row(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: OutlinedButton(
+                  onPressed: () {},
+                  child: const Text('Add'),
+                ),
               ),
             ),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+            onPressed: () {}, child: const Icon(Icons.add)),
+        destinations: const [
+          RouterDestination(
+            title: 'Books',
+            icon: Icons.book,
+            route: BooksRoute(),
+          ),
+          RouterDestination(
+            title: 'Profile',
+            icon: Icons.person,
+            route: ProfileRoute(),
+          ),
+          RouterDestination(
+            title: 'Settings',
+            icon: Icons.settings,
+            route: SettingsRoute(),
           ),
         ],
       ),
-      floatingActionButton:
-          FloatingActionButton(onPressed: () {}, child: const Icon(Icons.add)),
-      destinations: const [
-        RouterDestination(
-          title: 'Books',
-          icon: Icons.book,
-          route: BooksRoute(),
-        ),
-        RouterDestination(
-          title: 'Profile',
-          icon: Icons.person,
-          route: ProfileRoute(),
-        ),
-        RouterDestination(
-          title: 'Settings',
-          icon: Icons.settings,
-          route: SettingsRoute(),
-        ),
-      ],
     );
   }
 
