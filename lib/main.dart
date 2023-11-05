@@ -2,11 +2,11 @@ import 'package:constants/flavor.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/app.dart';
+import 'package:flutter_boolean_template/src/features/settings/data/dto/settings.dart';
+import 'package:flutter_boolean_template/src/features/settings/data/repository/settings_provider.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-const String bannerBox = 'bannerBox';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,9 +16,15 @@ void main() async {
   registerErrorHandlers();
   AppFlavor.initConfig();
   usePathUrlStrategy();
-  await Hive.initFlutter();
-  await Hive.openBox<bool>(bannerBox);
+  await initHive();
+
   runApp(const ProviderScope(child: App()));
+}
+
+Future<void> initHive() async {
+  await Hive.initFlutter();
+  Hive.registerAdapter(SettingsAdapter());
+  await Hive.openBox<Settings>(settingsBoxName);
 }
 
 /// Source: Flutter Foundations course by CodeWithAndrea

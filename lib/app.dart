@@ -2,16 +2,15 @@ library app;
 
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_boolean_template/main.dart';
 import 'package:flutter_boolean_template/src/features/example_feature/domain/entity/user_account.dart';
 import 'package:flutter_boolean_template/src/features/example_feature/domain/value/email.dart';
 import 'package:flutter_boolean_template/src/features/example_feature/domain/value/id.dart';
 import 'package:flutter_boolean_template/src/features/example_feature/domain/value/name.dart';
+import 'package:flutter_boolean_template/src/features/settings/data/repository/settings_provider.dart';
 import 'package:flutter_boolean_template/src/routing/router/app_router.dart';
 import 'package:flutter_boolean_template/src/routing/router_provider.dart';
 import 'package:flutter_flavor/flutter_flavor.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:localization/localization.dart';
 
@@ -86,18 +85,13 @@ class App extends ConsumerWidget {
       themeMode: ThemeMode.system,
     );
 
-    return ValueListenableBuilder(
-      valueListenable: Hive.box<bool>(bannerBox).listenable(),
-      builder: (context, box, widget) {
-        final bannerEnabled =
-            box.get('bannerEnabled', defaultValue: true) ?? true;
-        if (bannerEnabled) {
-          return FlavorBanner(
-            child: materialApp,
-          );
-        }
-        return materialApp;
-      },
-    );
+    final settings = ref.watch(appSettingsProvider);
+    final bannerEnabled = settings.bannerEnabled;
+    if (bannerEnabled) {
+      return FlavorBanner(
+        child: materialApp,
+      );
+    }
+    return materialApp;
   }
 }
