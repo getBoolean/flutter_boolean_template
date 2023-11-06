@@ -127,7 +127,7 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
   /// spot.
   ///
   /// If true, then [floatingActionButtonLocation] and
-  /// [floatingActionButtonAnimation] are ignored.
+  /// [floatingActionButtonAnimator] are ignored.
   final bool fabInRail;
 
   /// Weather the overflow menu defaults to include overflow destinations and
