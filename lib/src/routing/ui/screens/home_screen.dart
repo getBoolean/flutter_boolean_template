@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:constants/strings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_boolean_template/src/features/settings/application/settings_service.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/dto/settings.dart';
-import 'package:flutter_boolean_template/src/features/settings/data/repository/settings_provider.dart';
 import 'package:flutter_boolean_template/src/routing/router/app_router.dart';
 import 'package:flutter_boolean_template/src/routing/ui/widgets/auto_adaptive_router_scaffold.dart';
 import 'package:flutter_boolean_template/utils/utils.dart';
@@ -36,7 +36,7 @@ class HomeScreen extends ConsumerWidget implements AutoRouteWrapper {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
 
-    final settings = ref.watch(appSettingsProvider);
+    final settings = ref.watch(settingsServiceProvider);
     return SafeArea(
       child: AutoAdaptiveRouterScaffold(
         navigationTypeResolver: _resolveNavigationType,

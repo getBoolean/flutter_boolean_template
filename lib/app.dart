@@ -6,8 +6,8 @@ import 'package:flutter_boolean_template/src/features/example_feature/domain/ent
 import 'package:flutter_boolean_template/src/features/example_feature/domain/value/email.dart';
 import 'package:flutter_boolean_template/src/features/example_feature/domain/value/id.dart';
 import 'package:flutter_boolean_template/src/features/example_feature/domain/value/name.dart';
+import 'package:flutter_boolean_template/src/features/settings/application/settings_service.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/dto/settings.dart';
-import 'package:flutter_boolean_template/src/features/settings/data/repository/settings_provider.dart';
 import 'package:flutter_boolean_template/src/routing/router/app_router.dart';
 import 'package:flutter_boolean_template/src/routing/router_provider.dart';
 import 'package:flutter_flavor/flutter_flavor.dart';
@@ -36,7 +36,7 @@ class App extends ConsumerWidget {
         invalid: (invalidUser) => debugPrint(invalidUser.toString()));
 
     final AppRouter router = ref.watch(routerProvider);
-    final Settings settings = ref.watch(appSettingsProvider);
+    final Settings settings = ref.watch(settingsServiceProvider);
 
     final materialApp = MaterialApp.router(
       debugShowCheckedModeBanner: false,

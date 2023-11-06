@@ -1,7 +1,7 @@
 import 'package:constants/flavor.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_boolean_template/src/features/settings/application/settings_service.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/dto/settings.dart';
-import 'package:flutter_boolean_template/src/features/settings/data/repository/settings_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:settings_ui/settings_ui.dart';
 
@@ -17,7 +17,7 @@ class SettingsWidget extends StatefulHookConsumerWidget {
 class _SettingsWidgetState extends ConsumerState<SettingsWidget> {
   @override
   Widget build(BuildContext context) {
-    final settings = ref.watch(appSettingsProvider);
+    final settings = ref.watch(settingsServiceProvider);
     final developerSettings = _buildDeveloperSettings(settings: settings);
     return SettingsList(
       platform: DevicePlatform.android,
@@ -34,7 +34,9 @@ class _SettingsWidgetState extends ConsumerState<SettingsWidget> {
               title: const Text('Use device theme'),
               initialValue: settings.systemThemeMode,
               onToggle: (value) async {
-                ref.read(appSettingsProvider.notifier).toggleSystemThemeMode();
+                ref
+                    .read(settingsServiceProvider.notifier)
+                    .toggleSystemThemeMode();
               },
             ),
             SettingsTile.switchTile(
@@ -42,7 +44,7 @@ class _SettingsWidgetState extends ConsumerState<SettingsWidget> {
               initialValue: settings.darkMode,
               enabled: !settings.systemThemeMode,
               onToggle: (value) async {
-                ref.read(appSettingsProvider.notifier).toggleDarkMode();
+                ref.read(settingsServiceProvider.notifier).toggleDarkMode();
               },
             ),
           ],
@@ -56,7 +58,7 @@ class _SettingsWidgetState extends ConsumerState<SettingsWidget> {
       if (AppFlavor.isBannerEnabled)
         SettingsTile.switchTile(
           onToggle: (value) async {
-            ref.read(appSettingsProvider.notifier).toggleBanner();
+            ref.read(settingsServiceProvider.notifier).toggleBanner();
           },
           initialValue: settings.bannerEnabled,
           leading: const Icon(Icons.bug_report),
