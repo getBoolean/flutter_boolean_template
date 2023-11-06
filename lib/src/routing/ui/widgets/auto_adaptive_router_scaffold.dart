@@ -355,7 +355,7 @@ class _AutoAdaptiveRouterScaffoldState
   ) {
     final theme = Theme.of(context);
     return Drawer(
-      child: Column(
+      child: ListView(
         children: [
           if (widget.drawerHeader != null) widget.drawerHeader!,
           for (final destination in widget.destinations)
@@ -383,7 +383,7 @@ class _AutoAdaptiveRouterScaffoldState
   ) {
     final theme = Theme.of(context);
     return Drawer(
-      child: Column(
+      child: ListView(
         children: [
           if (widget.drawerHeader != null) widget.drawerHeader!,
           for (final destination in widget.destinations)
