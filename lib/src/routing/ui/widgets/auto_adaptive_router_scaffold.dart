@@ -38,7 +38,7 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
     this.tabBarEnd,
     this.isTabBarScrollable = true,
     this.tabAlignment = TabAlignment.start,
-    this.drawerDivider,
+    this.divider,
     this.tabBarBuilder,
     this.bottomNavigationBarBuilder,
     this.drawerBuilder,
@@ -59,6 +59,8 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
   final List<RouterDestination> destinations;
 
   /// See [Scaffold.floatingActionButton].
+  ///
+  /// Only used for [NavigationType.bottom] and [NavigationType.rail]
   final FloatingActionButton? floatingActionButton;
 
   /// See [Scaffold.floatingActionButtonLocation].
@@ -156,28 +158,42 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
   /// share of the available space.
   final bool isTabBarScrollable;
 
-  final VerticalDivider? drawerDivider;
+  /// The divider between the [Drawer]/[NavigationRail] and the body.
+  final VerticalDivider? divider;
 
+  /// Custom builder for [NavigationType.top]
+  ///
+  /// If not null, then [isTabBarScrollable], and [tabAlignment] are ignored for this type.
   final TabBar Function(
     void Function(int index) onDestinationSelected,
   )? tabBarBuilder;
 
+  /// Custom builder for [NavigationType.bottom]
   final Widget Function(
     int selectedIndex,
     List<RouterDestination> bottomDestinations,
     void Function(int index) onDestinationSelected,
   )? bottomNavigationBarBuilder;
 
+  /// Custom builder for [NavigationType.drawer]
+  ///
+  /// If not null, then [drawerHeader] and [drawerFooter] are ignored for this type.
   final Widget Function(
     int selectedIndex,
     void Function(int index) onDestinationSelected,
   )? drawerBuilder;
 
+  /// Custom builder for [NavigationType.permanentDrawer]
+  ///
+  /// If not null, then [drawerHeader] and [drawerFooter] are ignored for this type.
   final Widget Function(
     int selectedIndex,
     void Function(int index) onDestinationSelected,
   )? permanentDrawerBuilder;
 
+  /// Custom builder for [NavigationType.rail]
+  ///
+  /// If not null, then [fabInRail] and [floatingActionButton] are ignored for this type.
   final Widget Function(
     int selectedIndex,
     List<RouterDestination> railDestinations,
@@ -275,14 +291,14 @@ class _AutoAdaptiveRouterScaffoldState
               children: [
                 if (navigationType == NavigationType.permanentDrawer) ...[
                   permanentDrawer,
-                  widget.drawerDivider ??
+                  widget.divider ??
                       const VerticalDivider(
                         width: 1,
                         thickness: 1,
                       ),
                 ] else if (navigationType == NavigationType.rail) ...[
                   navigationRail,
-                  widget.drawerDivider ??
+                  widget.divider ??
                       const VerticalDivider(
                         width: 1,
                         thickness: 1,
