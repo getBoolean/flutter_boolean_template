@@ -255,6 +255,8 @@ class _AutoAdaptiveRouterScaffoldState
                     title:
                         Text(widget.destinations[tabsRouter.activeIndex].title),
                     leading: const AutoLeadingButton(),
+                    leadingWidth:
+                        navigationType == NavigationType.rail ? 72.0 : 56.0,
                   )
                 : navigationType == NavigationType.top
                     ? PreferredSize(
@@ -471,43 +473,6 @@ class RouterDestination {
   final String title;
   final IconData icon;
   final PageRouteInfo<void> route;
-}
-
-class AutoAppBar extends StatefulWidget implements PreferredSizeWidget {
-  const AutoAppBar({super.key, this.title, this.navigationTypeResolver});
-
-  final Widget? title;
-
-  /// Determines the navigation type that the scaffold uses.
-  final NavigationTypeResolver? navigationTypeResolver;
-
-  @override
-  State<AutoAppBar> createState() => _AutoAppBarState();
-
-  @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
-}
-
-class _AutoAppBarState extends State<AutoAppBar> {
-  @override
-  Widget build(BuildContext context) {
-    final destinationScaffold = AutoAdaptiveRouterScaffold.of(context);
-    final NavigationTypeResolver navigationTypeResolver =
-        destinationScaffold.navigationTypeResolver ??
-            defaultNavigationTypeResolver;
-    final navigationType = navigationTypeResolver(context);
-    final tabsRouter = AutoTabsRouter.of(context, watch: true);
-    return switch (navigationType) {
-      NavigationType.top || NavigationType.drawer => const SizedBox.shrink(),
-      _ => AppBar(
-          title: widget.title ??
-              Text(
-                destinationScaffold.destinations[tabsRouter.activeIndex].title,
-              ),
-          leading: const AutoLeadingButton(),
-        ),
-    };
-  }
 }
 
 NavigationType defaultNavigationTypeResolver(BuildContext context) {
