@@ -26,8 +26,8 @@ enum DeviceForm {
   tv(AdaptiveWindowType.xlarge),
   desktop(AdaptiveWindowType.large),
   tablet(AdaptiveWindowType.medium),
-  phone(AdaptiveWindowType.small),
-  watch(AdaptiveWindowType.xsmall);
+  phone(AdaptiveWindowType.small);
+  // watch(AdaptiveWindowType.xsmall);
 
   const DeviceForm(this.adaptiveWindowType);
 
@@ -41,15 +41,16 @@ enum DeviceForm {
       _ when adaptiveWindowType >= AdaptiveWindowType.medium =>
         DeviceForm.tablet,
       _ when adaptiveWindowType >= AdaptiveWindowType.small => DeviceForm.phone,
-      _ when adaptiveWindowType >= AdaptiveWindowType.xsmall =>
-        DeviceForm.watch,
+      // _ when adaptiveWindowType >= AdaptiveWindowType.xsmall =>
+      //   DeviceForm.watch,
       _ => DeviceForm.phone,
     };
   }
 }
 
 /// Returns the device type using the user agent if on web
-(DeviceType, DeviceForm) getDeviceDetails(BuildContext context) {
+(DeviceType, DeviceForm, Orientation) getDeviceDetails(BuildContext context) {
+  final Orientation currentOrientation = MediaQuery.of(context).orientation;
   final windowType = getWindowType(context);
   final DeviceForm deviceForm = DeviceForm.from(windowType);
 
@@ -80,7 +81,7 @@ enum DeviceForm {
       deviceType = DeviceType.Android;
     }
 
-    return (deviceType, deviceForm);
+    return (deviceType, deviceForm, currentOrientation);
   } else {
     final DeviceType deviceType;
     if (io.Platform.isAndroid) {
@@ -97,6 +98,6 @@ enum DeviceForm {
       deviceType = DeviceType.Android;
     }
 
-    return (deviceType, deviceForm);
+    return (deviceType, deviceForm, currentOrientation);
   }
 }
