@@ -1,3 +1,4 @@
+import 'package:constants/flavor.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -27,4 +28,8 @@ class Settings with SettingsMappable {
 
   static const fromMap = SettingsMapper.fromMap;
   static const fromJson = SettingsMapper.fromJson;
+}
+
+extension SettingsExtension on Settings {
+  bool get isBannerShowing => AppFlavor.isBannerEnabled && bannerEnabled;
 }
