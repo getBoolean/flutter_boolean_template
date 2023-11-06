@@ -23,11 +23,11 @@ enum DeviceType {
 }
 
 enum DeviceForm {
-  tv(AdaptiveWindowType.xlarge),
+  largeDesktop(AdaptiveWindowType.xlarge),
   desktop(AdaptiveWindowType.large),
   tablet(AdaptiveWindowType.medium),
-  phone(AdaptiveWindowType.small);
-  // watch(AdaptiveWindowType.xsmall);
+  largePhone(AdaptiveWindowType.small),
+  phone(AdaptiveWindowType.xsmall);
 
   const DeviceForm(this.adaptiveWindowType);
 
@@ -35,14 +35,16 @@ enum DeviceForm {
 
   static DeviceForm from(AdaptiveWindowType adaptiveWindowType) {
     return switch (adaptiveWindowType) {
-      _ when adaptiveWindowType >= AdaptiveWindowType.xlarge => DeviceForm.tv,
+      _ when adaptiveWindowType >= AdaptiveWindowType.xlarge =>
+        DeviceForm.largeDesktop,
       _ when adaptiveWindowType >= AdaptiveWindowType.large =>
         DeviceForm.desktop,
       _ when adaptiveWindowType >= AdaptiveWindowType.medium =>
         DeviceForm.tablet,
-      _ when adaptiveWindowType >= AdaptiveWindowType.small => DeviceForm.phone,
-      // _ when adaptiveWindowType >= AdaptiveWindowType.xsmall =>
-      //   DeviceForm.watch,
+      _ when adaptiveWindowType >= AdaptiveWindowType.small =>
+        DeviceForm.largePhone,
+      _ when adaptiveWindowType >= AdaptiveWindowType.xsmall =>
+        DeviceForm.phone,
       _ => DeviceForm.phone,
     };
   }

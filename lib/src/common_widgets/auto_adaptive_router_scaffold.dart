@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 typedef NavigationTypeResolver = NavigationType Function(BuildContext context);
 
-class AutoAdaptiveRouterScaffold extends StatelessWidget {
+class AutoAdaptiveRouterScaffold extends StatefulWidget {
   const AutoAdaptiveRouterScaffold({
     super.key,
     required this.destinations,
@@ -34,6 +34,16 @@ class AutoAdaptiveRouterScaffold extends StatelessWidget {
     this.includeBaseDestinationsInMenu = true,
     this.bottomNavigationOverflow = 5,
     this.railDestinationsOverflow = 7,
+    this.tabBarStart,
+    this.tabBarEnd,
+    this.isTabBarScrollable = true,
+    this.tabAlignment = TabAlignment.start,
+    this.drawerDivider,
+    this.tabBarBuilder,
+    this.bottomNavigationBarBuilder,
+    this.drawerBuilder,
+    this.permanentDrawerBuilder,
+    this.railBuilder,
   });
 
   static AutoAdaptiveRouterScaffold of(BuildContext context) {
@@ -130,154 +140,298 @@ class AutoAdaptiveRouterScaffold extends StatelessWidget {
   /// Maximum number of items to display in [NavigationRail]
   final int railDestinationsOverflow;
 
+  /// The starting item in the [TabBar].
+  final Widget? tabBarStart;
+
+  /// The trailing item in the [TabBar].
+  final Widget? tabBarEnd;
+
+  /// The alignment for the tabs in the [TabBar]
+  final TabAlignment tabAlignment;
+
+  /// Whether the [TabBar] can be scrolled horizontally.
+  ///
+  /// If [isTabBarScrollable] is true, then each tab is as wide as needed for its label
+  /// and the entire [TabBar] is scrollable. Otherwise each tab gets an equal
+  /// share of the available space.
+  final bool isTabBarScrollable;
+
+  final VerticalDivider? drawerDivider;
+
+  final TabBar Function(
+    void Function(int index) onDestinationSelected,
+  )? tabBarBuilder;
+
+  final Widget Function(
+    int selectedIndex,
+    List<RouterDestination> bottomDestinations,
+    void Function(int index) onDestinationSelected,
+  )? bottomNavigationBarBuilder;
+
+  final Widget Function(
+    int selectedIndex,
+    void Function(int index) onDestinationSelected,
+  )? drawerBuilder;
+
+  final Widget Function(
+    int selectedIndex,
+    void Function(int index) onDestinationSelected,
+  )? permanentDrawerBuilder;
+
+  final Widget Function(
+    int selectedIndex,
+    List<RouterDestination> railDestinations,
+    void Function(int index) onDestinationSelected,
+  )? railBuilder;
+
+  @override
+  State<AutoAdaptiveRouterScaffold> createState() =>
+      _AutoAdaptiveRouterScaffoldState();
+}
+
+class _AutoAdaptiveRouterScaffoldState
+    extends State<AutoAdaptiveRouterScaffold> {
   @override
   Widget build(BuildContext context) {
     final NavigationTypeResolver navigationTypeResolver =
-        this.navigationTypeResolver ?? defaultNavigationTypeResolver;
+        widget.navigationTypeResolver ?? defaultNavigationTypeResolver;
     final navigationType = navigationTypeResolver(context);
-    final ThemeData theme = Theme.of(context);
     return AutoTabsRouter.pageView(
-      routes: destinations.map((destination) => destination.route).toList(),
-      animatePageTransition: navigationType == NavigationType.bottom,
+      routes:
+          widget.destinations.map((destination) => destination.route).toList(),
+      animatePageTransition: navigationType == NavigationType.bottom ||
+          navigationType == NavigationType.top,
       builder: (context, child, _) {
         final tabsRouter = AutoTabsRouter.of(context);
+        onDestinationSelectedHelper(int index) =>
+            _onDestinationSelected(tabsRouter, index);
 
-        final bottomDestinations = destinations.sublist(
+        final bottomDestinations = widget.destinations.sublist(
           0,
-          math.min(destinations.length, bottomNavigationOverflow),
+          math.min(widget.destinations.length, widget.bottomNavigationOverflow),
         );
 
-        final railDestinations = destinations.sublist(
+        final railDestinations = widget.destinations.sublist(
           0,
-          math.min(destinations.length, railDestinationsOverflow),
+          math.min(widget.destinations.length, widget.railDestinationsOverflow),
         );
-        return Scaffold(
-          appBar: navigationType == NavigationType.drawer
-              ? AppBar(
-                  title: Text(destinations[tabsRouter.activeIndex].title),
-                  leading: const AutoLeadingButton(),
-                )
-              : null,
-          body: Row(
-            children: [
-              if (navigationType == NavigationType.permanentDrawer) ...[
-                Drawer(
-                  child: Column(
-                    children: [
-                      if (drawerHeader != null) drawerHeader!,
-                      for (final destination in destinations)
-                        ListTile(
-                          leading: Icon(destination.icon),
-                          title: Text(destination.title),
-                          selected: destinations.indexOf(destination) ==
-                              tabsRouter.activeIndex,
-                          onTap: () => _onDestinationSelected(
-                            tabsRouter,
-                            destinations.indexOf(destination),
-                          ),
-                          style: ListTileStyle.drawer,
-                          selectedColor: theme.colorScheme.secondary,
+        final buildTabBar = widget.tabBarBuilder ?? _defaultTabBarBuilder;
+        final tabBar = buildTabBar(onDestinationSelectedHelper);
+
+        final buildBottomNavigationBar = widget.bottomNavigationBarBuilder ??
+            _defaultBottomNavigationBarBuilder;
+        final bottomNavigationBar = buildBottomNavigationBar(
+          tabsRouter.activeIndex,
+          bottomDestinations,
+          onDestinationSelectedHelper,
+        );
+
+        final buildDrawer = widget.drawerBuilder ?? _defaultBuildDrawer;
+        final drawer = buildDrawer(
+          tabsRouter.activeIndex,
+          onDestinationSelectedHelper,
+        );
+
+        final buildPermanentDrawer =
+            widget.permanentDrawerBuilder ?? _defaultBuildPermanentDrawer;
+        final permanentDrawer = buildPermanentDrawer(
+          tabsRouter.activeIndex,
+          onDestinationSelectedHelper,
+        );
+
+        final buildRail = widget.railBuilder ?? _defaultBuildNavigationRail;
+        final navigationRail = buildRail(
+          tabsRouter.activeIndex,
+          railDestinations,
+          onDestinationSelectedHelper,
+        );
+
+        return DefaultTabController(
+          initialIndex: tabsRouter.activeIndex,
+          length: widget.destinations.length,
+          child: Scaffold(
+            appBar: navigationType == NavigationType.drawer
+                ? AppBar(
+                    title:
+                        Text(widget.destinations[tabsRouter.activeIndex].title),
+                    leading: const AutoLeadingButton(),
+                  )
+                : navigationType == NavigationType.top
+                    ? PreferredSize(
+                        preferredSize: tabBar.preferredSize,
+                        child: Row(
+                          children: [
+                            if (widget.tabBarStart != null) widget.tabBarStart!,
+                            tabBar,
+                            const Spacer(),
+                            if (widget.tabBarEnd != null) widget.tabBarEnd!,
+                          ],
                         ),
-                      const Spacer(),
-                      if (drawerFooter != null) drawerFooter!,
-                    ],
-                  ),
-                ),
-                const VerticalDivider(
-                  width: 1,
-                  thickness: 1,
-                ),
-              ] else if (navigationType == NavigationType.rail) ...[
-                NavigationRail(
-                  leading: fabInRail
-                      ? Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: floatingActionButton,
-                        )
-                      : null,
-                  destinations: [
-                    for (final destination in railDestinations)
-                      NavigationRailDestination(
-                        icon: Icon(destination.icon),
-                        label: Text(destination.title),
+                      )
+                    : null,
+            body: Row(
+              children: [
+                if (navigationType == NavigationType.permanentDrawer) ...[
+                  permanentDrawer,
+                  widget.drawerDivider ??
+                      const VerticalDivider(
+                        width: 1,
+                        thickness: 1,
                       ),
-                  ],
-                  selectedIndex: tabsRouter.activeIndex,
-                  onDestinationSelected: (index) {
-                    _onDestinationSelected(tabsRouter, index);
-                  },
-                ),
-                const VerticalDivider(
-                  width: 1,
-                  thickness: 1,
-                ),
-              ],
-              Expanded(child: child),
-            ],
-          ),
-          drawer: switch (navigationType) {
-            NavigationType.drawer => Drawer(
-                child: Column(
-                  children: [
-                    if (drawerHeader != null) drawerHeader!,
-                    for (final destination in destinations)
-                      ListTile(
-                        leading: Icon(destination.icon),
-                        title: Text(destination.title),
-                        selected: destinations.indexOf(destination) ==
-                            tabsRouter.activeIndex,
-                        onTap: () => _onDestinationSelected(
-                          tabsRouter,
-                          destinations.indexOf(destination),
-                        ),
-                        style: ListTileStyle.drawer,
-                        selectedColor: theme.colorScheme.secondary,
+                ] else if (navigationType == NavigationType.rail) ...[
+                  navigationRail,
+                  widget.drawerDivider ??
+                      const VerticalDivider(
+                        width: 1,
+                        thickness: 1,
                       ),
-                    const Spacer(),
-                    if (drawerFooter != null) drawerFooter!,
-                  ],
-                ),
-              ),
-            _ => null,
-          },
-          bottomNavigationBar: switch (navigationType) {
-            NavigationType.bottom => NavigationBar(
-                key: tabsRouter.key,
-                selectedIndex: tabsRouter.activeIndex,
-                onDestinationSelected: (index) {
-                  _onDestinationSelected(tabsRouter, index);
-                },
-                destinations: [
-                  for (final destination in bottomDestinations)
-                    NavigationDestination(
-                      label: destination.title,
-                      icon: Icon(destination.icon),
-                    ),
                 ],
-              ),
-            _ => null,
-          },
-          floatingActionButton:
-              (fabInRail && navigationType != NavigationType.bottom)
-                  ? null
-                  : floatingActionButton,
-          floatingActionButtonLocation: floatingActionButtonLocation,
-          floatingActionButtonAnimator: floatingActionButtonAnimator,
-          persistentFooterButtons: persistentFooterButtons,
-          endDrawer: endDrawer,
-          bottomSheet: bottomSheet,
-          backgroundColor: backgroundColor,
-          resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-          primary: primary,
-          drawerDragStartBehavior: drawerDragStartBehavior,
-          extendBody: extendBody,
-          extendBodyBehindAppBar: extendBodyBehindAppBar,
-          drawerScrimColor: drawerScrimColor,
-          drawerEdgeDragWidth: drawerEdgeDragWidth,
-          drawerEnableOpenDragGesture: drawerEnableOpenDragGesture,
-          endDrawerEnableOpenDragGesture: endDrawerEnableOpenDragGesture,
+                Expanded(child: child),
+              ],
+            ),
+            drawer: switch (navigationType) {
+              NavigationType.drawer => drawer,
+              _ => null,
+            },
+            bottomNavigationBar: switch (navigationType) {
+              NavigationType.bottom => bottomNavigationBar,
+              _ => null,
+            },
+            floatingActionButton:
+                (widget.fabInRail && navigationType != NavigationType.bottom)
+                    ? null
+                    : widget.floatingActionButton,
+            floatingActionButtonLocation: widget.floatingActionButtonLocation,
+            floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
+            persistentFooterButtons: widget.persistentFooterButtons,
+            endDrawer: widget.endDrawer,
+            bottomSheet: widget.bottomSheet,
+            backgroundColor: widget.backgroundColor,
+            resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
+            primary: widget.primary,
+            drawerDragStartBehavior: widget.drawerDragStartBehavior,
+            extendBody: widget.extendBody,
+            extendBodyBehindAppBar: widget.extendBodyBehindAppBar,
+            drawerScrimColor: widget.drawerScrimColor,
+            drawerEdgeDragWidth: widget.drawerEdgeDragWidth,
+            drawerEnableOpenDragGesture: widget.drawerEnableOpenDragGesture,
+            endDrawerEnableOpenDragGesture:
+                widget.endDrawerEnableOpenDragGesture,
+          ),
         );
       },
+    );
+  }
+
+  NavigationRail _defaultBuildNavigationRail(
+    int selectedIndex,
+    List<RouterDestination> railDestinations,
+    void Function(int index) onDestinationSelected,
+  ) {
+    return NavigationRail(
+      leading: widget.fabInRail
+          ? Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: widget.floatingActionButton,
+            )
+          : null,
+      destinations: [
+        for (final destination in railDestinations)
+          NavigationRailDestination(
+            icon: Icon(destination.icon),
+            label: Text(destination.title),
+          ),
+      ],
+      selectedIndex: selectedIndex,
+      onDestinationSelected: onDestinationSelected,
+    );
+  }
+
+  Drawer _defaultBuildPermanentDrawer(
+    int selectedIndex,
+    void Function(int index) onDestinationSelected,
+  ) {
+    final theme = Theme.of(context);
+    return Drawer(
+      child: Column(
+        children: [
+          if (widget.drawerHeader != null) widget.drawerHeader!,
+          for (final destination in widget.destinations)
+            ListTile(
+              leading: Icon(destination.icon),
+              title: Text(destination.title),
+              selected:
+                  widget.destinations.indexOf(destination) == selectedIndex,
+              onTap: () => onDestinationSelected(
+                widget.destinations.indexOf(destination),
+              ),
+              style: ListTileStyle.drawer,
+              selectedColor: theme.colorScheme.secondary,
+            ),
+          const Spacer(),
+          if (widget.drawerFooter != null) widget.drawerFooter!,
+        ],
+      ),
+    );
+  }
+
+  Drawer _defaultBuildDrawer(
+    int selectedIndex,
+    void Function(int index) onDestinationSelected,
+  ) {
+    final theme = Theme.of(context);
+    return Drawer(
+      child: Column(
+        children: [
+          if (widget.drawerHeader != null) widget.drawerHeader!,
+          for (final destination in widget.destinations)
+            ListTile(
+              leading: Icon(destination.icon),
+              title: Text(destination.title),
+              selected:
+                  widget.destinations.indexOf(destination) == selectedIndex,
+              onTap: () => onDestinationSelected(
+                widget.destinations.indexOf(destination),
+              ),
+              style: ListTileStyle.drawer,
+              selectedColor: theme.colorScheme.secondary,
+            ),
+          const Spacer(),
+          if (widget.drawerFooter != null) widget.drawerFooter!,
+        ],
+      ),
+    );
+  }
+
+  Widget _defaultBottomNavigationBarBuilder(
+    int selectedIndex,
+    List<RouterDestination> bottomDestinations,
+    void Function(int index) onDestinationSelected,
+  ) {
+    return NavigationBar(
+      selectedIndex: selectedIndex,
+      onDestinationSelected: onDestinationSelected,
+      destinations: [
+        for (final destination in bottomDestinations)
+          NavigationDestination(
+            label: destination.title,
+            icon: Icon(destination.icon),
+          ),
+      ],
+    );
+  }
+
+  TabBar _defaultTabBarBuilder(
+    void Function(int index) onDestinationSelected,
+  ) {
+    return TabBar(
+      onTap: onDestinationSelected,
+      isScrollable: widget.isTabBarScrollable,
+      tabAlignment: widget.tabAlignment,
+      tabs: <Tab>[
+        for (final destination in widget.destinations)
+          Tab(child: Text(destination.title)),
+      ],
     );
   }
 }
@@ -302,6 +456,9 @@ enum NavigationType {
 
   /// Used to configure a [Scaffold] with an always open [Drawer].
   permanentDrawer,
+
+  /// Used to configure a [Scaffold] with a [TabBar]
+  top,
 }
 
 class RouterDestination {
@@ -341,7 +498,7 @@ class _AutoAppBarState extends State<AutoAppBar> {
     final navigationType = navigationTypeResolver(context);
     final tabsRouter = AutoTabsRouter.of(context, watch: true);
     return switch (navigationType) {
-      NavigationType.drawer => const SizedBox.shrink(),
+      NavigationType.top || NavigationType.drawer => const SizedBox.shrink(),
       _ => AppBar(
           title: widget.title ??
               Text(
