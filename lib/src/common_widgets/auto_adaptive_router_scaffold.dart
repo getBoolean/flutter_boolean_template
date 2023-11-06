@@ -189,7 +189,12 @@ class AutoAdaptiveRouterScaffold extends StatelessWidget {
                 ),
               ] else if (navigationType == NavigationType.rail) ...[
                 NavigationRail(
-                  leading: fabInRail ? floatingActionButton : null,
+                  leading: fabInRail
+                      ? Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: floatingActionButton,
+                        )
+                      : null,
                   destinations: [
                     for (final destination in railDestinations)
                       NavigationRailDestination(
