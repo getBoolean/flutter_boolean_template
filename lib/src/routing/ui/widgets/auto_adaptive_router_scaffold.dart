@@ -165,14 +165,14 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
   ///
   /// If not null, then [isTabBarScrollable], and [tabAlignment] are ignored for this type.
   final TabBar Function(
-    void Function(int index) setActiveIndex,
+    void Function(int index) onDestinationSelected,
   )? tabBarBuilder;
 
   /// Custom builder for [NavigationType.bottom]
   final Widget Function(
     int selectedIndex,
     List<RouterDestination> bottomDestinations,
-    void Function(int index) setActiveIndex,
+    void Function(int index) onDestinationSelected,
   )? bottomNavigationBarBuilder;
 
   /// Custom builder for [NavigationType.drawer]
@@ -180,7 +180,7 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
   /// If not null, then [drawerHeader] and [drawerFooter] are ignored for this type.
   final Widget Function(
     int selectedIndex,
-    void Function(int index) setActiveIndex,
+    void Function(int index) onDestinationSelected,
   )? drawerBuilder;
 
   /// Custom builder for [NavigationType.permanentDrawer]
@@ -188,7 +188,7 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
   /// If not null, then [drawerHeader] and [drawerFooter] are ignored for this type.
   final Widget Function(
     int selectedIndex,
-    void Function(int index) setActiveIndex,
+    void Function(int index) onDestinationSelected,
   )? permanentDrawerBuilder;
 
   /// Custom builder for [NavigationType.rail]
@@ -197,7 +197,7 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
   final Widget Function(
     int selectedIndex,
     List<RouterDestination> railDestinations,
-    void Function(int index) setActiveIndex,
+    void Function(int index) onDestinationSelected,
   )? railBuilder;
 
   @override
@@ -212,13 +212,15 @@ class _AutoAdaptiveRouterScaffoldState
     final NavigationTypeResolver navigationTypeResolver =
         widget.navigationTypeResolver ?? defaultNavigationTypeResolver;
     final navigationType = navigationTypeResolver(context);
-    return AutoTabsRouter.tabBar(
+    return AutoTabsRouter.pageView(
       routes:
           widget.destinations.map((destination) => destination.route).toList(),
       animatePageTransition: navigationType == NavigationType.bottom ||
           navigationType == NavigationType.top,
       builder: (context, child, _) {
         final tabsRouter = AutoTabsRouter.of(context);
+        onDestinationSelectedHelper(int index) =>
+            _onDestinationSelected(tabsRouter, index);
 
         final bottomDestinations = widget.destinations.sublist(
           0,
@@ -230,34 +232,34 @@ class _AutoAdaptiveRouterScaffoldState
           math.min(widget.destinations.length, widget.railDestinationsOverflow),
         );
         final buildTabBar = widget.tabBarBuilder ?? _defaultTabBarBuilder;
-        final tabBar = buildTabBar(tabsRouter.setActiveIndex);
+        final tabBar = buildTabBar(onDestinationSelectedHelper);
 
         final buildBottomNavigationBar = widget.bottomNavigationBarBuilder ??
             _defaultBottomNavigationBarBuilder;
         final bottomNavigationBar = buildBottomNavigationBar(
           tabsRouter.activeIndex,
           bottomDestinations,
-          tabsRouter.setActiveIndex,
+          onDestinationSelectedHelper,
         );
 
         final buildDrawer = widget.drawerBuilder ?? _defaultBuildDrawer;
         final drawer = buildDrawer(
           tabsRouter.activeIndex,
-          tabsRouter.setActiveIndex,
+          onDestinationSelectedHelper,
         );
 
         final buildPermanentDrawer =
             widget.permanentDrawerBuilder ?? _defaultBuildPermanentDrawer;
         final permanentDrawer = buildPermanentDrawer(
           tabsRouter.activeIndex,
-          tabsRouter.setActiveIndex,
+          onDestinationSelectedHelper,
         );
 
         final buildRail = widget.railBuilder ?? _defaultBuildNavigationRail;
         final navigationRail = buildRail(
           tabsRouter.activeIndex,
           railDestinations,
-          tabsRouter.setActiveIndex,
+          onDestinationSelectedHelper,
         );
 
         return DefaultTabController(
