@@ -124,7 +124,7 @@ class AutoAdaptiveRouterScaffold extends StatelessWidget {
   /// the overflow destinations.
   final bool includeBaseDestinationsInMenu;
 
-  /// Maximum number of items to display in [BottomNavigationBar]
+  /// Maximum number of items to display in [NavigationBar]
   final int bottomNavigationOverflow;
 
   /// Maximum number of items to display in [NavigationRail]
@@ -241,15 +241,15 @@ class AutoAdaptiveRouterScaffold extends StatelessWidget {
             _ => null,
           },
           bottomNavigationBar: switch (navigationType) {
-            NavigationType.bottom => BottomNavigationBar(
+            NavigationType.bottom => NavigationBar(
                 key: tabsRouter.key,
-                currentIndex: tabsRouter.activeIndex,
-                onTap: (index) {
+                selectedIndex: tabsRouter.activeIndex,
+                onDestinationSelected: (index) {
                   _onDestinationSelected(tabsRouter, index);
                 },
-                items: [
+                destinations: [
                   for (final destination in bottomDestinations)
-                    BottomNavigationBarItem(
+                    NavigationDestination(
                       label: destination.title,
                       icon: Icon(destination.icon),
                     ),
@@ -291,7 +291,7 @@ void _onDestinationSelected(TabsRouter tabsRouter, int index) {
 
 // The navigation mechanism to configure the [Scaffold] with.
 enum NavigationType {
-  // Used to configure a [Scaffold] with a [BottomNavigationBar].
+  /// Used to configure a [Scaffold] with a [NavigationBar].
   bottom,
 
   // Used to configure a [Scaffold] with a [NavigationRail].
