@@ -34,7 +34,7 @@ void main() async {
 Future<void> initHive() async {
   await Hive.initFlutter();
   Hive.registerAdapter(SettingsAdapter());
-  await Hive.openBox<Settings>(settingsBoxName);
+  await SettingsRepository.initBox();
 }
 
 /// Source: Flutter Foundations course by CodeWithAndrea
