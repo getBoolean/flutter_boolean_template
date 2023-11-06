@@ -43,7 +43,6 @@ class _AutoAppBarState extends State<AutoAppBar> {
                 destinationScaffold.destinations[tabsRouter.activeIndex].title,
               ),
           leading: const AutoLeadingButton(),
-          leadingWidth: navigationType == NavigationType.rail ? 72.0 : 56.0,
         ),
     };
   }
