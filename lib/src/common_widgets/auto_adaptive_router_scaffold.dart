@@ -334,10 +334,11 @@ class AutoAppBar extends StatefulWidget implements PreferredSizeWidget {
 class _AutoAppBarState extends State<AutoAppBar> {
   @override
   Widget build(BuildContext context) {
-    final NavigationTypeResolver navigationTypeResolver =
-        widget.navigationTypeResolver ?? defaultNavigationTypeResolver;
-    final navigationType = navigationTypeResolver(context);
     final destinationScaffold = AutoAdaptiveRouterScaffold.of(context);
+    final NavigationTypeResolver navigationTypeResolver =
+        destinationScaffold.navigationTypeResolver ??
+            defaultNavigationTypeResolver;
+    final navigationType = navigationTypeResolver(context);
     final tabsRouter = AutoTabsRouter.of(context, watch: true);
     return switch (navigationType) {
       NavigationType.drawer => const SizedBox.shrink(),
