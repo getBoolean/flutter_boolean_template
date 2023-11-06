@@ -14,26 +14,27 @@ import 'package:log/log.dart';
 class HomeScreen extends ConsumerWidget implements AutoRouteWrapper {
   const HomeScreen({super.key});
 
+  static const _destinations = [
+    RouterDestination(
+      title: 'Books',
+      icon: Icons.book,
+      route: BooksRoute(),
+    ),
+    RouterDestination(
+      title: 'Profile',
+      icon: Icons.person,
+      route: ProfileRoute(),
+    ),
+    RouterDestination(
+      title: 'Settings',
+      icon: Icons.settings,
+      route: SettingsRoute(),
+    ),
+  ];
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-    const destinations = [
-      RouterDestination(
-        title: 'Books',
-        icon: Icons.book,
-        route: BooksRoute(),
-      ),
-      RouterDestination(
-        title: 'Profile',
-        icon: Icons.person,
-        route: ProfileRoute(),
-      ),
-      RouterDestination(
-        title: 'Settings',
-        icon: Icons.settings,
-        route: SettingsRoute(),
-      ),
-    ];
 
     final settings = ref.watch(appSettingsProvider);
     return SafeArea(
@@ -80,8 +81,10 @@ class HomeScreen extends ConsumerWidget implements AutoRouteWrapper {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-            onPressed: () {}, child: const Icon(Icons.add)),
-        destinations: destinations,
+          onPressed: () {},
+          child: const Icon(Icons.add),
+        ),
+        destinations: _destinations,
       ),
     );
   }
