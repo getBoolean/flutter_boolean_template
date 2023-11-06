@@ -1,3 +1,5 @@
+import 'dart:io' as io;
+
 import 'package:constants/flavor.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +9,7 @@ import 'package:flutter_boolean_template/src/features/settings/data/repository/s
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:window_manager/window_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,7 +19,14 @@ void main() async {
   registerErrorHandlers();
   AppFlavor.initConfig();
   usePathUrlStrategy();
+
   await initHive();
+
+  if (!kIsWeb &&
+      (io.Platform.isWindows || io.Platform.isLinux || io.Platform.isMacOS)) {
+    await windowManager.ensureInitialized();
+    await windowManager.setMinimumSize(const Size(300, 400));
+  }
 
   runApp(const ProviderScope(child: App()));
 }
