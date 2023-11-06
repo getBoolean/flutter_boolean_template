@@ -18,15 +18,21 @@ class SettingsAdapter extends TypeAdapter<Settings> {
     };
     return Settings(
       bannerEnabled: fields[0] as bool,
+      darkMode: fields[1] as bool,
+      systemThemeMode: fields[2] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, Settings obj) {
     writer
-      ..writeByte(1)
+      ..writeByte(3)
       ..writeByte(0)
-      ..write(obj.bannerEnabled);
+      ..write(obj.bannerEnabled)
+      ..writeByte(1)
+      ..write(obj.darkMode)
+      ..writeByte(2)
+      ..write(obj.systemThemeMode);
   }
 
   @override

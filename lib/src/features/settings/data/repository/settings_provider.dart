@@ -16,7 +16,21 @@ class AppSettings extends _$AppSettings {
 
   void toggleBanner() {
     final bannerEnabled = state.bannerEnabled;
-    final newSettings = Settings(bannerEnabled: !bannerEnabled);
+    final newSettings = state.copyWith(bannerEnabled: !bannerEnabled);
+    state = newSettings;
+    _saveSettings(newSettings);
+  }
+
+  void toggleDarkMode() {
+    final darkMode = state.darkMode;
+    final newSettings = state.copyWith(darkMode: !darkMode);
+    state = newSettings;
+    _saveSettings(newSettings);
+  }
+
+  void toggleSystemThemeMode() {
+    final systemThemeMode = state.systemThemeMode;
+    final newSettings = state.copyWith(systemThemeMode: !systemThemeMode);
     state = newSettings;
     _saveSettings(newSettings);
   }

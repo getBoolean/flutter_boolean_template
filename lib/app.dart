@@ -6,6 +6,7 @@ import 'package:flutter_boolean_template/src/features/example_feature/domain/ent
 import 'package:flutter_boolean_template/src/features/example_feature/domain/value/email.dart';
 import 'package:flutter_boolean_template/src/features/example_feature/domain/value/id.dart';
 import 'package:flutter_boolean_template/src/features/example_feature/domain/value/name.dart';
+import 'package:flutter_boolean_template/src/features/settings/data/dto/settings.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/repository/settings_provider.dart';
 import 'package:flutter_boolean_template/src/routing/router/app_router.dart';
 import 'package:flutter_boolean_template/src/routing/router_provider.dart';
@@ -35,6 +36,7 @@ class App extends ConsumerWidget {
         invalid: (invalidUser) => debugPrint(invalidUser.toString()));
 
     final AppRouter router = ref.watch(routerProvider);
+    final Settings settings = ref.watch(appSettingsProvider);
 
     final materialApp = MaterialApp.router(
       debugShowCheckedModeBanner: false,
@@ -82,10 +84,13 @@ class App extends ConsumerWidget {
         // To use the Playground font, add GoogleFonts package and uncomment
         fontFamily: GoogleFonts.notoSans().fontFamily,
       ),
-      themeMode: ThemeMode.system,
+      themeMode: settings.systemThemeMode
+          ? ThemeMode.system
+          : settings.darkMode
+              ? ThemeMode.dark
+              : ThemeMode.light,
     );
 
-    final settings = ref.watch(appSettingsProvider);
     final bannerEnabled = settings.bannerEnabled;
     if (bannerEnabled) {
       return FlavorBanner(

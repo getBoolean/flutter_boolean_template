@@ -23,14 +23,25 @@ class SettingsMapper extends ClassMapperBase<Settings> {
   static bool _$bannerEnabled(Settings v) => v.bannerEnabled;
   static const Field<Settings, bool> _f$bannerEnabled =
       Field('bannerEnabled', _$bannerEnabled, opt: true, def: true);
+  static bool _$darkMode(Settings v) => v.darkMode;
+  static const Field<Settings, bool> _f$darkMode =
+      Field('darkMode', _$darkMode, opt: true, def: true);
+  static bool _$systemThemeMode(Settings v) => v.systemThemeMode;
+  static const Field<Settings, bool> _f$systemThemeMode =
+      Field('systemThemeMode', _$systemThemeMode, opt: true, def: true);
 
   @override
   final Map<Symbol, Field<Settings, dynamic>> fields = const {
     #bannerEnabled: _f$bannerEnabled,
+    #darkMode: _f$darkMode,
+    #systemThemeMode: _f$systemThemeMode,
   };
 
   static Settings _instantiate(DecodingData data) {
-    return Settings(bannerEnabled: data.dec(_f$bannerEnabled));
+    return Settings(
+        bannerEnabled: data.dec(_f$bannerEnabled),
+        darkMode: data.dec(_f$darkMode),
+        systemThemeMode: data.dec(_f$systemThemeMode));
   }
 
   @override
@@ -84,7 +95,7 @@ extension SettingsValueCopy<$R, $Out> on ObjectCopyWith<$R, Settings, $Out> {
 
 abstract class SettingsCopyWith<$R, $In extends Settings, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
-  $R call({bool? bannerEnabled});
+  $R call({bool? bannerEnabled, bool? darkMode, bool? systemThemeMode});
   SettingsCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -97,11 +108,17 @@ class _SettingsCopyWithImpl<$R, $Out>
   late final ClassMapperBase<Settings> $mapper =
       SettingsMapper.ensureInitialized();
   @override
-  $R call({bool? bannerEnabled}) => $apply(FieldCopyWithData(
-      {if (bannerEnabled != null) #bannerEnabled: bannerEnabled}));
+  $R call({bool? bannerEnabled, bool? darkMode, bool? systemThemeMode}) =>
+      $apply(FieldCopyWithData({
+        if (bannerEnabled != null) #bannerEnabled: bannerEnabled,
+        if (darkMode != null) #darkMode: darkMode,
+        if (systemThemeMode != null) #systemThemeMode: systemThemeMode
+      }));
   @override
   Settings $make(CopyWithData data) => Settings(
-      bannerEnabled: data.get(#bannerEnabled, or: $value.bannerEnabled));
+      bannerEnabled: data.get(#bannerEnabled, or: $value.bannerEnabled),
+      darkMode: data.get(#darkMode, or: $value.darkMode),
+      systemThemeMode: data.get(#systemThemeMode, or: $value.systemThemeMode));
 
   @override
   SettingsCopyWith<$R2, Settings, $Out2> $chain<$R2, $Out2>(

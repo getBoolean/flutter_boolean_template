@@ -11,8 +11,18 @@ class Settings with SettingsMappable {
   @HiveField(0)
   final bool bannerEnabled;
 
+  @MappableField()
+  @HiveField(1)
+  final bool darkMode;
+
+  @MappableField()
+  @HiveField(2)
+  final bool systemThemeMode;
+
   const Settings({
     this.bannerEnabled = true,
+    this.darkMode = true,
+    this.systemThemeMode = true,
   });
 
   static const fromMap = SettingsMapper.fromMap;

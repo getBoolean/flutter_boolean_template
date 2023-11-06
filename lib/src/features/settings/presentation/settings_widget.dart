@@ -27,6 +27,26 @@ class _SettingsWidgetState extends ConsumerState<SettingsWidget> {
             title: const Text('Developer'),
             tiles: developerSettings,
           ),
+        SettingsSection(
+          title: const Text('Appearance'),
+          tiles: [
+            SettingsTile.switchTile(
+              title: const Text('Use device theme'),
+              initialValue: settings.systemThemeMode,
+              onToggle: (value) async {
+                ref.read(appSettingsProvider.notifier).toggleSystemThemeMode();
+              },
+            ),
+            SettingsTile.switchTile(
+              title: const Text('Dark theme'),
+              initialValue: settings.darkMode,
+              enabled: !settings.systemThemeMode,
+              onToggle: (value) async {
+                ref.read(appSettingsProvider.notifier).toggleDarkMode();
+              },
+            ),
+          ],
+        )
       ],
     );
   }
