@@ -289,18 +289,18 @@ void _onDestinationSelected(TabsRouter tabsRouter, int index) {
   tabsRouter.setActiveIndex(index);
 }
 
-// The navigation mechanism to configure the [Scaffold] with.
+/// The navigation mechanism to configure the [Scaffold] with.
 enum NavigationType {
   /// Used to configure a [Scaffold] with a [NavigationBar].
   bottom,
 
-  // Used to configure a [Scaffold] with a [NavigationRail].
+  /// Used to configure a [Scaffold] with a [NavigationRail].
   rail,
 
-  // Used to configure a [Scaffold] with a modal [Drawer].
+  /// Used to configure a [Scaffold] with a modal [Drawer].
   drawer,
 
-  // Used to configure a [Scaffold] with an always open [Drawer].
+  /// Used to configure a [Scaffold] with an always open [Drawer].
   permanentDrawer,
 }
 

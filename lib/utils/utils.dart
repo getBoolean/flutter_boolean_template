@@ -48,7 +48,9 @@ enum DeviceForm {
   }
 }
 
-/// Returns the device type using the user agent if on web
+/// Returns the current device type, form and orientation
+///
+/// If the app is running on the web, the device type is determined by the user agent.
 (DeviceType, DeviceForm, Orientation) getDeviceDetails(BuildContext context) {
   final Orientation currentOrientation = MediaQuery.of(context).orientation;
   final windowType = getWindowType(context);
