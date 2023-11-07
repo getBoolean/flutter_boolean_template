@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:constants/strings.dart';
+import 'package:constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/features/settings/application/settings_service.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/dto/settings.dart';

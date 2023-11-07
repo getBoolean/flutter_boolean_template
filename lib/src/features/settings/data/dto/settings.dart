@@ -1,4 +1,4 @@
-import 'package:constants/flavor.dart';
+import 'package:constants/constants.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 

@@ -1,6 +1,6 @@
 import 'dart:io' as io;
 
-import 'package:constants/flavor.dart';
+import 'package:constants/constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/app.dart';

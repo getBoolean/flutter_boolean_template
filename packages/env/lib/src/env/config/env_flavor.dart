@@ -1,4 +1,4 @@
-import 'package:constants/flavor.dart';
+import 'package:constants/constants.dart' show AppFlavor, Flavor;
 import 'package:env/src/env/config/env_fields.dart';
 import 'package:env/src/env/dev_env.dart';
 import 'package:env/src/env/local_env.dart';
