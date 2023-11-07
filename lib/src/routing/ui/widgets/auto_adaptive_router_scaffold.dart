@@ -222,6 +222,7 @@ class _AutoAdaptiveRouterScaffoldState
         final tabsRouter = AutoTabsRouter.of(context);
         onDestinationSelectedHelper(int index) =>
             _onDestinationSelected(tabsRouter, index);
+        final title = Text(widget.destinations[tabsRouter.activeIndex].title);
 
         final bottomDestinations = widget.destinations.sublist(
           0,
@@ -267,50 +268,59 @@ class _AutoAdaptiveRouterScaffoldState
           initialIndex: tabsRouter.activeIndex,
           length: widget.destinations.length,
           child: Scaffold(
-            appBar: navigationType == NavigationType.drawer
-                ? AppBar(
-                    title:
-                        Text(widget.destinations[tabsRouter.activeIndex].title),
-                    leading: const AutoLeadingButton(),
-                    leadingWidth:
-                        navigationType == NavigationType.rail ? 72.0 : 56.0,
-                  )
-                : navigationType == NavigationType.top
-                    ? PreferredSize(
-                        preferredSize: tabBar.preferredSize,
-                        child: ConstrainedScrollableChild(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: [
-                              if (widget.tabBarStart != null)
-                                widget.tabBarStart!,
-                              tabBar,
-                              const Spacer(),
-                              if (widget.tabBarEnd != null) widget.tabBarEnd!,
-                            ],
+            appBar: navigationType == NavigationType.top
+                ? PreferredSize(
+                    preferredSize: tabBar.preferredSize,
+                    child: ConstrainedScrollableChild(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          if (widget.tabBarStart != null) widget.tabBarStart!,
                           ),
+                          tabBar,
+                          const Spacer(),
+                          if (widget.tabBarEnd != null) widget.tabBarEnd!,
+                        ],
+                      ),
+                    ),
+                  )
+                : null,
+            body: NestedScrollView(
+              headerSliverBuilder:
+                  (BuildContext context, bool innerBoxIsScrolled) {
+                return [
+                  if (navigationType == NavigationType.drawer)
+                    SliverAppBar(
+                      leading: const AutoLeadingButton(),
+                      title: title,
+                      elevation: 10.0,
+                      automaticallyImplyLeading: false,
+                      expandedHeight: 50,
+                      floating: true,
+                      snap: true,
+                    )
+                ];
+              },
+              body: Row(
+                children: [
+                  if (navigationType == NavigationType.permanentDrawer) ...[
+                    ConstrainedScrollableChild(child: permanentDrawer),
+                    widget.divider ??
+                        const VerticalDivider(
+                          width: 1,
+                          thickness: 1,
                         ),
-                      )
-                    : null,
-            body: Row(
-              children: [
-                if (navigationType == NavigationType.permanentDrawer) ...[
-                  ConstrainedScrollableChild(child: permanentDrawer),
-                  widget.divider ??
-                      const VerticalDivider(
-                        width: 1,
-                        thickness: 1,
-                      ),
-                ] else if (navigationType == NavigationType.rail) ...[
-                  ConstrainedScrollableChild(child: navigationRail),
-                  widget.divider ??
-                      const VerticalDivider(
-                        width: 1,
-                        thickness: 1,
-                      ),
+                  ] else if (navigationType == NavigationType.rail) ...[
+                    ConstrainedScrollableChild(child: navigationRail),
+                    widget.divider ??
+                        const VerticalDivider(
+                          width: 1,
+                          thickness: 1,
+                        ),
+                  ],
+                  Expanded(child: child),
                 ],
-                Expanded(child: child),
-              ],
+              ),
             ),
             drawer: switch (navigationType) {
               NavigationType.drawer =>

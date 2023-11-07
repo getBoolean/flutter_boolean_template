@@ -8,8 +8,8 @@ import 'package:flutter_boolean_template/src/routing/ui/widgets/auto_adaptive_ro
 /// this app bar will be hidden.
 ///
 /// This widget must be a descendant of [AutoAdaptiveRouterScaffold].
-class AutoAppBar extends StatefulWidget implements PreferredSizeWidget {
-  const AutoAppBar({super.key, this.title, this.navigationTypeResolver});
+class SliverAutoAppBar extends StatefulWidget implements PreferredSizeWidget {
+  const SliverAutoAppBar({super.key, this.title, this.navigationTypeResolver});
 
   final Widget? title;
 
@@ -17,13 +17,13 @@ class AutoAppBar extends StatefulWidget implements PreferredSizeWidget {
   final NavigationTypeResolver? navigationTypeResolver;
 
   @override
-  State<AutoAppBar> createState() => _AutoAppBarState();
+  State<SliverAutoAppBar> createState() => _SliverAutoAppBarState();
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
-class _AutoAppBarState extends State<AutoAppBar> {
+class _SliverAutoAppBarState extends State<SliverAutoAppBar> {
   @override
   Widget build(BuildContext context) {
     final destinationScaffold = AutoAdaptiveRouterScaffold.of(context);
@@ -33,11 +33,13 @@ class _AutoAppBarState extends State<AutoAppBar> {
     final navigationType = navigationTypeResolver(context);
     final tabsRouter = AutoTabsRouter.of(context, watch: true);
     return switch (navigationType) {
-      NavigationType.top || NavigationType.drawer => const SizedBox.shrink(),
-      _ => AppBar(
+      NavigationType.top ||
+      NavigationType.drawer =>
+        const SliverToBoxAdapter(child: SizedBox.shrink()),
+      _ => SliverAppBar(
           title: widget.title ??
               Text(
-                destinationScaffold.destinations[tabsRouter.activeIndex].title,
+                tabsRouter.topRoute.title(context),
               ),
           leading: const AutoLeadingButton(),
         ),
