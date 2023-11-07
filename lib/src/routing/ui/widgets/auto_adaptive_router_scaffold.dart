@@ -4,6 +4,7 @@ import 'package:adaptive_breakpoints/adaptive_breakpoints.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_boolean_template/src/common_widgets/constrained_scrollable_child.dart';
 
 typedef NavigationTypeResolver = NavigationType Function(BuildContext context);
 
@@ -341,82 +342,88 @@ class _AutoAdaptiveRouterScaffoldState
     );
   }
 
-  NavigationRail _defaultBuildNavigationRail(
+  Widget _defaultBuildNavigationRail(
     int selectedIndex,
     List<RouterDestination> railDestinations,
     void Function(int index) onDestinationSelected,
   ) {
-    return NavigationRail(
-      leading: widget.fabInRail
-          ? Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: widget.floatingActionButton,
-            )
-          : null,
-      destinations: [
-        for (final destination in railDestinations)
-          NavigationRailDestination(
-            icon: Icon(destination.icon),
-            label: Text(destination.title),
-          ),
-      ],
-      selectedIndex: selectedIndex,
-      onDestinationSelected: onDestinationSelected,
-    );
-  }
-
-  Drawer _defaultBuildPermanentDrawer(
-    int selectedIndex,
-    void Function(int index) onDestinationSelected,
-  ) {
-    final theme = Theme.of(context);
-    return Drawer(
-      child: ListView(
-        children: [
-          if (widget.drawerHeader != null) widget.drawerHeader!,
-          for (final destination in widget.destinations)
-            ListTile(
-              leading: Icon(destination.icon),
-              title: Text(destination.title),
-              selected:
-                  widget.destinations.indexOf(destination) == selectedIndex,
-              onTap: () => onDestinationSelected(
-                widget.destinations.indexOf(destination),
-              ),
-              style: ListTileStyle.drawer,
-              selectedColor: theme.colorScheme.secondary,
+    return ConstrainedScrollableChild(
+      child: NavigationRail(
+        leading: widget.fabInRail
+            ? Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: widget.floatingActionButton,
+              )
+            : null,
+        destinations: [
+          for (final destination in railDestinations)
+            NavigationRailDestination(
+              icon: Icon(destination.icon),
+              label: Text(destination.title),
             ),
-          const Spacer(),
-          if (widget.drawerFooter != null) widget.drawerFooter!,
         ],
+        selectedIndex: selectedIndex,
+        onDestinationSelected: onDestinationSelected,
       ),
     );
   }
 
-  Drawer _defaultBuildDrawer(
+  Widget _defaultBuildPermanentDrawer(
     int selectedIndex,
     void Function(int index) onDestinationSelected,
   ) {
     final theme = Theme.of(context);
     return Drawer(
-      child: ListView(
-        children: [
-          if (widget.drawerHeader != null) widget.drawerHeader!,
-          for (final destination in widget.destinations)
-            ListTile(
-              leading: Icon(destination.icon),
-              title: Text(destination.title),
-              selected:
-                  widget.destinations.indexOf(destination) == selectedIndex,
-              onTap: () => onDestinationSelected(
-                widget.destinations.indexOf(destination),
+      child: ConstrainedScrollableChild(
+        child: Column(
+          children: [
+            if (widget.drawerHeader != null) widget.drawerHeader!,
+            for (final destination in widget.destinations)
+              ListTile(
+                leading: Icon(destination.icon),
+                title: Text(destination.title),
+                selected:
+                    widget.destinations.indexOf(destination) == selectedIndex,
+                onTap: () => onDestinationSelected(
+                  widget.destinations.indexOf(destination),
+                ),
+                style: ListTileStyle.drawer,
+                selectedColor: theme.colorScheme.secondary,
               ),
-              style: ListTileStyle.drawer,
-              selectedColor: theme.colorScheme.secondary,
-            ),
-          const Spacer(),
-          if (widget.drawerFooter != null) widget.drawerFooter!,
-        ],
+            const Spacer(),
+            if (widget.drawerFooter != null) widget.drawerFooter!,
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _defaultBuildDrawer(
+    int selectedIndex,
+    void Function(int index) onDestinationSelected,
+  ) {
+    final theme = Theme.of(context);
+    return Drawer(
+      child: ConstrainedScrollableChild(
+        child: Column(
+          children: [
+            if (widget.drawerHeader != null) widget.drawerHeader!,
+            for (final destination in widget.destinations)
+              ListTile(
+                leading: Icon(destination.icon),
+                title: Text(destination.title),
+                selected:
+                    widget.destinations.indexOf(destination) == selectedIndex,
+                onTap: () => onDestinationSelected(
+                  widget.destinations.indexOf(destination),
+                ),
+                style: ListTileStyle.drawer,
+                selectedColor: theme.colorScheme.secondary,
+              ),
+            const Spacer(),
+            if (widget.drawerFooter != null) widget.drawerFooter!,
+          ],
+        ),
       ),
     );
   }

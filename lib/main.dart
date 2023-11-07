@@ -25,7 +25,7 @@ void main() async {
   if (!kIsWeb &&
       (io.Platform.isWindows || io.Platform.isLinux || io.Platform.isMacOS)) {
     await windowManager.ensureInitialized();
-    await windowManager.setMinimumSize(const Size(300, 400));
+    await windowManager.setMinimumSize(const Size(100, 200));
   }
 
   runApp(const ProviderScope(child: App()));
