@@ -23,16 +23,40 @@ class AppRouter extends _$AppRouter {
           children: [
             RedirectRoute(path: '', redirectTo: 'books'),
             AutoRoute(path: 'books', page: BooksTab.page, children: [
-              AutoRoute(path: '', page: BooksRoute.page),
-              AutoRoute(path: 'details', page: BookDetailsRoute.page),
+              AutoRoute(
+                path: '',
+                page: BooksRoute.page,
+                title: (context, data) => 'Books',
+              ),
+              AutoRoute(
+                path: 'details',
+                page: BookDetailsRoute.page,
+                title: (context, data) => 'Book Details',
+              ),
             ]),
             AutoRoute(path: 'profile', page: ProfileTab.page, children: [
-              AutoRoute(path: '', page: ProfileRoute.page),
-              AutoRoute(path: 'comments', page: ProfileDetailsRoute.page),
+              AutoRoute(
+                path: '',
+                page: ProfileRoute.page,
+                title: (context, data) => 'Profile',
+              ),
+              AutoRoute(
+                path: 'comments',
+                page: ProfileDetailsRoute.page,
+                title: (context, data) => 'Profile Details',
+              ),
             ]),
             AutoRoute(path: 'settings', page: SettingsTab.page, children: [
-              AutoRoute(path: '', page: SettingsRoute.page),
-              AutoRoute(path: 'option', page: SettingsDetailsRoute.page),
+              AutoRoute(
+                path: '',
+                page: SettingsRoute.page,
+                title: (context, data) => 'Settings',
+              ),
+              AutoRoute(
+                path: 'option',
+                page: SettingsDetailsRoute.page,
+                title: (context, data) => 'Setting Details',
+              ),
             ]),
           ],
         ),

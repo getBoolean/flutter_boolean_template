@@ -9,12 +9,22 @@ import 'package:flutter_boolean_template/src/routing/ui/widgets/auto_adaptive_ro
 ///
 /// This widget must be a descendant of [AutoAdaptiveRouterScaffold].
 class AutoAppBar extends StatefulWidget implements PreferredSizeWidget {
-  const AutoAppBar({super.key, this.title, this.navigationTypeResolver});
+  const AutoAppBar({
+    super.key,
+    this.title,
+    this.navigationTypeResolver,
+    this.builder,
+  });
 
   final Widget? title;
 
   /// Determines the navigation type that the scaffold uses.
   final NavigationTypeResolver? navigationTypeResolver;
+
+  /// Custom [SliverAppBar] builder
+  ///
+  /// A sliver must be returned from this builder.
+  final Widget Function(BuildContext context, RouteData routeData)? builder;
 
   @override
   State<AutoAppBar> createState() => _AutoAppBarState();
@@ -31,16 +41,14 @@ class _AutoAppBarState extends State<AutoAppBar> {
         destinationScaffold.navigationTypeResolver ??
             defaultNavigationTypeResolver;
     final navigationType = navigationTypeResolver(context);
-    final tabsRouter = AutoTabsRouter.of(context, watch: true);
+    final routeData = RouteData.of(context);
     return switch (navigationType) {
       NavigationType.top || NavigationType.drawer => const SizedBox.shrink(),
-      _ => AppBar(
-          title: widget.title ??
-              Text(
-                destinationScaffold.destinations[tabsRouter.activeIndex].title,
-              ),
-          leading: const AutoLeadingButton(),
-        ),
+      _ => widget.builder?.call(context, routeData) ??
+          AppBar(
+            title: widget.title ?? Text(routeData.title(context)),
+            leading: const AutoLeadingButton(),
+          ),
     };
   }
 }

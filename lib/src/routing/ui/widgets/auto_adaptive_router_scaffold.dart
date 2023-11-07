@@ -45,6 +45,8 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
     this.drawerBuilder,
     this.permanentDrawerBuilder,
     this.railBuilder,
+    this.sliverAppBarBuilder,
+    this.topBarBuilder,
   });
 
   static AutoAdaptiveRouterScaffold of(BuildContext context) {
@@ -162,15 +164,25 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
   /// The divider between the [Drawer]/[NavigationRail] and the body.
   final VerticalDivider? divider;
 
-  /// Custom builder for [NavigationType.top]
+  /// Custom builder for [NavigationType.top]'s [TabBar]
   ///
   /// If not null, then [isTabBarScrollable], and [tabAlignment] are ignored for this type.
   final TabBar Function(
+    BuildContext context,
     void Function(int index) onDestinationSelected,
   )? tabBarBuilder;
 
+  /// Custom builder for [NavigationType.top]
+  ///
+  /// If specified, [tabBarBuilder] is ignored.
+  final PreferredSize Function(
+    BuildContext context,
+    void Function(int index) onDestinationSelected,
+  )? topBarBuilder;
+
   /// Custom builder for [NavigationType.bottom]
   final Widget Function(
+    BuildContext context,
     int selectedIndex,
     List<RouterDestination> bottomDestinations,
     void Function(int index) onDestinationSelected,
@@ -180,6 +192,7 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
   ///
   /// If not null, then [drawerHeader] and [drawerFooter] are ignored for this type.
   final Widget Function(
+    BuildContext context,
     int selectedIndex,
     void Function(int index) onDestinationSelected,
   )? drawerBuilder;
@@ -188,6 +201,7 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
   ///
   /// If not null, then [drawerHeader] and [drawerFooter] are ignored for this type.
   final Widget Function(
+    BuildContext context,
     int selectedIndex,
     void Function(int index) onDestinationSelected,
   )? permanentDrawerBuilder;
@@ -196,10 +210,17 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
   ///
   /// If not null, then [fabInRail] and [floatingActionButton] are ignored for this type.
   final Widget Function(
+    BuildContext context,
     int selectedIndex,
     List<RouterDestination> railDestinations,
     void Function(int index) onDestinationSelected,
   )? railBuilder;
+
+  /// Custom [SliverAppBar] builder for [NavigationType.drawer]
+  ///
+  /// A sliver must be returned from this builder.
+  final Widget Function(BuildContext context, RouteData routeData)?
+      sliverAppBarBuilder;
 
   @override
   State<AutoAdaptiveRouterScaffold> createState() =>
@@ -222,7 +243,9 @@ class _AutoAdaptiveRouterScaffoldState
         final tabsRouter = AutoTabsRouter.of(context);
         onDestinationSelectedHelper(int index) =>
             _onDestinationSelected(tabsRouter, index);
-        final title = Text(widget.destinations[tabsRouter.activeIndex].title);
+        final routeData =
+            tabsRouter.stackRouterOfIndex(tabsRouter.activeIndex)?.current ??
+                tabsRouter.current;
 
         final bottomDestinations = widget.destinations.sublist(
           0,
@@ -233,12 +256,11 @@ class _AutoAdaptiveRouterScaffoldState
           0,
           math.min(widget.destinations.length, widget.railDestinationsOverflow),
         );
-        final buildTabBar = widget.tabBarBuilder ?? _defaultTabBarBuilder;
-        final tabBar = buildTabBar(onDestinationSelectedHelper);
 
         final buildBottomNavigationBar = widget.bottomNavigationBarBuilder ??
             _defaultBottomNavigationBarBuilder;
         final bottomNavigationBar = buildBottomNavigationBar(
+          context,
           tabsRouter.activeIndex,
           bottomDestinations,
           onDestinationSelectedHelper,
@@ -246,74 +268,44 @@ class _AutoAdaptiveRouterScaffoldState
 
         final buildDrawer = widget.drawerBuilder ?? _defaultBuildDrawer;
         final drawer = buildDrawer(
+          context,
           tabsRouter.activeIndex,
           onDestinationSelectedHelper,
         );
 
+        final buildSliverAppBar = widget.sliverAppBarBuilder ??
+            _defaultBuildDrawerNavigationTypeSliverAppBar;
+        final sliverAppBar = buildSliverAppBar(context, routeData);
+
         final buildPermanentDrawer =
             widget.permanentDrawerBuilder ?? _defaultBuildPermanentDrawer;
         final permanentDrawer = buildPermanentDrawer(
+          context,
           tabsRouter.activeIndex,
           onDestinationSelectedHelper,
         );
 
         final buildRail = widget.railBuilder ?? _defaultBuildNavigationRail;
         final navigationRail = buildRail(
+          context,
           tabsRouter.activeIndex,
           railDestinations,
           onDestinationSelectedHelper,
         );
 
+        final buildTopBar = widget.topBarBuilder ?? _defaultTopBarBuilder;
+        final topBar = buildTopBar(context, onDestinationSelectedHelper);
+
         return DefaultTabController(
           initialIndex: tabsRouter.activeIndex,
           length: widget.destinations.length,
           child: Scaffold(
-            appBar: navigationType == NavigationType.top
-                ? PreferredSize(
-                    preferredSize: tabBar.preferredSize,
-                    child: ConstrainedScrollableChild(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          if (widget.tabBarStart != null) widget.tabBarStart!,
-                          AutoLeadingButton(
-                            builder: (context, leadingType, action) =>
-                                switch (leadingType) {
-                              LeadingType.back => BackButton(onPressed: action),
-                              LeadingType.drawer => IconButton(
-                                  icon: const Icon(Icons.menu),
-                                  onPressed: action,
-                                ),
-                              LeadingType.close =>
-                                CloseButton(onPressed: action),
-                              LeadingType.noLeading => IconButton(
-                                  icon: const Icon(Icons.menu),
-                                  onPressed: action,
-                                ),
-                            },
-                          ),
-                          tabBar,
-                          const Spacer(),
-                          if (widget.tabBarEnd != null) widget.tabBarEnd!,
-                        ],
-                      ),
-                    ),
-                  )
-                : null,
+            appBar: navigationType == NavigationType.top ? topBar : null,
             body: NestedScrollView(
               headerSliverBuilder:
                   (BuildContext context, bool innerBoxIsScrolled) {
                 return [
-                  if (navigationType == NavigationType.drawer)
-                    SliverAppBar(
-                      leading: const AutoLeadingButton(),
-                      title: title,
-                      elevation: 10.0,
-                      automaticallyImplyLeading: false,
-                      expandedHeight: 50,
-                      floating: true,
-                      snap: true,
-                    )
+                  if (navigationType == NavigationType.drawer) sliverAppBar
                 ];
               },
               body: Row(
@@ -372,7 +364,59 @@ class _AutoAdaptiveRouterScaffoldState
     );
   }
 
+  PreferredSize _defaultTopBarBuilder(
+    BuildContext context,
+    void Function(int index) onDestinationSelected,
+  ) {
+    final buildTabBar = widget.tabBarBuilder ?? _defaultTabBarBuilder;
+    final tabBar = buildTabBar(context, onDestinationSelected);
+    return PreferredSize(
+      preferredSize: tabBar.preferredSize,
+      child: ConstrainedScrollableChild(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: [
+            if (widget.tabBarStart != null) widget.tabBarStart!,
+            AutoLeadingButton(
+              builder: (context, leadingType, action) => switch (leadingType) {
+                LeadingType.back => BackButton(onPressed: action),
+                LeadingType.drawer => IconButton(
+                    icon: const Icon(Icons.menu),
+                    onPressed: action,
+                  ),
+                LeadingType.close => CloseButton(onPressed: action),
+                LeadingType.noLeading => IconButton(
+                    icon: const Icon(Icons.menu),
+                    onPressed: action,
+                  ),
+              },
+            ),
+            tabBar,
+            const Spacer(),
+            if (widget.tabBarEnd != null) widget.tabBarEnd!,
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _defaultBuildDrawerNavigationTypeSliverAppBar(
+    BuildContext context,
+    RouteData routeData,
+  ) {
+    return SliverAppBar(
+      leading: const AutoLeadingButton(),
+      title: Text(routeData.title(context)),
+      elevation: 10.0,
+      automaticallyImplyLeading: false,
+      expandedHeight: 50,
+      floating: true,
+      snap: true,
+    );
+  }
+
   Widget _defaultBuildNavigationRail(
+    BuildContext context,
     int selectedIndex,
     List<RouterDestination> railDestinations,
     void Function(int index) onDestinationSelected,
@@ -397,6 +441,7 @@ class _AutoAdaptiveRouterScaffoldState
   }
 
   Widget _defaultBuildPermanentDrawer(
+    BuildContext context,
     int selectedIndex,
     void Function(int index) onDestinationSelected,
   ) {
@@ -425,6 +470,7 @@ class _AutoAdaptiveRouterScaffoldState
   }
 
   Widget _defaultBuildDrawer(
+    BuildContext context,
     int selectedIndex,
     void Function(int index) onDestinationSelected,
   ) {
@@ -453,6 +499,7 @@ class _AutoAdaptiveRouterScaffoldState
   }
 
   Widget _defaultBottomNavigationBarBuilder(
+    BuildContext context,
     int selectedIndex,
     List<RouterDestination> bottomDestinations,
     void Function(int index) onDestinationSelected,
@@ -471,6 +518,7 @@ class _AutoAdaptiveRouterScaffoldState
   }
 
   TabBar _defaultTabBarBuilder(
+    BuildContext context,
     void Function(int index) onDestinationSelected,
   ) {
     return TabBar(

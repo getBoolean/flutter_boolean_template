@@ -9,12 +9,10 @@ class BookDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // return const ColoredBox(color: Colors.blueAccent);
-    return Scaffold(
-      appBar: AutoAppBar(
-        title: Text(context.topRoute.name),
-      ),
+    return const Scaffold(
+      appBar: AutoAppBar(),
       backgroundColor: Colors.blueAccent,
-      body: const Center(child: Text('Book Details Screen')),
+      body: Center(child: Text('Book Details Screen')),
     );
   }
 }
