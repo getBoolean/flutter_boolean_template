@@ -162,7 +162,7 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
   final bool isTabBarScrollable;
 
   /// The divider between the [Drawer]/[NavigationRail] and the body.
-  final VerticalDivider? divider;
+  final Widget? divider;
 
   /// Custom builder for [NavigationType.top]'s [TabBar]
   ///
