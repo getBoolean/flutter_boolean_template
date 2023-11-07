@@ -276,6 +276,21 @@ class _AutoAdaptiveRouterScaffoldState
                       child: Row(
                         children: [
                           if (widget.tabBarStart != null) widget.tabBarStart!,
+                          AutoLeadingButton(
+                            builder: (context, leadingType, action) =>
+                                switch (leadingType) {
+                              LeadingType.back => BackButton(onPressed: action),
+                              LeadingType.drawer => IconButton(
+                                  icon: const Icon(Icons.menu),
+                                  onPressed: action,
+                                ),
+                              LeadingType.close =>
+                                CloseButton(onPressed: action),
+                              LeadingType.noLeading => IconButton(
+                                  icon: const Icon(Icons.menu),
+                                  onPressed: action,
+                                ),
+                            },
                           ),
                           tabBar,
                           const Spacer(),
