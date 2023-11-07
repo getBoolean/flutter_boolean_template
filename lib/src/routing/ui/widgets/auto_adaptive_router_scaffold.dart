@@ -278,27 +278,31 @@ class _AutoAdaptiveRouterScaffoldState
                 : navigationType == NavigationType.top
                     ? PreferredSize(
                         preferredSize: tabBar.preferredSize,
-                        child: Row(
-                          children: [
-                            if (widget.tabBarStart != null) widget.tabBarStart!,
-                            tabBar,
-                            const Spacer(),
-                            if (widget.tabBarEnd != null) widget.tabBarEnd!,
-                          ],
+                        child: ConstrainedScrollableChild(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                              if (widget.tabBarStart != null)
+                                widget.tabBarStart!,
+                              tabBar,
+                              const Spacer(),
+                              if (widget.tabBarEnd != null) widget.tabBarEnd!,
+                            ],
+                          ),
                         ),
                       )
                     : null,
             body: Row(
               children: [
                 if (navigationType == NavigationType.permanentDrawer) ...[
-                  permanentDrawer,
+                  ConstrainedScrollableChild(child: permanentDrawer),
                   widget.divider ??
                       const VerticalDivider(
                         width: 1,
                         thickness: 1,
                       ),
                 ] else if (navigationType == NavigationType.rail) ...[
-                  navigationRail,
+                  ConstrainedScrollableChild(child: navigationRail),
                   widget.divider ??
                       const VerticalDivider(
                         width: 1,
@@ -309,7 +313,8 @@ class _AutoAdaptiveRouterScaffoldState
               ],
             ),
             drawer: switch (navigationType) {
-              NavigationType.drawer => drawer,
+              NavigationType.drawer =>
+                ConstrainedScrollableChild(child: drawer),
               _ => null,
             },
             bottomNavigationBar: switch (navigationType) {
@@ -347,24 +352,22 @@ class _AutoAdaptiveRouterScaffoldState
     List<RouterDestination> railDestinations,
     void Function(int index) onDestinationSelected,
   ) {
-    return ConstrainedScrollableChild(
-      child: NavigationRail(
-        leading: widget.fabInRail
-            ? Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: widget.floatingActionButton,
-              )
-            : null,
-        destinations: [
-          for (final destination in railDestinations)
-            NavigationRailDestination(
-              icon: Icon(destination.icon),
-              label: Text(destination.title),
-            ),
-        ],
-        selectedIndex: selectedIndex,
-        onDestinationSelected: onDestinationSelected,
-      ),
+    return NavigationRail(
+      leading: widget.fabInRail
+          ? Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: widget.floatingActionButton,
+            )
+          : null,
+      destinations: [
+        for (final destination in railDestinations)
+          NavigationRailDestination(
+            icon: Icon(destination.icon),
+            label: Text(destination.title),
+          ),
+      ],
+      selectedIndex: selectedIndex,
+      onDestinationSelected: onDestinationSelected,
     );
   }
 
@@ -374,26 +377,24 @@ class _AutoAdaptiveRouterScaffoldState
   ) {
     final theme = Theme.of(context);
     return Drawer(
-      child: ConstrainedScrollableChild(
-        child: Column(
-          children: [
-            if (widget.drawerHeader != null) widget.drawerHeader!,
-            for (final destination in widget.destinations)
-              ListTile(
-                leading: Icon(destination.icon),
-                title: Text(destination.title),
-                selected:
-                    widget.destinations.indexOf(destination) == selectedIndex,
-                onTap: () => onDestinationSelected(
-                  widget.destinations.indexOf(destination),
-                ),
-                style: ListTileStyle.drawer,
-                selectedColor: theme.colorScheme.secondary,
+      child: Column(
+        children: [
+          if (widget.drawerHeader != null) widget.drawerHeader!,
+          for (final destination in widget.destinations)
+            ListTile(
+              leading: Icon(destination.icon),
+              title: Text(destination.title),
+              selected:
+                  widget.destinations.indexOf(destination) == selectedIndex,
+              onTap: () => onDestinationSelected(
+                widget.destinations.indexOf(destination),
               ),
-            const Spacer(),
-            if (widget.drawerFooter != null) widget.drawerFooter!,
-          ],
-        ),
+              style: ListTileStyle.drawer,
+              selectedColor: theme.colorScheme.secondary,
+            ),
+          const Spacer(),
+          if (widget.drawerFooter != null) widget.drawerFooter!,
+        ],
       ),
     );
   }
@@ -404,26 +405,24 @@ class _AutoAdaptiveRouterScaffoldState
   ) {
     final theme = Theme.of(context);
     return Drawer(
-      child: ConstrainedScrollableChild(
-        child: Column(
-          children: [
-            if (widget.drawerHeader != null) widget.drawerHeader!,
-            for (final destination in widget.destinations)
-              ListTile(
-                leading: Icon(destination.icon),
-                title: Text(destination.title),
-                selected:
-                    widget.destinations.indexOf(destination) == selectedIndex,
-                onTap: () => onDestinationSelected(
-                  widget.destinations.indexOf(destination),
-                ),
-                style: ListTileStyle.drawer,
-                selectedColor: theme.colorScheme.secondary,
+      child: Column(
+        children: [
+          if (widget.drawerHeader != null) widget.drawerHeader!,
+          for (final destination in widget.destinations)
+            ListTile(
+              leading: Icon(destination.icon),
+              title: Text(destination.title),
+              selected:
+                  widget.destinations.indexOf(destination) == selectedIndex,
+              onTap: () => onDestinationSelected(
+                widget.destinations.indexOf(destination),
               ),
-            const Spacer(),
-            if (widget.drawerFooter != null) widget.drawerFooter!,
-          ],
-        ),
+              style: ListTileStyle.drawer,
+              selectedColor: theme.colorScheme.secondary,
+            ),
+          const Spacer(),
+          if (widget.drawerFooter != null) widget.drawerFooter!,
+        ],
       ),
     );
   }
