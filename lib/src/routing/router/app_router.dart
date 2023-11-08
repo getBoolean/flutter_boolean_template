@@ -94,14 +94,3 @@ class ProfileTabPage extends AutoRouter {
 class SettingsTabPage extends AutoRouter {
   const SettingsTabPage({super.key});
 }
-
-class StartupGuard extends AutoRouteGuard {
-  @override
-  void onNavigation(NavigationResolver resolver, StackRouter router) {
-    if (router.childControllers.isNotEmpty) {
-      resolver.next(true);
-    } else {
-      resolver.redirect(const BooksRoute());
-    }
-  }
-}
