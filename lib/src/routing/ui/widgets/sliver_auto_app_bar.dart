@@ -43,9 +43,7 @@ class _SliverAutoAppBarState extends State<SliverAutoAppBar> {
     final navigationType = navigationTypeResolver(context);
     final routeData = RouteData.of(context);
     return switch (navigationType) {
-      NavigationType.top ||
-      NavigationType.drawer =>
-        const SliverToBoxAdapter(child: SizedBox.shrink()),
+      NavigationType.top => const SliverToBoxAdapter(child: SizedBox.shrink()),
       _ => widget.builder?.call(context, routeData) ??
           SliverAppBar(
             title: widget.title ?? Text(routeData.title(context)),

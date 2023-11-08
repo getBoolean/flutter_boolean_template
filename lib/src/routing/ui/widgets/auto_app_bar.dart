@@ -43,7 +43,7 @@ class _AutoAppBarState extends State<AutoAppBar> {
     final navigationType = navigationTypeResolver(context);
     final routeData = RouteData.of(context);
     return switch (navigationType) {
-      NavigationType.top || NavigationType.drawer => const SizedBox.shrink(),
+      NavigationType.top => const SizedBox.shrink(),
       _ => widget.builder?.call(context, routeData) ??
           AppBar(
             title: widget.title ?? Text(routeData.title(context)),

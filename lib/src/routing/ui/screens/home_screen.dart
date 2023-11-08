@@ -14,18 +14,18 @@ import 'package:log/log.dart';
 class HomeScreen extends ConsumerWidget implements AutoRouteWrapper {
   const HomeScreen({super.key});
 
-  static const _destinations = [
-    RouterDestination(
+  static final _destinations = [
+    const RouterDestination(
       title: 'Books',
       icon: Icons.book,
       route: BooksRoute(),
     ),
-    RouterDestination(
+    const RouterDestination(
       title: 'Profile',
       icon: Icons.person,
       route: ProfileRoute(),
     ),
-    RouterDestination(
+    const RouterDestination(
       title: 'Settings',
       icon: Icons.settings,
       route: SettingsRoute(),
@@ -105,7 +105,7 @@ class HomeScreen extends ConsumerWidget implements AutoRouteWrapper {
         DeviceForm.desktop => NavigationType.permanentDrawer,
         DeviceForm.tablet => NavigationType.permanentDrawer,
         DeviceForm.largePhone => NavigationType.rail,
-        DeviceForm.phone => NavigationType.drawer,
+        DeviceForm.phone => NavigationType.rail,
       };
     }
   }

@@ -7,95 +7,147 @@
 // ignore_for_file: type=lint
 // coverage:ignore-file
 
-part of 'app_router.dart';
+// ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:auto_route/auto_route.dart' as _i9;
+import 'package:flutter/material.dart' as _i10;
+import 'package:flutter_boolean_template/src/routing/router/app_router.dart'
+    as _i3;
+import 'package:flutter_boolean_template/src/routing/ui/screens/book_details_screen.dart'
+    as _i1;
+import 'package:flutter_boolean_template/src/routing/ui/screens/books_tab.dart'
+    as _i2;
+import 'package:flutter_boolean_template/src/routing/ui/screens/home_screen.dart'
+    as _i4;
+import 'package:flutter_boolean_template/src/routing/ui/screens/profile_details_screen.dart'
+    as _i5;
+import 'package:flutter_boolean_template/src/routing/ui/screens/profile_tab.dart'
+    as _i6;
+import 'package:flutter_boolean_template/src/routing/ui/screens/settings_details_screen.dart'
+    as _i7;
+import 'package:flutter_boolean_template/src/routing/ui/screens/settings_tab.dart'
+    as _i8;
 
-abstract class _$AppRouter extends RootStackRouter {
-  // ignore: unused_element
-  _$AppRouter({super.navigatorKey});
+abstract class $AppRouter extends _i9.RootStackRouter {
+  $AppRouter({super.navigatorKey});
 
   @override
-  final Map<String, PageFactory> pagesMap = {
+  final Map<String, _i9.PageFactory> pagesMap = {
     BookDetailsRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<BookDetailsRouteArgs>(
+          orElse: () => BookDetailsRouteArgs(
+                  id: pathParams.getInt(
+                'id',
+                -1,
+              )));
+      return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const BookDetailsScreen(),
+        child: _i1.BookDetailsScreen(
+          key: args.key,
+          id: args.id,
+        ),
       );
     },
     BooksRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
+      return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const BooksScreen(),
+        child: const _i2.BooksScreen(),
       );
     },
     BooksTab.name: (routeData) {
-      return AutoRoutePage<dynamic>(
+      return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const BooksTabPage(),
+        child: const _i3.BooksTabPage(),
       );
     },
     HomeRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
+      return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: WrappedRoute(child: const HomeScreen()),
+        child: _i9.WrappedRoute(child: const _i4.HomeScreen()),
       );
     },
     ProfileDetailsRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
+      return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const ProfileDetailsScreen(),
+        child: const _i5.ProfileDetailsScreen(),
       );
     },
     ProfileRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
+      return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const ProfileScreen(),
+        child: const _i6.ProfileScreen(),
       );
     },
     ProfileTab.name: (routeData) {
-      return AutoRoutePage<dynamic>(
+      return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const ProfileTabPage(),
+        child: const _i3.ProfileTabPage(),
       );
     },
     SettingsDetailsRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
+      return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const SettingsDetailsScreen(),
+        child: const _i7.SettingsDetailsScreen(),
       );
     },
     SettingsRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
+      return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const SettingsScreen(),
+        child: const _i8.SettingsScreen(),
       );
     },
     SettingsTab.name: (routeData) {
-      return AutoRoutePage<dynamic>(
+      return _i9.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const SettingsTabPage(),
+        child: const _i3.SettingsTabPage(),
       );
     },
   };
 }
 
 /// generated route for
-/// [BookDetailsScreen]
-class BookDetailsRoute extends PageRouteInfo<void> {
-  const BookDetailsRoute({List<PageRouteInfo>? children})
-      : super(
+/// [_i1.BookDetailsScreen]
+class BookDetailsRoute extends _i9.PageRouteInfo<BookDetailsRouteArgs> {
+  BookDetailsRoute({
+    _i10.Key? key,
+    int id = -1,
+    List<_i9.PageRouteInfo>? children,
+  }) : super(
           BookDetailsRoute.name,
+          args: BookDetailsRouteArgs(
+            key: key,
+            id: id,
+          ),
+          rawPathParams: {'id': id},
           initialChildren: children,
         );
 
   static const String name = 'BookDetailsRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const _i9.PageInfo<BookDetailsRouteArgs> page =
+      _i9.PageInfo<BookDetailsRouteArgs>(name);
+}
+
+class BookDetailsRouteArgs {
+  const BookDetailsRouteArgs({
+    this.key,
+    this.id = -1,
+  });
+
+  final _i10.Key? key;
+
+  final int id;
+
+  @override
+  String toString() {
+    return 'BookDetailsRouteArgs{key: $key, id: $id}';
+  }
 }
 
 /// generated route for
-/// [BooksScreen]
-class BooksRoute extends PageRouteInfo<void> {
-  const BooksRoute({List<PageRouteInfo>? children})
+/// [_i2.BooksScreen]
+class BooksRoute extends _i9.PageRouteInfo<void> {
+  const BooksRoute({List<_i9.PageRouteInfo>? children})
       : super(
           BooksRoute.name,
           initialChildren: children,
@@ -103,13 +155,13 @@ class BooksRoute extends PageRouteInfo<void> {
 
   static const String name = 'BooksRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [BooksTabPage]
-class BooksTab extends PageRouteInfo<void> {
-  const BooksTab({List<PageRouteInfo>? children})
+/// [_i3.BooksTabPage]
+class BooksTab extends _i9.PageRouteInfo<void> {
+  const BooksTab({List<_i9.PageRouteInfo>? children})
       : super(
           BooksTab.name,
           initialChildren: children,
@@ -117,13 +169,13 @@ class BooksTab extends PageRouteInfo<void> {
 
   static const String name = 'BooksTab';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [HomeScreen]
-class HomeRoute extends PageRouteInfo<void> {
-  const HomeRoute({List<PageRouteInfo>? children})
+/// [_i4.HomeScreen]
+class HomeRoute extends _i9.PageRouteInfo<void> {
+  const HomeRoute({List<_i9.PageRouteInfo>? children})
       : super(
           HomeRoute.name,
           initialChildren: children,
@@ -131,13 +183,13 @@ class HomeRoute extends PageRouteInfo<void> {
 
   static const String name = 'HomeRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [ProfileDetailsScreen]
-class ProfileDetailsRoute extends PageRouteInfo<void> {
-  const ProfileDetailsRoute({List<PageRouteInfo>? children})
+/// [_i5.ProfileDetailsScreen]
+class ProfileDetailsRoute extends _i9.PageRouteInfo<void> {
+  const ProfileDetailsRoute({List<_i9.PageRouteInfo>? children})
       : super(
           ProfileDetailsRoute.name,
           initialChildren: children,
@@ -145,13 +197,13 @@ class ProfileDetailsRoute extends PageRouteInfo<void> {
 
   static const String name = 'ProfileDetailsRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [ProfileScreen]
-class ProfileRoute extends PageRouteInfo<void> {
-  const ProfileRoute({List<PageRouteInfo>? children})
+/// [_i6.ProfileScreen]
+class ProfileRoute extends _i9.PageRouteInfo<void> {
+  const ProfileRoute({List<_i9.PageRouteInfo>? children})
       : super(
           ProfileRoute.name,
           initialChildren: children,
@@ -159,13 +211,13 @@ class ProfileRoute extends PageRouteInfo<void> {
 
   static const String name = 'ProfileRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [ProfileTabPage]
-class ProfileTab extends PageRouteInfo<void> {
-  const ProfileTab({List<PageRouteInfo>? children})
+/// [_i3.ProfileTabPage]
+class ProfileTab extends _i9.PageRouteInfo<void> {
+  const ProfileTab({List<_i9.PageRouteInfo>? children})
       : super(
           ProfileTab.name,
           initialChildren: children,
@@ -173,13 +225,13 @@ class ProfileTab extends PageRouteInfo<void> {
 
   static const String name = 'ProfileTab';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [SettingsDetailsScreen]
-class SettingsDetailsRoute extends PageRouteInfo<void> {
-  const SettingsDetailsRoute({List<PageRouteInfo>? children})
+/// [_i7.SettingsDetailsScreen]
+class SettingsDetailsRoute extends _i9.PageRouteInfo<void> {
+  const SettingsDetailsRoute({List<_i9.PageRouteInfo>? children})
       : super(
           SettingsDetailsRoute.name,
           initialChildren: children,
@@ -187,13 +239,13 @@ class SettingsDetailsRoute extends PageRouteInfo<void> {
 
   static const String name = 'SettingsDetailsRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [SettingsScreen]
-class SettingsRoute extends PageRouteInfo<void> {
-  const SettingsRoute({List<PageRouteInfo>? children})
+/// [_i8.SettingsScreen]
+class SettingsRoute extends _i9.PageRouteInfo<void> {
+  const SettingsRoute({List<_i9.PageRouteInfo>? children})
       : super(
           SettingsRoute.name,
           initialChildren: children,
@@ -201,13 +253,13 @@ class SettingsRoute extends PageRouteInfo<void> {
 
   static const String name = 'SettingsRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [SettingsTabPage]
-class SettingsTab extends PageRouteInfo<void> {
-  const SettingsTab({List<PageRouteInfo>? children})
+/// [_i3.SettingsTabPage]
+class SettingsTab extends _i9.PageRouteInfo<void> {
+  const SettingsTab({List<_i9.PageRouteInfo>? children})
       : super(
           SettingsTab.name,
           initialChildren: children,
@@ -215,5 +267,5 @@ class SettingsTab extends PageRouteInfo<void> {
 
   static const String name = 'SettingsTab';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
 }

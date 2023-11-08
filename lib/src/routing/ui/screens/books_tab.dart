@@ -18,7 +18,7 @@ class BooksScreen extends StatelessWidget {
         body: Center(
           child: FilledButton(
             onPressed: () {
-              context.navigateTo(const BookDetailsRoute());
+              context.navigateTo(BookDetailsRoute(id: 1));
             },
             child: const Text('Push Details'),
           ),
