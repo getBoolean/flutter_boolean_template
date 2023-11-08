@@ -42,9 +42,10 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
     this.divider,
     this.tabBarBuilder,
     this.bottomNavigationBarBuilder,
-    // this.drawerBuilder,
+    this.drawerBuilder,
     this.permanentDrawerBuilder,
     this.railBuilder,
+    this.sliverAppBarBuilder,
     this.topBarBuilder,
   });
 
@@ -190,11 +191,11 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
   /// Custom builder for [NavigationType.drawer]
   ///
   /// If not null, then [drawerHeader] and [drawerFooter] are ignored for this type.
-  // final Widget Function(
-  //   BuildContext context,
-  //   int selectedIndex,
-  //   void Function(int index) onDestinationSelected,
-  // )? drawerBuilder;
+  final Widget Function(
+    BuildContext context,
+    int selectedIndex,
+    void Function(int index) onDestinationSelected,
+  )? drawerBuilder;
 
   /// Custom builder for [NavigationType.permanentDrawer]
   ///
@@ -214,6 +215,11 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
     List<RouterDestination> railDestinations,
     void Function(int index) onDestinationSelected,
   )? railBuilder;
+
+  /// Custom [SliverAppBar] builder for [NavigationType.drawer]
+  ///
+  /// A sliver must be returned from this builder.
+  final Widget Function(BuildContext context, Text? title)? sliverAppBarBuilder;
 
   @override
   State<AutoAdaptiveRouterScaffold> createState() =>
@@ -256,12 +262,16 @@ class _AutoAdaptiveRouterScaffoldState
           onDestinationSelectedHelper,
         );
 
-        // final buildDrawer = widget.drawerBuilder ?? _defaultBuildDrawer;
-        // final drawer = buildDrawer(
-        //   context,
-        //   tabsRouter.activeIndex,
-        //   onDestinationSelectedHelper,
-        // );
+        final buildDrawer = widget.drawerBuilder ?? _defaultBuildDrawer;
+        final drawer = buildDrawer(
+          context,
+          tabsRouter.activeIndex,
+          onDestinationSelectedHelper,
+        );
+
+        final buildSliverAppBar = widget.sliverAppBarBuilder ??
+            _defaultBuildDrawerNavigationTypeSliverAppBar;
+        final sliverAppBar = buildSliverAppBar(context, null);
 
         final buildPermanentDrawer =
             widget.permanentDrawerBuilder ?? _defaultBuildPermanentDrawer;
@@ -286,31 +296,39 @@ class _AutoAdaptiveRouterScaffoldState
           length: widget.destinations.length,
           child: Scaffold(
             appBar: navigationType == NavigationType.top ? topBar : null,
-            body: Row(
-              children: [
-                if (navigationType == NavigationType.permanentDrawer) ...[
-                  ConstrainedScrollableChild(child: permanentDrawer),
-                  widget.divider ??
-                      const VerticalDivider(
-                        width: 1,
-                        thickness: 1,
-                      ),
-                ] else if (navigationType == NavigationType.rail) ...[
-                  ConstrainedScrollableChild(child: navigationRail),
-                  widget.divider ??
-                      const VerticalDivider(
-                        width: 1,
-                        thickness: 1,
-                      ),
+            body: NestedScrollView(
+              headerSliverBuilder:
+                  (BuildContext context, bool innerBoxIsScrolled) {
+                return [
+                  if (navigationType == NavigationType.drawer) sliverAppBar
+                ];
+              },
+              body: Row(
+                children: [
+                  if (navigationType == NavigationType.permanentDrawer) ...[
+                    ConstrainedScrollableChild(child: permanentDrawer),
+                    widget.divider ??
+                        const VerticalDivider(
+                          width: 1,
+                          thickness: 1,
+                        ),
+                  ] else if (navigationType == NavigationType.rail) ...[
+                    ConstrainedScrollableChild(child: navigationRail),
+                    widget.divider ??
+                        const VerticalDivider(
+                          width: 1,
+                          thickness: 1,
+                        ),
+                  ],
+                  Expanded(child: child),
                 ],
-                Expanded(child: child),
-              ],
+              ),
             ),
-            // drawer: switch (navigationType) {
-            //   NavigationType.drawer =>
-            //     ConstrainedScrollableChild(child: drawer),
-            //   _ => null,
-            // },
+            drawer: switch (navigationType) {
+              NavigationType.drawer =>
+                ConstrainedScrollableChild(child: drawer),
+              _ => null,
+            },
             bottomNavigationBar: switch (navigationType) {
               NavigationType.bottom => bottomNavigationBar,
               _ => null,
@@ -432,34 +450,34 @@ class _AutoAdaptiveRouterScaffoldState
     );
   }
 
-  // Widget _defaultBuildDrawer(
-  //   BuildContext context,
-  //   int selectedIndex,
-  //   void Function(int index) onDestinationSelected,
-  // ) {
-  //   final theme = Theme.of(context);
-  //   return Drawer(
-  //     child: Column(
-  //       children: [
-  //         if (widget.drawerHeader != null) widget.drawerHeader!,
-  //         for (final destination in widget.destinations)
-  //           ListTile(
-  //             leading: Icon(destination.icon),
-  //             title: Text(destination.title),
-  //             selected:
-  //                 widget.destinations.indexOf(destination) == selectedIndex,
-  //             onTap: () => onDestinationSelected(
-  //               widget.destinations.indexOf(destination),
-  //             ),
-  //             style: ListTileStyle.drawer,
-  //             selectedColor: theme.colorScheme.secondary,
-  //           ),
-  //         const Spacer(),
-  //         if (widget.drawerFooter != null) widget.drawerFooter!,
-  //       ],
-  //     ),
-  //   );
-  // }
+  Widget _defaultBuildDrawer(
+    BuildContext context,
+    int selectedIndex,
+    void Function(int index) onDestinationSelected,
+  ) {
+    final theme = Theme.of(context);
+    return Drawer(
+      child: Column(
+        children: [
+          if (widget.drawerHeader != null) widget.drawerHeader!,
+          for (final destination in widget.destinations)
+            ListTile(
+              leading: Icon(destination.icon),
+              title: Text(destination.title),
+              selected:
+                  widget.destinations.indexOf(destination) == selectedIndex,
+              onTap: () => onDestinationSelected(
+                widget.destinations.indexOf(destination),
+              ),
+              style: ListTileStyle.drawer,
+              selectedColor: theme.colorScheme.secondary,
+            ),
+          const Spacer(),
+          if (widget.drawerFooter != null) widget.drawerFooter!,
+        ],
+      ),
+    );
+  }
 
   Widget _defaultBottomNavigationBarBuilder(
     BuildContext context,
@@ -494,6 +512,21 @@ class _AutoAdaptiveRouterScaffoldState
       ],
     );
   }
+
+  Widget _defaultBuildDrawerNavigationTypeSliverAppBar(
+    BuildContext context,
+    Text? title,
+  ) {
+    return SliverAppBar(
+      leading: const AutoLeadingButton(),
+      title: title,
+      elevation: 10.0,
+      automaticallyImplyLeading: false,
+      expandedHeight: 50,
+      floating: true,
+      snap: true,
+    );
+  }
 }
 
 void _onDestinationSelected(TabsRouter tabsRouter, int index) {
@@ -512,7 +545,7 @@ enum NavigationType {
   rail,
 
   /// Used to configure a [Scaffold] with a modal [Drawer].
-  // drawer,
+  drawer,
 
   /// Used to configure a [Scaffold] with an always open [Drawer].
   permanentDrawer,

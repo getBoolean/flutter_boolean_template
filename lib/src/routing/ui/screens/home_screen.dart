@@ -105,7 +105,7 @@ class HomeScreen extends ConsumerWidget implements AutoRouteWrapper {
         DeviceForm.desktop => NavigationType.permanentDrawer,
         DeviceForm.tablet => NavigationType.permanentDrawer,
         DeviceForm.largePhone => NavigationType.rail,
-        DeviceForm.phone => NavigationType.rail,
+        DeviceForm.phone => NavigationType.drawer,
       };
     }
   }
