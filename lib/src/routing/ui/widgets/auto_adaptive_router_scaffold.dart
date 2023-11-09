@@ -395,20 +395,7 @@ class AutoAdaptiveRouterScaffoldState
         child: Row(
           children: [
             if (widget.tabBarStart != null) widget.tabBarStart!,
-            AutoLeadingButton(
-              builder: (context, leadingType, action) => switch (leadingType) {
-                LeadingType.back => BackButton(onPressed: action),
-                LeadingType.drawer => IconButton(
-                    icon: const Icon(Icons.menu),
-                    onPressed: action,
-                  ),
-                LeadingType.close => CloseButton(onPressed: action),
-                LeadingType.noLeading => IconButton(
-                    icon: const Icon(Icons.menu),
-                    onPressed: action,
-                  ),
-              },
-            ),
+            const _CustomAutoLeadingButton(),
             tabBar,
             const Spacer(),
             if (widget.tabBarEnd != null) widget.tabBarEnd!,
@@ -425,7 +412,8 @@ class AutoAdaptiveRouterScaffoldState
     void Function(int index) onDestinationSelected,
   ) {
     return NavigationRail(
-      leading: widget.fabInRail
+      leading: const _CustomAutoLeadingButton(),
+      trailing: widget.fabInRail
           ? Padding(
               padding: const EdgeInsets.all(4.0),
               child: widget.floatingActionButton,
@@ -561,6 +549,28 @@ class AutoAdaptiveRouterScaffoldState
         ),
       _ => const SliverToBoxAdapter(child: SizedBox.shrink()),
     };
+  }
+}
+
+class _CustomAutoLeadingButton extends StatelessWidget {
+  const _CustomAutoLeadingButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return AutoLeadingButton(
+      builder: (context, leadingType, action) => switch (leadingType) {
+        LeadingType.back => BackButton(onPressed: action),
+        LeadingType.drawer => IconButton(
+            icon: const Icon(Icons.menu),
+            onPressed: action,
+          ),
+        LeadingType.close => CloseButton(onPressed: action),
+        LeadingType.noLeading => IconButton(
+            icon: const Icon(Icons.menu),
+            onPressed: action,
+          ),
+      },
+    );
   }
 }
 
