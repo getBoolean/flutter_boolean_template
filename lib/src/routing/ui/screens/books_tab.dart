@@ -23,7 +23,7 @@ class _BooksScreenState extends State<BooksScreen>
       child: Center(
         child: FilledButton(
           onPressed: () async {
-            await goTo(context, BookDetailsRoute(id: 1));
+            await goTo(BookDetailsRoute(id: 1));
           },
           child: const Text('Push Details'),
         ),

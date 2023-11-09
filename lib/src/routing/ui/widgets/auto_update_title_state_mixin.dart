@@ -26,7 +26,6 @@ mixin AutoUpdateTitleStateMixin<T extends StatefulWidget> on State<T>
 
   /// see [RoutingController.navigate]
   Future<void> goTo(
-    BuildContext context,
     PageRouteInfo route, {
     OnNavigationFailure? onFailure,
   }) async {

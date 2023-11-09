@@ -20,7 +20,7 @@ class _ProfileScreenState extends State<ProfileScreen>
       child: Center(
         child: FilledButton(
           onPressed: () {
-            goTo(context, const ProfileDetailsRoute());
+            goTo(const ProfileDetailsRoute());
           },
           child: const Text('Push Details'),
         ),
