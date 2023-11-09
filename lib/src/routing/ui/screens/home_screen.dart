@@ -10,7 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:log/log.dart';
 
-@RoutePage()
+@RoutePage<String>()
 class HomeScreen extends ConsumerStatefulWidget implements AutoRouteWrapper {
   const HomeScreen({super.key});
 
@@ -23,39 +23,7 @@ class HomeScreen extends ConsumerStatefulWidget implements AutoRouteWrapper {
   }
 }
 
-class _HomeScreenState extends ConsumerState<HomeScreen>
-    with AutoRouteAwareStateMixin<HomeScreen> {
-  final log = Logger('HomeScreen');
-  @override
-  void didChangeTabRoute(TabPageRoute previousRoute) {
-    log.info('didChangeTabRoute: ${previousRoute.name}');
-  }
-
-  @override
-  void didInitTabRoute(TabPageRoute? previousRoute) {
-    log.info('didInitTabRoute: ${previousRoute?.name}');
-  }
-
-  @override
-  void didPop() {
-    log.info('didPop');
-  }
-
-  @override
-  void didPush() {
-    log.info('didPush');
-  }
-
-  @override
-  void didPopNext() {
-    log.info('didPopNext');
-  }
-
-  @override
-  void didPushNext() {
-    log.info('didPushNext');
-  }
-
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   static final _destinations = [
     const RouterDestination(
       title: 'Books',
@@ -73,6 +41,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       route: SettingsRoute(),
     ),
   ];
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

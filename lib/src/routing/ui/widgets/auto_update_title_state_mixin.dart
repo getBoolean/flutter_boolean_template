@@ -24,6 +24,25 @@ mixin AutoUpdateTitleStateMixin<T extends StatefulWidget> on State<T>
     }
   }
 
+  /// see [RoutingController.navigate]
+  Future<void> goTo(
+    BuildContext context,
+    PageRouteInfo route, {
+    OnNavigationFailure? onFailure,
+  }) async {
+    await context.router.push(
+      route,
+      onFailure: onFailure,
+    );
+    updateTitle();
+  }
+
+  void updateTitle() {
+    context
+        .findAncestorStateOfType<AutoAdaptiveRouterScaffoldState>()
+        ?.setAppBarTitle(context);
+  }
+
   @override
   void dispose() {
     super.dispose();

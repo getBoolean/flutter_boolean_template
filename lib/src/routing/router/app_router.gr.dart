@@ -40,7 +40,7 @@ abstract class $AppRouter extends _i9.RootStackRouter {
                 'id',
                 -1,
               )));
-      return _i9.AutoRoutePage<dynamic>(
+      return _i9.AutoRoutePage<String>(
         routeData: routeData,
         child: _i1.BookDetailsScreen(
           key: args.key,
@@ -49,7 +49,7 @@ abstract class $AppRouter extends _i9.RootStackRouter {
       );
     },
     BooksRoute.name: (routeData) {
-      return _i9.AutoRoutePage<dynamic>(
+      return _i9.AutoRoutePage<String>(
         routeData: routeData,
         child: const _i2.BooksScreen(),
       );
@@ -61,19 +61,19 @@ abstract class $AppRouter extends _i9.RootStackRouter {
       );
     },
     HomeRoute.name: (routeData) {
-      return _i9.AutoRoutePage<dynamic>(
+      return _i9.AutoRoutePage<String>(
         routeData: routeData,
         child: _i9.WrappedRoute(child: const _i4.HomeScreen()),
       );
     },
     ProfileDetailsRoute.name: (routeData) {
-      return _i9.AutoRoutePage<dynamic>(
+      return _i9.AutoRoutePage<String>(
         routeData: routeData,
         child: const _i5.ProfileDetailsScreen(),
       );
     },
     ProfileRoute.name: (routeData) {
-      return _i9.AutoRoutePage<dynamic>(
+      return _i9.AutoRoutePage<String>(
         routeData: routeData,
         child: const _i6.ProfileScreen(),
       );
@@ -85,13 +85,13 @@ abstract class $AppRouter extends _i9.RootStackRouter {
       );
     },
     SettingsDetailsRoute.name: (routeData) {
-      return _i9.AutoRoutePage<dynamic>(
+      return _i9.AutoRoutePage<String>(
         routeData: routeData,
         child: const _i7.SettingsDetailsScreen(),
       );
     },
     SettingsRoute.name: (routeData) {
-      return _i9.AutoRoutePage<dynamic>(
+      return _i9.AutoRoutePage<String>(
         routeData: routeData,
         child: const _i8.SettingsScreen(),
       );

@@ -218,11 +218,14 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
     void Function(int index) onDestinationSelected,
   )? railBuilder;
 
-  /// Custom [SliverAppBar] builder for [NavigationType.drawer]
+  /// Custom [SliverAppBar] builder for [NavigationType.drawer] and [NavigationType.bottom]
   ///
   /// A sliver must be returned from this builder.
-  final Widget Function(BuildContext context, String? title)?
-      sliverAppBarBuilder;
+  final Widget Function(
+    BuildContext context,
+    NavigationType navigationType,
+    String? title,
+  )? sliverAppBarBuilder;
 
   @override
   State<AutoAdaptiveRouterScaffold> createState() =>
@@ -285,6 +288,7 @@ class AutoAdaptiveRouterScaffoldState
             _defaultBuildDrawerNavigationTypeSliverAppBar;
         final sliverAppBar = buildSliverAppBar(
           context,
+          navigationType,
           appBarTitle[tabsRouter.activeIndex],
         );
 
@@ -315,7 +319,9 @@ class AutoAdaptiveRouterScaffoldState
               headerSliverBuilder:
                   (BuildContext context, bool innerBoxIsScrolled) {
                 return [
-                  if (navigationType == NavigationType.drawer) sliverAppBar
+                  if (navigationType != NavigationType.top &&
+                      navigationType != NavigationType.rail)
+                    sliverAppBar
                 ];
               },
               body: Row(
@@ -530,17 +536,30 @@ class AutoAdaptiveRouterScaffoldState
 
   Widget _defaultBuildDrawerNavigationTypeSliverAppBar(
     BuildContext context,
+    NavigationType navigationType,
     String? title,
   ) {
-    return SliverAppBar(
-      leading: const AutoLeadingButton(),
-      title: title == null ? null : Text(title),
-      elevation: 10.0,
-      automaticallyImplyLeading: false,
-      expandedHeight: 50,
-      floating: true,
-      snap: true,
-    );
+    return switch (navigationType) {
+      NavigationType.bottom => SliverAppBar(
+          leading: const AutoLeadingButton(),
+          title: title == null ? null : Text(title),
+          elevation: 10.0,
+          automaticallyImplyLeading: false,
+          expandedHeight: 50,
+          floating: true,
+          snap: true,
+        ),
+      NavigationType.drawer => SliverAppBar(
+          leading: const AutoLeadingButton(),
+          title: title == null ? null : Text(title),
+          elevation: 10.0,
+          automaticallyImplyLeading: false,
+          expandedHeight: 50,
+          floating: true,
+          snap: true,
+        ),
+      _ => const SliverToBoxAdapter(child: SizedBox.shrink()),
+    };
   }
 }
 
