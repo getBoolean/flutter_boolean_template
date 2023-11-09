@@ -23,7 +23,7 @@ class LogConfig {
       logging.Logger.root.onRecord.listen((record) {
         debugPrint(
           format?.call(record) ??
-              '${record.level.name} - ${record.time}: ${record.message}',
+              '${record.loggerName}/${record.level.name} - ${record.time}: ${record.message}',
         );
       });
     } else if (kProfileMode) {
