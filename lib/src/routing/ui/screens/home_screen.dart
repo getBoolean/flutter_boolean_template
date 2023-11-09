@@ -67,13 +67,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ),
         drawerHeader: Row(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 24.0, top: 16, bottom: 16),
-              child: Text(
-                kAppName,
-                style: theme.textTheme.titleMedium
-                    ?.merge(GoogleFonts.robotoMono()),
-              ),
+            Text(
+              kAppName,
+              style:
+                  theme.textTheme.titleMedium?.merge(GoogleFonts.robotoMono()),
             ),
           ],
         ),

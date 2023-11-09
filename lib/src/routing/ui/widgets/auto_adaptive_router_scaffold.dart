@@ -346,7 +346,9 @@ class AutoAdaptiveRouterScaffoldState
               ),
             ),
             drawer: switch (navigationType) {
-              NavigationType.drawer =>
+              NavigationType.drawer ||
+              NavigationType.rail ||
+              NavigationType.top =>
                 ConstrainedScrollableChild(child: drawer),
               _ => null,
             },
@@ -439,8 +441,17 @@ class AutoAdaptiveRouterScaffoldState
     final theme = Theme.of(context);
     return Drawer(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          if (widget.drawerHeader != null) widget.drawerHeader!,
+          Row(
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: _CustomAutoLeadingButton(),
+              ),
+              if (widget.drawerHeader != null) widget.drawerHeader!,
+            ],
+          ),
           for (final destination in widget.destinations)
             ListTile(
               leading: Icon(destination.icon),
@@ -469,7 +480,14 @@ class AutoAdaptiveRouterScaffoldState
     return Drawer(
       child: Column(
         children: [
-          if (widget.drawerHeader != null) widget.drawerHeader!,
+          if (widget.drawerHeader != null)
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: widget.drawerHeader,
+              ),
+            ),
           for (final destination in widget.destinations)
             ListTile(
               leading: Icon(destination.icon),
@@ -557,17 +575,26 @@ class _CustomAutoLeadingButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ScaffoldState? scaffold = Scaffold.maybeOf(context);
+    final hasDrawer = scaffold?.hasDrawer ?? false;
+
     return AutoLeadingButton(
       builder: (context, leadingType, action) => switch (leadingType) {
         LeadingType.back => BackButton(onPressed: action),
         LeadingType.drawer => IconButton(
             icon: const Icon(Icons.menu),
             onPressed: action,
+            iconSize: Theme.of(context).iconTheme.size ?? 24,
+            tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
           ),
         LeadingType.close => CloseButton(onPressed: action),
         LeadingType.noLeading => IconButton(
             icon: const Icon(Icons.menu),
-            onPressed: action,
+            iconSize: Theme.of(context).iconTheme.size ?? 24,
+            tooltip: hasDrawer
+                ? MaterialLocalizations.of(context).openAppDrawerTooltip
+                : null,
+            onPressed: hasDrawer ? scaffold?.openDrawer : action,
           ),
       },
     );
