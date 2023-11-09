@@ -2,6 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/routing/ui/widgets/auto_adaptive_router_scaffold.dart';
 
+/// A mixin that automatically updates the title of the app bar.
+///
+/// This is required for [NavigationType.drawer] and [NavigationType.top]
+/// to get the correct title.
 mixin AutoUpdateTitleStateMixin<T extends StatefulWidget> on State<T>
     implements AutoRouteAware {
   AutoRouteObserver? _observer;
