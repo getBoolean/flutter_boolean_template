@@ -65,7 +65,7 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
 
   /// See [Scaffold.floatingActionButton].
   ///
-  /// Only used for [NavigationType.bottom] and [NavigationType.rail]
+  /// Only used for [NavigationType.bottom], [NavigationType.drawer], and [NavigationType.rail]
   final FloatingActionButton? floatingActionButton;
 
   /// See [Scaffold.floatingActionButtonLocation].
@@ -354,10 +354,11 @@ class AutoAdaptiveRouterScaffoldState
               NavigationType.bottom => bottomNavigationBar,
               _ => null,
             },
-            floatingActionButton:
-                (widget.fabInRail && navigationType != NavigationType.bottom)
-                    ? null
-                    : widget.floatingActionButton,
+            floatingActionButton: (widget.fabInRail &&
+                    !(navigationType == NavigationType.bottom ||
+                        navigationType == NavigationType.drawer))
+                ? null
+                : widget.floatingActionButton,
             floatingActionButtonLocation: widget.floatingActionButtonLocation,
             floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
             persistentFooterButtons: widget.persistentFooterButtons,
