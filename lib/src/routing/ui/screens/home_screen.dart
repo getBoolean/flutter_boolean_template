@@ -11,8 +11,50 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:log/log.dart';
 
 @RoutePage()
-class HomeScreen extends ConsumerWidget implements AutoRouteWrapper {
+class HomeScreen extends ConsumerStatefulWidget implements AutoRouteWrapper {
   const HomeScreen({super.key});
+
+  @override
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+
+  @override
+  Widget wrappedRoute(BuildContext context) {
+    return LoggerWidget(child: this);
+  }
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen>
+    with AutoRouteAwareStateMixin<HomeScreen> {
+  final log = Logger('HomeScreen');
+  @override
+  void didChangeTabRoute(TabPageRoute previousRoute) {
+    log.info('didChangeTabRoute: ${previousRoute.name}');
+  }
+
+  @override
+  void didInitTabRoute(TabPageRoute? previousRoute) {
+    log.info('didInitTabRoute: ${previousRoute?.name}');
+  }
+
+  @override
+  void didPop() {
+    log.info('didPop');
+  }
+
+  @override
+  void didPush() {
+    log.info('didPush');
+  }
+
+  @override
+  void didPopNext() {
+    log.info('didPopNext');
+  }
+
+  @override
+  void didPushNext() {
+    log.info('didPushNext');
+  }
 
   static final _destinations = [
     const RouterDestination(
@@ -31,9 +73,8 @@ class HomeScreen extends ConsumerWidget implements AutoRouteWrapper {
       route: SettingsRoute(),
     ),
   ];
-
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     final settings = ref.watch(settingsServiceProvider);
@@ -108,10 +149,5 @@ class HomeScreen extends ConsumerWidget implements AutoRouteWrapper {
         DeviceForm.phone => NavigationType.drawer,
       };
     }
-  }
-
-  @override
-  Widget wrappedRoute(BuildContext context) {
-    return LoggerWidget(child: this);
   }
 }

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:adaptive_breakpoints/adaptive_breakpoints.dart';
@@ -5,6 +6,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/common_widgets/constrained_scrollable_child.dart';
+import 'package:log/log.dart';
 
 typedef NavigationTypeResolver = NavigationType Function(BuildContext context);
 
@@ -219,15 +221,25 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
   /// Custom [SliverAppBar] builder for [NavigationType.drawer]
   ///
   /// A sliver must be returned from this builder.
-  final Widget Function(BuildContext context, Text? title)? sliverAppBarBuilder;
+  final Widget Function(BuildContext context, String? title)?
+      sliverAppBarBuilder;
 
   @override
   State<AutoAdaptiveRouterScaffold> createState() =>
-      _AutoAdaptiveRouterScaffoldState();
+      AutoAdaptiveRouterScaffoldState();
 }
 
-class _AutoAdaptiveRouterScaffoldState
+class AutoAdaptiveRouterScaffoldState
     extends State<AutoAdaptiveRouterScaffold> {
+  Map<int, String> appBarTitle = {};
+
+  void setAppBarTitle(BuildContext context) {
+    final tabsRouter = AutoTabsRouter.of(context);
+    final routeData = RouteData.of(context);
+    appBarTitle[tabsRouter.activeIndex] = routeData.title(context);
+    scheduleMicrotask(() => setState(() {}));
+  }
+
   @override
   Widget build(BuildContext context) {
     final NavigationTypeResolver navigationTypeResolver =
@@ -271,7 +283,10 @@ class _AutoAdaptiveRouterScaffoldState
 
         final buildSliverAppBar = widget.sliverAppBarBuilder ??
             _defaultBuildDrawerNavigationTypeSliverAppBar;
-        final sliverAppBar = buildSliverAppBar(context, null);
+        final sliverAppBar = buildSliverAppBar(
+          context,
+          appBarTitle[tabsRouter.activeIndex],
+        );
 
         final buildPermanentDrawer =
             widget.permanentDrawerBuilder ?? _defaultBuildPermanentDrawer;
@@ -515,11 +530,11 @@ class _AutoAdaptiveRouterScaffoldState
 
   Widget _defaultBuildDrawerNavigationTypeSliverAppBar(
     BuildContext context,
-    Text? title,
+    String? title,
   ) {
     return SliverAppBar(
       leading: const AutoLeadingButton(),
-      title: title,
+      title: title == null ? null : Text(title),
       elevation: 10.0,
       automaticallyImplyLeading: false,
       expandedHeight: 50,
@@ -580,3 +595,30 @@ bool defaultIsLargeScreen(BuildContext context) =>
     getWindowType(context) >= AdaptiveWindowType.large;
 bool defaultIsMediumScreen(BuildContext context) =>
     getWindowType(context) == AdaptiveWindowType.medium;
+
+class AppObserver extends AutoRouteObserver {
+  final log = Logger('AppObserver');
+  @override
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    log.info('New route pushed: ${route.settings.name}');
+  }
+
+  @override
+  void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    log.info(
+        'Route popped: ${route.settings.name}, new route: ${previousRoute?.settings.name}');
+  }
+
+  // only override to observer tab routes
+  @override
+  void didInitTabRoute(TabPageRoute route, TabPageRoute? previousRoute) {
+    log.info(
+        'Tab route visited: ${route.name}, previous route: ${previousRoute?.name}');
+  }
+
+  @override
+  void didChangeTabRoute(TabPageRoute route, TabPageRoute previousRoute) {
+    log.info(
+        'Tab route re-visited: ${route.name}, previous route: ${previousRoute.name}');
+  }
+}

@@ -10,6 +10,7 @@ import 'package:flutter_boolean_template/src/features/settings/application/setti
 import 'package:flutter_boolean_template/src/features/settings/data/dto/settings.dart';
 import 'package:flutter_boolean_template/src/routing/router/app_router.dart';
 import 'package:flutter_boolean_template/src/routing/router_provider.dart';
+import 'package:flutter_boolean_template/src/routing/ui/widgets/auto_adaptive_router_scaffold.dart';
 import 'package:flutter_flavor/flutter_flavor.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -41,7 +42,9 @@ class App extends ConsumerWidget {
     final materialApp = MaterialApp.router(
       debugShowCheckedModeBanner: false,
       onGenerateTitle: (context) => context.loc.appTitle,
-      routerConfig: router.config(),
+      routerConfig: router.config(
+        navigatorObservers: () => [AppObserver()],
+      ),
       restorationScopeId: 'app',
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
