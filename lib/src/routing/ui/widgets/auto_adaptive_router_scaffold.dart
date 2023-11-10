@@ -37,8 +37,8 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
     this.includeBaseDestinationsInMenu = true,
     this.bottomNavigationOverflow = 5,
     this.railDestinationsOverflow = 7,
-    this.tabBarStart,
-    this.tabBarEnd,
+    this.topBarStart,
+    this.topBarEnd,
     this.isTabBarScrollable = true,
     this.tabAlignment = TabAlignment.start,
     this.divider,
@@ -148,10 +148,10 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
   final int railDestinationsOverflow;
 
   /// The starting item in the [TabBar].
-  final Widget? tabBarStart;
+  final Widget? topBarStart;
 
   /// The trailing item in the [TabBar].
-  final Widget? tabBarEnd;
+  final Widget? topBarEnd;
 
   /// The alignment for the tabs in the [TabBar]
   final TabAlignment tabAlignment;
@@ -395,11 +395,11 @@ class AutoAdaptiveRouterScaffoldState
         scrollDirection: Axis.horizontal,
         child: Row(
           children: [
-            if (widget.tabBarStart != null) widget.tabBarStart!,
+            if (widget.topBarStart != null) widget.topBarStart!,
             const _CustomAutoLeadingButton(),
             tabBar,
             const Spacer(),
-            if (widget.tabBarEnd != null) widget.tabBarEnd!,
+            if (widget.topBarEnd != null) widget.topBarEnd!,
           ],
         ),
       ),

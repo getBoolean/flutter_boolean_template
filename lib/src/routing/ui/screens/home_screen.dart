@@ -50,14 +50,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     return SafeArea(
       child: AutoAdaptiveRouterScaffold(
         navigationTypeResolver: _resolveNavigationType,
-        tabBarStart: Padding(
+        topBarStart: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 32.0),
           child: Text(
             kAppName,
             style: theme.textTheme.titleMedium?.merge(GoogleFonts.robotoMono()),
           ),
         ),
-        tabBarEnd: Padding(
+        topBarEnd: Padding(
           padding: EdgeInsets.symmetric(
               horizontal: settings.isBannerShowing ? 60 : 4),
           child: IconButton(
