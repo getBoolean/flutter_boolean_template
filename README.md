@@ -239,6 +239,8 @@ and provides some starter boilerplate for adaptive multitab navigation using `Au
 - Use `goTo` from the mixin to push new routes instead of the default methods AutoRoute provides.
   - Unfortunately the route observer does not detect when a page becomes active again after
     top page was popped. As a workaround, this method will call `updateTitle` after the page is popped.
+- Use the `AutoRoute.title` builder in [app_router.dart](lib/src/routing/router/app_router.dart) to
+  customize the AppBar title per route. (Required for `NavigationType.bottom`/`NavigationType.drawer`)
 
 ### ENVied Environment Variables
 
