@@ -431,7 +431,7 @@ class AutoAdaptiveRouterScaffoldState
         ),
         if (widget.fabInRail)
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12.0),
+            padding: const EdgeInsets.only(bottom: 12.0),
             child: widget.floatingActionButton,
           ),
       ],
