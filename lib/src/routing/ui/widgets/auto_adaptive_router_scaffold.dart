@@ -412,23 +412,29 @@ class AutoAdaptiveRouterScaffoldState
     List<RouterDestination> railDestinations,
     void Function(int index) onDestinationSelected,
   ) {
-    return NavigationRail(
-      leading: const _CustomAutoLeadingButton(),
-      trailing: widget.fabInRail
-          ? Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: widget.floatingActionButton,
-            )
-          : null,
-      destinations: [
-        for (final destination in railDestinations)
-          NavigationRailDestination(
-            icon: Icon(destination.icon),
-            label: Text(destination.title),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Expanded(
+          child: NavigationRail(
+            leading: const _CustomAutoLeadingButton(),
+            destinations: [
+              for (final destination in railDestinations)
+                NavigationRailDestination(
+                  icon: Icon(destination.icon),
+                  label: Text(destination.title),
+                ),
+            ],
+            selectedIndex: selectedIndex,
+            onDestinationSelected: onDestinationSelected,
+          ),
+        ),
+        if (widget.fabInRail)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12.0),
+            child: widget.floatingActionButton,
           ),
       ],
-      selectedIndex: selectedIndex,
-      onDestinationSelected: onDestinationSelected,
     );
   }
 
