@@ -229,6 +229,17 @@ Tests:
 - `melos run flutter_test:pkg` - Run Flutter tests for a specific package.
 - `melos run dart_test:pkg` - Run Dart tests for a specific (Dart only) package.
 
+### AutoRoute Navigation
+
+This project uses [AutoRoute](https://pub.dev/packages/auto_route) for navigation
+and provides some starter boilerplate for adaptive multitab navigation using `AutoAdaptiveRouterScaffold`.
+
+- For the AppBar title to be updated when the route changes, the `RoutePage` must be a `StatefulWidget` and
+  use the `AutoUpdateTitleStateMixin<T extends State>` mixin. This mixin will update the title when the `RoutePage` is pushed.
+- Use `goTo` from the mixin to push new routes instead of the default methods AutoRoute provides.
+  - Unfortunately the route observer does not detect when a page becomes active again after
+    top page was popped. As a workaround, this method will call `updateTitle` after the page is popped.
+
 ### ENVied Environment Variables
 
 Environment variables are setup using [ENVied](https://pub.dev/packages/envied)
