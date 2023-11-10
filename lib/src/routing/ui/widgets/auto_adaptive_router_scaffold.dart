@@ -347,8 +347,7 @@ class AutoAdaptiveRouterScaffoldState
             ),
             drawer: switch (navigationType) {
               NavigationType.drawer ||
-              NavigationType.rail ||
-              NavigationType.top =>
+              NavigationType.rail =>
                 ConstrainedScrollableChild(child: drawer),
               _ => null,
             },
@@ -445,11 +444,17 @@ class AutoAdaptiveRouterScaffoldState
         children: [
           Row(
             children: [
+              if (widget.drawerHeader != null) ...[
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: widget.drawerHeader,
+                ),
+                const Spacer(),
+              ],
               const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: _CustomAutoLeadingButton(),
               ),
-              if (widget.drawerHeader != null) widget.drawerHeader!,
             ],
           ),
           for (final destination in widget.destinations)
@@ -575,9 +580,6 @@ class _CustomAutoLeadingButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ScaffoldState? scaffold = Scaffold.maybeOf(context);
-    final hasDrawer = scaffold?.hasDrawer ?? false;
-
     return AutoLeadingButton(
       builder: (context, leadingType, action) => switch (leadingType) {
         LeadingType.back => BackButton(onPressed: action),
@@ -588,13 +590,14 @@ class _CustomAutoLeadingButton extends StatelessWidget {
             tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
           ),
         LeadingType.close => CloseButton(onPressed: action),
-        LeadingType.noLeading => IconButton(
-            icon: const Icon(Icons.menu),
-            iconSize: Theme.of(context).iconTheme.size ?? 24,
-            tooltip: hasDrawer
-                ? MaterialLocalizations.of(context).openAppDrawerTooltip
-                : null,
-            onPressed: hasDrawer ? scaffold?.openDrawer : action,
+        LeadingType.noLeading => Opacity(
+            opacity: 0,
+            child: IconButton(
+              icon: const Icon(Icons.menu),
+              iconSize: Theme.of(context).iconTheme.size ?? 24,
+              tooltip: null,
+              onPressed: action,
+            ),
           ),
       },
     );
