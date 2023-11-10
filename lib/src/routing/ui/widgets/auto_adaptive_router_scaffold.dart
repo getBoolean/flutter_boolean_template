@@ -348,8 +348,7 @@ class AutoAdaptiveRouterScaffoldState
               ),
             ),
             drawer: switch (navigationType) {
-              NavigationType.drawer ||
-              NavigationType.rail =>
+              NavigationType.drawer =>
                 ConstrainedScrollableChild(child: drawer),
               _ => null,
             },
