@@ -42,6 +42,8 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
     this.isTabBarScrollable = true,
     this.tabAlignment = TabAlignment.start,
     this.divider,
+    this.appBarLeadingButton,
+    this.leadingButton,
     this.tabBarBuilder,
     this.bottomNavigationBarBuilder,
     this.drawerBuilder,
@@ -166,6 +168,10 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
   /// The [VerticalDivider] between the [Drawer]/[NavigationRail] and the body.
   final Widget? divider;
 
+  final AutoLeadingButton? appBarLeadingButton;
+
+  final AutoLeadingButton? leadingButton;
+
   /// Custom builder for [NavigationType.top]'s [TabBar]
   ///
   /// If not null, then [isTabBarScrollable], and [tabAlignment] are ignored for this type.
@@ -177,6 +183,7 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
   /// Custom builder for [NavigationType.top]
   final PreferredSize Function(
     BuildContext context,
+    AutoLeadingButton leadingButton,
     TabBar tabBar,
     void Function(int index) onDestinationSelected,
   )? topBarBuilder;
@@ -204,6 +211,7 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
   final Widget Function(
     BuildContext context,
     int selectedIndex,
+    AutoLeadingButton leadingButton,
     void Function(int index) onDestinationSelected,
   )? permanentDrawerBuilder;
 
@@ -214,6 +222,7 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
     BuildContext context,
     int selectedIndex,
     List<RouterDestination> railDestinations,
+    AutoLeadingButton leadingButton,
     void Function(int index) onDestinationSelected,
   )? railBuilder;
 
@@ -223,6 +232,7 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
   final Widget Function(
     BuildContext context,
     NavigationType navigationType,
+    AutoLeadingButton leadingButton,
     String? title,
   )? sliverAppBarBuilder;
 
@@ -267,6 +277,11 @@ class AutoAdaptiveRouterScaffoldState
           math.min(widget.destinations.length, widget.railDestinationsOverflow),
         );
 
+        final leadingButton =
+            widget.leadingButton ?? _defaultBuildAutoLeadingButton();
+        final appBarLeadingButton =
+            widget.appBarLeadingButton ?? const AutoLeadingButton();
+
         final buildBottomNavigationBar = widget.bottomNavigationBarBuilder ??
             _defaultBottomNavigationBarBuilder;
         final bottomNavigationBar = buildBottomNavigationBar(
@@ -288,6 +303,7 @@ class AutoAdaptiveRouterScaffoldState
         final sliverAppBar = buildSliverAppBar(
           context,
           navigationType,
+          appBarLeadingButton,
           appBarTitle[tabsRouter.activeIndex],
         );
 
@@ -296,6 +312,7 @@ class AutoAdaptiveRouterScaffoldState
         final permanentDrawer = buildPermanentDrawer(
           context,
           tabsRouter.activeIndex,
+          leadingButton,
           onDestinationSelectedHelper,
         );
 
@@ -304,14 +321,15 @@ class AutoAdaptiveRouterScaffoldState
           context,
           tabsRouter.activeIndex,
           railDestinations,
+          leadingButton,
           onDestinationSelectedHelper,
         );
         final buildTabBar = widget.tabBarBuilder ?? _defaultTabBarBuilder;
         final tabBar = buildTabBar(context, onDestinationSelectedHelper);
 
         final buildTopBar = widget.topBarBuilder ?? _defaultTopBarBuilder;
-        final topBar =
-            buildTopBar(context, tabBar, onDestinationSelectedHelper);
+        final topBar = buildTopBar(
+            context, leadingButton, tabBar, onDestinationSelectedHelper);
         return DefaultTabController(
           initialIndex: tabsRouter.activeIndex,
           length: widget.destinations.length,
@@ -385,6 +403,7 @@ class AutoAdaptiveRouterScaffoldState
 
   PreferredSize _defaultTopBarBuilder(
     BuildContext context,
+    AutoLeadingButton leadingButton,
     TabBar tabBar,
     void Function(int index) onDestinationSelected,
   ) {
@@ -395,7 +414,7 @@ class AutoAdaptiveRouterScaffoldState
         child: Row(
           children: [
             if (widget.topBarStart != null) widget.topBarStart!,
-            const _CustomAutoLeadingButton(),
+            leadingButton,
             tabBar,
             const Spacer(),
             if (widget.topBarEnd != null) widget.topBarEnd!,
@@ -409,6 +428,7 @@ class AutoAdaptiveRouterScaffoldState
     BuildContext context,
     int selectedIndex,
     List<RouterDestination> railDestinations,
+    AutoLeadingButton leadingButton,
     void Function(int index) onDestinationSelected,
   ) {
     return Column(
@@ -416,7 +436,8 @@ class AutoAdaptiveRouterScaffoldState
       children: [
         Expanded(
           child: NavigationRail(
-            leading: const _CustomAutoLeadingButton(),
+            leading: leadingButton,
+            groupAlignment: 1.0,
             destinations: [
               for (final destination in railDestinations)
                 NavigationRailDestination(
@@ -430,7 +451,7 @@ class AutoAdaptiveRouterScaffoldState
         ),
         if (widget.fabInRail)
           Padding(
-            padding: const EdgeInsets.only(bottom: 12.0),
+            padding: const EdgeInsets.only(bottom: 12.0, top: 8.0),
             child: widget.floatingActionButton,
           ),
       ],
@@ -440,6 +461,7 @@ class AutoAdaptiveRouterScaffoldState
   Widget _defaultBuildPermanentDrawer(
     BuildContext context,
     int selectedIndex,
+    AutoLeadingButton leadingButton,
     void Function(int index) onDestinationSelected,
   ) {
     final theme = Theme.of(context);
@@ -456,9 +478,9 @@ class AutoAdaptiveRouterScaffoldState
                 ),
                 const Spacer(),
               ],
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: _CustomAutoLeadingButton(),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: leadingButton,
               ),
             ],
           ),
@@ -478,6 +500,26 @@ class AutoAdaptiveRouterScaffoldState
           if (widget.drawerFooter != null) widget.drawerFooter!,
         ],
       ),
+    );
+  }
+
+  AutoLeadingButton _defaultBuildAutoLeadingButton() {
+    return AutoLeadingButton(
+      builder: (context, leadingType, action) => switch (leadingType) {
+        LeadingType.back => BackButton(onPressed: action),
+        LeadingType.drawer => IconButton(
+            icon: const Icon(Icons.menu),
+            onPressed: action,
+            iconSize: Theme.of(context).iconTheme.size ?? 24,
+            tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+          ),
+        LeadingType.close => CloseButton(onPressed: action),
+        LeadingType.noLeading => IconButton(
+            icon: const BackButtonIcon(),
+            iconSize: Theme.of(context).iconTheme.size ?? 24,
+            onPressed: action,
+          ),
+      },
     );
   }
 
@@ -554,11 +596,12 @@ class AutoAdaptiveRouterScaffoldState
   Widget _defaultBuildDrawerNavigationTypeSliverAppBar(
     BuildContext context,
     NavigationType navigationType,
+    AutoLeadingButton leadingButton,
     String? title,
   ) {
     return switch (navigationType) {
       NavigationType.bottom => SliverAppBar(
-          leading: const AutoLeadingButton(),
+          leading: leadingButton,
           title: title == null ? null : Text(title),
           elevation: 10.0,
           automaticallyImplyLeading: false,
@@ -567,7 +610,7 @@ class AutoAdaptiveRouterScaffoldState
           snap: true,
         ),
       NavigationType.drawer => SliverAppBar(
-          leading: const AutoLeadingButton(),
+          leading: leadingButton,
           title: title == null ? null : Text(title),
           elevation: 10.0,
           automaticallyImplyLeading: false,
@@ -577,31 +620,6 @@ class AutoAdaptiveRouterScaffoldState
         ),
       _ => const SliverToBoxAdapter(child: SizedBox.shrink()),
     };
-  }
-}
-
-class _CustomAutoLeadingButton extends StatelessWidget {
-  const _CustomAutoLeadingButton();
-
-  @override
-  Widget build(BuildContext context) {
-    return AutoLeadingButton(
-      builder: (context, leadingType, action) => switch (leadingType) {
-        LeadingType.back => BackButton(onPressed: action),
-        LeadingType.drawer => IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: action,
-            iconSize: Theme.of(context).iconTheme.size ?? 24,
-            tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-          ),
-        LeadingType.close => CloseButton(onPressed: action),
-        LeadingType.noLeading => IconButton(
-            icon: const BackButtonIcon(),
-            iconSize: Theme.of(context).iconTheme.size ?? 24,
-            onPressed: action,
-          ),
-      },
-    );
   }
 }
 
