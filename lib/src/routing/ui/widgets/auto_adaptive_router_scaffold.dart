@@ -175,10 +175,9 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
   )? tabBarBuilder;
 
   /// Custom builder for [NavigationType.top]
-  ///
-  /// If specified, [tabBarBuilder] is ignored.
   final PreferredSize Function(
     BuildContext context,
+    TabBar tabBar,
     void Function(int index) onDestinationSelected,
   )? topBarBuilder;
 
@@ -307,9 +306,12 @@ class AutoAdaptiveRouterScaffoldState
           railDestinations,
           onDestinationSelectedHelper,
         );
+        final buildTabBar = widget.tabBarBuilder ?? _defaultTabBarBuilder;
+        final tabBar = buildTabBar(context, onDestinationSelectedHelper);
 
         final buildTopBar = widget.topBarBuilder ?? _defaultTopBarBuilder;
-        final topBar = buildTopBar(context, onDestinationSelectedHelper);
+        final topBar =
+            buildTopBar(context, tabBar, onDestinationSelectedHelper);
         return DefaultTabController(
           initialIndex: tabsRouter.activeIndex,
           length: widget.destinations.length,
@@ -384,11 +386,9 @@ class AutoAdaptiveRouterScaffoldState
 
   PreferredSize _defaultTopBarBuilder(
     BuildContext context,
+    TabBar tabBar,
     void Function(int index) onDestinationSelected,
   ) {
-    final buildTabBar = widget.tabBarBuilder ?? _defaultTabBarBuilder;
-    final tabBar = buildTabBar(context, onDestinationSelected);
-
     return PreferredSize(
       preferredSize: tabBar.preferredSize,
       child: ConstrainedScrollableChild(
