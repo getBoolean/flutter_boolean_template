@@ -598,7 +598,6 @@ class _CustomAutoLeadingButton extends StatelessWidget {
         LeadingType.noLeading => IconButton(
             icon: const BackButtonIcon(),
             iconSize: Theme.of(context).iconTheme.size ?? 24,
-            tooltip: MaterialLocalizations.of(context).backButtonTooltip,
             onPressed: action,
           ),
       },
