@@ -596,14 +596,11 @@ class _CustomAutoLeadingButton extends StatelessWidget {
             tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
           ),
         LeadingType.close => CloseButton(onPressed: action),
-        LeadingType.noLeading => Opacity(
-            opacity: 0,
-            child: IconButton(
-              icon: const Icon(Icons.menu),
-              iconSize: Theme.of(context).iconTheme.size ?? 24,
-              tooltip: null,
-              onPressed: action,
-            ),
+        LeadingType.noLeading => IconButton(
+            icon: const BackButtonIcon(),
+            iconSize: Theme.of(context).iconTheme.size ?? 24,
+            tooltip: MaterialLocalizations.of(context).backButtonTooltip,
+            onPressed: action,
           ),
       },
     );
