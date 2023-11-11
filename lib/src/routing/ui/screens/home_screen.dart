@@ -65,9 +65,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             icon: const Icon(Icons.search),
           ),
         ),
-        drawerHeader: Text(
-          kAppName,
-          style: theme.textTheme.titleMedium?.merge(GoogleFonts.robotoMono()),
+        drawerHeader: Row(
+          children: [
+            Text(
+              kAppName,
+              style:
+                  theme.textTheme.titleMedium?.merge(GoogleFonts.robotoMono()),
+            ),
+          ],
         ),
         drawerFooter: Row(
           children: [
