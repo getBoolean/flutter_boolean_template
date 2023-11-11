@@ -42,8 +42,8 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
     this.isTabBarScrollable = true,
     this.tabAlignment = TabAlignment.start,
     this.divider,
-    this.appBarLeadingButton,
-    this.leadingButton,
+    this.appBarLeadingButtonBuilder,
+    this.leadingButtonBuilder,
     this.tabBarBuilder,
     this.bottomNavigationBarBuilder,
     this.drawerBuilder,
@@ -168,9 +168,10 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
   /// The [VerticalDivider] between the [Drawer]/[NavigationRail] and the body.
   final Widget? divider;
 
-  final AutoLeadingButton? appBarLeadingButton;
+  final AutoLeadingButton Function(BuildContext context)?
+      appBarLeadingButtonBuilder;
 
-  final AutoLeadingButton? leadingButton;
+  final AutoLeadingButton Function(BuildContext context)? leadingButtonBuilder;
 
   /// Custom builder for [NavigationType.top]'s [TabBar]
   ///
@@ -232,7 +233,6 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
   final Widget Function(
     BuildContext context,
     NavigationType navigationType,
-    AutoLeadingButton leadingButton,
     String? title,
   )? sliverAppBarBuilder;
 
@@ -277,11 +277,8 @@ class AutoAdaptiveRouterScaffoldState
           math.min(widget.destinations.length, widget.railDestinationsOverflow),
         );
 
-        final leadingButton =
-            widget.leadingButton ?? _defaultBuildAutoLeadingButton();
-        final appBarLeadingButton =
-            widget.appBarLeadingButton ?? const AutoLeadingButton();
-
+        final leadingButtonBuilder =
+            widget.leadingButtonBuilder ?? _defaultBuildAutoLeadingButton;
         final buildBottomNavigationBar = widget.bottomNavigationBarBuilder ??
             _defaultBottomNavigationBarBuilder;
         final bottomNavigationBar = buildBottomNavigationBar(
@@ -303,7 +300,6 @@ class AutoAdaptiveRouterScaffoldState
         final sliverAppBar = buildSliverAppBar(
           context,
           navigationType,
-          appBarLeadingButton,
           appBarTitle[tabsRouter.activeIndex],
         );
 
@@ -312,7 +308,7 @@ class AutoAdaptiveRouterScaffoldState
         final permanentDrawer = buildPermanentDrawer(
           context,
           tabsRouter.activeIndex,
-          leadingButton,
+          leadingButtonBuilder(context),
           onDestinationSelectedHelper,
         );
 
@@ -321,15 +317,15 @@ class AutoAdaptiveRouterScaffoldState
           context,
           tabsRouter.activeIndex,
           railDestinations,
-          leadingButton,
+          leadingButtonBuilder(context),
           onDestinationSelectedHelper,
         );
         final buildTabBar = widget.tabBarBuilder ?? _defaultTabBarBuilder;
         final tabBar = buildTabBar(context, onDestinationSelectedHelper);
 
         final buildTopBar = widget.topBarBuilder ?? _defaultTopBarBuilder;
-        final topBar = buildTopBar(
-            context, leadingButton, tabBar, onDestinationSelectedHelper);
+        final topBar = buildTopBar(context, leadingButtonBuilder(context),
+            tabBar, onDestinationSelectedHelper);
         return DefaultTabController(
           initialIndex: tabsRouter.activeIndex,
           length: widget.destinations.length,
@@ -503,7 +499,7 @@ class AutoAdaptiveRouterScaffoldState
     );
   }
 
-  AutoLeadingButton _defaultBuildAutoLeadingButton() {
+  AutoLeadingButton _defaultBuildAutoLeadingButton(BuildContext context) {
     return AutoLeadingButton(
       builder: (context, leadingType, action) => switch (leadingType) {
         LeadingType.back => BackButton(onPressed: action),
@@ -596,12 +592,11 @@ class AutoAdaptiveRouterScaffoldState
   Widget _defaultBuildDrawerNavigationTypeSliverAppBar(
     BuildContext context,
     NavigationType navigationType,
-    AutoLeadingButton leadingButton,
     String? title,
   ) {
     return switch (navigationType) {
       NavigationType.bottom => SliverAppBar(
-          leading: leadingButton,
+          leading: const AutoLeadingButton(),
           title: title == null ? null : Text(title),
           elevation: 10.0,
           automaticallyImplyLeading: false,
@@ -610,7 +605,7 @@ class AutoAdaptiveRouterScaffoldState
           snap: true,
         ),
       NavigationType.drawer => SliverAppBar(
-          leading: leadingButton,
+          leading: const AutoLeadingButton(),
           title: title == null ? null : Text(title),
           elevation: 10.0,
           automaticallyImplyLeading: false,
