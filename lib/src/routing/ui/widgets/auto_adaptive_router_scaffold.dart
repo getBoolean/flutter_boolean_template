@@ -42,7 +42,6 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
     this.isTabBarScrollable = true,
     this.tabAlignment = TabAlignment.start,
     this.divider,
-    this.appBarLeadingButtonBuilder,
     this.leadingButtonBuilder,
     this.tabBarBuilder,
     this.bottomNavigationBarBuilder,
@@ -167,9 +166,6 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
 
   /// The [VerticalDivider] between the [Drawer]/[NavigationRail] and the body.
   final Widget? divider;
-
-  final AutoLeadingButton Function(BuildContext context)?
-      appBarLeadingButtonBuilder;
 
   final AutoLeadingButton Function(BuildContext context)? leadingButtonBuilder;
 
