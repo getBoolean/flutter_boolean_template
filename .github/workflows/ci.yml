@@ -304,11 +304,11 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
-      - name: Download Web Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: web
-          path: build/web
+
+      - name: Build Web
+        run: |
+          flutter pub get
+          flutter build web --dart-define FLAVOR=dev --release --web-renderer=canvaskit --base-href="https://getboolean.github.io/${{ steps.branch-name.outputs.current_branch }}"
       - name: Get branch name
         id: branch-name
         uses: tj-actions/branch-names@v6
