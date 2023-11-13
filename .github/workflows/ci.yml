@@ -312,13 +312,13 @@ jobs:
           cache: true
           cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
           cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:"
+      - name: Get branch name
+        id: branch-name
+        uses: tj-actions/branch-names@v6
       - name: Build Web
         run: |
           flutter pub get
           flutter build web --dart-define FLAVOR=dev --release --web-renderer=canvaskit --base-href="/${{ github.repository }}/${{ steps.branch-name.outputs.current_branch }}/"
-      - name: Get branch name
-        id: branch-name
-        uses: tj-actions/branch-names@v6
       - name: Deploy to GitHub Pages 🚀
         uses: JamesIves/github-pages-deploy-action@releases/v4
         with:
