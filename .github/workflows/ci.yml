@@ -298,6 +298,7 @@ jobs:
           path: build/web
 
   deploy_web:
+    name: Deploy Flutter Web to GitHub Pages
     runs-on: ubuntu-latest
     needs: [build_web]
     steps:
