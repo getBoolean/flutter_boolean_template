@@ -305,9 +305,6 @@ jobs:
       - name: Get branch name
         id: branch-name
         uses: tj-actions/branch-names@v6
-      - name: Install rsync 📚
-        run: |
-          apt-get update && apt-get install -y rsync
       - name: Deploy to GitHub Pages 🚀
         uses: JamesIves/github-pages-deploy-action@releases/v4
         with:
