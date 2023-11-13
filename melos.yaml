@@ -9,7 +9,7 @@ command:
     # It seems so that running "pub get" in parallel has some issues (like
     # https://github.com/dart-lang/pub/issues/3404). Disabling this feature
     # makes the CI much more stable.
-    runPubGetInParallel: false
+    # runPubGetInParallel: false
     hooks:
       # Activate the coverage package globally so that it can be used in the
       # `test` command.
@@ -25,21 +25,21 @@ scripts:
   pub:
     run: melos run dart:pkg --no-select && melos run flutter:pkg --no-select
     description: Run `dart pub get` in all packages.
-  
+
   dart:pkg:
     run: dart pub get
     exec:
       failFast: true
-      concurrency: 1
+      # concurrency: 1
     description: Run `dart pub get` in the selected package.
     packageFilters:
       noDependsOn: flutter
-  
+
   flutter:pkg:
     run: flutter pub get
     exec:
       failFast: true
-      concurrency: 1
+      # concurrency: 1
     description: Run `flutter pub get` in the selected package.
     packageFilters:
       dependsOn: flutter
@@ -51,9 +51,9 @@ scripts:
 
   analyze:pkg:
     run: dart analyze --fatal-infos lib
-    exec: 
+    exec:
       failFast: true
-      concurrency: 1
+      # concurrency: 1
     description: Run `dart analyze` on all packages.
 
   custom_lint:
@@ -64,7 +64,7 @@ scripts:
     run: dart run custom_lint
     exec:
       failFast: true
-      concurrency: 1
+      # concurrency: 1
     description: Run `dart run custom_lint` in the selected package.
     packageFilters:
       dependsOn: custom_lint
@@ -103,7 +103,7 @@ scripts:
 
   verify_format:
     run: dart format --output=none --set-exit-if-changed .
-    exec: 
+    exec:
       failFast: true
     description: Verify formatting was applied.
 
@@ -114,7 +114,7 @@ scripts:
   generate:pkg:
     run: dart run build_runner build --delete-conflicting-outputs
     exec:
-      concurrency: 5
+      # concurrency: 5
       failFast: true
     description: Run `build_runner build` in the selected packages.
     packageFilters:
@@ -125,7 +125,7 @@ scripts:
   watch:pkg:
     run: dart run build_runner watch
     exec:
-      concurrency: 1
+      # concurrency: 1
       failFast: true
     description: Run `build_runner watch` in the selected package. If all is selected, the command will only run in the first package.
     packageFilters:
@@ -161,7 +161,7 @@ scripts:
     run: dart pub global run coverage:test_with_coverage
     exec:
       failFast: true
-      concurrency: 1
+      # concurrency: 1
     description: Run Dart tests for a specific package in this project.
     packageFilters:
       dirExists: test
@@ -172,7 +172,7 @@ scripts:
     run: flutter test --no-pub --coverage
     exec:
       failFast: true
-      concurrency: 1
+      # concurrency: 1
     description: Run Flutter tests for a specific package in this project.
     packageFilters:
       flutter: true
