@@ -58,7 +58,7 @@ I highly recommend reading the article. Each `layer` has its own folder per feat
   - Android: 5.0 (SDK 21)
   - MacOS: 10.14
   - Windows 10
-  - Linux: Whatever the Flutter's is
+  - Linux: Whatever Flutter's is
 
 ## Demo
 
