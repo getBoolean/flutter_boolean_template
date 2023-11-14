@@ -17,10 +17,10 @@ class AppRouter extends $AppRouter {
   @override
   List<AutoRoute> get routes => [
         // route inspiration: https://github.com/Milad-Akarie/auto_route_library/issues/1548
-        RedirectRoute(path: '/', redirectTo: '/home/books/'),
+        RedirectRoute(path: '/', redirectTo: '/books/'),
         AutoRoute(
           page: HomeRoute.page,
-          path: '/home',
+          path: '/',
           children: <AutoRoute>[
             RedirectRoute(path: '', redirectTo: 'books'),
             AutoRoute(
