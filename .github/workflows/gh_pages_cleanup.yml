@@ -1,0 +1,32 @@
+name: gh-pages-cleanup
+on: delete
+
+jobs:
+  cleanup:
+    name: Cleanup gh-pages
+    runs-on: ubuntu-20.04
+    if: github.event.ref_type == 'branch'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          lfs: true
+          ref: gh-pages
+      - name: Get branch name
+        id: branch-name
+        uses: tj-actions/branch-names@v6
+      - name: Remove deleted branch from gh-pages
+        if: steps.branch-name.outputs.is_default == 'true'
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+
+          BASE_REF=$(printf "%q" "${{ github.event.ref }}")
+          BASE_REF=${BASE_REF/refs\/heads\/}
+
+          echo "Deleting folder: $BASE_REF"
+          git rm -rf $BASE_REF
+          git commit -m "Remove deleted branch"
+          git push
