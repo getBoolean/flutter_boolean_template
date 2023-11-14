@@ -10,6 +10,7 @@ separate packages.
 
 - [Motivation](#motivation)
 - [About](#about)
+- [Demo](#demo)
 - [Template: Getting Started](#template-getting-started)
   - [Change App/Package Name](#change-apppackage-name)
 - [Setup](#setup)
@@ -58,6 +59,15 @@ I highly recommend reading the article. Each `layer` has its own folder per feat
   - MacOS: 10.14
   - Windows 10
   - Linux: Whatever the Flutter's is
+
+## Demo
+
+Flutter Web is deployed to GitHub Pages in a separate subfolder for each branch. The `main` branch is deployed to
+[https://getboolean.github.io/flutter_boolean_template/main](https://getboolean.github.io/flutter_boolean_template/main).
+
+- Currently Navigator 2.0 routes do not play well with this setup. Sub-paths break GitHub Page's ability to find which
+  branch application to use, they must be removed from the URL before a refresh. Consider using only path parameters
+  instead of sub-paths if this functionality is important.
 
 ## Template: Getting Started
 
