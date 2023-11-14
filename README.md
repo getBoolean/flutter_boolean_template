@@ -1,10 +1,43 @@
-# flutter_boolean_template
+# flutter_boolean_template <!-- omit in toc -->
 
 An opinionated starting point for a Flutter app intended to provide the boilerplate
 needed to create a large app and provides utilities to separate code generation into
 separate packages.
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/gitpod-io/template-flutter)
+
+## Table of Contents <!-- omit in toc -->
+
+- [Motivation](#motivation)
+- [About](#about)
+- [Template: Getting Started](#template-getting-started)
+  - [Change App/Package Name](#change-apppackage-name)
+- [Setup](#setup)
+- [Testing](#testing)
+  - [Integration Tests](#integration-tests)
+- [Building](#building)
+  - [Flavors](#flavors)
+  - [Build for Windows Release](#build-for-windows-release)
+  - [Build for other platforms](#build-for-other-platforms)
+- [Architecture](#architecture)
+  - [Data Layer (Repositories)](#data-layer-repositories)
+  - [Domain Layer (Models)](#domain-layer-models)
+  - [Presentation Layer (Controllers)](#presentation-layer-controllers)
+  - [Application Layer (Service)](#application-layer-service)
+- [Libraries](#libraries)
+  - [Melos](#melos)
+    - [Scripts](#scripts)
+  - [AutoRoute Navigation](#autoroute-navigation)
+  - [ENVied Environment Variables](#envied-environment-variables)
+  - [Mason Bricks](#mason-bricks)
+  - [JSON Serialization, Unions, Sealed Classes and copyWith](#json-serialization-unions-sealed-classes-and-copywith)
+  - [State Management](#state-management)
+  - [Async Data Loading and Caching](#async-data-loading-and-caching)
+  - [Native Splash Screen](#native-splash-screen)
+  - [Native Platform Dialogs/Alerts](#native-platform-dialogsalerts)
+  - [Bottom Sheets](#bottom-sheets)
+  - [Layout List/Grid](#layout-listgrid)
+- [Contributing](#contributing)
 
 ## Motivation
 
@@ -14,10 +47,6 @@ and [localization/](./packages/localization/)
 
 This repository also follows [Riverpod App Architecture](https://codewithandrea.com/articles/flutter-app-architecture-riverpod-introduction/),
 I highly recommend reading the article. Each `layer` has its own folder per feature in the [lib/src/features/](./lib/src/features/) folder.
-
-## Feature Goals
-
-- See issue [#53](https://github.com/getBoolean/flutter_boolean_template/issues/53) for a detailed list of planned features.
 
 ## About
 
@@ -104,7 +133,7 @@ Instructions for building for release are below:
 By default, the app uses the "local" flavor. Run/build the app with `--dart-define FLAVOR=<flavorname>`
 to change the flavor. The following flavors are supported:
 
-- `local` - Local development. The text banner changes to "Debug" when in debug mode, otherwise it is "Local"
+- `local` - Local development. The text banner changes to "Debug" when in debug mode, "Local" in profile mode, and hidden in release mode.
 - `dev` - Development build not intended for release.
 - `beta` - Beta build intended for release to testers.
 - `staging` - Staging build intended for device integration testing.
