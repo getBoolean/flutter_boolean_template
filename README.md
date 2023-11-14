@@ -8,21 +8,12 @@ code generation into separate packages.
 
 ## Motivation
 
-Many developers have begun to depend on packages which use code generation, and this has
-resulted in large apps with code generation that can take multiple minutes. The solution is to
-split the codebase into separate packages to isolate the code generation, this ensures code generation
-does not run for unrelated packages. This is enabled by [melos](https://pub.dev/packages/melos) and
-custom Melos scripts, however, this comes with the tradeoff that `build_runner watch` only works
-for a single package at a time, it cannot be used across all packages.
-
-I've created separate packages for [assets/](./packages/assets/), [env/](./packages/env/),
-[features/routing/](./packages/features/routing/), [localization/](./packages/localization/)
-and others to separate code generation from the main app, which speeds up code generation time.
-These mentioned packages provide type-safe access to assets, `.env` variables, routes, and
-localized strings.
+This is an opinionated template I use for my personal projects. It uses `melos` monorepo
+to separate the code generation into separate packages for [assets/](./packages/assets/), [env/](./packages/env/),
+and [localization/](./packages/localization/)
 
 This repository also follows [Riverpod App Architecture](https://codewithandrea.com/articles/flutter-app-architecture-riverpod-introduction/),
-I highly recommend reading the article. Each `layer` has its own folder per feature in the [packages/features/](./packages/features/) folder.
+I highly recommend reading the article. Each `layer` has its own folder per feature in the [lib/src/features/](./lib/src/features/) folder.
 
 ## Feature Goals
 
@@ -137,7 +128,7 @@ configuration is for CI/CD testing builds only, not releases.
 ## Architecture
 
 This project uses the [Riverpod App Architecture](https://codewithandrea.com/articles/flutter-app-architecture-riverpod-introduction/)
-in a feature-first manner where each feature is a separate package in the [packages/features/](./packages/features/) folder.
+in a feature-first manner where each feature is a separate package in the [lib/src/features/](./lib/src/features/) folder.
 Each feature has its own layers, which separate the business logic from the UI.
 
 ### Data Layer (Repositories)
