@@ -1,8 +1,8 @@
 # flutter_boolean_template
 
 An opinionated starting point for a Flutter app intended to provide the boilerplate
-needed to create a large app that utilizes code generation by separating
-code generation into separate packages.
+needed to create a large app and provides utilities to separate code generation into
+separate packages.
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/gitpod-io/template-flutter)
 
