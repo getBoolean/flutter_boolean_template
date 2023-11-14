@@ -16,7 +16,7 @@ class _ProfileScreenState extends State<ProfileScreen>
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: Colors.deepPurple,
+      color: Colors.pinkAccent,
       child: Center(
         child: FilledButton(
           onPressed: () {

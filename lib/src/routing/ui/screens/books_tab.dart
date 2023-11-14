@@ -19,7 +19,7 @@ class _BooksScreenState extends State<BooksScreen>
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: Colors.blue,
+      color: Colors.blueGrey,
       child: Center(
         child: FilledButton(
           onPressed: () async {

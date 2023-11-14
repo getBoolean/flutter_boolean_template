@@ -15,9 +15,6 @@ class _SettingsScreenState extends State<SettingsScreen>
     with AutoUpdateTitleStateMixin<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
-    return const ColoredBox(
-      color: Colors.red,
-      child: SettingsWidget(),
-    );
+    return const SettingsWidget();
   }
 }
