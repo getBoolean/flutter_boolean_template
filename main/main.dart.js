@@ -74914,7 +74914,7 @@ return A.a3($async$$1,r)},
 $S:193}
 A.l1.prototype={
 goQ(){var s=null,r=t.Op
-return A.a([A.ag7("/","/home/books/"),A.l6(A.a([A.ag7("","books"),A.l6(A.a([A.l6(s,!1,B.a9J,"",new A.a3R()),A.l6(s,!1,B.a9I,"id-:id",new A.a3S())],r),!1,B.a9K,"books",s),A.l6(A.a([A.l6(s,!0,B.a9N,"",new A.a3T()),A.l6(s,!1,B.a9M,"comments",new A.a3U())],r),!1,B.a9O,"profile",s),A.l6(A.a([A.l6(s,!0,B.a9Q,"",new A.a3V()),A.l6(s,!1,B.a9P,"option",new A.a3W())],r),!1,B.a9R,"settings",s)],r),!1,B.a9L,"/home",s),A.ag7("*","/")],r)}}
+return A.a([A.ag7("/","/books/"),A.l6(A.a([A.ag7("","books"),A.l6(A.a([A.l6(s,!1,B.a9J,"",new A.a3R()),A.l6(s,!1,B.a9I,"id-:id",new A.a3S())],r),!1,B.a9K,"books",s),A.l6(A.a([A.l6(s,!0,B.a9N,"",new A.a3T()),A.l6(s,!1,B.a9M,"comments",new A.a3U())],r),!1,B.a9O,"profile",s),A.l6(A.a([A.l6(s,!0,B.a9Q,"",new A.a3V()),A.l6(s,!1,B.a9P,"option",new A.a3W())],r),!1,B.a9R,"settings",s)],r),!1,B.a9L,"/",s),A.ag7("*","/")],r)}}
 A.a3R.prototype={
 $2(a,b){return"Books"},
 $S:59}
@@ -88904,7 +88904,7 @@ r($,"b3t","aA2",()=>B.WE)
 s($,"b2U","aNc",()=>A.bP("^(?:[a-z\\d](?:[a-z\\d-]{0,61}[a-z\\d])?\\.)+[a-z\\d][a-z\\d-]{0,61}[a-z\\d]$",!0,!1,!1))
 s($,"b3k","aNz",()=>A.fv(B.eJ,B.o,t.o))
 s($,"b3c","aNr",()=>A.fv(B.o,B.C7,t.o))
-s($,"b_H","azT",()=>A.aFB(B.vE,B.b.dU(B.vE,new A.a3P(),t.N).m(0,"dev")?B.c.Rr("dev"):"local"))
+s($,"b_H","azT",()=>A.aFB(B.vE,B.b.dU(B.vE,new A.a3P(),t.N).m(0,"staging")?B.c.Rr("staging"):"local"))
 s($,"b0M","aM6",()=>{var q=null,p=t.K
 return A.aJ6(A.bD([A.ub(new A.acy(),B.d_,p),A.ub(new A.acz(),B.l6,p),A.ub(new A.acA(),q,t.N),A.ub(new A.acB(),q,t.S),A.ub(new A.acC(),q,t.i),A.ub(new A.acD(),B.ajj,t.Ci),A.ub(new A.acE(),q,t.y),new A.KH(),A.aRP(new A.acF(),new A.acG(),t.j),new A.B0(new A.acH(),A.ag("B0<bg<@>>")),new A.z_(new A.acI(),A.ag("z_<aJ<@,@>>"))],t.vV),q,q)})
 s($,"b0N","H_",()=>{var q=A.aF(t.D8)
