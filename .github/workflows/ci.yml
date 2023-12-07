@@ -13,6 +13,10 @@ env:
   FLUTTER_CHANNEL: "stable"
   FLUTTER_VERSION: "any"
 
+# Needed to deploy to GitHub Pages
+permissions:
+  contents: write
+
 jobs:
   flutter_test:
     name: Run flutter test and analyze
