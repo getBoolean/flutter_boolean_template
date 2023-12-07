@@ -50,7 +50,7 @@ dependencies:
   window_manager: ^0.3.7
 
 dev_dependencies:
-  flutter_lints: ^3.0.0
+  flutter_lints: ^3.0.1
   custom_lint: ^0.5.3
   riverpod_lint: ^2.1.1
   riverpod_generator: ^2.3.3
