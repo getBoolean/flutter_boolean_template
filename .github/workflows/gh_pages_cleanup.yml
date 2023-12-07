@@ -16,7 +16,7 @@ jobs:
           ref: gh-pages
       - name: Get branch name
         id: branch-name
-        uses: tj-actions/branch-names@v6
+        uses: tj-actions/branch-names@v7.0.7
       - name: Remove deleted branch from gh-pages
         if: steps.branch-name.outputs.is_default == 'true'
         run: |
