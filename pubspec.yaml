@@ -27,7 +27,7 @@ dependencies:
   flex_color_scheme: ^7.3.1
   flutter_hooks: ^0.20.3
   dart_mappable: ^4.0.0
-  http: ^1.0.0
+  http: ^1.1.2
   riverpod: ^2.3.6
   modddels_annotation_fpdart: ^0.2.0
   freezed_annotation: ^2.2.0
