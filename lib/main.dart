@@ -55,7 +55,7 @@ void registerErrorHandlers() {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('An error occured'),
+          title: const Text('An error occurred'),
           backgroundColor: Colors.red,
         ),
         // Body with the error message and button to restart the app
