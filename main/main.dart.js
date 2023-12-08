@@ -75137,7 +75137,7 @@ A.rd().$1(a.k(0))},
 $S:497}
 A.aAi.prototype={
 $1(a){var s=null
-return new A.ni(A.aIr(A.aEX(s,s,!0,B.ez,s,1,s,s,s,!1,s,!1,s,s,s,s,!0,s,s,s,s,s,B.aiv,s,s,s,1,s),s,A.aCm(A.jG(A.f7(A.a([B.GL,A.m2(a.Pa(),s,s,B.afq),B.GL,B.ais],t.D),B.a7,B.aB,B.cN),s,s),B.ag,s,B.ah,B.dP,s,s,s,s,B.aT),s,s,s,B.ah,s,!0,s,s,!0,!1,!1,s,s,s,s,!0,s),B.a7j,B.uO,s,s,s,s,B.lb,s,B.t8,!1,s,s)},
+return new A.ni(A.aIr(A.aEX(s,s,!0,B.ez,s,1,s,s,s,!1,s,!1,s,s,s,s,!0,s,s,s,s,s,B.ain,s,s,s,1,s),s,A.aCm(A.jG(A.f7(A.a([B.GL,A.m2(a.Pa(),s,s,B.afq),B.GL,B.ait],t.D),B.a7,B.aB,B.cN),s,s),B.ag,s,B.ah,B.dP,s,s,s,s,B.aT),s,s,s,B.ah,s,!0,s,s,!0,!1,!1,s,s,s,s,!0,s),B.a7j,B.uO,s,s,s,s,B.lb,s,B.t8,!1,s,s)},
 $S:498}
 A.IV.prototype={
 G(a){return new A.N4(new A.a69(this),null)}}
@@ -75457,9 +75457,9 @@ A.Bp.prototype={
 a6(){return new A.a_S(B.n)}}
 A.a_S.prototype={
 G(a){var s,r=this,q=r.gxE().mQ($.Ho(),t.r),p=r.YC(q),o=A.a([],t.m0)
-if(p.length!==0)o.push(A.aIB(p,B.ait))
+if(p.length!==0)o.push(A.aIB(p,B.aiu))
 s=q.c
-o.push(A.aIB(A.a([A.aIC(!0,s,null,new A.awD(r),B.aip),A.aIC(!s,q.b,null,new A.awE(r),B.ain)],t.jD),B.air))
+o.push(A.aIB(A.a([A.aIC(!0,s,null,new A.awD(r),B.aiq),A.aIC(!s,q.b,null,new A.awE(r),B.aio)],t.jD),B.ais))
 return new A.RG(B.S8,o,null)},
 YC(a){var s=A.a([],t.M7)
 if($.wM==null)$.wM=A.aCU($.aAt())
@@ -75621,7 +75621,7 @@ if($.wM==null)$.wM=A.aCU($.aAt())
 p=A.ME(m,B.pY,m,new A.atg(),m,m)
 o=t.D
 s=A.hJ(A.a([A.m2(n,m,m,r?m:s.c8(A.aMn().$0()))],o),B.a7,B.a4)
-o=A.hJ(A.a([A.ln(new A.bO(B.jC,new A.PU(new A.ath(),m,m,m,m,B.V,m,!1,m,B.aiu,m),m),1)],o),B.a7,B.a4)
+o=A.hJ(A.a([A.ln(new A.bO(B.jC,new A.PU(new A.ath(),m,m,m,m,B.V,m,!1,m,B.aiv,m),m),1)],o),B.a7,B.a4)
 return A.Rh(!0,new A.wO($.aWC,A.aGu(B.WV,!1,new A.ati()),this.ga5j(),s,o,new A.bO(B.SJ,q,m),new A.bO(new A.b5(4,0,4,0),p,m),m),!0,B.W,!0,!0)},
 a5k(a){var s=A.c5(a,null,t.l).w,r=s.gt2(s),q=A.aQR(A.b_7(a).d),p=window.navigator.userAgent.toLowerCase()
 if(!B.c.m(p,"iphone"))if(!(B.c.m(p,"android")||B.c.m(p,"crkey")))if(!B.c.m(p,"macintosh"))if(!B.c.m(p,"windows"))if(!B.c.m(p,"linux"))if(!B.c.m(p,"cros"))if(!B.c.m(p,"roku"))B.c.m(p,"appletv")
@@ -84986,8 +84986,8 @@ B.MO=new A.b(4284817407)
 B.MM=new A.b(4284612842)
 B.a7g=new A.c_([100,B.OJ,200,B.Nd,400,B.MO,700,B.MM],t.pl)
 B.a8N=new A.tR(B.a7g,4286336511)
-B.aio=new A.eW("Profile Details Screen",null,null,null,null,null,null)
-B.K6=new A.lh(B.a9,null,null,B.aio,null)
+B.aip=new A.eW("Profile Details Screen",null,null,null,null,null,null)
+B.K6=new A.lh(B.a9,null,null,B.aip,null)
 B.RK=new A.jL(B.a8N,B.K6,null)
 B.R_=new A.b(4294937216)
 B.QV=new A.b(4294922834)
@@ -84995,8 +84995,8 @@ B.QT=new A.b(4294907716)
 B.PB=new A.b(4292149248)
 B.a7e=new A.c_([100,B.R_,200,B.QV,400,B.QT,700,B.PB],t.pl)
 B.a8L=new A.tR(B.a7e,4294922834)
-B.aiq=new A.eW("Setting Option Screen",null,null,null,null,null,null)
-B.K8=new A.lh(B.a9,null,null,B.aiq,null)
+B.air=new A.eW("Setting Option Screen",null,null,null,null,null,null)
+B.K8=new A.lh(B.a9,null,null,B.air,null)
 B.RL=new A.jL(B.a8L,B.K8,null)
 B.cy=new A.oL(0,"start")
 B.pc=new A.oL(1,"end")
@@ -88920,14 +88920,14 @@ B.ahq=new A.p(!0,B.h,null,"Roboto",null,null,null,null,null,null,null,null,null,
 B.ahi=new A.p(!0,B.h,null,"Roboto",null,null,null,null,null,null,null,null,null,null,null,null,null,B.f,null,null,null,"whiteMountainView labelMedium",null,null,null,null)
 B.agM=new A.p(!0,B.h,null,"Roboto",null,null,null,null,null,null,null,null,null,null,null,null,null,B.f,null,null,null,"whiteMountainView labelSmall",null,null,null,null)
 B.aim=new A.cK(B.agl,B.ahW,B.ahB,B.aey,B.aht,B.agb,B.ai1,B.afc,B.afN,B.ahm,B.aep,B.ahC,B.ahq,B.ahi,B.agM)
-B.ain=new A.eW("Dark theme",null,null,null,null,null,null)
-B.aip=new A.eW("Use device theme",null,null,null,null,null,null)
-B.air=new A.eW("Appearance",null,null,null,null,null,null)
+B.ain=new A.eW("An error occurred",null,null,null,null,null,null)
+B.aio=new A.eW("Dark theme",null,null,null,null,null,null)
+B.aiq=new A.eW("Use device theme",null,null,null,null,null,null)
+B.ais=new A.eW("Appearance",null,null,null,null,null,null)
 B.ah3=new A.p(!0,B.ez,null,null,null,null,null,B.b3,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.ais=new A.eW("Restart the app to continue.",null,B.ah3,null,null,null,null)
-B.ait=new A.eW("Developer",null,null,null,null,null,null)
-B.aiu=new A.eW("Add",null,null,null,null,null,null)
-B.aiv=new A.eW("An error occured",null,null,null,null,null,null)
+B.ait=new A.eW("Restart the app to continue.",null,B.ah3,null,null,null,null)
+B.aiu=new A.eW("Developer",null,null,null,null,null,null)
+B.aiv=new A.eW("Add",null,null,null,null,null,null)
 B.H_=new A.eW("Push Details",null,null,null,null,null,null)
 B.lb=new A.C4(0,"system")
 B.aix=new A.C4(1,"light")
