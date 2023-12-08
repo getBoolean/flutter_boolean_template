@@ -57,51 +57,55 @@ enum DeviceForm {
   final Orientation currentOrientation = MediaQuery.of(context).orientation;
   final windowType = getWindowType(context);
   final DeviceForm deviceForm = DeviceForm.from(windowType);
+  final DeviceType deviceType =
+      kIsWeb ? getDeviceTypeByUserAgent() : getDeviceTypeByPlatform();
+  return (deviceType, deviceForm, currentOrientation);
+}
 
-  if (kIsWeb) {
-    final userAgent = html.window.navigator.userAgent.toLowerCase();
-    final DeviceType deviceType;
-    // Smartphone
-    if (userAgent.contains('iphone')) {
-      deviceType = DeviceType.iOS;
-    } else if (userAgent.contains('android') || userAgent.contains('crkey')) {
-      deviceType = DeviceType.Android;
-    }
-
-    // Desktop
-    else if (userAgent.contains('macintosh')) {
-      deviceType = DeviceType.MacOS;
-    } else if (userAgent.contains('windows')) {
-      deviceType = DeviceType.Windows;
-    } else if (userAgent.contains('linux')) {
-      deviceType = DeviceType.Linux;
-    } else if (userAgent.contains('cros')) {
-      deviceType = DeviceType.ChromeOS;
-    } else if (userAgent.contains('roku')) {
-      deviceType = DeviceType.Roku;
-    } else if (userAgent.contains('appletv')) {
-      deviceType = DeviceType.AppleTV;
-    } else {
-      deviceType = DeviceType.Android;
-    }
-
-    return (deviceType, deviceForm, currentOrientation);
+DeviceType getDeviceTypeByPlatform() {
+  final DeviceType deviceType;
+  if (io.Platform.isAndroid) {
+    deviceType = DeviceType.Android;
+  } else if (io.Platform.isIOS) {
+    deviceType = DeviceType.iOS;
+  } else if (io.Platform.isMacOS) {
+    deviceType = DeviceType.MacOS;
+  } else if (io.Platform.isWindows) {
+    deviceType = DeviceType.Windows;
+  } else if (io.Platform.isLinux) {
+    deviceType = DeviceType.Linux;
   } else {
-    final DeviceType deviceType;
-    if (io.Platform.isAndroid) {
-      deviceType = DeviceType.Android;
-    } else if (io.Platform.isIOS) {
-      deviceType = DeviceType.iOS;
-    } else if (io.Platform.isMacOS) {
-      deviceType = DeviceType.MacOS;
-    } else if (io.Platform.isWindows) {
-      deviceType = DeviceType.Windows;
-    } else if (io.Platform.isLinux) {
-      deviceType = DeviceType.Linux;
-    } else {
-      deviceType = DeviceType.Android;
-    }
-
-    return (deviceType, deviceForm, currentOrientation);
+    deviceType = DeviceType.Android;
   }
+  return deviceType;
+}
+
+/// Returns the current device type by user agent
+DeviceType getDeviceTypeByUserAgent() {
+  final DeviceType deviceType;
+  final userAgent = html.window.navigator.userAgent.toLowerCase();
+  // Smartphone
+  if (userAgent.contains('iphone')) {
+    deviceType = DeviceType.iOS;
+  } else if (userAgent.contains('android') || userAgent.contains('crkey')) {
+    deviceType = DeviceType.Android;
+  }
+
+  // Desktop
+  else if (userAgent.contains('macintosh')) {
+    deviceType = DeviceType.MacOS;
+  } else if (userAgent.contains('windows')) {
+    deviceType = DeviceType.Windows;
+  } else if (userAgent.contains('linux')) {
+    deviceType = DeviceType.Linux;
+  } else if (userAgent.contains('cros')) {
+    deviceType = DeviceType.ChromeOS;
+  } else if (userAgent.contains('roku')) {
+    deviceType = DeviceType.Roku;
+  } else if (userAgent.contains('appletv')) {
+    deviceType = DeviceType.AppleTV;
+  } else {
+    deviceType = DeviceType.Android;
+  }
+  return deviceType;
 }
