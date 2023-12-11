@@ -259,6 +259,7 @@ class AutoAdaptiveRouterScaffoldState
       animatePageTransition: navigationType == NavigationType.bottom ||
           navigationType == NavigationType.top,
       builder: (context, child, _) {
+        // TODO: Add optional redirect/guard handler with context here
         final tabsRouter = AutoTabsRouter.of(context);
         onDestinationSelectedHelper(int index) =>
             _onDestinationSelected(tabsRouter, index);
