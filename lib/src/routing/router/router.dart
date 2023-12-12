@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/routing/ui/ui.dart';
+import 'package:flutter_boolean_template/utils/utils.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:log/log.dart';
@@ -13,6 +14,10 @@ final _shellNavigatorBKey =
     GlobalKey<NavigatorState>(debugLabel: 'shellProfile');
 final _shellNavigatorCKey =
     GlobalKey<NavigatorState>(debugLabel: 'shellSettings');
+
+const kBooksRouteName = 'books';
+const kProfileRouteName = 'profile';
+const kSettingsRouteName = 'settings';
 
 // Keep in mind that the navigation position of each page won't be preserved until StatefulShellRoute from
 // https://github.com/flutter/packages/pull/2650 is merged
@@ -64,8 +69,10 @@ final routerProvider = Provider.autoDispose<GoRouter>((ref) {
             navigatorKey: _shellNavigatorAKey,
             routes: <RouteBase>[
               GoRoute(
+                name: kBooksRouteName,
                 // The screen to display as the root in the first tab of the
                 // bottom navigation bar.
+                // TODO: Include the book id in the path
                 path: '/books',
                 builder: (BuildContext context, GoRouterState state) =>
                     const BooksScreen(),
@@ -77,6 +84,15 @@ final routerProvider = Provider.autoDispose<GoRouter>((ref) {
                     path: 'details',
                     builder: (BuildContext context, GoRouterState state) =>
                         const BookDetailsScreen(),
+                    redirect: (BuildContext context, GoRouterState state) {
+                      final (_, deviceForm, _) = getDeviceDetails(context);
+                      if (deviceForm
+                          case DeviceForm.phone || DeviceForm.largePhone) {
+                        // TODO: Include the book id in the path
+                        return context.namedLocation(kBooksRouteName);
+                      }
+                      return null;
+                    },
                   ),
                 ],
               ),
@@ -90,6 +106,7 @@ final routerProvider = Provider.autoDispose<GoRouter>((ref) {
             // needed elsewhere. If not provided, a default key will be used.
             routes: <RouteBase>[
               GoRoute(
+                name: kProfileRouteName,
                 // The screen to display as the root in the second tab of the
                 // bottom navigation bar.
                 path: '/profile',
@@ -111,6 +128,7 @@ final routerProvider = Provider.autoDispose<GoRouter>((ref) {
             navigatorKey: _shellNavigatorCKey,
             routes: <RouteBase>[
               GoRoute(
+                name: kSettingsRouteName,
                 // The screen to display as the root in the third tab of the
                 // bottom navigation bar.
                 path: '/settings',
