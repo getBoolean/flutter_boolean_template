@@ -1,10 +1,6 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_boolean_template/src/routing/router/app_router.dart';
-import 'package:flutter_boolean_template/src/routing/ui/widgets/auto_update_title_state_mixin.dart';
 import 'package:log/log.dart';
 
-@RoutePage<String>()
 class BooksScreen extends StatefulWidget {
   const BooksScreen({super.key});
 
@@ -12,8 +8,7 @@ class BooksScreen extends StatefulWidget {
   State<BooksScreen> createState() => _BooksScreenState();
 }
 
-class _BooksScreenState extends State<BooksScreen>
-    with AutoUpdateTitleStateMixin<BooksScreen> {
+class _BooksScreenState extends State<BooksScreen> {
   final log = Logger('BooksScreen');
 
   @override
@@ -23,7 +18,7 @@ class _BooksScreenState extends State<BooksScreen>
       child: Center(
         child: FilledButton(
           onPressed: () async {
-            await goTo(BookDetailsRoute(id: 1));
+            // await goTo(BookDetailsRoute(id: 1));
           },
           child: const Text('Push Details'),
         ),

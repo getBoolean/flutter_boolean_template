@@ -1,11 +1,10 @@
-import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:adaptive_breakpoints/adaptive_breakpoints.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/common_widgets/constrained_scrollable_child.dart';
+import 'package:go_router/go_router.dart';
 import 'package:log/log.dart';
 
 typedef NavigationTypeResolver = NavigationType Function(BuildContext context);
@@ -13,6 +12,7 @@ typedef NavigationTypeResolver = NavigationType Function(BuildContext context);
 class AutoAdaptiveRouterScaffold extends StatefulWidget {
   const AutoAdaptiveRouterScaffold({
     super.key,
+    required this.navigationShell,
     required this.destinations,
     this.floatingActionButton,
     this.floatingActionButtonLocation,
@@ -59,6 +59,8 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
         'No AutoAdaptiveRouterScaffold found in context. Wrap your app in an AutoAdaptiveRouterScaffold to fix this error.');
     return scaffold!;
   }
+
+  final StatefulNavigationShell navigationShell;
 
   /// The index into [destinations] for the current selected
   /// [RouterDestination].
@@ -167,7 +169,7 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
   /// The [VerticalDivider] between the [Drawer]/[NavigationRail] and the body.
   final Widget? divider;
 
-  final AutoLeadingButton Function(BuildContext context)? leadingButtonBuilder;
+  final Widget Function(BuildContext context)? leadingButtonBuilder;
 
   /// Custom builder for [NavigationType.top]'s [TabBar]
   ///
@@ -180,7 +182,6 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
   /// Custom builder for [NavigationType.top]
   final PreferredSize Function(
     BuildContext context,
-    AutoLeadingButton leadingButton,
     TabBar tabBar,
     void Function(int index) onDestinationSelected,
   )? topBarBuilder;
@@ -208,7 +209,6 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
   final Widget Function(
     BuildContext context,
     int selectedIndex,
-    AutoLeadingButton leadingButton,
     void Function(int index) onDestinationSelected,
   )? permanentDrawerBuilder;
 
@@ -219,7 +219,6 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
     BuildContext context,
     int selectedIndex,
     List<RouterDestination> railDestinations,
-    AutoLeadingButton leadingButton,
     void Function(int index) onDestinationSelected,
   )? railBuilder;
 
@@ -241,162 +240,137 @@ class AutoAdaptiveRouterScaffoldState
     extends State<AutoAdaptiveRouterScaffold> {
   Map<int, String> appBarTitle = {};
 
-  void setAppBarTitle(BuildContext context) {
-    final tabsRouter = AutoTabsRouter.of(context);
-    final routeData = RouteData.of(context);
-    appBarTitle[tabsRouter.activeIndex] = routeData.title(context);
-    scheduleMicrotask(() => setState(() {}));
-  }
-
   @override
   Widget build(BuildContext context) {
     final NavigationTypeResolver navigationTypeResolver =
         widget.navigationTypeResolver ?? defaultNavigationTypeResolver;
     final navigationType = navigationTypeResolver(context);
-    return AutoTabsRouter.pageView(
-      routes:
-          widget.destinations.map((destination) => destination.route).toList(),
-      animatePageTransition: navigationType == NavigationType.bottom ||
-          navigationType == NavigationType.top,
-      builder: (context, child, _) {
-        // TODO: Add optional redirect/guard handler with context here
-        final tabsRouter = AutoTabsRouter.of(context);
-        onDestinationSelectedHelper(int index) =>
-            _onDestinationSelected(tabsRouter, index);
+    // TODO: Add optional redirect/guard handler with context here
+    onDestinationSelectedHelper(int index) =>
+        _goBranch(widget.navigationShell, index);
 
-        final bottomDestinations = widget.destinations.sublist(
-          0,
-          math.min(widget.destinations.length, widget.bottomNavigationOverflow),
-        );
+    final bottomDestinations = widget.destinations.sublist(
+      0,
+      math.min(widget.destinations.length, widget.bottomNavigationOverflow),
+    );
 
-        final railDestinations = widget.destinations.sublist(
-          0,
-          math.min(widget.destinations.length, widget.railDestinationsOverflow),
-        );
+    final railDestinations = widget.destinations.sublist(
+      0,
+      math.min(widget.destinations.length, widget.railDestinationsOverflow),
+    );
 
-        final leadingButtonBuilder =
-            widget.leadingButtonBuilder ?? _defaultBuildAutoLeadingButton;
-        final buildBottomNavigationBar = widget.bottomNavigationBarBuilder ??
-            _defaultBottomNavigationBarBuilder;
-        final bottomNavigationBar = buildBottomNavigationBar(
-          context,
-          tabsRouter.activeIndex,
-          bottomDestinations,
-          onDestinationSelectedHelper,
-        );
+    final buildBottomNavigationBar =
+        widget.bottomNavigationBarBuilder ?? _defaultBottomNavigationBarBuilder;
+    final bottomNavigationBar = buildBottomNavigationBar(
+      context,
+      widget.navigationShell.currentIndex,
+      bottomDestinations,
+      onDestinationSelectedHelper,
+    );
 
-        final buildDrawer = widget.drawerBuilder ?? _defaultBuildDrawer;
-        final drawer = buildDrawer(
-          context,
-          tabsRouter.activeIndex,
-          onDestinationSelectedHelper,
-        );
+    final buildDrawer = widget.drawerBuilder ?? _defaultBuildDrawer;
+    final drawer = buildDrawer(
+      context,
+      widget.navigationShell.currentIndex,
+      onDestinationSelectedHelper,
+    );
 
-        final buildSliverAppBar = widget.sliverAppBarBuilder ??
-            _defaultBuildDrawerNavigationTypeSliverAppBar;
-        final sliverAppBar = buildSliverAppBar(
-          context,
-          navigationType,
-          appBarTitle[tabsRouter.activeIndex],
-        );
+    final buildSliverAppBar = widget.sliverAppBarBuilder ??
+        _defaultBuildDrawerNavigationTypeSliverAppBar;
+    final sliverAppBar = buildSliverAppBar(
+      context,
+      navigationType,
+      appBarTitle[widget.navigationShell.currentIndex],
+    );
 
-        final buildPermanentDrawer =
-            widget.permanentDrawerBuilder ?? _defaultBuildPermanentDrawer;
-        final permanentDrawer = buildPermanentDrawer(
-          context,
-          tabsRouter.activeIndex,
-          leadingButtonBuilder(context),
-          onDestinationSelectedHelper,
-        );
+    final buildPermanentDrawer =
+        widget.permanentDrawerBuilder ?? _defaultBuildPermanentDrawer;
+    final permanentDrawer = buildPermanentDrawer(
+      context,
+      widget.navigationShell.currentIndex,
+      onDestinationSelectedHelper,
+    );
 
-        final buildRail = widget.railBuilder ?? _defaultBuildNavigationRail;
-        final navigationRail = buildRail(
-          context,
-          tabsRouter.activeIndex,
-          railDestinations,
-          leadingButtonBuilder(context),
-          onDestinationSelectedHelper,
-        );
-        final buildTabBar = widget.tabBarBuilder ?? _defaultTabBarBuilder;
-        final tabBar = buildTabBar(context, onDestinationSelectedHelper);
+    final buildRail = widget.railBuilder ?? _defaultBuildNavigationRail;
+    final navigationRail = buildRail(
+      context,
+      widget.navigationShell.currentIndex,
+      railDestinations,
+      onDestinationSelectedHelper,
+    );
+    final buildTabBar = widget.tabBarBuilder ?? _defaultTabBarBuilder;
+    final tabBar = buildTabBar(context, onDestinationSelectedHelper);
 
-        final buildTopBar = widget.topBarBuilder ?? _defaultTopBarBuilder;
-        final topBar = buildTopBar(context, leadingButtonBuilder(context),
-            tabBar, onDestinationSelectedHelper);
-        return DefaultTabController(
-          initialIndex: tabsRouter.activeIndex,
-          length: widget.destinations.length,
-          child: Scaffold(
-            appBar: navigationType == NavigationType.top ? topBar : null,
-            body: NestedScrollView(
-              headerSliverBuilder:
-                  (BuildContext context, bool innerBoxIsScrolled) {
-                return [
-                  if (navigationType != NavigationType.top &&
-                      navigationType != NavigationType.rail)
-                    sliverAppBar
-                ];
-              },
-              body: Row(
-                children: [
-                  if (navigationType == NavigationType.permanentDrawer) ...[
-                    ConstrainedScrollableChild(child: permanentDrawer),
-                    widget.divider ??
-                        const VerticalDivider(
-                          width: 1,
-                          thickness: 1,
-                        ),
-                  ] else if (navigationType == NavigationType.rail) ...[
-                    ConstrainedScrollableChild(child: navigationRail),
-                    widget.divider ??
-                        const VerticalDivider(
-                          width: 1,
-                          thickness: 1,
-                        ),
-                  ],
-                  Expanded(child: child),
-                ],
-              ),
-            ),
-            drawer: switch (navigationType) {
-              NavigationType.drawer =>
-                ConstrainedScrollableChild(child: drawer),
-              _ => null,
-            },
-            bottomNavigationBar: switch (navigationType) {
-              NavigationType.bottom => bottomNavigationBar,
-              _ => null,
-            },
-            floatingActionButton: (widget.fabInRail &&
-                    !(navigationType == NavigationType.bottom ||
-                        navigationType == NavigationType.drawer))
-                ? null
-                : widget.floatingActionButton,
-            floatingActionButtonLocation: widget.floatingActionButtonLocation,
-            floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
-            persistentFooterButtons: widget.persistentFooterButtons,
-            endDrawer: widget.endDrawer,
-            bottomSheet: widget.bottomSheet,
-            backgroundColor: widget.backgroundColor,
-            resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
-            primary: widget.primary,
-            drawerDragStartBehavior: widget.drawerDragStartBehavior,
-            extendBody: widget.extendBody,
-            extendBodyBehindAppBar: widget.extendBodyBehindAppBar,
-            drawerScrimColor: widget.drawerScrimColor,
-            drawerEdgeDragWidth: widget.drawerEdgeDragWidth,
-            drawerEnableOpenDragGesture: widget.drawerEnableOpenDragGesture,
-            endDrawerEnableOpenDragGesture:
-                widget.endDrawerEnableOpenDragGesture,
+    final buildTopBar = widget.topBarBuilder ?? _defaultTopBarBuilder;
+    final topBar = buildTopBar(context, tabBar, onDestinationSelectedHelper);
+    return DefaultTabController(
+      initialIndex: widget.navigationShell.currentIndex,
+      length: widget.destinations.length,
+      child: Scaffold(
+        appBar: navigationType == NavigationType.top ? topBar : null,
+        body: NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return [
+              if (navigationType != NavigationType.top &&
+                  navigationType != NavigationType.rail)
+                sliverAppBar
+            ];
+          },
+          body: Row(
+            children: [
+              if (navigationType == NavigationType.permanentDrawer) ...[
+                ConstrainedScrollableChild(child: permanentDrawer),
+                widget.divider ??
+                    const VerticalDivider(
+                      width: 1,
+                      thickness: 1,
+                    ),
+              ] else if (navigationType == NavigationType.rail) ...[
+                ConstrainedScrollableChild(child: navigationRail),
+                widget.divider ??
+                    const VerticalDivider(
+                      width: 1,
+                      thickness: 1,
+                    ),
+              ],
+              Expanded(child: widget.navigationShell),
+            ],
           ),
-        );
-      },
+        ),
+        drawer: switch (navigationType) {
+          NavigationType.drawer => ConstrainedScrollableChild(child: drawer),
+          _ => null,
+        },
+        bottomNavigationBar: switch (navigationType) {
+          NavigationType.bottom => bottomNavigationBar,
+          _ => null,
+        },
+        floatingActionButton: (widget.fabInRail &&
+                !(navigationType == NavigationType.bottom ||
+                    navigationType == NavigationType.drawer))
+            ? null
+            : widget.floatingActionButton,
+        floatingActionButtonLocation: widget.floatingActionButtonLocation,
+        floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
+        persistentFooterButtons: widget.persistentFooterButtons,
+        endDrawer: widget.endDrawer,
+        bottomSheet: widget.bottomSheet,
+        backgroundColor: widget.backgroundColor,
+        resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
+        primary: widget.primary,
+        drawerDragStartBehavior: widget.drawerDragStartBehavior,
+        extendBody: widget.extendBody,
+        extendBodyBehindAppBar: widget.extendBodyBehindAppBar,
+        drawerScrimColor: widget.drawerScrimColor,
+        drawerEdgeDragWidth: widget.drawerEdgeDragWidth,
+        drawerEnableOpenDragGesture: widget.drawerEnableOpenDragGesture,
+        endDrawerEnableOpenDragGesture: widget.endDrawerEnableOpenDragGesture,
+      ),
     );
   }
 
   PreferredSize _defaultTopBarBuilder(
     BuildContext context,
-    AutoLeadingButton leadingButton,
     TabBar tabBar,
     void Function(int index) onDestinationSelected,
   ) {
@@ -407,7 +381,6 @@ class AutoAdaptiveRouterScaffoldState
         child: Row(
           children: [
             if (widget.topBarStart != null) widget.topBarStart!,
-            leadingButton,
             tabBar,
             const Spacer(),
             if (widget.topBarEnd != null) widget.topBarEnd!,
@@ -421,7 +394,6 @@ class AutoAdaptiveRouterScaffoldState
     BuildContext context,
     int selectedIndex,
     List<RouterDestination> railDestinations,
-    AutoLeadingButton leadingButton,
     void Function(int index) onDestinationSelected,
   ) {
     return Column(
@@ -429,7 +401,6 @@ class AutoAdaptiveRouterScaffoldState
       children: [
         Expanded(
           child: NavigationRail(
-            leading: leadingButton,
             groupAlignment: 1.0,
             destinations: [
               for (final destination in railDestinations)
@@ -454,7 +425,6 @@ class AutoAdaptiveRouterScaffoldState
   Widget _defaultBuildPermanentDrawer(
     BuildContext context,
     int selectedIndex,
-    AutoLeadingButton leadingButton,
     void Function(int index) onDestinationSelected,
   ) {
     final theme = Theme.of(context);
@@ -471,10 +441,6 @@ class AutoAdaptiveRouterScaffoldState
                 ),
                 const Spacer(),
               ],
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: leadingButton,
-              ),
             ],
           ),
           for (final destination in widget.destinations)
@@ -493,26 +459,6 @@ class AutoAdaptiveRouterScaffoldState
           if (widget.drawerFooter != null) widget.drawerFooter!,
         ],
       ),
-    );
-  }
-
-  AutoLeadingButton _defaultBuildAutoLeadingButton(BuildContext context) {
-    return AutoLeadingButton(
-      builder: (context, leadingType, action) => switch (leadingType) {
-        LeadingType.back => BackButton(onPressed: action),
-        LeadingType.drawer => IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: action,
-            iconSize: Theme.of(context).iconTheme.size ?? 24,
-            tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-          ),
-        LeadingType.close => CloseButton(onPressed: action),
-        LeadingType.noLeading => IconButton(
-            icon: const BackButtonIcon(),
-            iconSize: Theme.of(context).iconTheme.size ?? 24,
-            onPressed: action,
-          ),
-      },
     );
   }
 
@@ -593,7 +539,7 @@ class AutoAdaptiveRouterScaffoldState
   ) {
     return switch (navigationType) {
       NavigationType.bottom => SliverAppBar(
-          leading: const AutoLeadingButton(),
+          // leading: const AutoLeadingButton(),
           title: title == null ? null : Text(title),
           elevation: 10.0,
           automaticallyImplyLeading: false,
@@ -602,7 +548,7 @@ class AutoAdaptiveRouterScaffoldState
           snap: true,
         ),
       NavigationType.drawer => SliverAppBar(
-          leading: const AutoLeadingButton(),
+          // leading: const AutoLeadingButton(),
           title: title == null ? null : Text(title),
           elevation: 10.0,
           automaticallyImplyLeading: false,
@@ -615,11 +561,9 @@ class AutoAdaptiveRouterScaffoldState
   }
 }
 
-void _onDestinationSelected(TabsRouter tabsRouter, int index) {
-  if (tabsRouter.activeIndex == index) {
-    tabsRouter.innerRouterOf(tabsRouter.current.name)?.popTop();
-  }
-  tabsRouter.setActiveIndex(index);
+void _goBranch(StatefulNavigationShell navigationShell, int newIndex) {
+  final tappedCurrentTab = navigationShell.currentIndex == newIndex;
+  navigationShell.goBranch(newIndex, initialLocation: tappedCurrentTab);
 }
 
 /// The navigation mechanism to configure the [Scaffold] with.
@@ -644,12 +588,10 @@ class RouterDestination {
   const RouterDestination({
     required this.title,
     required this.icon,
-    required this.route,
   });
 
   final String title;
   final IconData icon;
-  final PageRouteInfo<void> route;
 }
 
 NavigationType defaultNavigationTypeResolver(BuildContext context) {
@@ -667,29 +609,30 @@ bool defaultIsLargeScreen(BuildContext context) =>
 bool defaultIsMediumScreen(BuildContext context) =>
     getWindowType(context) == AdaptiveWindowType.medium;
 
-class AppObserver extends AutoRouteObserver {
+class AppObserver extends NavigatorObserver {
   final log = Logger('AppObserver');
+
   @override
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
-    log.info('New route pushed: ${route.settings.name}');
+    log.info(
+        'New route pushed: ${route.settings.name}, previous: ${previousRoute?.settings.name}');
   }
 
   @override
   void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
     log.info(
-        'Route popped: ${route.settings.name}, new route: ${previousRoute?.settings.name}');
-  }
-
-  // only override to observer tab routes
-  @override
-  void didInitTabRoute(TabPageRoute route, TabPageRoute? previousRoute) {
-    log.info(
-        'Tab route visited: ${route.name}, previous route: ${previousRoute?.name}');
+        'Route popped: ${route.settings.name}, previous: ${previousRoute?.settings.name}');
   }
 
   @override
-  void didChangeTabRoute(TabPageRoute route, TabPageRoute previousRoute) {
+  void didRemove(Route<dynamic> route, Route<dynamic>? previousRoute) {
     log.info(
-        'Tab route re-visited: ${route.name}, previous route: ${previousRoute.name}');
+        'Route removed: ${route.settings.name}, previous: ${previousRoute?.settings.name}');
+  }
+
+  @override
+  void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
+    log.info(
+        'Route replaced: ${newRoute?.settings.name}, previous: ${oldRoute?.settings.name}');
   }
 }
