@@ -41,7 +41,7 @@ dependencies:
     path: packages/log
   constants:
     path: packages/constants
-  adaptive_breakpoints: ^0.1.6
+  adaptive_breakpoints: ^0.1.7
   google_fonts: ^6.1.0
   settings_ui: ^2.0.2
   hive: ^2.2.3
