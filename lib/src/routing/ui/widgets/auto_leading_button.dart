@@ -1,3 +1,4 @@
+import 'package:awesome_flutter_extensions/awesome_flutter_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -59,13 +60,21 @@ class AutoLeadingButton extends StatefulWidget {
   /// the looks and feels of their leading buttons
   final AutoLeadingButtonBuilder? builder;
 
+  /// Hides the button when the leading type is [LeadingType.noLeading]
+  ///
+  /// Defaults to `false`
+  final bool? showDisabled;
+
   /// Default constructor
   const AutoLeadingButton({
     super.key,
     this.color,
     this.builder,
-  }) : assert(color == null || builder == null,
-            'Cannot use both color and builder');
+    this.showDisabled,
+  })  : assert(color == null || builder == null,
+            'Cannot use both color and builder'),
+        assert(showDisabled == null || builder == null,
+            'Cannot use both hideDisabled and builder');
 
   @override
   State<AutoLeadingButton> createState() => _AutoLeadingButtonState();
@@ -137,7 +146,17 @@ class _AutoLeadingButtonState extends State<AutoLeadingButton> {
     if (widget.builder != null) {
       return widget.builder!(context, LeadingType.noLeading, null);
     }
-    return const SizedBox.shrink();
+
+    final showDisabled = widget.showDisabled ?? false;
+    if (!showDisabled) {
+      return const SizedBox.shrink();
+    }
+
+    return IconButton(
+      icon: const BackButtonIcon(),
+      iconSize: context.themes.icon.size ?? 24,
+      onPressed: null,
+    );
   }
 
   void _handleRebuild() {

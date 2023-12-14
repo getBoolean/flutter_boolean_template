@@ -34,7 +34,7 @@ class _HomeScreenState extends ConsumerState<RootScaffoldShell> {
     return SafeArea(
       child: ResponsiveScaffold(
         destinations: widget.destinations,
-        currentIndexProvider: () => widget.navigationShell.currentIndex,
+        currentIndex: widget.navigationShell.currentIndex,
         title: widget.title,
         goToIndex: widget.navigationShell.goBranch,
         navigationTypeResolver: _resolveNavigationType,

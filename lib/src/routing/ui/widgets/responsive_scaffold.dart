@@ -5,6 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/common_widgets/constrained_scrollable_child.dart';
 import 'package:flutter_boolean_template/src/routing/ui/widgets/auto_leading_button.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:log/log.dart';
 
 typedef NavigationTypeResolver = NavigationType Function(BuildContext context);
@@ -14,11 +15,11 @@ typedef GoToIndexCallback = void Function(
   bool initialLocation,
 });
 
-class ResponsiveScaffold extends StatefulWidget {
+class ResponsiveScaffold extends StatefulHookWidget {
   const ResponsiveScaffold({
     super.key,
     required this.destinations,
-    required this.currentIndexProvider,
+    required this.currentIndex,
     required this.title,
     required this.child,
     required this.goToIndex,
@@ -68,7 +69,7 @@ class ResponsiveScaffold extends StatefulWidget {
     return scaffold!;
   }
 
-  final int Function() currentIndexProvider;
+  final int currentIndex;
 
   final GoToIndexCallback goToIndex;
 
@@ -190,6 +191,7 @@ class ResponsiveScaffold extends StatefulWidget {
   /// If not null, then [isTabBarScrollable], and [tabAlignment] are ignored for this type.
   final TabBar Function(
     BuildContext context,
+    TabController controller,
     void Function(int index) setPage,
   )? tabBarBuilder;
 
@@ -249,9 +251,16 @@ class ResponsiveScaffold extends StatefulWidget {
   State<ResponsiveScaffold> createState() => _ResponsiveScaffoldState();
 }
 
-class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
+class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
+    with TickerProviderStateMixin {
+  late TabController _tabController;
+
   @override
   Widget build(BuildContext context) {
+    _tabController = useTabController(
+      initialLength: widget.destinations.length,
+      initialIndex: widget.currentIndex,
+    );
     final NavigationTypeResolver navigationTypeResolver =
         widget.navigationTypeResolver ?? defaultNavigationTypeResolver;
     final navigationType = navigationTypeResolver(context);
@@ -268,7 +277,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
 
     final buildBottomNavigationBar =
         widget.bottomNavigationBarBuilder ?? _defaultBottomNavigationBarBuilder;
-    final selectedIndex = widget.currentIndexProvider();
+    final selectedIndex = widget.currentIndex;
     final bottomNavigationBar = buildBottomNavigationBar(
       context,
       selectedIndex,
@@ -302,80 +311,80 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
       _setPage,
     );
     final buildTabBar = widget.tabBarBuilder ?? _defaultTabBarBuilder;
-    final tabBar = buildTabBar(context, _setPage);
 
     final buildTopBar = widget.topBarBuilder ?? _defaultTopBarBuilder;
-    final topBar = buildTopBar(context, tabBar, _setPage);
     final hasDrawer = navigationType == NavigationType.drawer;
     final hasBottomNavigationBar = navigationType == NavigationType.bottom;
-    return DefaultTabController(
-      initialIndex: selectedIndex,
-      length: widget.destinations.length,
-      child: Scaffold(
-        appBar: navigationType == NavigationType.top ? topBar : null,
-        body: NestedScrollView(
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return [
-              if (navigationType != NavigationType.top &&
-                  navigationType != NavigationType.rail)
-                buildSliverAppBar(
-                  context,
-                  navigationType,
-                  widget.title,
-                ),
-            ];
-          },
-          body: Row(
-            children: [
-              if (navigationType == NavigationType.permanentDrawer) ...[
-                ConstrainedScrollableChild(child: permanentDrawer),
-                widget.divider ??
-                    const VerticalDivider(
-                      width: 1,
-                      thickness: 1,
-                    ),
-              ] else if (navigationType == NavigationType.rail) ...[
-                ConstrainedScrollableChild(child: navigationRail),
-                widget.divider ??
-                    const VerticalDivider(
-                      width: 1,
-                      thickness: 1,
-                    ),
-              ],
-              Expanded(child: widget.child),
+    return Scaffold(
+      appBar: navigationType == NavigationType.top
+          ? buildTopBar(
+              context,
+              buildTabBar(context, _tabController, _setPage),
+              _setPage,
+            )
+          : null,
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return [
+            if (navigationType != NavigationType.top &&
+                navigationType != NavigationType.rail)
+              buildSliverAppBar(
+                context,
+                navigationType,
+                widget.title,
+              ),
+          ];
+        },
+        body: Row(
+          children: [
+            if (navigationType == NavigationType.permanentDrawer) ...[
+              ConstrainedScrollableChild(child: permanentDrawer),
+              widget.divider ??
+                  const VerticalDivider(
+                    width: 1,
+                    thickness: 1,
+                  ),
+            ] else if (navigationType == NavigationType.rail) ...[
+              ConstrainedScrollableChild(child: navigationRail),
+              widget.divider ??
+                  const VerticalDivider(
+                    width: 1,
+                    thickness: 1,
+                  ),
             ],
-          ),
+            Expanded(child: widget.child),
+          ],
         ),
-        drawer: hasDrawer ? ConstrainedScrollableChild(child: drawer) : null,
-        bottomNavigationBar:
-            hasBottomNavigationBar ? bottomNavigationBar : null,
-        floatingActionButton: (widget.fabInRail &&
-                !(navigationType == NavigationType.bottom ||
-                    navigationType == NavigationType.drawer))
-            ? null
-            : widget.floatingActionButton,
-        floatingActionButtonLocation: widget.floatingActionButtonLocation,
-        floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
-        persistentFooterButtons: widget.persistentFooterButtons,
-        endDrawer: widget.endDrawer,
-        bottomSheet: widget.bottomSheet,
-        backgroundColor: widget.backgroundColor,
-        resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
-        primary: widget.primary,
-        drawerDragStartBehavior: widget.drawerDragStartBehavior,
-        extendBody: widget.extendBody,
-        extendBodyBehindAppBar: widget.extendBodyBehindAppBar,
-        drawerScrimColor: widget.drawerScrimColor,
-        drawerEdgeDragWidth: widget.drawerEdgeDragWidth,
-        drawerEnableOpenDragGesture: widget.drawerEnableOpenDragGesture,
-        endDrawerEnableOpenDragGesture: widget.endDrawerEnableOpenDragGesture,
       ),
+      drawer: hasDrawer ? ConstrainedScrollableChild(child: drawer) : null,
+      bottomNavigationBar: hasBottomNavigationBar ? bottomNavigationBar : null,
+      floatingActionButton: (widget.fabInRail &&
+              !(navigationType == NavigationType.bottom ||
+                  navigationType == NavigationType.drawer))
+          ? null
+          : widget.floatingActionButton,
+      floatingActionButtonLocation: widget.floatingActionButtonLocation,
+      floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
+      persistentFooterButtons: widget.persistentFooterButtons,
+      endDrawer: widget.endDrawer,
+      bottomSheet: widget.bottomSheet,
+      backgroundColor: widget.backgroundColor,
+      resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
+      primary: widget.primary,
+      drawerDragStartBehavior: widget.drawerDragStartBehavior,
+      extendBody: widget.extendBody,
+      extendBodyBehindAppBar: widget.extendBodyBehindAppBar,
+      drawerScrimColor: widget.drawerScrimColor,
+      drawerEdgeDragWidth: widget.drawerEdgeDragWidth,
+      drawerEnableOpenDragGesture: widget.drawerEnableOpenDragGesture,
+      endDrawerEnableOpenDragGesture: widget.endDrawerEnableOpenDragGesture,
     );
   }
 
   void _setPage(int index) {
-    final previousIndex = widget.currentIndexProvider();
+    final previousIndex = widget.currentIndex;
     widget.goToIndex(index, initialLocation: index == previousIndex);
+    _tabController.index = index;
   }
 
   PreferredSize _defaultTopBarBuilder(
@@ -390,6 +399,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
         child: Row(
           children: [
             if (widget.topBarStart != null) widget.topBarStart!,
+            const AutoLeadingButton(showDisabled: true),
             tabBar,
             const Spacer(),
             if (widget.topBarEnd != null) widget.topBarEnd!,
@@ -410,6 +420,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
       children: [
         Expanded(
           child: NavigationRail(
+            leading: const AutoLeadingButton(showDisabled: true),
             groupAlignment: 1.0,
             destinations: [
               for (final destination in railDestinations)
@@ -450,6 +461,10 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
                 ),
                 const Spacer(),
               ],
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: AutoLeadingButton(showDisabled: true),
+              ),
             ],
           ),
           for (final destination in widget.destinations)
@@ -528,12 +543,14 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
 
   TabBar _defaultTabBarBuilder(
     BuildContext context,
+    TabController controller,
     void Function(int index) setPage,
   ) {
     return TabBar(
       onTap: setPage,
       isScrollable: widget.isTabBarScrollable,
       tabAlignment: widget.tabAlignment,
+      controller: controller,
       tabs: <Tab>[
         for (final destination in widget.destinations)
           Tab(child: Text(destination.title)),
