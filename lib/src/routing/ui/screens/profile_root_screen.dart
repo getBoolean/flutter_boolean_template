@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+class ProfileRootScreen extends StatefulWidget {
+  const ProfileRootScreen({super.key});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  State<ProfileRootScreen> createState() => _ProfileRootScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileRootScreenState extends State<ProfileRootScreen> {
   @override
   Widget build(BuildContext context) {
     return ColoredBox(

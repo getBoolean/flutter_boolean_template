@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-class BookDetailsScreen extends StatefulWidget {
+class BookDetailsRootScreen extends StatefulWidget {
   final int id;
-  const BookDetailsScreen({
+  const BookDetailsRootScreen({
     super.key,
     this.id = -1,
   });
 
   @override
-  State<BookDetailsScreen> createState() => _BookDetailsScreenState();
+  State<BookDetailsRootScreen> createState() => _BookDetailsRootScreenState();
 }
 
-class _BookDetailsScreenState extends State<BookDetailsScreen> {
+class _BookDetailsRootScreenState extends State<BookDetailsRootScreen> {
   @override
   Widget build(BuildContext context) {
     return const ColoredBox(

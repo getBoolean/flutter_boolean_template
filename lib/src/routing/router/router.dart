@@ -94,12 +94,12 @@ StatefulShellBranch _buildSettingsBranch(RouterDestination destination) {
         // bottom navigation bar.
         path: '/settings',
         builder: (BuildContext context, GoRouterState state) =>
-            const SettingsScreen(),
+            const SettingsRootScreen(),
         routes: <RouteBase>[
           GoRoute(
             path: 'details',
             builder: (BuildContext context, GoRouterState state) =>
-                const SettingsDetailsScreen(),
+                const SettingDetailsRootScreen(),
           ),
         ],
       ),
@@ -119,12 +119,12 @@ StatefulShellBranch _buildProfileBranch(RouterDestination destination) {
         // bottom navigation bar.
         path: '/profile',
         builder: (BuildContext context, GoRouterState state) =>
-            const ProfileScreen(),
+            const ProfileRootScreen(),
         routes: <RouteBase>[
           GoRoute(
             path: 'details',
             builder: (BuildContext context, GoRouterState state) =>
-                const ProfileDetailsScreen(),
+                const ProfileDetailsRootScreen(),
           ),
         ],
       ),
@@ -143,7 +143,7 @@ StatefulShellBranch _buildBooksBranch(RouterDestination destination) {
         // TODO: Include the book id in the path
         path: '/books',
         builder: (BuildContext context, GoRouterState state) =>
-            const BooksScreen(),
+            const BooksRootScreen(),
         routes: <RouteBase>[
           // The details screen to display stacked on navigator of the
           // first tab. This will cover screen A but not the application
@@ -151,7 +151,7 @@ StatefulShellBranch _buildBooksBranch(RouterDestination destination) {
           GoRoute(
             path: 'details',
             builder: (BuildContext context, GoRouterState state) =>
-                const BookDetailsScreen(),
+                const BookDetailsRootScreen(),
             redirect: (BuildContext context, GoRouterState state) {
               // final (_, deviceForm, _) = getDeviceDetails(context);
               // if (deviceForm case DeviceForm.phone || DeviceForm.largePhone) {

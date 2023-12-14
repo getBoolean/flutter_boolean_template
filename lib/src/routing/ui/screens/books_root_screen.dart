@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:log/log.dart';
 
-class BooksScreen extends StatefulWidget {
-  const BooksScreen({super.key});
+class BooksRootScreen extends StatefulWidget {
+  const BooksRootScreen({super.key});
 
   @override
-  State<BooksScreen> createState() => _BooksScreenState();
+  State<BooksRootScreen> createState() => _BooksRootScreenState();
 }
 
-class _BooksScreenState extends State<BooksScreen> {
+class _BooksRootScreenState extends State<BooksRootScreen> {
   final log = Logger('BooksScreen');
 
   @override

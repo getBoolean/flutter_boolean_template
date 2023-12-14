@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/features/settings/presentation/settings_widget.dart';
 
-class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({super.key});
+class SettingsRootScreen extends StatefulWidget {
+  const SettingsRootScreen({super.key});
 
   @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
+  State<SettingsRootScreen> createState() => _SettingsRootScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen> {
+class _SettingsRootScreenState extends State<SettingsRootScreen> {
   @override
   Widget build(BuildContext context) {
     return const SettingsWidget();
