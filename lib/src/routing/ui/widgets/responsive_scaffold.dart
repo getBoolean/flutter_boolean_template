@@ -593,13 +593,11 @@ class RouterDestination {
   const RouterDestination({
     required this.title,
     required this.icon,
-    required this.routeName,
     required this.navigatorKey,
   });
 
   final String title;
   final IconData icon;
-  final String routeName;
   final GlobalKey<NavigatorState> navigatorKey;
 }
 

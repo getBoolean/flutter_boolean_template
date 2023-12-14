@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class BookDetailsRootScreen extends StatefulWidget {
-  final int id;
   const BookDetailsRootScreen({
     super.key,
-    this.id = -1,
+    this.id,
   });
+  final String? id;
 
   @override
   State<BookDetailsRootScreen> createState() => _BookDetailsRootScreenState();

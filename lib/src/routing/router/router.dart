@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/routing/ui/ui.dart';
+import 'package:flutter_boolean_template/utils/utils.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:log/log.dart';
@@ -28,19 +29,16 @@ final routerProvider = Provider.autoDispose<GoRouter>((ref) {
     RouterDestination(
       title: 'Books',
       icon: Icons.book,
-      routeName: kBooksRouteName,
       navigatorKey: _shellNavigatorBooksKey,
     ),
     RouterDestination(
       title: 'Profile',
       icon: Icons.person,
-      routeName: kProfileRouteName,
       navigatorKey: _shellNavigatorProfileKey,
     ),
     RouterDestination(
       title: 'Settings',
       icon: Icons.settings,
-      routeName: kSettingsRouteName,
       navigatorKey: _shellNavigatorSettingsKey,
     ),
   ];
@@ -51,7 +49,7 @@ final routerProvider = Provider.autoDispose<GoRouter>((ref) {
     // * However it's still necessary otherwise the navigator pops back to
     // * root on hot reload
     navigatorKey: _rootNavigatorKey,
-    initialLocation: '/books',
+    initialLocation: '/books?id=1',
     debugLogDiagnostics: true,
     observers: [
       AppObserver(),
@@ -69,7 +67,7 @@ final routerProvider = Provider.autoDispose<GoRouter>((ref) {
           // branches in a stateful way.
           final id = state.uri.queryParameters['id'];
           final String title = switch (state.fullPath) {
-            '/books' => 'Books',
+            '/books' => id == null ? 'Books' : 'Book $id',
             '/books/details' => id == null ? 'Book $id' : 'Book Details',
             '/profile' => 'Profile',
             '/profile/details' => id ?? 'Profile Details',
@@ -103,7 +101,7 @@ StatefulShellBranch _buildSettingsBranch(RouterDestination destination) {
     navigatorKey: destination.navigatorKey,
     routes: <RouteBase>[
       GoRoute(
-        name: destination.routeName,
+        name: kSettingsRouteName,
         // The screen to display as the root in the third tab of the
         // bottom navigation bar.
         path: '/settings',
@@ -128,7 +126,7 @@ StatefulShellBranch _buildProfileBranch(RouterDestination destination) {
     // needed elsewhere. If not provided, a default key will be used.
     routes: <RouteBase>[
       GoRoute(
-        name: destination.routeName,
+        name: kProfileRouteName,
         // The screen to display as the root in the second tab of the
         // bottom navigation bar.
         path: '/profile',
@@ -151,13 +149,28 @@ StatefulShellBranch _buildBooksBranch(RouterDestination destination) {
     navigatorKey: destination.navigatorKey,
     routes: <RouteBase>[
       GoRoute(
-        name: destination.routeName,
+        name: kBooksRouteName,
         // The screen to display as the root in the first tab of the
         // bottom navigation bar.
         // TODO: Include the book id in the path
         path: '/books',
-        builder: (BuildContext context, GoRouterState state) =>
-            const BooksRootScreen(),
+        builder: (BuildContext context, GoRouterState state) {
+          final id = state.uri.queryParameters['id'];
+          return BooksRootScreen(id: id);
+        },
+        redirect: (BuildContext context, GoRouterState state) {
+          final id = state.uri.queryParameters['id'];
+          final (_, deviceForm, _) = getDeviceDetails(context);
+          switch (deviceForm) {
+            case DeviceForm.largeDesktop:
+            case DeviceForm.desktop:
+            case DeviceForm.tablet:
+              return id == null ? '/books' : '/books?id=$id';
+            case DeviceForm.largePhone:
+            case DeviceForm.phone:
+              return id == null ? null : '/books/details?id=$id';
+          }
+        },
         routes: <RouteBase>[
           // The details screen to display stacked on navigator of the
           // first tab. This will cover screen A but not the application
@@ -165,15 +178,9 @@ StatefulShellBranch _buildBooksBranch(RouterDestination destination) {
           GoRoute(
             name: 'Book Details',
             path: 'details',
-            builder: (BuildContext context, GoRouterState state) =>
-                const BookDetailsRootScreen(),
-            redirect: (BuildContext context, GoRouterState state) {
-              // final (_, deviceForm, _) = getDeviceDetails(context);
-              // if (deviceForm case DeviceForm.phone || DeviceForm.largePhone) {
-              //   // TODO: Include the book id in the path
-              //   return context.namedLocation(kBooksRouteName);
-              // }
-              return null;
+            builder: (BuildContext context, GoRouterState state) {
+              final id = state.uri.queryParameters['id'];
+              return BookDetailsRootScreen(id: id);
             },
           ),
         ],
