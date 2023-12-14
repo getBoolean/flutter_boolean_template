@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfileRootScreen extends StatefulWidget {
   const ProfileRootScreen({super.key});
@@ -15,7 +16,7 @@ class _ProfileRootScreenState extends State<ProfileRootScreen> {
       child: Center(
         child: FilledButton(
           onPressed: () {
-            // goTo(const ProfileDetailsRoute());
+            context.go('/profile/details');
           },
           child: const Text('Push Details'),
         ),
