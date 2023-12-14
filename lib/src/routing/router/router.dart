@@ -51,22 +51,36 @@ final routerProvider = Provider.autoDispose<GoRouter>((ref) {
     // * However it's still necessary otherwise the navigator pops back to
     // * root on hot reload
     navigatorKey: _rootNavigatorKey,
-    initialLocation: '/books/details',
+    initialLocation: '/books',
     debugLogDiagnostics: true,
     observers: [
       AppObserver(),
     ],
     routes: <RouteBase>[
       StatefulShellRoute.indexedStack(
-        builder: (BuildContext context, GoRouterState state,
-            StatefulNavigationShell navigationShell) {
+        builder: (
+          BuildContext context,
+          GoRouterState state,
+          StatefulNavigationShell navigationShell,
+        ) {
           // Return the widget that implements the custom shell (in this case
           // using a BottomNavigationBar). The StatefulNavigationShell is passed
           // to be able access the state of the shell and to navigate to other
           // branches in a stateful way.
+          final id = state.uri.queryParameters['id'];
+          final String title = switch (state.fullPath) {
+            '/books' => 'Books',
+            '/books/details' => id == null ? 'Book $id' : 'Book Details',
+            '/profile' => 'Profile',
+            '/profile/details' => id ?? 'Profile Details',
+            '/settings' => 'Settings',
+            '/settings/details' => id ?? 'Setting Details',
+            _ => 'Unknown',
+          };
           return RootScaffoldShell(
             navigationShell: navigationShell,
             destinations: destinations,
+            title: title,
           );
         },
         branches: <StatefulShellBranch>[
@@ -149,6 +163,7 @@ StatefulShellBranch _buildBooksBranch(RouterDestination destination) {
           // first tab. This will cover screen A but not the application
           // shell (bottom navigation bar).
           GoRoute(
+            name: 'Book Details',
             path: 'details',
             builder: (BuildContext context, GoRouterState state) =>
                 const BookDetailsRootScreen(),

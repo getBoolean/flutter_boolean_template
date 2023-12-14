@@ -13,11 +13,13 @@ class RootScaffoldShell extends ConsumerStatefulWidget {
     super.key,
     required this.navigationShell,
     required this.destinations,
+    required this.title,
   });
 
   /// The navigation shell and container for the branch Navigators.
   final StatefulNavigationShell navigationShell;
   final List<RouterDestination> destinations;
+  final String title;
 
   @override
   ConsumerState<RootScaffoldShell> createState() => _HomeScreenState();
@@ -31,8 +33,9 @@ class _HomeScreenState extends ConsumerState<RootScaffoldShell> {
     final settings = ref.watch(settingsServiceProvider);
     return SafeArea(
       child: ResponsiveScaffold(
-        body: widget.navigationShell,
+        destinations: widget.destinations,
         currentIndexProvider: () => widget.navigationShell.currentIndex,
+        title: widget.title,
         goToIndex: widget.navigationShell.goBranch,
         navigationTypeResolver: _resolveNavigationType,
         topBarStart: Padding(
@@ -76,7 +79,7 @@ class _HomeScreenState extends ConsumerState<RootScaffoldShell> {
           onPressed: () {},
           child: const Icon(Icons.add),
         ),
-        destinations: widget.destinations,
+        child: widget.navigationShell,
       ),
     );
   }

@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:adaptive_breakpoints/adaptive_breakpoints.dart';
@@ -19,7 +18,8 @@ class ResponsiveScaffold extends StatefulWidget {
     super.key,
     required this.destinations,
     required this.currentIndexProvider,
-    required this.body,
+    required this.title,
+    required this.child,
     required this.goToIndex,
     this.floatingActionButton,
     this.floatingActionButtonLocation,
@@ -67,17 +67,13 @@ class ResponsiveScaffold extends StatefulWidget {
     return scaffold!;
   }
 
-  static void setTitle(BuildContext context, String title) {
-    context
-        .findAncestorStateOfType<_ResponsiveScaffoldState>()!
-        .setTitle(title);
-  }
-
   final int Function() currentIndexProvider;
 
   final GoToIndexCallback goToIndex;
 
-  final Widget body;
+  final String title;
+
+  final Widget child;
 
   /// The index into [destinations] for the current selected
   /// [RouterDestination].
@@ -193,14 +189,14 @@ class ResponsiveScaffold extends StatefulWidget {
   /// If not null, then [isTabBarScrollable], and [tabAlignment] are ignored for this type.
   final TabBar Function(
     BuildContext context,
-    void Function(int index) onDestinationSelected,
+    void Function(int index) setPage,
   )? tabBarBuilder;
 
   /// Custom builder for [NavigationType.top]
   final PreferredSize Function(
     BuildContext context,
     TabBar tabBar,
-    void Function(int index) onDestinationSelected,
+    void Function(int index) setPage,
   )? topBarBuilder;
 
   /// Custom builder for [NavigationType.bottom]
@@ -208,7 +204,7 @@ class ResponsiveScaffold extends StatefulWidget {
     BuildContext context,
     int selectedIndex,
     List<RouterDestination> bottomDestinations,
-    void Function(int index) onDestinationSelected,
+    void Function(int index) setPage,
   )? bottomNavigationBarBuilder;
 
   /// Custom builder for [NavigationType.drawer]
@@ -217,7 +213,7 @@ class ResponsiveScaffold extends StatefulWidget {
   final Widget Function(
     BuildContext context,
     int selectedIndex,
-    void Function(int index) onDestinationSelected,
+    void Function(int index) setPage,
   )? drawerBuilder;
 
   /// Custom builder for [NavigationType.permanentDrawer]
@@ -226,7 +222,7 @@ class ResponsiveScaffold extends StatefulWidget {
   final Widget Function(
     BuildContext context,
     int selectedIndex,
-    void Function(int index) onDestinationSelected,
+    void Function(int index) setPage,
   )? permanentDrawerBuilder;
 
   /// Custom builder for [NavigationType.rail]
@@ -236,7 +232,7 @@ class ResponsiveScaffold extends StatefulWidget {
     BuildContext context,
     int selectedIndex,
     List<RouterDestination> railDestinations,
-    void Function(int index) onDestinationSelected,
+    void Function(int index) setPage,
   )? railBuilder;
 
   /// Custom [SliverAppBar] builder for [NavigationType.drawer] and [NavigationType.bottom]
@@ -253,23 +249,11 @@ class ResponsiveScaffold extends StatefulWidget {
 }
 
 class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
-  Map<int, String> appBarTitle = {};
-
-  void setTitle(String title) {
-    scheduleMicrotask(() {
-      setState(() => appBarTitle[widget.currentIndexProvider()] = title);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final NavigationTypeResolver navigationTypeResolver =
         widget.navigationTypeResolver ?? defaultNavigationTypeResolver;
     final navigationType = navigationTypeResolver(context);
-    onDestinationSelectedHelper(int index) {
-      final previousIndex = widget.currentIndexProvider();
-      return _goToIndex(previousIndex, index, widget.goToIndex);
-    }
 
     final bottomDestinations = widget.destinations.sublist(
       0,
@@ -288,14 +272,14 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
       context,
       selectedIndex,
       bottomDestinations,
-      onDestinationSelectedHelper,
+      _setPage,
     );
 
     final buildDrawer = widget.drawerBuilder ?? _defaultBuildDrawer;
     final drawer = buildDrawer(
       context,
       selectedIndex,
-      onDestinationSelectedHelper,
+      _setPage,
     );
 
     final buildSliverAppBar = widget.sliverAppBarBuilder ??
@@ -303,7 +287,8 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
     final sliverAppBar = buildSliverAppBar(
       context,
       navigationType,
-      appBarTitle[selectedIndex],
+      // appBarTitle[selectedIndex],
+      widget.title,
     );
 
     final buildPermanentDrawer =
@@ -311,7 +296,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
     final permanentDrawer = buildPermanentDrawer(
       context,
       selectedIndex,
-      onDestinationSelectedHelper,
+      _setPage,
     );
 
     final buildRail = widget.railBuilder ?? _defaultBuildNavigationRail;
@@ -319,13 +304,13 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
       context,
       selectedIndex,
       railDestinations,
-      onDestinationSelectedHelper,
+      _setPage,
     );
     final buildTabBar = widget.tabBarBuilder ?? _defaultTabBarBuilder;
-    final tabBar = buildTabBar(context, onDestinationSelectedHelper);
+    final tabBar = buildTabBar(context, _setPage);
 
     final buildTopBar = widget.topBarBuilder ?? _defaultTopBarBuilder;
-    final topBar = buildTopBar(context, tabBar, onDestinationSelectedHelper);
+    final topBar = buildTopBar(context, tabBar, _setPage);
     final hasDrawer = navigationType == NavigationType.drawer;
     final hasBottomNavigationBar = navigationType == NavigationType.bottom;
     return DefaultTabController(
@@ -358,7 +343,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
                       thickness: 1,
                     ),
               ],
-              Expanded(child: widget.body),
+              Expanded(child: widget.child),
             ],
           ),
         ),
@@ -389,10 +374,15 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
     );
   }
 
+  void _setPage(int index) {
+    final previousIndex = widget.currentIndexProvider();
+    widget.goToIndex(index, initialLocation: index == previousIndex);
+  }
+
   PreferredSize _defaultTopBarBuilder(
     BuildContext context,
     TabBar tabBar,
-    void Function(int index) onDestinationSelected,
+    void Function(int index) setPage,
   ) {
     return PreferredSize(
       preferredSize: tabBar.preferredSize,
@@ -414,7 +404,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
     BuildContext context,
     int selectedIndex,
     List<RouterDestination> railDestinations,
-    void Function(int index) onDestinationSelected,
+    void Function(int index) setPage,
   ) {
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -430,7 +420,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
                 ),
             ],
             selectedIndex: selectedIndex,
-            onDestinationSelected: onDestinationSelected,
+            onDestinationSelected: setPage,
           ),
         ),
         if (widget.fabInRail)
@@ -445,7 +435,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
   Widget _defaultBuildPermanentDrawer(
     BuildContext context,
     int selectedIndex,
-    void Function(int index) onDestinationSelected,
+    void Function(int index) setPage,
   ) {
     final theme = Theme.of(context);
     return Drawer(
@@ -469,7 +459,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
               title: Text(destination.title),
               selected:
                   widget.destinations.indexOf(destination) == selectedIndex,
-              onTap: () => onDestinationSelected(
+              onTap: () => setPage(
                 widget.destinations.indexOf(destination),
               ),
               style: ListTileStyle.drawer,
@@ -485,7 +475,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
   Widget _defaultBuildDrawer(
     BuildContext context,
     int selectedIndex,
-    void Function(int index) onDestinationSelected,
+    void Function(int index) setPage,
   ) {
     final theme = Theme.of(context);
     return Drawer(
@@ -505,7 +495,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
               title: Text(destination.title),
               selected:
                   widget.destinations.indexOf(destination) == selectedIndex,
-              onTap: () => onDestinationSelected(
+              onTap: () => setPage(
                 widget.destinations.indexOf(destination),
               ),
               style: ListTileStyle.drawer,
@@ -522,11 +512,11 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
     BuildContext context,
     int selectedIndex,
     List<RouterDestination> bottomDestinations,
-    void Function(int index) onDestinationSelected,
+    void Function(int index) setPage,
   ) {
     return NavigationBar(
       selectedIndex: selectedIndex,
-      onDestinationSelected: onDestinationSelected,
+      onDestinationSelected: setPage,
       destinations: [
         for (final destination in bottomDestinations)
           NavigationDestination(
@@ -539,10 +529,10 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
 
   TabBar _defaultTabBarBuilder(
     BuildContext context,
-    void Function(int index) onDestinationSelected,
+    void Function(int index) setPage,
   ) {
     return TabBar(
-      onTap: onDestinationSelected,
+      onTap: setPage,
       isScrollable: widget.isTabBarScrollable,
       tabAlignment: widget.tabAlignment,
       tabs: <Tab>[
@@ -579,11 +569,6 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
       _ => const SliverToBoxAdapter(child: SizedBox.shrink()),
     };
   }
-}
-
-void _goToIndex(int previousIndex, int newIndex, GoToIndexCallback goToIndex) {
-  final tappedCurrentTab = previousIndex == newIndex;
-  goToIndex(newIndex, initialLocation: tappedCurrentTab);
 }
 
 /// The navigation mechanism to configure the [Scaffold] with.
@@ -659,10 +644,4 @@ class AppObserver extends NavigatorObserver {
     log.info(
         'Route replaced: ${newRoute?.settings.name}, previous: ${oldRoute?.settings.name}');
   }
-}
-
-mixin PageMixin<T extends StatefulWidget> on State<T> {
-  void pageActivated();
-
-  void pageDeactivated();
 }
