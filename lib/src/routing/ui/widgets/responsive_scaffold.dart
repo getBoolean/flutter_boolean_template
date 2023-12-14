@@ -4,16 +4,22 @@ import 'package:adaptive_breakpoints/adaptive_breakpoints.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/common_widgets/constrained_scrollable_child.dart';
-import 'package:go_router/go_router.dart';
 import 'package:log/log.dart';
 
 typedef NavigationTypeResolver = NavigationType Function(BuildContext context);
 
-class AutoAdaptiveRouterScaffold extends StatefulWidget {
-  const AutoAdaptiveRouterScaffold({
+typedef GoToIndexCallback = void Function(
+  int newIndex, {
+  bool initialLocation,
+});
+
+class ResponsiveScaffold extends StatefulWidget {
+  const ResponsiveScaffold({
     super.key,
-    required this.navigationShell,
     required this.destinations,
+    required this.currentIndexProvider,
+    required this.body,
+    required this.goToIndex,
     this.floatingActionButton,
     this.floatingActionButtonLocation,
     this.floatingActionButtonAnimator,
@@ -52,15 +58,19 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
     this.topBarBuilder,
   });
 
-  static AutoAdaptiveRouterScaffold of(BuildContext context) {
+  static ResponsiveScaffold of(BuildContext context) {
     final scaffold =
-        context.findAncestorWidgetOfExactType<AutoAdaptiveRouterScaffold>();
+        context.findAncestorWidgetOfExactType<ResponsiveScaffold>();
     assert(scaffold != null,
         'No AutoAdaptiveRouterScaffold found in context. Wrap your app in an AutoAdaptiveRouterScaffold to fix this error.');
     return scaffold!;
   }
 
-  final StatefulNavigationShell navigationShell;
+  final int Function() currentIndexProvider;
+
+  final GoToIndexCallback goToIndex;
+
+  final Widget body;
 
   /// The index into [destinations] for the current selected
   /// [RouterDestination].
@@ -232,12 +242,10 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
   )? sliverAppBarBuilder;
 
   @override
-  State<AutoAdaptiveRouterScaffold> createState() =>
-      AutoAdaptiveRouterScaffoldState();
+  State<ResponsiveScaffold> createState() => ResponsiveScaffoldState();
 }
 
-class AutoAdaptiveRouterScaffoldState
-    extends State<AutoAdaptiveRouterScaffold> {
+class ResponsiveScaffoldState extends State<ResponsiveScaffold> {
   Map<int, String> appBarTitle = {};
 
   @override
@@ -247,7 +255,7 @@ class AutoAdaptiveRouterScaffoldState
     final navigationType = navigationTypeResolver(context);
     // TODO: Add optional redirect/guard handler with context here
     onDestinationSelectedHelper(int index) =>
-        _goBranch(widget.navigationShell, index);
+        _goToIndex(widget.currentIndexProvider(), index, widget.goToIndex);
 
     final bottomDestinations = widget.destinations.sublist(
       0,
@@ -263,7 +271,7 @@ class AutoAdaptiveRouterScaffoldState
         widget.bottomNavigationBarBuilder ?? _defaultBottomNavigationBarBuilder;
     final bottomNavigationBar = buildBottomNavigationBar(
       context,
-      widget.navigationShell.currentIndex,
+      widget.currentIndexProvider(),
       bottomDestinations,
       onDestinationSelectedHelper,
     );
@@ -271,7 +279,7 @@ class AutoAdaptiveRouterScaffoldState
     final buildDrawer = widget.drawerBuilder ?? _defaultBuildDrawer;
     final drawer = buildDrawer(
       context,
-      widget.navigationShell.currentIndex,
+      widget.currentIndexProvider(),
       onDestinationSelectedHelper,
     );
 
@@ -280,21 +288,21 @@ class AutoAdaptiveRouterScaffoldState
     final sliverAppBar = buildSliverAppBar(
       context,
       navigationType,
-      appBarTitle[widget.navigationShell.currentIndex],
+      appBarTitle[widget.currentIndexProvider()],
     );
 
     final buildPermanentDrawer =
         widget.permanentDrawerBuilder ?? _defaultBuildPermanentDrawer;
     final permanentDrawer = buildPermanentDrawer(
       context,
-      widget.navigationShell.currentIndex,
+      widget.currentIndexProvider(),
       onDestinationSelectedHelper,
     );
 
     final buildRail = widget.railBuilder ?? _defaultBuildNavigationRail;
     final navigationRail = buildRail(
       context,
-      widget.navigationShell.currentIndex,
+      widget.currentIndexProvider(),
       railDestinations,
       onDestinationSelectedHelper,
     );
@@ -303,8 +311,10 @@ class AutoAdaptiveRouterScaffoldState
 
     final buildTopBar = widget.topBarBuilder ?? _defaultTopBarBuilder;
     final topBar = buildTopBar(context, tabBar, onDestinationSelectedHelper);
+    final hasDrawer = navigationType == NavigationType.drawer;
+    final hasBottomNavigationBar = navigationType == NavigationType.bottom;
     return DefaultTabController(
-      initialIndex: widget.navigationShell.currentIndex,
+      initialIndex: widget.currentIndexProvider(),
       length: widget.destinations.length,
       child: Scaffold(
         appBar: navigationType == NavigationType.top ? topBar : null,
@@ -333,18 +343,13 @@ class AutoAdaptiveRouterScaffoldState
                       thickness: 1,
                     ),
               ],
-              Expanded(child: widget.navigationShell),
+              Expanded(child: widget.body),
             ],
           ),
         ),
-        drawer: switch (navigationType) {
-          NavigationType.drawer => ConstrainedScrollableChild(child: drawer),
-          _ => null,
-        },
-        bottomNavigationBar: switch (navigationType) {
-          NavigationType.bottom => bottomNavigationBar,
-          _ => null,
-        },
+        drawer: hasDrawer ? ConstrainedScrollableChild(child: drawer) : null,
+        bottomNavigationBar:
+            hasBottomNavigationBar ? bottomNavigationBar : null,
         floatingActionButton: (widget.fabInRail &&
                 !(navigationType == NavigationType.bottom ||
                     navigationType == NavigationType.drawer))
@@ -561,9 +566,9 @@ class AutoAdaptiveRouterScaffoldState
   }
 }
 
-void _goBranch(StatefulNavigationShell navigationShell, int newIndex) {
-  final tappedCurrentTab = navigationShell.currentIndex == newIndex;
-  navigationShell.goBranch(newIndex, initialLocation: tappedCurrentTab);
+void _goToIndex(int previousIndex, int newIndex, GoToIndexCallback goToIndex) {
+  final tappedCurrentTab = previousIndex == newIndex;
+  goToIndex(newIndex, initialLocation: tappedCurrentTab);
 }
 
 /// The navigation mechanism to configure the [Scaffold] with.

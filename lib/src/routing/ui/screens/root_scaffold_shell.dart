@@ -2,14 +2,14 @@ import 'package:constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/features/settings/application/settings_service.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/dto/settings.dart';
-import 'package:flutter_boolean_template/src/routing/ui/widgets/auto_adaptive_router_scaffold.dart';
+import 'package:flutter_boolean_template/src/routing/ui/widgets/responsive_scaffold.dart';
 import 'package:flutter_boolean_template/utils/utils.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class RootScreen extends ConsumerStatefulWidget {
-  const RootScreen({
+class RootScaffoldShell extends ConsumerStatefulWidget {
+  const RootScaffoldShell({
     super.key,
     required this.navigationShell,
     required this.destinations,
@@ -20,18 +20,20 @@ class RootScreen extends ConsumerStatefulWidget {
   final List<RouterDestination> destinations;
 
   @override
-  ConsumerState<RootScreen> createState() => _HomeScreenState();
+  ConsumerState<RootScaffoldShell> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends ConsumerState<RootScreen> {
+class _HomeScreenState extends ConsumerState<RootScaffoldShell> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     final settings = ref.watch(settingsServiceProvider);
     return SafeArea(
-      child: AutoAdaptiveRouterScaffold(
-        navigationShell: widget.navigationShell,
+      child: ResponsiveScaffold(
+        body: widget.navigationShell,
+        currentIndexProvider: () => widget.navigationShell.currentIndex,
+        goToIndex: widget.navigationShell.goBranch,
         navigationTypeResolver: _resolveNavigationType,
         topBarStart: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 32.0),

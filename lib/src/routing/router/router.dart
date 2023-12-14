@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/routing/ui/ui.dart';
-import 'package:flutter_boolean_template/utils/utils.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:log/log.dart';
@@ -65,7 +64,7 @@ final routerProvider = Provider.autoDispose<GoRouter>((ref) {
           // using a BottomNavigationBar). The StatefulNavigationShell is passed
           // to be able access the state of the shell and to navigate to other
           // branches in a stateful way.
-          return RootScreen(
+          return RootScaffoldShell(
             navigationShell: navigationShell,
             destinations: destinations,
           );
@@ -154,11 +153,11 @@ StatefulShellBranch _buildBooksBranch(RouterDestination destination) {
             builder: (BuildContext context, GoRouterState state) =>
                 const BookDetailsScreen(),
             redirect: (BuildContext context, GoRouterState state) {
-              final (_, deviceForm, _) = getDeviceDetails(context);
-              if (deviceForm case DeviceForm.phone || DeviceForm.largePhone) {
-                // TODO: Include the book id in the path
-                return context.namedLocation(kBooksRouteName);
-              }
+              // final (_, deviceForm, _) = getDeviceDetails(context);
+              // if (deviceForm case DeviceForm.phone || DeviceForm.largePhone) {
+              //   // TODO: Include the book id in the path
+              //   return context.namedLocation(kBooksRouteName);
+              // }
               return null;
             },
           ),
