@@ -68,16 +68,17 @@ final routerProvider = Provider.autoDispose<GoRouter>((ref) {
           // using a BottomNavigationBar). The StatefulNavigationShell is passed
           // to be able access the state of the shell and to navigate to other
           // branches in a stateful way.
-          final id = state.uri.queryParameters['id'];
           final String title = switch (state.fullPath) {
-            '/books' => id == null ? 'Books' : 'Book $id',
+            '/books' => state.uri.queryParameters['id'] == null
+                ? 'Books'
+                : 'Book ${state.uri.queryParameters['id']}',
             '/books/details-:id' => state.pathParameters['id'] == null
-                ? 'Book ${state.pathParameters['id']}'
-                : 'Book Details',
+                ? 'Book Details'
+                : 'Book ${state.pathParameters['id']}',
             '/profile' => 'Profile',
-            '/profile/details' => id ?? 'Profile Details',
+            '/profile/details' => 'Profile Details',
             '/settings' => 'Settings',
-            '/settings/details' => id ?? 'Setting Details',
+            '/settings/details' => 'Setting Details',
             _ => 'Unknown',
           };
           return RootScaffoldShell(
