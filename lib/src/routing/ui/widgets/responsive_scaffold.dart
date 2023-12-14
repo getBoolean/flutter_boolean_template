@@ -4,6 +4,7 @@ import 'package:adaptive_breakpoints/adaptive_breakpoints.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/common_widgets/constrained_scrollable_child.dart';
+import 'package:flutter_boolean_template/src/routing/ui/widgets/auto_leading_button.dart';
 import 'package:log/log.dart';
 
 typedef NavigationTypeResolver = NavigationType Function(BuildContext context);
@@ -63,7 +64,7 @@ class ResponsiveScaffold extends StatefulWidget {
     final scaffold =
         context.findAncestorWidgetOfExactType<ResponsiveScaffold>();
     assert(scaffold != null,
-        'No AutoAdaptiveRouterScaffold found in context. Wrap your app in an AutoAdaptiveRouterScaffold to fix this error.');
+        'No ResponsiveScaffold found in context. Wrap your app in an ResponsiveScaffold to fix this error.');
     return scaffold!;
   }
 
@@ -284,12 +285,6 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
 
     final buildSliverAppBar = widget.sliverAppBarBuilder ??
         _defaultBuildDrawerNavigationTypeSliverAppBar;
-    final sliverAppBar = buildSliverAppBar(
-      context,
-      navigationType,
-      // appBarTitle[selectedIndex],
-      widget.title,
-    );
 
     final buildPermanentDrawer =
         widget.permanentDrawerBuilder ?? _defaultBuildPermanentDrawer;
@@ -323,7 +318,11 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
             return [
               if (navigationType != NavigationType.top &&
                   navigationType != NavigationType.rail)
-                sliverAppBar
+                buildSliverAppBar(
+                  context,
+                  navigationType,
+                  widget.title,
+                ),
             ];
           },
           body: Row(
@@ -549,7 +548,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
   ) {
     return switch (navigationType) {
       NavigationType.bottom => SliverAppBar(
-          // leading: const AutoLeadingButton(),
+          leading: const AutoLeadingButton(),
           title: title == null ? null : Text(title),
           elevation: 10.0,
           automaticallyImplyLeading: false,
@@ -558,7 +557,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
           snap: true,
         ),
       NavigationType.drawer => SliverAppBar(
-          // leading: const AutoLeadingButton(),
+          leading: const AutoLeadingButton(),
           title: title == null ? null : Text(title),
           elevation: 10.0,
           automaticallyImplyLeading: false,
