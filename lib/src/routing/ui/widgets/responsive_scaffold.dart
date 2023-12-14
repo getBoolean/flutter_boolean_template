@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:adaptive_breakpoints/adaptive_breakpoints.dart';
@@ -64,6 +65,12 @@ class ResponsiveScaffold extends StatefulWidget {
     assert(scaffold != null,
         'No AutoAdaptiveRouterScaffold found in context. Wrap your app in an AutoAdaptiveRouterScaffold to fix this error.');
     return scaffold!;
+  }
+
+  static void setTitle(BuildContext context, String title) {
+    context
+        .findAncestorStateOfType<_ResponsiveScaffoldState>()!
+        .setTitle(title);
   }
 
   final int Function() currentIndexProvider;
@@ -242,20 +249,27 @@ class ResponsiveScaffold extends StatefulWidget {
   )? sliverAppBarBuilder;
 
   @override
-  State<ResponsiveScaffold> createState() => ResponsiveScaffoldState();
+  State<ResponsiveScaffold> createState() => _ResponsiveScaffoldState();
 }
 
-class ResponsiveScaffoldState extends State<ResponsiveScaffold> {
+class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
   Map<int, String> appBarTitle = {};
+
+  void setTitle(String title) {
+    scheduleMicrotask(() {
+      setState(() => appBarTitle[widget.currentIndexProvider()] = title);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final NavigationTypeResolver navigationTypeResolver =
         widget.navigationTypeResolver ?? defaultNavigationTypeResolver;
     final navigationType = navigationTypeResolver(context);
-    // TODO: Add optional redirect/guard handler with context here
-    onDestinationSelectedHelper(int index) =>
-        _goToIndex(widget.currentIndexProvider(), index, widget.goToIndex);
+    onDestinationSelectedHelper(int index) {
+      final previousIndex = widget.currentIndexProvider();
+      return _goToIndex(previousIndex, index, widget.goToIndex);
+    }
 
     final bottomDestinations = widget.destinations.sublist(
       0,
@@ -269,9 +283,10 @@ class ResponsiveScaffoldState extends State<ResponsiveScaffold> {
 
     final buildBottomNavigationBar =
         widget.bottomNavigationBarBuilder ?? _defaultBottomNavigationBarBuilder;
+    final selectedIndex = widget.currentIndexProvider();
     final bottomNavigationBar = buildBottomNavigationBar(
       context,
-      widget.currentIndexProvider(),
+      selectedIndex,
       bottomDestinations,
       onDestinationSelectedHelper,
     );
@@ -279,7 +294,7 @@ class ResponsiveScaffoldState extends State<ResponsiveScaffold> {
     final buildDrawer = widget.drawerBuilder ?? _defaultBuildDrawer;
     final drawer = buildDrawer(
       context,
-      widget.currentIndexProvider(),
+      selectedIndex,
       onDestinationSelectedHelper,
     );
 
@@ -288,21 +303,21 @@ class ResponsiveScaffoldState extends State<ResponsiveScaffold> {
     final sliverAppBar = buildSliverAppBar(
       context,
       navigationType,
-      appBarTitle[widget.currentIndexProvider()],
+      appBarTitle[selectedIndex],
     );
 
     final buildPermanentDrawer =
         widget.permanentDrawerBuilder ?? _defaultBuildPermanentDrawer;
     final permanentDrawer = buildPermanentDrawer(
       context,
-      widget.currentIndexProvider(),
+      selectedIndex,
       onDestinationSelectedHelper,
     );
 
     final buildRail = widget.railBuilder ?? _defaultBuildNavigationRail;
     final navigationRail = buildRail(
       context,
-      widget.currentIndexProvider(),
+      selectedIndex,
       railDestinations,
       onDestinationSelectedHelper,
     );
@@ -314,7 +329,7 @@ class ResponsiveScaffoldState extends State<ResponsiveScaffold> {
     final hasDrawer = navigationType == NavigationType.drawer;
     final hasBottomNavigationBar = navigationType == NavigationType.bottom;
     return DefaultTabController(
-      initialIndex: widget.currentIndexProvider(),
+      initialIndex: selectedIndex,
       length: widget.destinations.length,
       child: Scaffold(
         appBar: navigationType == NavigationType.top ? topBar : null,
@@ -644,4 +659,10 @@ class AppObserver extends NavigatorObserver {
     log.info(
         'Route replaced: ${newRoute?.settings.name}, previous: ${oldRoute?.settings.name}');
   }
+}
+
+mixin PageMixin<T extends StatefulWidget> on State<T> {
+  void pageActivated();
+
+  void pageDeactivated();
 }
