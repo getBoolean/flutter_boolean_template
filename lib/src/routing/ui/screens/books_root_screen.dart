@@ -28,7 +28,7 @@ class _BooksRootScreenState extends State<BooksRootScreen> {
           secondChild: FilledButton(
             key: const ValueKey('button'),
             onPressed: () async {
-              context.go('/books/details?id=${widget.id ?? "1"}');
+              context.go('/books/details-${widget.id ?? "1"}');
             },
             child: const Text('Push Details'),
           ),

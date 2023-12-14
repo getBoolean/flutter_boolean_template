@@ -1,5 +1,6 @@
 import 'package:awesome_flutter_extensions/awesome_flutter_extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_boolean_template/src/routing/router/router.dart';
 import 'package:go_router/go_router.dart';
 
 /// AppBar Leading button types
@@ -99,16 +100,12 @@ class _AutoLeadingButtonState extends State<AutoLeadingButton> {
   @override
   Widget build(BuildContext context) {
     final ModalRoute<dynamic>? parentRoute = ModalRoute.of(context);
-    if (GoRouter.of(context)
-            .routerDelegate
-            .navigatorKey
-            .currentContext
-            ?.canPop() ??
-        false) {
+    final canPop = rootNavigatorKey.currentContext?.canPop() ?? false;
+    if (canPop) {
       final bool useCloseButton =
           parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog;
-      final pop =
-          GoRouter.of(context).routerDelegate.navigatorKey.currentContext?.pop;
+      final pop = rootNavigatorKey.currentContext!.pop;
+
       if (widget.builder != null) {
         return widget.builder!(
           context,

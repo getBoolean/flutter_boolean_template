@@ -1,13 +1,15 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/routing/ui/ui.dart';
 import 'package:flutter_boolean_template/utils/utils.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:log/log.dart';
 
 // Source: https://codewithandrea.com/articles/flutter-bottom-navigation-bar-nested-routes-gorouter-beamer/
 
-final GlobalKey<NavigatorState> _rootNavigatorKey =
+final GlobalKey<NavigatorState> rootNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'root');
 final _shellNavigatorBooksKey =
     GlobalKey<NavigatorState>(debugLabel: 'shellBooks');
@@ -48,14 +50,15 @@ final routerProvider = Provider.autoDispose<GoRouter>((ref) {
     // * https://github.com/flutter/flutter/issues/113757#issuecomment-1518421380
     // * However it's still necessary otherwise the navigator pops back to
     // * root on hot reload
-    navigatorKey: _rootNavigatorKey,
+    navigatorKey: rootNavigatorKey,
     initialLocation: '/books',
     debugLogDiagnostics: true,
     observers: [
       AppObserver(),
     ],
     routes: <RouteBase>[
-      StatefulShellRoute.indexedStack(
+      buildStatefulShellRoutePageView(
+        parentNavigatorKey: rootNavigatorKey,
         builder: (
           BuildContext context,
           GoRouterState state,
@@ -68,7 +71,9 @@ final routerProvider = Provider.autoDispose<GoRouter>((ref) {
           final id = state.uri.queryParameters['id'];
           final String title = switch (state.fullPath) {
             '/books' => id == null ? 'Books' : 'Book $id',
-            '/books/details' => id == null ? 'Book $id' : 'Book Details',
+            '/books/details-:id' => state.pathParameters['id'] == null
+                ? 'Book ${state.pathParameters['id']}'
+                : 'Book Details',
             '/profile' => 'Profile',
             '/profile/details' => id ?? 'Profile Details',
             '/settings' => 'Settings',
@@ -106,7 +111,9 @@ StatefulShellBranch _buildSettingsBranch(RouterDestination destination) {
         // bottom navigation bar.
         path: '/settings',
         builder: (BuildContext context, GoRouterState state) =>
-            const SettingsRootScreen(),
+            const SettingsRootScreen(
+          key: ValueKey('SETTINGS'),
+        ),
         routes: <RouteBase>[
           GoRoute(
             path: 'details',
@@ -131,7 +138,9 @@ StatefulShellBranch _buildProfileBranch(RouterDestination destination) {
         // bottom navigation bar.
         path: '/profile',
         builder: (BuildContext context, GoRouterState state) =>
-            const ProfileRootScreen(),
+            const ProfileRootScreen(
+          key: ValueKey('PROFILE'),
+        ),
         routes: <RouteBase>[
           GoRoute(
             path: 'details',
@@ -156,16 +165,24 @@ StatefulShellBranch _buildBooksBranch(RouterDestination destination) {
         path: '/books',
         builder: (BuildContext context, GoRouterState state) {
           final id = state.uri.queryParameters['id'];
-          return BooksRootScreen(id: id);
+          return BooksRootScreen(
+            id: id,
+            key: const ValueKey('BOOKS'),
+          );
         },
         redirect: (BuildContext context, GoRouterState state) {
-          final id = state.uri.queryParameters['id'];
+          // Transforming path params to query params because query params are shared and not cleared on pop
+          final queryParamId = state.uri.queryParameters['id'];
+          final pathParamId = state.pathParameters['id'];
           final deviceForm = $deviceForm(context);
-          if (deviceForm.isSmall) {
-            return id == null ? null : '/books/details?id=$id';
-          } else {
-            return id == null ? '/books' : '/books?id=$id';
-          }
+          final numPages = state.uri.pathSegments.length;
+          return switch ((numPages, deviceForm.isSmall)) {
+            (1, true) when queryParamId != null =>
+              '/books/details-$queryParamId',
+            (2, false) =>
+              pathParamId == null ? '/books' : '/books?id=$pathParamId',
+            (_, _) => null,
+          };
         },
         routes: <RouteBase>[
           // The details screen to display stacked on navigator of the
@@ -173,9 +190,9 @@ StatefulShellBranch _buildBooksBranch(RouterDestination destination) {
           // shell (bottom navigation bar).
           GoRoute(
             name: 'Book Details',
-            path: 'details',
+            path: 'details-:id',
             builder: (BuildContext context, GoRouterState state) {
-              final id = state.uri.queryParameters['id'];
+              final id = state.pathParameters['id'];
               return BookDetailsRootScreen(id: id);
             },
           ),
@@ -184,3 +201,73 @@ StatefulShellBranch _buildBooksBranch(RouterDestination destination) {
     ],
   );
 }
+
+class PageViewRouteBranchContainer extends StatefulHookWidget {
+  const PageViewRouteBranchContainer({
+    super.key,
+    required this.currentIndex,
+    required this.children,
+  });
+
+  final int currentIndex;
+
+  final List<Widget> children;
+  @override
+  State<PageViewRouteBranchContainer> createState() =>
+      _PageViewRouteBranchContainerState();
+}
+
+class _PageViewRouteBranchContainerState
+    extends State<PageViewRouteBranchContainer>
+    with SingleTickerProviderStateMixin {
+  @override
+  Widget build(BuildContext context) {
+    final List<Widget> pageItems = widget.children
+        .mapIndexed((int index, Widget child) => _buildRouteBranchContainer(
+            context, widget.currentIndex == index, child))
+        .toList();
+    return IndexedStack(
+      index: widget.currentIndex,
+      key: const ValueKey('rootRoutes'),
+      children: pageItems,
+    );
+  }
+
+  Widget _buildRouteBranchContainer(
+      BuildContext context, bool isActive, Widget child) {
+    return Offstage(
+      offstage: !isActive,
+      child: TickerMode(
+        enabled: isActive,
+        child: child,
+      ),
+    );
+  }
+}
+
+Widget pageViewContainerBuilder(
+  BuildContext context,
+  StatefulNavigationShell navigationShell,
+  List<Widget> children,
+) {
+  return PageViewRouteBranchContainer(
+    currentIndex: navigationShell.currentIndex,
+    children: children,
+  );
+}
+
+StatefulShellRoute buildStatefulShellRoutePageView({
+  required List<StatefulShellBranch> branches,
+  StatefulShellRouteBuilder? builder,
+  GlobalKey<NavigatorState>? parentNavigatorKey,
+  StatefulShellRoutePageBuilder? pageBuilder,
+  String? restorationScopeId,
+}) =>
+    StatefulShellRoute(
+      branches: branches,
+      builder: builder,
+      pageBuilder: pageBuilder,
+      parentNavigatorKey: parentNavigatorKey,
+      restorationScopeId: restorationScopeId,
+      navigatorContainerBuilder: pageViewContainerBuilder,
+    );
