@@ -160,7 +160,7 @@ StatefulShellBranch _buildBooksBranch(RouterDestination destination) {
         },
         redirect: (BuildContext context, GoRouterState state) {
           final id = state.uri.queryParameters['id'];
-          final deviceForm = getDeviceForm(context);
+          final deviceForm = $deviceForm(context);
           if (deviceForm.isSmall) {
             return id == null ? null : '/books/details?id=$id';
           } else {

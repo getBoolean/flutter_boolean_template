@@ -19,7 +19,7 @@ class _BooksRootScreenState extends State<BooksRootScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final deviceForm = getDeviceForm(context);
+    final deviceForm = $deviceForm(context);
     return ColoredBox(
       color: Colors.blue,
       child: Center(

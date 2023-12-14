@@ -85,7 +85,7 @@ class _HomeScreenState extends ConsumerState<RootScaffoldShell> {
   }
 
   NavigationType _resolveNavigationType(BuildContext context) {
-    final (_, form, orientation) = getDeviceDetails(context);
+    final (_, form, orientation) = $deviceDetails(context);
     if (orientation == Orientation.portrait) {
       return switch (form) {
         DeviceForm.largeDesktop => NavigationType.top,

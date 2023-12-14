@@ -58,23 +58,23 @@ typedef DeviceDetails = (DeviceType, DeviceForm, Orientation);
 /// Returns the current device type, form and orientation
 ///
 /// If the app is running on the web, the device type is determined by the user agent.
-DeviceDetails getDeviceDetails(BuildContext context) {
+DeviceDetails $deviceDetails(BuildContext context) {
   final Orientation currentOrientation = MediaQuery.orientationOf(context);
-  final DeviceForm deviceForm = getDeviceForm(context);
-  final DeviceType deviceType = getDeviceType();
+  final DeviceForm deviceForm = $deviceForm(context);
+  final DeviceType deviceType = $deviceType;
   return (deviceType, deviceForm, currentOrientation);
 }
 
-DeviceType getDeviceType() =>
-    kIsWeb ? getDeviceTypeByUserAgent() : getDeviceTypeByPlatform();
+DeviceType get $deviceType =>
+    kIsWeb ? _deviceTypeByUserAgent : _deviceTypeByPlatform;
 
-DeviceForm getDeviceForm(BuildContext context) {
+DeviceForm $deviceForm(BuildContext context) {
   final windowType = getWindowType(context);
   final DeviceForm deviceForm = DeviceForm.from(windowType);
   return deviceForm;
 }
 
-DeviceType getDeviceTypeByPlatform() {
+DeviceType get _deviceTypeByPlatform {
   final DeviceType deviceType;
   if (io.Platform.isAndroid) {
     deviceType = DeviceType.Android;
@@ -93,7 +93,7 @@ DeviceType getDeviceTypeByPlatform() {
 }
 
 /// Returns the current device type by user agent
-DeviceType getDeviceTypeByUserAgent() {
+DeviceType get _deviceTypeByUserAgent {
   final DeviceType deviceType;
   final userAgent = html.window.navigator.userAgent.toLowerCase();
   // Smartphone
