@@ -64,7 +64,7 @@ dev_dependencies:
   melos: ^3.4.0
   msix: ^3.16.7
   mason: ^0.1.0-dev.51
-  patrol: ^3.1.0
+  patrol: ^3.3.0
   dart_mappable_builder: ^4.1.0
   mocktail: ^1.0.1
   test: any
