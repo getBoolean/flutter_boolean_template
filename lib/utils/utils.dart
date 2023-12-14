@@ -48,6 +48,9 @@ enum DeviceForm {
       _ => DeviceForm.phone,
     };
   }
+
+  bool get isSmall => this == DeviceForm.phone || this == DeviceForm.largePhone;
+  bool get isNotSmall => !isSmall;
 }
 
 typedef DeviceDetails = (DeviceType, DeviceForm, Orientation);
@@ -57,11 +60,18 @@ typedef DeviceDetails = (DeviceType, DeviceForm, Orientation);
 /// If the app is running on the web, the device type is determined by the user agent.
 DeviceDetails getDeviceDetails(BuildContext context) {
   final Orientation currentOrientation = MediaQuery.orientationOf(context);
+  final DeviceForm deviceForm = getDeviceForm(context);
+  final DeviceType deviceType = getDeviceType();
+  return (deviceType, deviceForm, currentOrientation);
+}
+
+DeviceType getDeviceType() =>
+    kIsWeb ? getDeviceTypeByUserAgent() : getDeviceTypeByPlatform();
+
+DeviceForm getDeviceForm(BuildContext context) {
   final windowType = getWindowType(context);
   final DeviceForm deviceForm = DeviceForm.from(windowType);
-  final DeviceType deviceType =
-      kIsWeb ? getDeviceTypeByUserAgent() : getDeviceTypeByPlatform();
-  return (deviceType, deviceForm, currentOrientation);
+  return deviceForm;
 }
 
 DeviceType getDeviceTypeByPlatform() {

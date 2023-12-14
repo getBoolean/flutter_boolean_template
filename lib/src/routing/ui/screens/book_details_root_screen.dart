@@ -14,9 +14,12 @@ class BookDetailsRootScreen extends StatefulWidget {
 class _BookDetailsRootScreenState extends State<BookDetailsRootScreen> {
   @override
   Widget build(BuildContext context) {
-    return const ColoredBox(
+    return ColoredBox(
       color: Colors.blueAccent,
-      child: Center(child: Text('Book Details Screen')),
+      child: Center(
+        child: Text(
+            widget.id != null ? 'Book ${widget.id}' : 'Book Details Screen'),
+      ),
     );
   }
 }

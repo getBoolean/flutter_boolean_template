@@ -49,7 +49,7 @@ final routerProvider = Provider.autoDispose<GoRouter>((ref) {
     // * However it's still necessary otherwise the navigator pops back to
     // * root on hot reload
     navigatorKey: _rootNavigatorKey,
-    initialLocation: '/books?id=1',
+    initialLocation: '/books',
     debugLogDiagnostics: true,
     observers: [
       AppObserver(),
@@ -160,15 +160,11 @@ StatefulShellBranch _buildBooksBranch(RouterDestination destination) {
         },
         redirect: (BuildContext context, GoRouterState state) {
           final id = state.uri.queryParameters['id'];
-          final (_, deviceForm, _) = getDeviceDetails(context);
-          switch (deviceForm) {
-            case DeviceForm.largeDesktop:
-            case DeviceForm.desktop:
-            case DeviceForm.tablet:
-              return id == null ? '/books' : '/books?id=$id';
-            case DeviceForm.largePhone:
-            case DeviceForm.phone:
-              return id == null ? null : '/books/details?id=$id';
+          final deviceForm = getDeviceForm(context);
+          if (deviceForm.isSmall) {
+            return id == null ? null : '/books/details?id=$id';
+          } else {
+            return id == null ? '/books' : '/books?id=$id';
           }
         },
         routes: <RouteBase>[

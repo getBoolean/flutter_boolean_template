@@ -8,7 +8,7 @@ class AnimatedFadeSwitcher extends StatelessWidget {
     required this.secondChild,
   });
 
-  final bool Function() shouldSwitch;
+  final bool shouldSwitch;
   final Widget child;
   final Widget secondChild;
 
@@ -22,7 +22,7 @@ class AnimatedFadeSwitcher extends StatelessWidget {
           child: child,
         );
       },
-      child: shouldSwitch() ? child : secondChild,
+      child: shouldSwitch ? child : secondChild,
     );
   }
 }
