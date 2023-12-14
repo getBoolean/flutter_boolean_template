@@ -1,5 +1,6 @@
 import 'package:awesome_flutter_extensions/awesome_flutter_extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_boolean_template/src/common_widgets/animated_fade_switcher.dart';
 import 'package:go_router/go_router.dart';
 import 'package:log/log.dart';
 
@@ -20,14 +21,21 @@ class _BooksRootScreenState extends State<BooksRootScreen> {
     return ColoredBox(
       color: Colors.blue,
       child: Center(
-        child: widget.id == null
-            ? FilledButton(
-                onPressed: () async {
-                  context.go('/books/details?id=${widget.id ?? "1"}');
-                },
-                child: const Text('Push Details'),
-              )
-            : Text('Book ${widget.id}', style: context.textStyles.titleLarge),
+        child: AnimatedFadeSwitcher(
+          shouldSwitch: () => widget.id == null,
+          secondChild: Text(
+            'Book ${widget.id}',
+            key: const ValueKey('text'),
+            style: context.textStyles.titleLarge,
+          ),
+          child: FilledButton(
+            key: const ValueKey('button'),
+            onPressed: () async {
+              context.go('/books/details?id=${widget.id ?? "1"}');
+            },
+            child: const Text('Push Details'),
+          ),
+        ),
       ),
     );
   }
