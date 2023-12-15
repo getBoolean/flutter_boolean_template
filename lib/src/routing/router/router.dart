@@ -7,6 +7,8 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:log/log.dart';
 
+export 'router_extensions.dart';
+
 // Source: https://codewithandrea.com/articles/flutter-bottom-navigation-bar-nested-routes-gorouter-beamer/
 
 final GlobalKey<NavigatorState> rootNavigatorKey =

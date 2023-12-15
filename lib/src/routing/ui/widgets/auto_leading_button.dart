@@ -1,6 +1,5 @@
 import 'package:awesome_flutter_extensions/awesome_flutter_extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_boolean_template/src/routing/router/location_notifier.dart';
 import 'package:flutter_boolean_template/src/routing/router/router.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -103,14 +102,13 @@ class _AutoLeadingButtonState extends ConsumerState<AutoLeadingButton> {
   Widget build(BuildContext context) {
     final ModalRoute<dynamic>? parentRoute = ModalRoute.of(context);
     final router = ref.watch(routerProvider);
-    final locationNotifier = ref.watch(locationProvider.notifier);
-    final canPop = locationNotifier.canPop() || router.canPop();
+    final canPop = router.canGoBack() || router.canPop();
     if (canPop) {
       final bool useCloseButton =
           parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog;
       void pop() {
-        if (locationNotifier.canPop()) {
-          locationNotifier.pop();
+        if (router.canGoBack()) {
+          router.goBack();
         } else if (router.canPop()) {
           router.pop();
         }
