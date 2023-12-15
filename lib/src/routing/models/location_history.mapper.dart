@@ -20,11 +20,11 @@ class LocationHistoryMapper extends ClassMapperBase<LocationHistory> {
   @override
   final String id = 'LocationHistory';
 
-  static List<String> _$history(LocationHistory v) => v.history;
-  static const Field<LocationHistory, List<String>> _f$history =
+  static List<Uri> _$history(LocationHistory v) => v.history;
+  static const Field<LocationHistory, List<Uri>> _f$history =
       Field('history', _$history, opt: true, def: const []);
-  static List<String> _$popped(LocationHistory v) => v.popped;
-  static const Field<LocationHistory, List<String>> _f$popped =
+  static List<Uri> _$popped(LocationHistory v) => v.popped;
+  static const Field<LocationHistory, List<Uri>> _f$popped =
       Field('popped', _$popped, opt: true, def: const []);
 
   @override
@@ -93,9 +93,9 @@ extension LocationHistoryValueCopy<$R, $Out>
 
 abstract class LocationHistoryCopyWith<$R, $In extends LocationHistory, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
-  ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>> get history;
-  ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>> get popped;
-  $R call({List<String>? history, List<String>? popped});
+  ListCopyWith<$R, Uri, ObjectCopyWith<$R, Uri, Uri>> get history;
+  ListCopyWith<$R, Uri, ObjectCopyWith<$R, Uri, Uri>> get popped;
+  $R call({List<Uri>? history, List<Uri>? popped});
   LocationHistoryCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
       Then<$Out2, $R2> t);
 }
@@ -109,16 +109,15 @@ class _LocationHistoryCopyWithImpl<$R, $Out>
   late final ClassMapperBase<LocationHistory> $mapper =
       LocationHistoryMapper.ensureInitialized();
   @override
-  ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>> get history =>
+  ListCopyWith<$R, Uri, ObjectCopyWith<$R, Uri, Uri>> get history =>
       ListCopyWith($value.history, (v, t) => ObjectCopyWith(v, $identity, t),
           (v) => call(history: v));
   @override
-  ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>> get popped =>
+  ListCopyWith<$R, Uri, ObjectCopyWith<$R, Uri, Uri>> get popped =>
       ListCopyWith($value.popped, (v, t) => ObjectCopyWith(v, $identity, t),
           (v) => call(popped: v));
   @override
-  $R call({List<String>? history, List<String>? popped}) =>
-      $apply(FieldCopyWithData({
+  $R call({List<Uri>? history, List<Uri>? popped}) => $apply(FieldCopyWithData({
         if (history != null) #history: history,
         if (popped != null) #popped: popped
       }));

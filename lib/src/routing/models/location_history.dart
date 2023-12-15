@@ -6,9 +6,9 @@ part 'location_history.mapper.dart';
 @MappableClass()
 class LocationHistory with LocationHistoryMappable {
   @MappableField()
-  final List<String> history;
+  final List<Uri> history;
   @MappableField()
-  final List<String> popped;
+  final List<Uri> popped;
 
   /// Source: @cgestes https://github.com/flutter/flutter/issues/115353#issuecomment-1675808675
   const LocationHistory({

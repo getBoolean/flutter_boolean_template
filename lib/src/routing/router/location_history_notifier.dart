@@ -57,7 +57,7 @@ class LocationHistoryNotifier extends Notifier<LocationHistory> {
     final popped = [...state.popped, history.removeLast()];
     final newLoc = history.last;
     state = state.copyWith(history: history, popped: popped);
-    ref.read(routerProvider).go(newLoc);
+    ref.read(routerProvider).go(newLoc.toString());
 
     return true;
   }
@@ -72,6 +72,6 @@ class LocationHistoryNotifier extends Notifier<LocationHistory> {
     final newLoc = popped.removeLast();
     history.add(newLoc);
     state = state.copyWith(history: history, popped: popped);
-    ref.read(routerProvider).go(newLoc);
+    ref.read(routerProvider).go(newLoc.toString());
   }
 }
