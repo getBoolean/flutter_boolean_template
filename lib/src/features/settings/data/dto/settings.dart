@@ -9,15 +9,15 @@ part 'settings.mapper.dart';
 @HiveType(typeId: 1)
 class Settings with SettingsMappable {
   @MappableField()
-  @HiveField(0)
+  @HiveField(0, defaultValue: true)
   final bool bannerEnabled;
 
   @MappableField()
-  @HiveField(1)
+  @HiveField(1, defaultValue: true)
   final bool darkMode;
 
   @MappableField()
-  @HiveField(2)
+  @HiveField(2, defaultValue: true)
   final bool systemThemeMode;
 
   const Settings({

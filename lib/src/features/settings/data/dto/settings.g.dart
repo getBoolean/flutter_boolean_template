@@ -17,9 +17,9 @@ class SettingsAdapter extends TypeAdapter<Settings> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Settings(
-      bannerEnabled: fields[0] as bool,
-      darkMode: fields[1] as bool,
-      systemThemeMode: fields[2] as bool,
+      bannerEnabled: fields[0] == null ? true : fields[0] as bool,
+      darkMode: fields[1] == null ? true : fields[1] as bool,
+      systemThemeMode: fields[2] == null ? true : fields[2] as bool,
     );
   }
 
