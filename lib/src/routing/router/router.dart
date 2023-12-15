@@ -24,8 +24,6 @@ const kBooksRouteName = 'books';
 const kProfileRouteName = 'profile';
 const kSettingsRouteName = 'settings';
 
-// Keep in mind that the navigation position of each page won't be preserved until StatefulShellRoute from
-// https://github.com/flutter/packages/pull/2650 is merged
 final routerProvider = Provider<GoRouter>((ref) {
   final _ = ref.watch(logProvider('routerProvider'));
 
@@ -65,10 +63,9 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRouterState state,
           StatefulNavigationShell navigationShell,
         ) {
-          // Return the widget that implements the custom shell (in this case
-          // using a BottomNavigationBar). The StatefulNavigationShell is passed
-          // to be able access the state of the shell and to navigate to other
-          // branches in a stateful way.
+          // Calculating the title using the path since the title needs to be
+          // used by [ResponsiveScaffold]
+          // This might be able to be improved if using go_router_builder
           final String title = switch (state.fullPath) {
             '/books' => state.uri.queryParameters['id'] == null
                 ? 'Books'
@@ -89,13 +86,8 @@ final routerProvider = Provider<GoRouter>((ref) {
           );
         },
         branches: <StatefulShellBranch>[
-          // The route branch for the first tab of the bottom navigation bar.
           _buildBooksBranch(destinations[0]),
-
-          // The route branch for the second tab of the bottom navigation bar.
           _buildProfileBranch(destinations[1]),
-
-          // The route branch for the third tab of the bottom navigation bar.
           _buildSettingsBranch(destinations[2]),
         ],
       ),
@@ -137,13 +129,9 @@ StatefulShellBranch _buildProfileBranch(RouterDestination destination) {
       AppObserver(),
     ],
     navigatorKey: destination.navigatorKey,
-    // It's not necessary to provide a navigatorKey if it isn't also
-    // needed elsewhere. If not provided, a default key will be used.
     routes: <RouteBase>[
       GoRoute(
         name: kProfileRouteName,
-        // The screen to display as the root in the second tab of the
-        // bottom navigation bar.
         path: '/profile',
         builder: (BuildContext context, GoRouterState state) =>
             const ProfileRootScreen(
@@ -170,11 +158,10 @@ StatefulShellBranch _buildBooksBranch(RouterDestination destination) {
     routes: <RouteBase>[
       GoRoute(
         name: kBooksRouteName,
-        // The screen to display as the root in the first tab of the
-        // bottom navigation bar.
-        // TODO: Include the book id in the path
         path: '/books',
         builder: (BuildContext context, GoRouterState state) {
+          // only root routes should use query parameters because
+          // popping a route will not change the query parameters to the previous route's
           final id = state.uri.queryParameters['id'];
           return BooksRootScreen(
             id: id,
@@ -196,9 +183,6 @@ StatefulShellBranch _buildBooksBranch(RouterDestination destination) {
           };
         },
         routes: <RouteBase>[
-          // The details screen to display stacked on navigator of the
-          // first tab. This will cover screen A but not the application
-          // shell (bottom navigation bar).
           GoRoute(
             name: 'Book Details',
             path: 'details-:id',
