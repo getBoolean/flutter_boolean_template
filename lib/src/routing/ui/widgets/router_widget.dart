@@ -5,7 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class RouterWidget extends ConsumerWidget {
   const RouterWidget({super.key, required this.builder});
 
-  final Widget Function(BuildContext, RouterConfig<Object>?) builder;
+  final Widget Function(BuildContext, RouterConfig<Object>) builder;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

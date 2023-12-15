@@ -24,7 +24,7 @@ const kSettingsRouteName = 'settings';
 
 // Keep in mind that the navigation position of each page won't be preserved until StatefulShellRoute from
 // https://github.com/flutter/packages/pull/2650 is merged
-final routerProvider = Provider.autoDispose<GoRouter>((ref) {
+final routerProvider = Provider<GoRouter>((ref) {
   final _ = ref.watch(logProvider('routerProvider'));
 
   final destinations = [
@@ -52,7 +52,6 @@ final routerProvider = Provider.autoDispose<GoRouter>((ref) {
     // * root on hot reload
     navigatorKey: rootNavigatorKey,
     initialLocation: '/books',
-    debugLogDiagnostics: true,
     observers: [
       AppObserver(),
     ],
@@ -104,6 +103,9 @@ final routerProvider = Provider.autoDispose<GoRouter>((ref) {
 
 StatefulShellBranch _buildSettingsBranch(RouterDestination destination) {
   return StatefulShellBranch(
+    observers: [
+      AppObserver(),
+    ],
     navigatorKey: destination.navigatorKey,
     routes: <RouteBase>[
       GoRoute(
@@ -129,6 +131,9 @@ StatefulShellBranch _buildSettingsBranch(RouterDestination destination) {
 
 StatefulShellBranch _buildProfileBranch(RouterDestination destination) {
   return StatefulShellBranch(
+    observers: [
+      AppObserver(),
+    ],
     navigatorKey: destination.navigatorKey,
     // It's not necessary to provide a navigatorKey if it isn't also
     // needed elsewhere. If not provided, a default key will be used.
@@ -157,6 +162,9 @@ StatefulShellBranch _buildProfileBranch(RouterDestination destination) {
 StatefulShellBranch _buildBooksBranch(RouterDestination destination) {
   return StatefulShellBranch(
     navigatorKey: destination.navigatorKey,
+    observers: [
+      AppObserver(),
+    ],
     routes: <RouteBase>[
       GoRoute(
         name: kBooksRouteName,
