@@ -53,7 +53,6 @@ class LocationHistoryNotifier extends Notifier<LocationHistory> {
     if (!canGoBack()) {
       return false;
     }
-    final GoRouter router = ref.read(routerProvider);
     final history = [...state.history];
     final popped = [...state.popped, history.removeLast()];
     final newLoc = history.last;
