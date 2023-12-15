@@ -1,5 +1,7 @@
 import 'package:awesome_flutter_extensions/awesome_flutter_extensions.dart';
-import 'package:flutter/materialkage:go_router/go_router.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_boolean_template/src/routing/router/router.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 /// AppBar Leading button types
