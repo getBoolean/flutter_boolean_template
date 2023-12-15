@@ -56,7 +56,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       AppObserver(),
     ],
     routes: <RouteBase>[
-      buildStatefulShellRoutePageView(
+      _buildStatefulShellRoutePageView(
         parentNavigatorKey: rootNavigatorKey,
         builder: (
           BuildContext context,
@@ -197,8 +197,8 @@ StatefulShellBranch _buildBooksBranch(RouterDestination destination) {
   );
 }
 
-class PageViewRouteBranchContainer extends StatefulHookWidget {
-  const PageViewRouteBranchContainer({
+class _PageViewRouteBranchContainer extends StatefulHookWidget {
+  const _PageViewRouteBranchContainer({
     super.key,
     required this.currentIndex,
     required this.children,
@@ -208,12 +208,12 @@ class PageViewRouteBranchContainer extends StatefulHookWidget {
 
   final List<Widget> children;
   @override
-  State<PageViewRouteBranchContainer> createState() =>
+  State<_PageViewRouteBranchContainer> createState() =>
       _PageViewRouteBranchContainerState();
 }
 
 class _PageViewRouteBranchContainerState
-    extends State<PageViewRouteBranchContainer>
+    extends State<_PageViewRouteBranchContainer>
     with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
@@ -240,18 +240,18 @@ class _PageViewRouteBranchContainerState
   }
 }
 
-Widget pageViewContainerBuilder(
+Widget _pageViewContainerBuilder(
   BuildContext context,
   StatefulNavigationShell navigationShell,
   List<Widget> children,
 ) {
-  return PageViewRouteBranchContainer(
+  return _PageViewRouteBranchContainer(
     currentIndex: navigationShell.currentIndex,
     children: children,
   );
 }
 
-StatefulShellRoute buildStatefulShellRoutePageView({
+StatefulShellRoute _buildStatefulShellRoutePageView({
   required List<StatefulShellBranch> branches,
   StatefulShellRouteBuilder? builder,
   GlobalKey<NavigatorState>? parentNavigatorKey,
@@ -264,5 +264,5 @@ StatefulShellRoute buildStatefulShellRoutePageView({
       pageBuilder: pageBuilder,
       parentNavigatorKey: parentNavigatorKey,
       restorationScopeId: restorationScopeId,
-      navigatorContainerBuilder: pageViewContainerBuilder,
+      navigatorContainerBuilder: _pageViewContainerBuilder,
     );
