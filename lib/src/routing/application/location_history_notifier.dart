@@ -1,10 +1,9 @@
-import 'package:flutter_boolean_template/src/routing/models/location_history.dart';
-import 'package:flutter_boolean_template/src/routing/router/location_notifier.dart';
+import 'package:flutter_boolean_template/src/routing/application/location_notifier.dart';
+import 'package:flutter_boolean_template/src/routing/data/location_history.dart';
 import 'package:flutter_boolean_template/src/routing/router/router.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-/// Source: @cgestes https://github.com/flutter/flutter/issues/115353#issuecomment-1675808675
 final locationHistoryProvider =
     NotifierProvider<LocationHistoryNotifier, LocationHistory>(
         LocationHistoryNotifier.new);
