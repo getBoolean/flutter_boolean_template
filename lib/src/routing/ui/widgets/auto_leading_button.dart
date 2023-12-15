@@ -1,7 +1,6 @@
 import 'package:awesome_flutter_extensions/awesome_flutter_extensions.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_boolean_template/src/routing/router/router.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter/materialkage:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 /// AppBar Leading button types
 enum LeadingType {
@@ -53,7 +52,7 @@ typedef AutoLeadingButtonBuilder = Widget Function(
 /// and Page2 has an  AutoLeadingButton(), clicking
 /// it will pop sub-page2 then page2
 ///
-class AutoLeadingButton extends StatefulWidget {
+class AutoLeadingButton extends ConsumerStatefulWidget {
   /// The color of [BackButton] and [CloseButton]
   final Color? color;
 
@@ -78,10 +77,10 @@ class AutoLeadingButton extends StatefulWidget {
             'Cannot use both hideDisabled and builder');
 
   @override
-  State<AutoLeadingButton> createState() => _AutoLeadingButtonState();
+  ConsumerState<AutoLeadingButton> createState() => _AutoLeadingButtonState();
 }
 
-class _AutoLeadingButtonState extends State<AutoLeadingButton> {
+class _AutoLeadingButtonState extends ConsumerState<AutoLeadingButton> {
   late final GoRouterDelegate _goRouterDelegate;
 
   @override
@@ -100,11 +99,21 @@ class _AutoLeadingButtonState extends State<AutoLeadingButton> {
   @override
   Widget build(BuildContext context) {
     final ModalRoute<dynamic>? parentRoute = ModalRoute.of(context);
-    final canPop = rootNavigatorKey.currentContext?.canPop() ?? false;
+    final router = ref.watch(routerProvider);
+    // final locationHistoryNotifier = ref.watch(locationHistoryProvider.notifier);
+    final canPop = /*locationHistoryNotifier.canGoBack() ||*/ router.canPop();
     if (canPop) {
       final bool useCloseButton =
           parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog;
-      final pop = rootNavigatorKey.currentContext!.pop;
+      void pop() {
+        final bool canPop = router.canPop();
+        if (canPop) {
+          router.pop();
+        }
+        // else {
+        //   locationHistoryNotifier.goBack();
+        // }
+      }
 
       if (widget.builder != null) {
         return widget.builder!(
