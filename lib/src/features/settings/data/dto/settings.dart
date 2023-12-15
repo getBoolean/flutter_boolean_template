@@ -20,14 +20,21 @@ class Settings with SettingsMappable {
   @HiveField(2, defaultValue: true)
   final bool systemThemeMode;
 
+  @MappableField()
+  @HiveField(3, defaultValue: true)
+  final bool confirmExit;
+
   const Settings({
     this.bannerEnabled = true,
     this.darkMode = true,
     this.systemThemeMode = true,
+    this.confirmExit = true,
   });
 
   static const fromMap = SettingsMapper.fromMap;
   static const fromJson = SettingsMapper.fromJson;
+  factory Settings.box() =>
+      Hive.box<Settings>('settingsBox').get('settings') ?? const Settings();
 }
 
 extension SettingsExtension on Settings {

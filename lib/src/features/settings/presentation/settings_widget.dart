@@ -48,7 +48,19 @@ class _SettingsWidgetState extends ConsumerState<SettingsWidget> {
               },
             ),
           ],
-        )
+        ),
+        SettingsSection(
+          title: const Text('General'),
+          tiles: [
+            SettingsTile.switchTile(
+              title: const Text('Confirm exit'),
+              initialValue: settings.confirmExit,
+              onToggle: (value) async {
+                ref.read(settingsServiceProvider.notifier).toggleConfirmExit();
+              },
+            )
+          ],
+        ),
       ],
     );
   }
