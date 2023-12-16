@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/routing/ui/ui.dart';
-import 'package:flutter_boolean_template/src/routing/ui/widgets/route_branch_page_view_container.dart';
+import 'package:flutter_boolean_template/src/routing/ui/widgets/implicitly_animated_page_view.dart';
 import 'package:flutter_boolean_template/utils/utils.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -80,7 +80,7 @@ final router = GoRouter(
           physics: scrollDirection == null
               ? const NeverScrollableScrollPhysics()
               : null,
-          goToIndex: navigationShell.goBranch,
+          swipeToIndex: navigationShell.goBranch,
           children: children,
         );
       },
