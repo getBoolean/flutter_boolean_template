@@ -100,12 +100,9 @@ class _ImplicitlyAnimatedPageViewState extends State<ImplicitlyAnimatedPageView>
     );
     useValueChanged(
       currentIndex,
-      // (oldValue, __) => widget.animatePageTransition
-      //     ? _controller.animateToPage(currentIndex,
-      //         duration: widget.duration, curve: widget.curve)
-      //     : _controller.jumpToPage(currentIndex),
       (oldValue, _) => _warpToCurrentIndex(currentIndex, oldValue),
     );
+
     return NotificationListener<ScrollNotification>(
       onNotification: _handleScrollNotification,
       child: PageView(
@@ -121,7 +118,7 @@ class _ImplicitlyAnimatedPageViewState extends State<ImplicitlyAnimatedPageView>
     );
   }
 
-  // Called when the PageView scrolls
+  // Called when the PageView scrolls from gestures
   bool _handleScrollNotification(ScrollNotification notification) {
     if (_warpUnderwayCount > 0) return false;
     if (notification.depth != 0) return false;
@@ -155,6 +152,13 @@ class _ImplicitlyAnimatedPageViewState extends State<ImplicitlyAnimatedPageView>
     }
     assert((activeIndex - previousIndex).abs() > 1,
         'active and previous index should not be the same');
+
+    // If we are going to a page that is not adjacent to the current page,
+    // we need to rebuild the children so that the new page is one away
+    // from the current page, and then we jump to the new page.
+    // Otherwise the PageView will flash quickly as it
+    // shows each page in between, and this is undesirable.
+
     final int initialPage =
         activeIndex > previousIndex ? activeIndex - 1 : activeIndex + 1;
 
@@ -175,11 +179,11 @@ class _ImplicitlyAnimatedPageViewState extends State<ImplicitlyAnimatedPageView>
     }
     if (!mounted) return Future<void>.value();
     setState(() {
-      _warpUnderwayCount -= 1;
       _children = List<Widget>.of(_children, growable: false);
       final Widget temp = _children[previousIndex];
       _children[previousIndex] = _children[initialPage];
       _children[initialPage] = temp;
+      _warpUnderwayCount -= 1;
     });
   }
 }
