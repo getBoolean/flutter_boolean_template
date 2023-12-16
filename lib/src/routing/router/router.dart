@@ -77,7 +77,7 @@ final router = GoRouter(
         return ImplicitlyAnimatedPageView(
           currentIndex: navigationShell.currentIndex,
           scrollDirection: scrollDirection ?? Axis.horizontal,
-          physics: scrollDirection == null
+          physics: scrollDirection == null || scrollDirection == Axis.vertical
               ? const NeverScrollableScrollPhysics()
               : null,
           swipeToIndex: navigationShell.goBranch,
