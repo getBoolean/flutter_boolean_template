@@ -3,6 +3,7 @@ import 'dart:io' as io;
 import 'package:adaptive_breakpoints/adaptive_breakpoints.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_boolean_template/src/routing/ui/widgets/responsive_scaffold.dart';
 import 'package:universal_html/html.dart' as html;
 
 enum DeviceType {
@@ -120,4 +121,25 @@ DeviceType get _deviceTypeByUserAgent {
     deviceType = DeviceType.Android;
   }
   return deviceType;
+}
+
+NavigationType $resolveNavigationType(BuildContext context) {
+  final (_, form, orientation) = $deviceDetails(context);
+  if (orientation == Orientation.portrait) {
+    return switch (form) {
+      DeviceForm.largeDesktop => NavigationType.top,
+      DeviceForm.desktop => NavigationType.top,
+      DeviceForm.tablet => NavigationType.top,
+      DeviceForm.largePhone => NavigationType.bottom,
+      DeviceForm.phone => NavigationType.bottom,
+    };
+  } else {
+    return switch (form) {
+      DeviceForm.largeDesktop => NavigationType.top,
+      DeviceForm.desktop => NavigationType.permanentDrawer,
+      DeviceForm.tablet => NavigationType.permanentDrawer,
+      DeviceForm.largePhone => NavigationType.rail,
+      DeviceForm.phone => NavigationType.drawer,
+    };
+  }
 }

@@ -37,7 +37,7 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
         currentIndex: widget.navigationShell.currentIndex,
         title: widget.title,
         goToIndex: widget.navigationShell.goBranch,
-        navigationTypeResolver: _resolveNavigationType,
+        navigationTypeResolver: $resolveNavigationType,
         topBarStart: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 32.0),
           child: Text(
@@ -82,26 +82,5 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
         child: widget.navigationShell,
       ),
     );
-  }
-
-  NavigationType _resolveNavigationType(BuildContext context) {
-    final (_, form, orientation) = $deviceDetails(context);
-    if (orientation == Orientation.portrait) {
-      return switch (form) {
-        DeviceForm.largeDesktop => NavigationType.top,
-        DeviceForm.desktop => NavigationType.top,
-        DeviceForm.tablet => NavigationType.top,
-        DeviceForm.largePhone => NavigationType.bottom,
-        DeviceForm.phone => NavigationType.bottom,
-      };
-    } else {
-      return switch (form) {
-        DeviceForm.largeDesktop => NavigationType.top,
-        DeviceForm.desktop => NavigationType.permanentDrawer,
-        DeviceForm.tablet => NavigationType.permanentDrawer,
-        DeviceForm.largePhone => NavigationType.rail,
-        DeviceForm.phone => NavigationType.drawer,
-      };
-    }
   }
 }

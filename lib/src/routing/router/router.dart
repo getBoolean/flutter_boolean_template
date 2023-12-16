@@ -1,8 +1,7 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/routing/ui/ui.dart';
+import 'package:flutter_boolean_template/src/routing/ui/widgets/route_branch_page_view_container.dart';
 import 'package:flutter_boolean_template/utils/utils.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:log/log.dart';
@@ -27,73 +26,99 @@ const kSettingsRouteName = 'settings';
 final routerProvider = Provider<GoRouter>((ref) {
   final _ = ref.watch(logProvider('routerProvider'));
 
-  final destinations = [
-    RouterDestination(
-      title: 'Books',
-      icon: Icons.book,
-      navigatorKey: _shellNavigatorBooksKey,
-    ),
-    RouterDestination(
-      title: 'Profile',
-      icon: Icons.person,
-      navigatorKey: _shellNavigatorProfileKey,
-    ),
-    RouterDestination(
-      title: 'Settings',
-      icon: Icons.settings,
-      navigatorKey: _shellNavigatorSettingsKey,
-    ),
-  ];
-
-  return GoRouter(
-    // * Passing a navigatorKey causes an issue on hot reload:
-    // * https://github.com/flutter/flutter/issues/113757#issuecomment-1518421380
-    // * However it's still necessary otherwise the navigator pops back to
-    // * root on hot reload
-    navigatorKey: rootNavigatorKey,
-    initialLocation: '/books',
-    observers: [
-      AppObserver(),
-    ],
-    routes: <RouteBase>[
-      _buildStatefulShellRoutePageView(
-        parentNavigatorKey: rootNavigatorKey,
-        builder: (
-          BuildContext context,
-          GoRouterState state,
-          StatefulNavigationShell navigationShell,
-        ) {
-          // Calculating the title using the path since the title needs to be
-          // used by [ResponsiveScaffold]
-          // This might be able to be improved if using go_router_builder
-          final String title = switch (state.fullPath) {
-            '/books' => state.uri.queryParameters['id'] == null
-                ? 'Books'
-                : 'Book ${state.uri.queryParameters['id']}',
-            '/books/details-:id' => state.pathParameters['id'] == null
-                ? 'Book Details'
-                : 'Book ${state.pathParameters['id']}',
-            '/profile' => 'Profile',
-            '/profile/details' => 'Profile Details',
-            '/settings' => 'Settings',
-            '/settings/details' => 'Setting Details',
-            _ => 'Unknown',
-          };
-          return RootScaffoldShell(
-            navigationShell: navigationShell,
-            destinations: destinations,
-            title: title,
-          );
-        },
-        branches: <StatefulShellBranch>[
-          _buildBooksBranch(destinations[0]),
-          _buildProfileBranch(destinations[1]),
-          _buildSettingsBranch(destinations[2]),
-        ],
-      ),
-    ],
-  );
+  return router;
 });
+
+final destinations = [
+  RouterDestination(
+    title: 'Books',
+    icon: Icons.book,
+    navigatorKey: _shellNavigatorBooksKey,
+  ),
+  RouterDestination(
+    title: 'Profile',
+    icon: Icons.person,
+    navigatorKey: _shellNavigatorProfileKey,
+  ),
+  RouterDestination(
+    title: 'Settings',
+    icon: Icons.settings,
+    navigatorKey: _shellNavigatorSettingsKey,
+  ),
+];
+
+final router = GoRouter(
+  // * Passing a navigatorKey causes an issue on hot reload:
+  // * https://github.com/flutter/flutter/issues/113757#issuecomment-1518421380
+  // * However it's still necessary otherwise the navigator pops back to
+  // * root on hot reload
+  navigatorKey: rootNavigatorKey,
+  initialLocation: '/books',
+  observers: [
+    AppObserver(),
+  ],
+  routes: <RouteBase>[
+    StatefulShellRoute(
+      parentNavigatorKey: rootNavigatorKey,
+      navigatorContainerBuilder: (
+        BuildContext context,
+        StatefulNavigationShell navigationShell,
+        List<Widget> children,
+      ) {
+        final NavigationType type = $resolveNavigationType(context);
+        final Axis? scrollDirection = switch (type) {
+          NavigationType.bottom => Axis.horizontal,
+          NavigationType.permanentDrawer ||
+          NavigationType.drawer ||
+          NavigationType.rail =>
+            Axis.vertical,
+          _ => null,
+        };
+        return ImplicitlyAnimatedPageView(
+          currentIndex: navigationShell.currentIndex,
+          scrollDirection: scrollDirection ?? Axis.horizontal,
+          physics: scrollDirection == null
+              ? const NeverScrollableScrollPhysics()
+              : null,
+          goToIndex: navigationShell.goBranch,
+          children: children,
+        );
+      },
+      builder: (
+        BuildContext context,
+        GoRouterState state,
+        StatefulNavigationShell navigationShell,
+      ) {
+        // Calculating the title using the path since the title needs to be
+        // used by [ResponsiveScaffold]
+        // This might be able to be improved if using go_router_builder
+        final String title = switch (state.fullPath) {
+          '/books' => state.uri.queryParameters['id'] == null
+              ? 'Books'
+              : 'Book ${state.uri.queryParameters['id']}',
+          '/books/details-:id' => state.pathParameters['id'] == null
+              ? 'Book Details'
+              : 'Book ${state.pathParameters['id']}',
+          '/profile' => 'Profile',
+          '/profile/details' => 'Profile Details',
+          '/settings' => 'Settings',
+          '/settings/details' => 'Setting Details',
+          _ => 'Unknown',
+        };
+        return RootScaffoldShell(
+          navigationShell: navigationShell,
+          destinations: destinations,
+          title: title,
+        );
+      },
+      branches: <StatefulShellBranch>[
+        _buildBooksBranch(destinations[0]),
+        _buildProfileBranch(destinations[1]),
+        _buildSettingsBranch(destinations[2]),
+      ],
+    ),
+  ],
+);
 
 StatefulShellBranch _buildSettingsBranch(RouterDestination destination) {
   return StatefulShellBranch(
@@ -196,72 +221,3 @@ StatefulShellBranch _buildBooksBranch(RouterDestination destination) {
     ],
   );
 }
-
-class _PageViewRouteBranchContainer extends StatefulHookWidget {
-  const _PageViewRouteBranchContainer({
-    required this.currentIndex,
-    required this.children,
-  });
-
-  final int currentIndex;
-
-  final List<Widget> children;
-  @override
-  State<_PageViewRouteBranchContainer> createState() =>
-      _PageViewRouteBranchContainerState();
-}
-
-class _PageViewRouteBranchContainerState
-    extends State<_PageViewRouteBranchContainer>
-    with SingleTickerProviderStateMixin {
-  @override
-  Widget build(BuildContext context) {
-    final List<Widget> pageItems = widget.children
-        .mapIndexed((int index, Widget child) => _buildRouteBranchContainer(
-            context, widget.currentIndex == index, child))
-        .toList();
-    return IndexedStack(
-      index: widget.currentIndex,
-      key: const ValueKey('rootRoutes'),
-      children: pageItems,
-    );
-  }
-
-  Widget _buildRouteBranchContainer(
-      BuildContext context, bool isActive, Widget child) {
-    return Offstage(
-      offstage: !isActive,
-      child: TickerMode(
-        enabled: isActive,
-        child: child,
-      ),
-    );
-  }
-}
-
-Widget _pageViewContainerBuilder(
-  BuildContext context,
-  StatefulNavigationShell navigationShell,
-  List<Widget> children,
-) {
-  return _PageViewRouteBranchContainer(
-    currentIndex: navigationShell.currentIndex,
-    children: children,
-  );
-}
-
-StatefulShellRoute _buildStatefulShellRoutePageView({
-  required List<StatefulShellBranch> branches,
-  StatefulShellRouteBuilder? builder,
-  GlobalKey<NavigatorState>? parentNavigatorKey,
-  StatefulShellRoutePageBuilder? pageBuilder,
-  String? restorationScopeId,
-}) =>
-    StatefulShellRoute(
-      branches: branches,
-      builder: builder,
-      pageBuilder: pageBuilder,
-      parentNavigatorKey: parentNavigatorKey,
-      restorationScopeId: restorationScopeId,
-      navigatorContainerBuilder: _pageViewContainerBuilder,
-    );

@@ -18,11 +18,26 @@ extension GoRouterExtension on GoRouter {
   Uri get location => routerDelegate.location;
 
   bool canGoBack() {
-    return routerDelegate.location.pathSegments.length > 1;
+    final location = routerDelegate.location;
+    return location.pathSegments.length > 1;
+  }
+
+  bool stripQueryParameters() {
+    final location = routerDelegate.location;
+    final queryParameters = location.queryParameters;
+    if (queryParameters.isEmpty) {
+      return false;
+    }
+
+    final pathSegments = location.pathSegments;
+    final newLoc = location.replace(path: '/${pathSegments.join(' / ')}');
+    go(newLoc.path);
+
+    return true;
   }
 
   bool goBack({bool stripQueryParameters = true}) {
-    if (!canPop()) {
+    if (!canGoBack()) {
       return false;
     }
 
