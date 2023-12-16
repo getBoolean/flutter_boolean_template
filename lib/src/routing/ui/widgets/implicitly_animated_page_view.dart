@@ -22,11 +22,14 @@
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_boolean_template/utils/utils.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 /// A [PageView] that animates between its children implicitly.
 ///
 /// A partially modified version of `AutoTabView` from the `auto_route` package.
+/// These changes fix the children not updating in sync with the changed index
+/// from the router.
 class ImplicitlyAnimatedPageView extends StatefulHookWidget {
   /// A [PageView] that animates between its children implicitly.
   ///
@@ -103,6 +106,7 @@ class _ImplicitlyAnimatedPageViewState extends State<ImplicitlyAnimatedPageView>
       (oldValue, _) => _warpToCurrentIndex(currentIndex, oldValue),
     );
 
+    final isIOS = $deviceType == DeviceType.iOS;
     return NotificationListener<ScrollNotification>(
       onNotification: _handleScrollNotification,
       child: PageView(
@@ -111,7 +115,9 @@ class _ImplicitlyAnimatedPageViewState extends State<ImplicitlyAnimatedPageView>
         controller: _controller,
         dragStartBehavior: widget.dragStartBehavior,
         physics: widget.physics == null
-            ? const PageScrollPhysics().applyTo(const ClampingScrollPhysics())
+            ? const PageScrollPhysics().applyTo(isIOS
+                ? const BouncingScrollPhysics()
+                : const ClampingScrollPhysics())
             : const PageScrollPhysics().applyTo(widget.physics),
         children: _children,
       ),
