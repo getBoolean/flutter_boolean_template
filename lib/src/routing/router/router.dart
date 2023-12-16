@@ -199,7 +199,6 @@ StatefulShellBranch _buildBooksBranch(RouterDestination destination) {
 
 class _PageViewRouteBranchContainer extends StatefulHookWidget {
   const _PageViewRouteBranchContainer({
-    super.key,
     required this.currentIndex,
     required this.children,
   });
