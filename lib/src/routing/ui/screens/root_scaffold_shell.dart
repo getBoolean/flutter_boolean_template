@@ -22,10 +22,10 @@ class RootScaffoldShell extends ConsumerStatefulWidget {
   final String title;
 
   @override
-  ConsumerState<RootScaffoldShell> createState() => _HomeScreenState();
+  ConsumerState<RootScaffoldShell> createState() => _RootScaffoldShellState();
 }
 
-class _HomeScreenState extends ConsumerState<RootScaffoldShell> {
+class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
