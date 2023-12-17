@@ -143,3 +143,14 @@ NavigationType $resolveNavigationType(BuildContext context) {
     };
   }
 }
+
+extension ListSwap<T> on List<T> {
+  List<T> swap(int activeIndex, int initialPage) {
+    final items = List<T>.of(this, growable: false);
+    final T temp = items[activeIndex];
+    items[activeIndex] = items[initialPage];
+    items[initialPage] = temp;
+
+    return items;
+  }
+}
