@@ -102,7 +102,7 @@ class _AutoLeadingButtonState extends ConsumerState<AutoLeadingButton> {
   Widget build(BuildContext context) {
     final ModalRoute<dynamic>? parentRoute = ModalRoute.of(context);
     final router = ref.watch(routerProvider);
-    final canPop = router.canGoBack() /* || router.canPop() */;
+    final canPop = router.canGoBack() || router.canPop();
     if (canPop) {
       final bool useCloseButton =
           parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog;

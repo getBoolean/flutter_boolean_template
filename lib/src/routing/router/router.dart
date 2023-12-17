@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/routing/ui/ui.dart';
-import 'package:flutter_boolean_template/src/routing/ui/widgets/implicitly_animated_page_view.dart';
+import 'package:flutter_boolean_template/src/routing/ui/widgets/implicitly_animated_page_switcher.dart';
 import 'package:flutter_boolean_template/utils/utils.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -65,25 +65,9 @@ final router = GoRouter(
         StatefulNavigationShell navigationShell,
         List<Widget> children,
       ) {
-        final NavigationType type = $resolveNavigationType(context);
-        final Axis? scrollDirection = switch (type) {
-          NavigationType.bottom => Axis.horizontal,
-          NavigationType.permanentDrawer ||
-          NavigationType.drawer ||
-          NavigationType.rail =>
-            Axis.vertical,
-          _ => null,
-        };
-        final isIOS = $deviceType == DeviceType.iOS;
-        return ImplicitlyAnimatedPageView(
+        return ImplicitlyAnimatedPageSwitcher(
           currentIndex: navigationShell.currentIndex,
-          scrollDirection: scrollDirection ?? Axis.horizontal,
-          duration: const Duration(seconds: 8),
-          physics: const PageScrollPhysics().applyTo(isIOS
-              ? const BouncingScrollPhysics()
-              : const ClampingScrollPhysics()),
-          swipeToIndex: navigationShell.goBranch,
-          useFadeTransition: type == NavigationType.top,
+          duration: const Duration(milliseconds: 150),
           animatePageTransition: true,
           children: children,
         );
