@@ -13,11 +13,11 @@ class LocationNotifier extends Notifier<Uri> {
     ref.onDispose(() {
       router.routerDelegate.removeListener(onRouterDelegateChange);
     });
-    return router.location;
+    return router.locationUri;
   }
 
   void onRouterDelegateChange() {
     final routerDelegate = ref.read(routerProvider).routerDelegate;
-    state = routerDelegate.location;
+    state = routerDelegate.locationUri;
   }
 }
