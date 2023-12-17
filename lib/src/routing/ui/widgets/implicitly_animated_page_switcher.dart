@@ -141,7 +141,7 @@ class ImplicitlyAnimatedPageSwitcher extends StatelessWidget {
     final itemBuilder = this.itemBuilder;
     final children = this.children;
     assert(children != null || itemBuilder != null,
-        'children and itemBuilder cannot both be null');
+        'ImplicitlyAnimatedPageSwitcher\'s children and itemBuilder cannot both be null');
 
     final child = switch ((itemBuilder == null, children == null)) {
       _ when itemBuilder != null => itemBuilder(context, currentIndex),
