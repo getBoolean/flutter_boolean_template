@@ -74,13 +74,17 @@ final router = GoRouter(
             Axis.vertical,
           _ => null,
         };
+        final isIOS = $deviceType == DeviceType.iOS;
         return ImplicitlyAnimatedPageView(
           currentIndex: navigationShell.currentIndex,
           scrollDirection: scrollDirection ?? Axis.horizontal,
-          physics: scrollDirection == null || scrollDirection == Axis.vertical
-              ? const NeverScrollableScrollPhysics()
-              : null,
+          duration: const Duration(seconds: 8),
+          physics: const PageScrollPhysics().applyTo(isIOS
+              ? const BouncingScrollPhysics()
+              : const ClampingScrollPhysics()),
           swipeToIndex: navigationShell.goBranch,
+          useFadeTransition: type == NavigationType.top,
+          animatePageTransition: true,
           children: children,
         );
       },
