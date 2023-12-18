@@ -4,7 +4,7 @@ on: delete
 jobs:
   cleanup:
     name: Cleanup gh-pages
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     if: github.event.ref_type == 'branch'
     steps:
       - name: Checkout
