@@ -3,6 +3,7 @@ import 'dart:io' as io;
 import 'package:adaptive_breakpoints/adaptive_breakpoints.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_boolean_template/src/routing/ui/widgets/responsive_scaffold.dart';
 import 'package:universal_html/html.dart' as html;
 
 enum DeviceType {
@@ -48,6 +49,9 @@ enum DeviceForm {
       _ => DeviceForm.phone,
     };
   }
+
+  bool get isSmall => this == DeviceForm.phone || this == DeviceForm.largePhone;
+  bool get isNotSmall => !isSmall;
 }
 
 typedef DeviceDetails = (DeviceType, DeviceForm, Orientation);
@@ -55,16 +59,23 @@ typedef DeviceDetails = (DeviceType, DeviceForm, Orientation);
 /// Returns the current device type, form and orientation
 ///
 /// If the app is running on the web, the device type is determined by the user agent.
-DeviceDetails getDeviceDetails(BuildContext context) {
+DeviceDetails $deviceDetails(BuildContext context) {
   final Orientation currentOrientation = MediaQuery.orientationOf(context);
-  final windowType = getWindowType(context);
-  final DeviceForm deviceForm = DeviceForm.from(windowType);
-  final DeviceType deviceType =
-      kIsWeb ? getDeviceTypeByUserAgent() : getDeviceTypeByPlatform();
+  final DeviceForm deviceForm = $deviceForm(context);
+  final DeviceType deviceType = $deviceType;
   return (deviceType, deviceForm, currentOrientation);
 }
 
-DeviceType getDeviceTypeByPlatform() {
+DeviceType get $deviceType =>
+    kIsWeb ? _deviceTypeByUserAgent : _deviceTypeByPlatform;
+
+DeviceForm $deviceForm(BuildContext context) {
+  final windowType = getWindowType(context);
+  final DeviceForm deviceForm = DeviceForm.from(windowType);
+  return deviceForm;
+}
+
+DeviceType get _deviceTypeByPlatform {
   final DeviceType deviceType;
   if (io.Platform.isAndroid) {
     deviceType = DeviceType.Android;
@@ -83,7 +94,7 @@ DeviceType getDeviceTypeByPlatform() {
 }
 
 /// Returns the current device type by user agent
-DeviceType getDeviceTypeByUserAgent() {
+DeviceType get _deviceTypeByUserAgent {
   final DeviceType deviceType;
   final userAgent = html.window.navigator.userAgent.toLowerCase();
   // Smartphone
@@ -110,4 +121,36 @@ DeviceType getDeviceTypeByUserAgent() {
     deviceType = DeviceType.Android;
   }
   return deviceType;
+}
+
+NavigationType $resolveNavigationType(BuildContext context) {
+  final (_, form, orientation) = $deviceDetails(context);
+  if (orientation == Orientation.portrait) {
+    return switch (form) {
+      DeviceForm.largeDesktop => NavigationType.top,
+      DeviceForm.desktop => NavigationType.top,
+      DeviceForm.tablet => NavigationType.top,
+      DeviceForm.largePhone => NavigationType.bottom,
+      DeviceForm.phone => NavigationType.bottom,
+    };
+  } else {
+    return switch (form) {
+      DeviceForm.largeDesktop => NavigationType.top,
+      DeviceForm.desktop => NavigationType.permanentDrawer,
+      DeviceForm.tablet => NavigationType.permanentDrawer,
+      DeviceForm.largePhone => NavigationType.rail,
+      DeviceForm.phone => NavigationType.drawer,
+    };
+  }
+}
+
+extension ListSwap<T> on List<T> {
+  List<T> swap(int activeIndex, int initialPage) {
+    final items = List<T>.of(this, growable: false);
+    final T temp = items[activeIndex];
+    items[activeIndex] = items[initialPage];
+    items[initialPage] = temp;
+
+    return items;
+  }
 }

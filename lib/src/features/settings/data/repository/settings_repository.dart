@@ -8,7 +8,8 @@ const String _settingsBoxName = 'settingsBox';
 
 @riverpod
 class SettingsRepository extends _$SettingsRepository {
-  static Future<void> initBox() => Hive.openBox<Settings>(_settingsBoxName);
+  static Future<void> initBox() async =>
+      await Hive.openBox<Settings>(_settingsBoxName);
 
   @override
   Settings build() {

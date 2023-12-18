@@ -18,7 +18,9 @@ void main() async {
   // * https://docs.flutter.dev/testing/errors
   registerErrorHandlers();
   AppFlavor.initConfig();
-  usePathUrlStrategy();
+  if (AppFlavor.config?.variables['usePathUrlStrategy'] as bool? ?? true) {
+    usePathUrlStrategy();
+  }
 
   await initHive();
 
