@@ -5,6 +5,8 @@
 It's common for Flutter apps to include a web demo for the `main` branch hosted on Github Pages, but this can also be done for every branch in your repo.
 This involes three workflow files, one to deploy the Flutter web app, one to generate an index file, and one to cleanup for deleted branches.
 
+* Demo: [getboolean.github.io/flutter_boolean_template](https://getboolean.github.io/flutter_boolean_template)
+
 ## Prerequisites
 
 This GitHub Pages setup requires the `#` url path strategy, so ensure it is not disabled for your web builds intended for GitHub Pages.
