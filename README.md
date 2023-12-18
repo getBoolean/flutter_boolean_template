@@ -63,7 +63,7 @@ I highly recommend reading the article. Each `layer` has its own folder per feat
 ## Demo
 
 Flutter Web is deployed to GitHub Pages in a separate subfolder for each branch. The `main` branch is deployed to
-[https://getboolean.github.io/flutter_boolean_template/main](https://getboolean.github.io/flutter_boolean_template/main).
+[getboolean.github.io/flutter_boolean_template](https://getboolean.github.io/flutter_boolean_template).
 
 - Currently Navigator 2.0 routes do not play well with this setup. Sub-paths break GitHub Page's ability to find which
   branch application to use, they must be removed from the URL before a refresh. Consider using only path parameters
