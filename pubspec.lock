@@ -13,10 +13,10 @@ packages:
     dependency: "direct main"
     description:
       name: adaptive_breakpoints
-      sha256: "3aa6ef09074fe7824dfdc9a6d9f955c8a3bae0fb71c495cbd72f471a87699b4f"
+      sha256: "56dd5f1016f4d5732b80628d1b63a29d8c9cabe4d66a8a5fe63fdbec7b3af5cd"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.6"
+    version: "0.1.7"
   analyzer:
     dependency: transitive
     description:
@@ -820,10 +820,10 @@ packages:
     dependency: "direct dev"
     description:
       name: mocktail
-      sha256: bac151b31e4ed78bd59ab89aa4c0928f297b1180186d5daf03734519e5f596c1
+      sha256: f603ebd85a576e5914870b02e5839fc5d0243b867bf710651cf239a28ebb365e
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.1"
+    version: "1.0.2"
   modddels:
     dependency: "direct dev"
     description:
@@ -948,10 +948,10 @@ packages:
     dependency: "direct dev"
     description:
       name: patrol
-      sha256: "56651dde82e845b142c1c22367e691aaa8c9ecffa393c9e86079f3110eeb1dd1"
+      sha256: "415db7827456cf7133c2fec31a6aba54ba7fcef9b9c35043f850e2636efbcc69"
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.0"
+    version: "3.3.0"
   patrol_finders:
     dependency: transitive
     description:
