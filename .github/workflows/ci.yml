@@ -242,6 +242,8 @@ jobs:
     needs: [flutter_test]
     runs-on: windows-latest
     steps:
+      - name: Enable Git Long Paths
+        run: git config --system core.longpaths true
       - name: Checkout Repository
         uses: actions/checkout@v3
       - name: Install and set Flutter version
