@@ -22,7 +22,7 @@ jobs:
         # get list of branches and generate links to each branch's subfolder in the README.md file
       - name: Generate README.md
         run: |
-          echo "# Flutter Branch Web Previews" >> README.md
+          echo "## Flutter Branch Web Previews" >> README.md
           echo "" >> README.md
           git branch -r | grep -v '\->' | grep -v 'origin/gh-pages' | while read remote; do git branch --track "${remote#origin/}" "$remote"; done
           for branch in `git branch -r | grep -v '\->' | grep -v 'origin/gh-pages'`; do echo "- [${branch#origin/}](./${branch#origin/}/)" >> README.md; done
