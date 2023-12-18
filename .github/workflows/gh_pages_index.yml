@@ -1,0 +1,34 @@
+# CI to generate an index.html file for GitHub Pages for each branch's subfolder in the gh-pages branch
+
+name: gh_pages_index
+
+on:
+  push:
+    branches:
+      - "gh-pages"
+
+jobs:
+  gh_pages_index:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          branch: gh-pages
+        # Delete index.html
+      - name: Delete index.html
+        run: rm -f index.html
+        # get list of branches and generate links to each branch's subfolder in the index.html file
+      - name: Generate index.html
+        run: |
+          echo "<html><body><h1>Branches</h1><ul>" > index.html
+          git branch -r | grep -v '\->' | while read remote; do git branch --track "${remote#origin/}" "$remote"; done
+          for branch in `git branch -r | grep -v '\->'`; do echo "<li><a href=\"${branch#origin/}/\">${branch#origin/}</a></li>" >> index.html; done
+          echo "</ul></body></html>" >> index.html
+      - name: Commit and push if changed
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email <>
+          git add index.html
+          git diff-index --quiet HEAD || git commit -m 'Update index.html'
+          git push
