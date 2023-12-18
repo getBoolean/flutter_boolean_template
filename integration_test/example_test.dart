@@ -7,8 +7,6 @@ import 'package:patrol/patrol.dart';
 void main() {
   patrolTest(
     'counter state is the same after going to home and going back',
-    // ignore: deprecated_member_use
-    nativeAutomation: true,
     skip: true,
     ($) async {
       await $.pumpWidgetAndSettle(const ProviderScope(child: App()));

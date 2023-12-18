@@ -18,7 +18,9 @@ void main() async {
   // * https://docs.flutter.dev/testing/errors
   registerErrorHandlers();
   AppFlavor.initConfig();
-  usePathUrlStrategy();
+  if (AppFlavor.config?.variables['usePathUrlStrategy'] as bool? ?? true) {
+    usePathUrlStrategy();
+  }
 
   await initHive();
 
@@ -55,7 +57,7 @@ void registerErrorHandlers() {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('An error occured'),
+          title: const Text('An error occurred'),
           backgroundColor: Colors.red,
         ),
         // Body with the error message and button to restart the app

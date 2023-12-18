@@ -61,13 +61,25 @@ extension _FlavorToConfig on Flavor {
           name: 'BETA',
           color: Colors.deepOrange,
           location: BannerLocation.topEnd,
-          variables: {},
+          variables: {
+            'usePathUrlStrategy': true,
+          },
         ),
       Flavor.dev => FlavorConfig(
           name: 'DEVELOP',
           color: Colors.red,
           location: BannerLocation.topEnd,
-          variables: {},
+          variables: {
+            'usePathUrlStrategy': true,
+          },
+        ),
+      Flavor.staging => FlavorConfig(
+          name: 'STAGING',
+          color: Colors.green,
+          location: BannerLocation.topEnd,
+          variables: {
+            'usePathUrlStrategy': false,
+          },
         ),
       Flavor.local => _createDebugModeFlavor(),
       _ => null,
@@ -79,7 +91,9 @@ extension _FlavorToConfig on Flavor {
           name: 'DEBUG',
           color: Colors.blue,
           location: BannerLocation.topEnd,
-          variables: {},
+          variables: {
+            'usePathUrlStrategy': true,
+          },
         )
       : kReleaseMode
           ? null
@@ -87,6 +101,8 @@ extension _FlavorToConfig on Flavor {
               name: 'LOCAL',
               color: Colors.blue,
               location: BannerLocation.topEnd,
-              variables: {},
+              variables: {
+                'usePathUrlStrategy': true,
+              },
             );
 }

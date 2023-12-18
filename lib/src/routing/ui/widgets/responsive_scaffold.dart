@@ -1,19 +1,30 @@
-import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:adaptive_breakpoints/adaptive_breakpoints.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/common_widgets/constrained_scrollable_child.dart';
+import 'package:flutter_boolean_template/src/routing/ui/widgets/auto_leading_button.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:log/log.dart';
 
 typedef NavigationTypeResolver = NavigationType Function(BuildContext context);
 
-class AutoAdaptiveRouterScaffold extends StatefulWidget {
-  const AutoAdaptiveRouterScaffold({
+typedef GoToIndexCallback = void Function(
+  int newIndex, {
+  bool initialLocation,
+});
+
+class ResponsiveScaffold extends StatefulHookWidget {
+  const ResponsiveScaffold({
     super.key,
     required this.destinations,
+    required this.currentIndex,
+    required this.title,
+    required this.child,
+    required this.goToIndex,
+    this.transitionDuration = const Duration(milliseconds: 300),
+    this.transitionReverseDuration = Duration.zero,
     this.floatingActionButton,
     this.floatingActionButtonLocation,
     this.floatingActionButtonAnimator,
@@ -52,13 +63,21 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
     this.topBarBuilder,
   });
 
-  static AutoAdaptiveRouterScaffold of(BuildContext context) {
+  static ResponsiveScaffold of(BuildContext context) {
     final scaffold =
-        context.findAncestorWidgetOfExactType<AutoAdaptiveRouterScaffold>();
+        context.findAncestorWidgetOfExactType<ResponsiveScaffold>();
     assert(scaffold != null,
-        'No AutoAdaptiveRouterScaffold found in context. Wrap your app in an AutoAdaptiveRouterScaffold to fix this error.');
+        'No ResponsiveScaffold found in context. Wrap your app in an ResponsiveScaffold to fix this error.');
     return scaffold!;
   }
+
+  final int currentIndex;
+
+  final GoToIndexCallback goToIndex;
+
+  final String title;
+
+  final Widget child;
 
   /// The index into [destinations] for the current selected
   /// [RouterDestination].
@@ -167,22 +186,26 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
   /// The [VerticalDivider] between the [Drawer]/[NavigationRail] and the body.
   final Widget? divider;
 
-  final AutoLeadingButton Function(BuildContext context)? leadingButtonBuilder;
+  final Duration transitionDuration;
+
+  final Duration transitionReverseDuration;
+
+  final Widget Function(BuildContext context)? leadingButtonBuilder;
 
   /// Custom builder for [NavigationType.top]'s [TabBar]
   ///
   /// If not null, then [isTabBarScrollable], and [tabAlignment] are ignored for this type.
   final TabBar Function(
     BuildContext context,
-    void Function(int index) onDestinationSelected,
+    TabController controller,
+    void Function(int index) setPage,
   )? tabBarBuilder;
 
   /// Custom builder for [NavigationType.top]
   final PreferredSize Function(
     BuildContext context,
-    AutoLeadingButton leadingButton,
     TabBar tabBar,
-    void Function(int index) onDestinationSelected,
+    void Function(int index) setPage,
   )? topBarBuilder;
 
   /// Custom builder for [NavigationType.bottom]
@@ -190,7 +213,7 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
     BuildContext context,
     int selectedIndex,
     List<RouterDestination> bottomDestinations,
-    void Function(int index) onDestinationSelected,
+    void Function(int index) setPage,
   )? bottomNavigationBarBuilder;
 
   /// Custom builder for [NavigationType.drawer]
@@ -199,7 +222,7 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
   final Widget Function(
     BuildContext context,
     int selectedIndex,
-    void Function(int index) onDestinationSelected,
+    void Function(int index) setPage,
   )? drawerBuilder;
 
   /// Custom builder for [NavigationType.permanentDrawer]
@@ -208,8 +231,7 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
   final Widget Function(
     BuildContext context,
     int selectedIndex,
-    AutoLeadingButton leadingButton,
-    void Function(int index) onDestinationSelected,
+    void Function(int index) setPage,
   )? permanentDrawerBuilder;
 
   /// Custom builder for [NavigationType.rail]
@@ -219,8 +241,7 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
     BuildContext context,
     int selectedIndex,
     List<RouterDestination> railDestinations,
-    AutoLeadingButton leadingButton,
-    void Function(int index) onDestinationSelected,
+    void Function(int index) setPage,
   )? railBuilder;
 
   /// Custom [SliverAppBar] builder for [NavigationType.drawer] and [NavigationType.bottom]
@@ -233,171 +254,159 @@ class AutoAdaptiveRouterScaffold extends StatefulWidget {
   )? sliverAppBarBuilder;
 
   @override
-  State<AutoAdaptiveRouterScaffold> createState() =>
-      AutoAdaptiveRouterScaffoldState();
+  State<ResponsiveScaffold> createState() => _ResponsiveScaffoldState();
 }
 
-class AutoAdaptiveRouterScaffoldState
-    extends State<AutoAdaptiveRouterScaffold> {
-  Map<int, String> appBarTitle = {};
-
-  void setAppBarTitle(BuildContext context) {
-    final tabsRouter = AutoTabsRouter.of(context);
-    final routeData = RouteData.of(context);
-    appBarTitle[tabsRouter.activeIndex] = routeData.title(context);
-    scheduleMicrotask(() => setState(() {}));
-  }
+class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
+    with TickerProviderStateMixin {
+  late TabController _tabController;
 
   @override
   Widget build(BuildContext context) {
+    _tabController = useTabController(
+      initialLength: widget.destinations.length,
+      initialIndex: widget.currentIndex,
+    );
     final NavigationTypeResolver navigationTypeResolver =
         widget.navigationTypeResolver ?? defaultNavigationTypeResolver;
     final navigationType = navigationTypeResolver(context);
-    return AutoTabsRouter.pageView(
-      routes:
-          widget.destinations.map((destination) => destination.route).toList(),
-      animatePageTransition: navigationType == NavigationType.bottom ||
-          navigationType == NavigationType.top,
-      builder: (context, child, _) {
-        final tabsRouter = AutoTabsRouter.of(context);
-        onDestinationSelectedHelper(int index) =>
-            _onDestinationSelected(tabsRouter, index);
 
-        final bottomDestinations = widget.destinations.sublist(
-          0,
-          math.min(widget.destinations.length, widget.bottomNavigationOverflow),
-        );
+    final bottomDestinations = widget.destinations.sublist(
+      0,
+      math.min(widget.destinations.length, widget.bottomNavigationOverflow),
+    );
 
-        final railDestinations = widget.destinations.sublist(
-          0,
-          math.min(widget.destinations.length, widget.railDestinationsOverflow),
-        );
+    final railDestinations = widget.destinations.sublist(
+      0,
+      math.min(widget.destinations.length, widget.railDestinationsOverflow),
+    );
 
-        final leadingButtonBuilder =
-            widget.leadingButtonBuilder ?? _defaultBuildAutoLeadingButton;
-        final buildBottomNavigationBar = widget.bottomNavigationBarBuilder ??
-            _defaultBottomNavigationBarBuilder;
-        final bottomNavigationBar = buildBottomNavigationBar(
-          context,
-          tabsRouter.activeIndex,
-          bottomDestinations,
-          onDestinationSelectedHelper,
-        );
+    final buildBottomNavigationBar =
+        widget.bottomNavigationBarBuilder ?? _defaultBottomNavigationBarBuilder;
+    final selectedIndex = widget.currentIndex;
+    final bottomNavigationBar = buildBottomNavigationBar(
+      context,
+      selectedIndex,
+      bottomDestinations,
+      _setPage,
+    );
 
-        final buildDrawer = widget.drawerBuilder ?? _defaultBuildDrawer;
-        final drawer = buildDrawer(
-          context,
-          tabsRouter.activeIndex,
-          onDestinationSelectedHelper,
-        );
+    final buildDrawer = widget.drawerBuilder ?? _defaultBuildDrawer;
+    final drawer = buildDrawer(
+      context,
+      selectedIndex,
+      _setPage,
+    );
 
-        final buildSliverAppBar = widget.sliverAppBarBuilder ??
-            _defaultBuildDrawerNavigationTypeSliverAppBar;
-        final sliverAppBar = buildSliverAppBar(
-          context,
-          navigationType,
-          appBarTitle[tabsRouter.activeIndex],
-        );
+    final buildSliverAppBar = widget.sliverAppBarBuilder ??
+        _defaultBuildDrawerNavigationTypeSliverAppBar;
 
-        final buildPermanentDrawer =
-            widget.permanentDrawerBuilder ?? _defaultBuildPermanentDrawer;
-        final permanentDrawer = buildPermanentDrawer(
-          context,
-          tabsRouter.activeIndex,
-          leadingButtonBuilder(context),
-          onDestinationSelectedHelper,
-        );
+    final buildPermanentDrawer =
+        widget.permanentDrawerBuilder ?? _defaultBuildPermanentDrawer;
+    final permanentDrawer = buildPermanentDrawer(
+      context,
+      selectedIndex,
+      _setPage,
+    );
 
-        final buildRail = widget.railBuilder ?? _defaultBuildNavigationRail;
-        final navigationRail = buildRail(
-          context,
-          tabsRouter.activeIndex,
-          railDestinations,
-          leadingButtonBuilder(context),
-          onDestinationSelectedHelper,
-        );
-        final buildTabBar = widget.tabBarBuilder ?? _defaultTabBarBuilder;
-        final tabBar = buildTabBar(context, onDestinationSelectedHelper);
+    final buildRail = widget.railBuilder ?? _defaultBuildNavigationRail;
+    final navigationRail = buildRail(
+      context,
+      selectedIndex,
+      railDestinations,
+      _setPage,
+    );
+    final buildTabBar = widget.tabBarBuilder ?? _defaultTabBarBuilder;
 
-        final buildTopBar = widget.topBarBuilder ?? _defaultTopBarBuilder;
-        final topBar = buildTopBar(context, leadingButtonBuilder(context),
-            tabBar, onDestinationSelectedHelper);
-        return DefaultTabController(
-          initialIndex: tabsRouter.activeIndex,
-          length: widget.destinations.length,
-          child: Scaffold(
-            appBar: navigationType == NavigationType.top ? topBar : null,
-            body: NestedScrollView(
-              headerSliverBuilder:
-                  (BuildContext context, bool innerBoxIsScrolled) {
-                return [
-                  if (navigationType != NavigationType.top &&
-                      navigationType != NavigationType.rail)
-                    sliverAppBar
-                ];
-              },
-              body: Row(
+    final buildTopBar = widget.topBarBuilder ?? _defaultTopBarBuilder;
+    final hasDrawer = navigationType == NavigationType.drawer;
+    final hasBottomNavigationBar = navigationType == NavigationType.bottom;
+    return Scaffold(
+      appBar: navigationType == NavigationType.top
+          ? buildTopBar(
+              context,
+              buildTabBar(context, _tabController, _setPage),
+              _setPage,
+            )
+          : null,
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return [
+            if (navigationType != NavigationType.top &&
+                navigationType != NavigationType.rail)
+              buildSliverAppBar(
+                context,
+                navigationType,
+                widget.title,
+              ),
+          ];
+        },
+        body: Row(
+          children: [
+            ConstrainedScrollableChild(
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  if (navigationType == NavigationType.permanentDrawer) ...[
-                    ConstrainedScrollableChild(child: permanentDrawer),
-                    widget.divider ??
-                        const VerticalDivider(
-                          width: 1,
-                          thickness: 1,
-                        ),
-                  ] else if (navigationType == NavigationType.rail) ...[
-                    ConstrainedScrollableChild(child: navigationRail),
-                    widget.divider ??
-                        const VerticalDivider(
-                          width: 1,
-                          thickness: 1,
-                        ),
-                  ],
-                  Expanded(child: child),
+                  AnimatedSwitcher(
+                    duration: widget.transitionDuration,
+                    reverseDuration: widget.transitionReverseDuration,
+                    child: navigationType == NavigationType.permanentDrawer
+                        ? permanentDrawer
+                        : navigationType == NavigationType.rail
+                            ? navigationRail
+                            : null,
+                  ),
+                  widget.divider ??
+                      const VerticalDivider(
+                        width: 1,
+                        thickness: 1,
+                      ),
                 ],
               ),
             ),
-            drawer: switch (navigationType) {
-              NavigationType.drawer =>
-                ConstrainedScrollableChild(child: drawer),
-              _ => null,
-            },
-            bottomNavigationBar: switch (navigationType) {
-              NavigationType.bottom => bottomNavigationBar,
-              _ => null,
-            },
-            floatingActionButton: (widget.fabInRail &&
-                    !(navigationType == NavigationType.bottom ||
-                        navigationType == NavigationType.drawer))
-                ? null
-                : widget.floatingActionButton,
-            floatingActionButtonLocation: widget.floatingActionButtonLocation,
-            floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
-            persistentFooterButtons: widget.persistentFooterButtons,
-            endDrawer: widget.endDrawer,
-            bottomSheet: widget.bottomSheet,
-            backgroundColor: widget.backgroundColor,
-            resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
-            primary: widget.primary,
-            drawerDragStartBehavior: widget.drawerDragStartBehavior,
-            extendBody: widget.extendBody,
-            extendBodyBehindAppBar: widget.extendBodyBehindAppBar,
-            drawerScrimColor: widget.drawerScrimColor,
-            drawerEdgeDragWidth: widget.drawerEdgeDragWidth,
-            drawerEnableOpenDragGesture: widget.drawerEnableOpenDragGesture,
-            endDrawerEnableOpenDragGesture:
-                widget.endDrawerEnableOpenDragGesture,
-          ),
-        );
-      },
+            Expanded(child: widget.child),
+          ],
+        ),
+      ),
+      drawer: hasDrawer ? ConstrainedScrollableChild(child: drawer) : null,
+      bottomNavigationBar: hasBottomNavigationBar ? bottomNavigationBar : null,
+      floatingActionButton: AnimatedSwitcher(
+        duration: widget.transitionDuration,
+        reverseDuration: widget.transitionReverseDuration,
+        child: (widget.fabInRail &&
+                !(navigationType == NavigationType.bottom ||
+                    navigationType == NavigationType.drawer))
+            ? null
+            : widget.floatingActionButton,
+      ),
+      floatingActionButtonLocation: widget.floatingActionButtonLocation,
+      floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
+      persistentFooterButtons: widget.persistentFooterButtons,
+      endDrawer: widget.endDrawer,
+      bottomSheet: widget.bottomSheet,
+      backgroundColor: widget.backgroundColor,
+      resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
+      primary: widget.primary,
+      drawerDragStartBehavior: widget.drawerDragStartBehavior,
+      extendBody: widget.extendBody,
+      extendBodyBehindAppBar: widget.extendBodyBehindAppBar,
+      drawerScrimColor: widget.drawerScrimColor,
+      drawerEdgeDragWidth: widget.drawerEdgeDragWidth,
+      drawerEnableOpenDragGesture: widget.drawerEnableOpenDragGesture,
+      endDrawerEnableOpenDragGesture: widget.endDrawerEnableOpenDragGesture,
     );
+  }
+
+  void _setPage(int index) {
+    final previousIndex = widget.currentIndex;
+    widget.goToIndex(index, initialLocation: index == previousIndex);
+    _tabController.index = index;
   }
 
   PreferredSize _defaultTopBarBuilder(
     BuildContext context,
-    AutoLeadingButton leadingButton,
     TabBar tabBar,
-    void Function(int index) onDestinationSelected,
+    void Function(int index) setPage,
   ) {
     return PreferredSize(
       preferredSize: tabBar.preferredSize,
@@ -406,7 +415,7 @@ class AutoAdaptiveRouterScaffoldState
         child: Row(
           children: [
             if (widget.topBarStart != null) widget.topBarStart!,
-            leadingButton,
+            const AutoLeadingButton(showDisabled: true),
             tabBar,
             const Spacer(),
             if (widget.topBarEnd != null) widget.topBarEnd!,
@@ -420,15 +429,14 @@ class AutoAdaptiveRouterScaffoldState
     BuildContext context,
     int selectedIndex,
     List<RouterDestination> railDestinations,
-    AutoLeadingButton leadingButton,
-    void Function(int index) onDestinationSelected,
+    void Function(int index) setPage,
   ) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Expanded(
           child: NavigationRail(
-            leading: leadingButton,
+            leading: const AutoLeadingButton(showDisabled: true),
             groupAlignment: 1.0,
             destinations: [
               for (final destination in railDestinations)
@@ -438,7 +446,7 @@ class AutoAdaptiveRouterScaffoldState
                 ),
             ],
             selectedIndex: selectedIndex,
-            onDestinationSelected: onDestinationSelected,
+            onDestinationSelected: setPage,
           ),
         ),
         if (widget.fabInRail)
@@ -453,8 +461,7 @@ class AutoAdaptiveRouterScaffoldState
   Widget _defaultBuildPermanentDrawer(
     BuildContext context,
     int selectedIndex,
-    AutoLeadingButton leadingButton,
-    void Function(int index) onDestinationSelected,
+    void Function(int index) setPage,
   ) {
     final theme = Theme.of(context);
     return Drawer(
@@ -470,9 +477,9 @@ class AutoAdaptiveRouterScaffoldState
                 ),
                 const Spacer(),
               ],
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: leadingButton,
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: AutoLeadingButton(showDisabled: true),
               ),
             ],
           ),
@@ -482,7 +489,7 @@ class AutoAdaptiveRouterScaffoldState
               title: Text(destination.title),
               selected:
                   widget.destinations.indexOf(destination) == selectedIndex,
-              onTap: () => onDestinationSelected(
+              onTap: () => setPage(
                 widget.destinations.indexOf(destination),
               ),
               style: ListTileStyle.drawer,
@@ -495,30 +502,10 @@ class AutoAdaptiveRouterScaffoldState
     );
   }
 
-  AutoLeadingButton _defaultBuildAutoLeadingButton(BuildContext context) {
-    return AutoLeadingButton(
-      builder: (context, leadingType, action) => switch (leadingType) {
-        LeadingType.back => BackButton(onPressed: action),
-        LeadingType.drawer => IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: action,
-            iconSize: Theme.of(context).iconTheme.size ?? 24,
-            tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-          ),
-        LeadingType.close => CloseButton(onPressed: action),
-        LeadingType.noLeading => IconButton(
-            icon: const BackButtonIcon(),
-            iconSize: Theme.of(context).iconTheme.size ?? 24,
-            onPressed: action,
-          ),
-      },
-    );
-  }
-
   Widget _defaultBuildDrawer(
     BuildContext context,
     int selectedIndex,
-    void Function(int index) onDestinationSelected,
+    void Function(int index) setPage,
   ) {
     final theme = Theme.of(context);
     return Drawer(
@@ -538,7 +525,7 @@ class AutoAdaptiveRouterScaffoldState
               title: Text(destination.title),
               selected:
                   widget.destinations.indexOf(destination) == selectedIndex,
-              onTap: () => onDestinationSelected(
+              onTap: () => setPage(
                 widget.destinations.indexOf(destination),
               ),
               style: ListTileStyle.drawer,
@@ -555,11 +542,11 @@ class AutoAdaptiveRouterScaffoldState
     BuildContext context,
     int selectedIndex,
     List<RouterDestination> bottomDestinations,
-    void Function(int index) onDestinationSelected,
+    void Function(int index) setPage,
   ) {
     return NavigationBar(
       selectedIndex: selectedIndex,
-      onDestinationSelected: onDestinationSelected,
+      onDestinationSelected: setPage,
       destinations: [
         for (final destination in bottomDestinations)
           NavigationDestination(
@@ -572,12 +559,14 @@ class AutoAdaptiveRouterScaffoldState
 
   TabBar _defaultTabBarBuilder(
     BuildContext context,
-    void Function(int index) onDestinationSelected,
+    TabController controller,
+    void Function(int index) setPage,
   ) {
     return TabBar(
-      onTap: onDestinationSelected,
+      onTap: setPage,
       isScrollable: widget.isTabBarScrollable,
       tabAlignment: widget.tabAlignment,
+      controller: controller,
       tabs: <Tab>[
         for (final destination in widget.destinations)
           Tab(child: Text(destination.title)),
@@ -614,13 +603,6 @@ class AutoAdaptiveRouterScaffoldState
   }
 }
 
-void _onDestinationSelected(TabsRouter tabsRouter, int index) {
-  if (tabsRouter.activeIndex == index) {
-    tabsRouter.innerRouterOf(tabsRouter.current.name)?.popTop();
-  }
-  tabsRouter.setActiveIndex(index);
-}
-
 /// The navigation mechanism to configure the [Scaffold] with.
 enum NavigationType {
   /// Used to configure a [Scaffold] with a [NavigationBar].
@@ -643,12 +625,12 @@ class RouterDestination {
   const RouterDestination({
     required this.title,
     required this.icon,
-    required this.route,
+    required this.navigatorKey,
   });
 
   final String title;
   final IconData icon;
-  final PageRouteInfo<void> route;
+  final GlobalKey<NavigatorState> navigatorKey;
 }
 
 NavigationType defaultNavigationTypeResolver(BuildContext context) {
@@ -666,29 +648,30 @@ bool defaultIsLargeScreen(BuildContext context) =>
 bool defaultIsMediumScreen(BuildContext context) =>
     getWindowType(context) == AdaptiveWindowType.medium;
 
-class AppObserver extends AutoRouteObserver {
+class AppObserver extends NavigatorObserver {
   final log = Logger('AppObserver');
+
   @override
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
-    log.info('New route pushed: ${route.settings.name}');
+    log.warning(
+        'New route pushed: ${route.settings.name}, previous: ${previousRoute?.settings.name}');
   }
 
   @override
   void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
-    log.info(
-        'Route popped: ${route.settings.name}, new route: ${previousRoute?.settings.name}');
-  }
-
-  // only override to observer tab routes
-  @override
-  void didInitTabRoute(TabPageRoute route, TabPageRoute? previousRoute) {
-    log.info(
-        'Tab route visited: ${route.name}, previous route: ${previousRoute?.name}');
+    log.warning(
+        'Route popped: ${route.settings.name}, previous: ${previousRoute?.settings.name}');
   }
 
   @override
-  void didChangeTabRoute(TabPageRoute route, TabPageRoute previousRoute) {
-    log.info(
-        'Tab route re-visited: ${route.name}, previous route: ${previousRoute.name}');
+  void didRemove(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    log.warning(
+        'Route removed: ${route.settings.name}, previous: ${previousRoute?.settings.name}');
+  }
+
+  @override
+  void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
+    log.warning(
+        'Route replaced: ${newRoute?.settings.name}, previous: ${oldRoute?.settings.name}');
   }
 }

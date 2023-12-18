@@ -37,4 +37,11 @@ class SettingsService extends _$SettingsService {
     state = newSettings;
     _settingsRepository.saveSettings(newSettings);
   }
+
+  void toggleConfirmExit() {
+    final confirmExit = state.confirmExit;
+    final newSettings = state.copyWith(confirmExit: !confirmExit);
+    state = newSettings;
+    _settingsRepository.saveSettings(newSettings);
+  }
 }
