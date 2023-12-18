@@ -3,13 +3,13 @@
 *The generated index file is pretty barebones, but it gets the job done*
 
 It's common for Flutter apps to include a web demo for the `main` branch hosted on Github Pages, but this can also be done for every branch in your repo.
-This involes three workflow files, one to deploy the Flutter web app, one to generate an index file, and one to cleanup for deleted branches.
+This involes three workflow files, one to deploy the Flutter web app, one to generate an index file, and one to cleanup deleted branches.
 
 * Demo: [getboolean.github.io/flutter_boolean_template](https://getboolean.github.io/flutter_boolean_template)
 
 ## Prerequisites
 
-This GitHub Pages setup requires the `#` url path strategy, so ensure it is not disabled for your web builds intended for GitHub Pages.
+This GitHub Pages setup requires the `#` url path strategy, so ensure it is not disabled for your web builds deployed to GitHub Pages.
 If it is disabled, the Navigator 2.0 subroutes will prevent GitHub Pages from resolving the correct app when refreshed.
 
 ## Workflow 1 - Deploy Flutter Web Branch Previews
@@ -70,7 +70,8 @@ on:
   push:
 ```
 
-Once you've done the above, enable GitHub Pages for your repository and you can view your app at `gh_pages_url` + `branch_name`. However we aren't done yet, we still need to cleanup for deleted branches and create an index file to link to each branch preview.
+Once you've done the above, enable GitHub Pages for your repository and you can view your app at `gh_pages_url` + `branch_name`.
+However we aren't done yet, we still need to do cleanup for deleted branches and create an index file to link to each branch preview.
 
 ![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/2ve8aiv937gv97npgqwe.png)
 
@@ -78,6 +79,7 @@ Once you've done the above, enable GitHub Pages for your repository and you can 
 
 This workflow file should be added to your `.github/workflows` directory. It will create
 a `README.md` file in the `gh-pages` branch that links to each branch preview deployed to GitHub Pages.
+This workflow *must* be added to the `gh-pages` branch, otherwise it will not run.
 
 ```yaml
 name: gh_pages_readme
