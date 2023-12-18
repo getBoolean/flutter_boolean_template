@@ -1,0 +1,35 @@
+# CI to generate an README.md file for GitHub Pages for each branch's subfolder in the gh-pages branch
+
+name: gh_pages_readme
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "gh-pages"
+
+jobs:
+  gh_pages_readme:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: gh-pages
+        # Delete README.md
+      - name: Delete README.md
+        run: rm -f README.md
+        # get list of branches and generate links to each branch's subfolder in the README.md file
+      - name: Generate README.md
+        run: |
+          echo "# Flutter Branch Web Previews" >> README.md
+          echo "" >> README.md
+          git branch -r | grep -v '\->' | grep -v 'origin/gh-pages' | while read remote; do git branch --track "${remote#origin/}" "$remote"; done
+          for branch in `git branch -r | grep -v '\->' | grep -v 'origin/gh-pages'`; do echo "- [${branch#origin/}](./${branch#origin/}/)" >> README.md; done
+      - name: Commit and push if changed
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email <>
+          git add README.md
+          git diff-index --quiet HEAD || git commit -m 'Update README.md'
+          git push
