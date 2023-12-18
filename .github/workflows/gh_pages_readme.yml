@@ -24,8 +24,11 @@ jobs:
         run: |
           echo "## Flutter Branch Web Previews" >> README.md
           echo "" >> README.md
-          git branch -r | grep -v '\->' | grep -v 'origin/gh-pages' | while read remote; do git branch --track "${remote#origin/}" "$remote"; done
-          for branch in `git branch -r | grep -v '\->' | grep -v 'origin/gh-pages'`; do echo "- [${branch#origin/}](./${branch#origin/}/)" >> README.md; done
+          git branch -r | grep -v '\->' | grep -v 'origin/gh-pages' | while read remote; do
+            if [ -d "${remote#origin/}" ]; then
+              echo "- [${remote#origin/}](./${remote#origin/}/)" >> README.md
+            fi
+          done
       - name: Commit and push if changed
         run: |
           git config --global user.name 'GitHub Actions'
