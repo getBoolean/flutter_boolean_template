@@ -23,6 +23,8 @@ class ResponsiveScaffold extends StatefulHookWidget {
     required this.title,
     required this.child,
     required this.goToIndex,
+    this.transitionDuration = const Duration(milliseconds: 300),
+    this.transitionReverseDuration = Duration.zero,
     this.floatingActionButton,
     this.floatingActionButtonLocation,
     this.floatingActionButtonAnimator,
@@ -184,6 +186,10 @@ class ResponsiveScaffold extends StatefulHookWidget {
   /// The [VerticalDivider] between the [Drawer]/[NavigationRail] and the body.
   final Widget? divider;
 
+  final Duration transitionDuration;
+
+  final Duration transitionReverseDuration;
+
   final Widget Function(BuildContext context)? leadingButtonBuilder;
 
   /// Custom builder for [NavigationType.top]'s [TabBar]
@@ -337,32 +343,42 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
         },
         body: Row(
           children: [
-            if (navigationType == NavigationType.permanentDrawer) ...[
-              ConstrainedScrollableChild(child: permanentDrawer),
-              widget.divider ??
-                  const VerticalDivider(
-                    width: 1,
-                    thickness: 1,
+            ConstrainedScrollableChild(
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  AnimatedSwitcher(
+                    duration: widget.transitionDuration,
+                    reverseDuration: widget.transitionReverseDuration,
+                    child: navigationType == NavigationType.permanentDrawer
+                        ? permanentDrawer
+                        : navigationType == NavigationType.rail
+                            ? navigationRail
+                            : null,
                   ),
-            ] else if (navigationType == NavigationType.rail) ...[
-              ConstrainedScrollableChild(child: navigationRail),
-              widget.divider ??
-                  const VerticalDivider(
-                    width: 1,
-                    thickness: 1,
-                  ),
-            ],
+                  widget.divider ??
+                      const VerticalDivider(
+                        width: 1,
+                        thickness: 1,
+                      ),
+                ],
+              ),
+            ),
             Expanded(child: widget.child),
           ],
         ),
       ),
       drawer: hasDrawer ? ConstrainedScrollableChild(child: drawer) : null,
       bottomNavigationBar: hasBottomNavigationBar ? bottomNavigationBar : null,
-      floatingActionButton: (widget.fabInRail &&
-              !(navigationType == NavigationType.bottom ||
-                  navigationType == NavigationType.drawer))
-          ? null
-          : widget.floatingActionButton,
+      floatingActionButton: AnimatedSwitcher(
+        duration: widget.transitionDuration,
+        reverseDuration: widget.transitionReverseDuration,
+        child: (widget.fabInRail &&
+                !(navigationType == NavigationType.bottom ||
+                    navigationType == NavigationType.drawer))
+            ? null
+            : widget.floatingActionButton,
+      ),
       floatingActionButtonLocation: widget.floatingActionButtonLocation,
       floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
       persistentFooterButtons: widget.persistentFooterButtons,
