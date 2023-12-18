@@ -1,4 +1,4 @@
-# CI to generate an index.md file for GitHub Pages for each branch's subfolder in the gh-pages branch
+# CI to generate an README.md file for GitHub Pages for each branch's subfolder in the gh-pages branch
 
 name: gh_pages_readme
 
