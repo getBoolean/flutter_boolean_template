@@ -3,6 +3,7 @@
 name: gh_pages_index
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - "gh-pages"
@@ -14,7 +15,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          branch: gh-pages
+          ref: gh-pages
         # Delete index.html
       - name: Delete index.html
         run: rm -f index.html
