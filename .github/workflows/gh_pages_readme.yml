@@ -32,7 +32,7 @@ jobs:
       - name: Commit and push if changed
         run: |
           git config --global user.name 'GitHub Actions'
-          git config --global user.email '<>'
+          git config --global user.email github-actions@github.com
           git add README.md
           git diff-index --quiet HEAD || git commit -m 'Update README.md'
           git push

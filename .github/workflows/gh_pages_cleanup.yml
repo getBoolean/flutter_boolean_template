@@ -20,7 +20,7 @@ jobs:
       - name: Remove deleted branch from gh-pages
         if: steps.branch-name.outputs.is_default == 'true'
         run: |
-          git config user.name github-actions
+          git config user.name "Github Actions"
           git config user.email github-actions@github.com
 
           BASE_REF=$(printf "%q" "${{ github.event.ref }}")
