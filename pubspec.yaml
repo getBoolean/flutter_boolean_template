@@ -52,6 +52,7 @@ dependencies:
       url: https://github.com/getBoolean/flutter_packages
       ref: feature/go_router_title_builder
       path: packages/go_router
+    version: 12.2.0
   awesome_flutter_extensions: ^1.2.0
   collection: ^1.18.0
 
