@@ -77,26 +77,10 @@ final router = GoRouter(
         GoRouterState state,
         StatefulNavigationShell navigationShell,
       ) {
-        // Calculating the title using the path since the title needs to be
-        // used by [ResponsiveScaffold]
-        // This might be able to be improved if using go_router_builder
-        final String title = switch (state.fullPath) {
-          '/books' => state.uri.queryParameters['id'] == null
-              ? 'Books'
-              : 'Book ${state.uri.queryParameters['id']}',
-          '/books/details-:id' => state.pathParameters['id'] == null
-              ? 'Book Details'
-              : 'Book ${state.pathParameters['id']}',
-          '/profile' => 'Profile',
-          '/profile/details' => 'Profile Details',
-          '/settings' => 'Settings',
-          '/settings/details' => 'Setting Details',
-          _ => 'Unknown',
-        };
         return RootScaffoldShell(
           navigationShell: navigationShell,
           destinations: destinations,
-          title: title,
+          title: state.titleBuilder?.call(context) ?? 'No Title',
         );
       },
       branches: <StatefulShellBranch>[
@@ -120,6 +104,9 @@ StatefulShellBranch _buildSettingsBranch(RouterDestination destination) {
         // The screen to display as the root in the third tab of the
         // bottom navigation bar.
         path: '/settings',
+        titleBuilder: (BuildContext context, GoRouterState state) {
+          return 'Settings';
+        },
         builder: (BuildContext context, GoRouterState state) =>
             const SettingsRootScreen(
           key: ValueKey('SETTINGS'),
@@ -127,6 +114,9 @@ StatefulShellBranch _buildSettingsBranch(RouterDestination destination) {
         routes: <RouteBase>[
           GoRoute(
             path: 'details',
+            titleBuilder: (BuildContext context, GoRouterState state) {
+              return 'Setting Details';
+            },
             builder: (BuildContext context, GoRouterState state) =>
                 const SettingDetailsRootScreen(),
           ),
@@ -146,6 +136,9 @@ StatefulShellBranch _buildProfileBranch(RouterDestination destination) {
       GoRoute(
         name: kProfileRouteName,
         path: '/profile',
+        titleBuilder: (BuildContext context, GoRouterState state) {
+          return 'Profile';
+        },
         builder: (BuildContext context, GoRouterState state) =>
             const ProfileRootScreen(
           key: ValueKey('PROFILE'),
@@ -153,6 +146,9 @@ StatefulShellBranch _buildProfileBranch(RouterDestination destination) {
         routes: <RouteBase>[
           GoRoute(
             path: 'details',
+            titleBuilder: (BuildContext context, GoRouterState state) {
+              return 'Profile Details';
+            },
             builder: (BuildContext context, GoRouterState state) =>
                 const ProfileDetailsRootScreen(),
           ),
@@ -172,6 +168,9 @@ StatefulShellBranch _buildBooksBranch(RouterDestination destination) {
       GoRoute(
         name: kBooksRouteName,
         path: '/books',
+        titleBuilder: (BuildContext context, GoRouterState state) {
+          return 'Books';
+        },
         builder: (BuildContext context, GoRouterState state) {
           // only root routes should use query parameters because
           // popping a route will not change the query parameters to the previous route's
@@ -199,6 +198,10 @@ StatefulShellBranch _buildBooksBranch(RouterDestination destination) {
           GoRoute(
             name: 'Book Details',
             path: 'details-:id',
+            titleBuilder: (BuildContext context, GoRouterState state) {
+              final id = state.pathParameters['id'];
+              return 'Book $id';
+            },
             builder: (BuildContext context, GoRouterState state) {
               final id = state.pathParameters['id'];
               return BookDetailsRootScreen(id: id);
