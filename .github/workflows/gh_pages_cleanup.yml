@@ -38,5 +38,6 @@ jobs:
       - name: Push changes
         uses: ad-m/github-push-action@v0.8.0
         with:
+          # PAT required to trigger gh_pages_readme.yml workflow
           github_token: ${{ secrets.PAT }}
           branch: gh-pages

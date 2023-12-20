@@ -430,6 +430,7 @@ jobs:
       - name: Deploy to GitHub Pages 🚀
         uses: JamesIves/github-pages-deploy-action@releases/v4
         with:
+          # PAT required to trigger gh_pages_readme.yml workflow
           token: ${{ secrets.PAT }}
           branch: gh-pages # The branch the action should deploy to.
           folder: build/web # The folder the action should deploy.
