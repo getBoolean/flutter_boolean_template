@@ -14,6 +14,8 @@ jobs:
         with:
           lfs: true
           ref: gh-pages
+          persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
+          fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository.
       - name: Get branch name
         id: branch-name
         uses: tj-actions/branch-names@v8
@@ -26,7 +28,15 @@ jobs:
           BASE_REF=$(printf "%q" "${{ github.event.ref }}")
           BASE_REF=${BASE_REF/refs\/heads\/}
 
-          echo "Deleting folder: $BASE_REF"
-          git rm -rf $BASE_REF
-          git commit -m "Remove deleted branch"
-          git push
+          if test -d "$BASE_REF"; then
+            echo "Deleting folder: $BASE_REF"
+            git rm -rf "$BASE_REF"
+            git commit -m "Remove deleted branch"
+          else
+            echo "Folder $BASE_REF does not exist"
+          fi
+      - name: Push changes
+        uses: ad-m/github-push-action@v0.8.0
+        with:
+          github_token: ${{ secrets.PAT }}
+          branch: gh-pages
