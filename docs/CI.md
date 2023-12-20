@@ -124,7 +124,7 @@ jobs:
           git push
 ```
 
-![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/0x3jkcnuxfp4eacb7m8e.png)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ucawwqbq4dnt25ffm8hl.png)
 
 *The generated index file is pretty barebones, but it gets the job done.*
 
