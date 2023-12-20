@@ -1,8 +1,6 @@
 ![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/icn9uo2knig43ifys7in.png)
 
-*The generated index file is pretty barebones, but it gets the job done*
-
-It's common for Flutter apps to include a web demo for the `main` branch hosted on Github Pages, but this can also be done for every branch in your repo. This allows any branch to be previewed and makes reviewing Pull Requests much more convenient with a live preview available.
+It's common for Flutter apps to include a web demo for the `main` branch hosted on Github Pages, but this can also be done for every branch in your repo. This allows any branch to be previewed and makes reviewing Pull Requests much more convenient with a live preview available. I previously used a slightly different version of this for a Godot 3 team project and all the team members really appreciated the web previews when doing code review.
 
 This involves three workflow files: deploying the Flutter Web app, generating an index file, and cleaning up deleted branches.
 
@@ -10,7 +8,7 @@ This involves three workflow files: deploying the Flutter Web app, generating an
 
 ## Prerequisites
 
-This GitHub Pages setup requires the Flutter `#/HashUrlStrategy` URL strategy, so ensure it is not disabled for your web builds deployed to GitHub Pages. If it is disabled, the Navigator 2.0 subroutes will prevent GitHub Pages from resolving the correct app when refreshed. (You might want to use a --dart-define environment variable for this)
+This GitHub Pages setup requires the Flutter `#/HashUrlStrategy` URL strategy, so ensure it is not disabled for your web builds deployed to GitHub Pages. If it is disabled, the Navigator 2.0 subroutes will prevent GitHub Pages from resolving the correct app when refreshed. (You might want to use a `--dart-define` environment variable for this)
 
 ## Workflow 1 - Deploy Flutter Web Branch Previews
 
@@ -22,6 +20,9 @@ name: Deploy Branch Previews
 # Can also be restricted by branches if you choose.
 on:
   push:
+    branches:
+      - '**'
+      - '!gh-pages'
 
 # Write permissions need to be enabled for the workflow to write to GitHub Pages.
 permissions:
@@ -57,7 +58,7 @@ jobs:
           target-folder: "${{ steps.branch-name.outputs.current_branch }}"
 ```
 
-Finally, enable read and write permissions for GitHub Actions and enable GitHub Pages for your repository. Your app should now be viewable at URL `gh_pages_url/` + `branch_name`.
+Finally, enable read and write permissions for GitHub Actions and enable GitHub Pages for your repository, see the below images for the settings. Your app should now be viewable at URL `gh_pages_url/` + `branch_name`.
 
 (We aren't done yet, we still need to clean up deleted branches and create an index file to link to each branch preview.)
 
@@ -69,6 +70,8 @@ Finally, enable read and write permissions for GitHub Actions and enable GitHub 
 
 This workflow file should be added to your `.github/workflows` directory. It will create a `README.md` file in the `gh-pages` branch that links to each branch preview deployed to GitHub Pages.
 This workflow *must* be pushed to the `gh-pages` branch, otherwise it will not run.
+
+*The generated index file is pretty barebones, but it gets the job done*
 
 ```yaml
 name: gh_pages_readme
@@ -146,5 +149,3 @@ jobs:
           git commit -m "Remove deleted branch $BASE_REF"
           git push
 ```
-
-Thanks for reading, hope it helps. I previously used an older version of this process for a Godot project, so most of this should be reusable in other languages/frameworks.
