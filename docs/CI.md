@@ -1,10 +1,10 @@
-![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/icn9uo2knig43ifys7in.png)
+# Flutter Web Branch Previews: Deploying Each Branch to GitHub Pages
 
 It's common for Flutter apps to include a web demo for the `main` branch hosted on Github Pages, but this can also be done for every branch in your repo. This allows any branch to be previewed and makes reviewing Pull Requests much more convenient with a live preview available. I previously used a slightly different version of this for a Godot 3 team project and all the team members really appreciated the web branch previews when doing code review.
 
 This involves three workflow files: deploying the Flutter Web app, generating an index file, and cleaning up deleted branches.
 
-* Live Demo: [getboolean.github.io/flutter_boolean_template](https://getboolean.github.io/flutter_boolean_template)
+* Live Demo: [getboolean.github.io/flutter_deploy_branch_demo](https://getboolean.github.io/flutter_deploy_branch_demo)
 
 ## Prerequisites
 
@@ -81,7 +81,7 @@ jobs:
 
 ![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/k5zd8ga3axhrb5txz70b.png)
 
-![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/2ve8aiv937gv97npgqwe.png)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/72uu08bz39lhfd54t9ha.png)
 
 ## Workflow 2 - Generating the Index File
 
@@ -124,7 +124,7 @@ jobs:
           git push
 ```
 
-![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ucawwqbq4dnt25ffm8hl.png)
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/9vdw2ljmgtwpgia1nlff.png)
 
 *The generated index file is pretty barebones, but it gets the job done.*
 
