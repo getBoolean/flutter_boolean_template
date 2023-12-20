@@ -65,9 +65,19 @@ I highly recommend reading the article. Each `layer` has its own folder per feat
 Flutter Web is deployed to GitHub Pages in a separate subfolder for each branch. The `main` branch is deployed to
 [getboolean.github.io/flutter_boolean_template](https://getboolean.github.io/flutter_boolean_template).
 
-- Currently Navigator 2.0 routes do not play well with this setup. Sub-paths break GitHub Page's ability to find which
-  branch application to use, they must be removed from the URL before a refresh. Consider using only path parameters
-  instead of sub-paths if this functionality is important.
+- This GitHub Pages setup requires the Flutter `#` from [HashUrlStrategy](https://api.flutter.dev/flutter/package-flutter_web_plugins_url_strategy/HashUrlStrategy-class.html), so ensure it is not disabled for your Flutter Web CI builds deployed to GitHub Pages. If it is disabled, the Navigator 2.0 subroutes will prevent GitHub Pages from resolving the correct app when refreshed.
+
+For example, in the CI workflow using the argument `--dart-define ENABLE_HASH_URL_STRATEGY=true`
+
+```dart
+void main() {
+  final useHashUrlStrategy = Platform.environment['ENABLE_HASH_URL_STRATEGY'] ?? false;
+  if (!useHashUrlStrategy) {
+    setUrlStrategy();
+  }
+  runApp(MyApp());
+}
+```
 
 ## Template: Getting Started
 
