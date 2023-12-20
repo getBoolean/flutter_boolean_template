@@ -2,12 +2,8 @@ name: CI
 on:
   push:
     branches:
-      - main
-      - release/**
-      - feature/**
-      - fix/**
-      - chore/**
-      - dependabot/**
+      - '**'
+      - '!gh-pages'
 
 env:
   FLUTTER_CHANNEL: "stable"
