@@ -10,7 +10,7 @@ export 'router_extensions.dart';
 
 // Source: https://codewithandrea.com/articles/flutter-bottom-navigation-bar-nested-routes-gorouter-beamer/
 
-final GlobalKey<NavigatorState> rootNavigatorKey =
+final GlobalKey<NavigatorState> _rootNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'root');
 final _shellNavigatorBooksKey =
     GlobalKey<NavigatorState>(debugLabel: 'shellBooks');
@@ -34,7 +34,7 @@ final routerProvider = Provider<GoRouter>((ref) {
   return createRouter(log: log);
 });
 
-final destinations = [
+final _destinations = [
   RouterDestination(
     title: 'Books',
     icon: Icons.book,
@@ -58,14 +58,14 @@ GoRouter createRouter({required Logger log}) {
     // * https://github.com/flutter/flutter/issues/113757#issuecomment-1518421380
     // * However it's still necessary otherwise the navigator pops back to
     // * root on hot reload
-    navigatorKey: rootNavigatorKey,
+    navigatorKey: _rootNavigatorKey,
     initialLocation: '/books',
     observers: [
       AppObserver(),
     ],
     routes: <RouteBase>[
       StatefulShellRoute(
-        parentNavigatorKey: rootNavigatorKey,
+        parentNavigatorKey: _rootNavigatorKey,
         navigatorContainerBuilder: (
           BuildContext context,
           StatefulNavigationShell navigationShell,
@@ -85,14 +85,14 @@ GoRouter createRouter({required Logger log}) {
         ) {
           return RootScaffoldShell(
             navigationShell: navigationShell,
-            destinations: destinations,
+            destinations: _destinations,
             title: state.titleBuilder(context) ?? 'No Title',
           );
         },
         branches: <StatefulShellBranch>[
-          _buildBooksBranch(destinations[0]),
-          _buildProfileBranch(destinations[1]),
-          _buildSettingsBranch(destinations[2]),
+          _buildBooksBranch(_destinations[0]),
+          _buildProfileBranch(_destinations[1]),
+          _buildSettingsBranch(_destinations[2]),
         ],
       ),
     ],
