@@ -29,9 +29,9 @@ enum RouteName {
 }
 
 final routerProvider = Provider<GoRouter>((ref) {
-  final _ = ref.watch(logProvider('routerProvider'));
+  final log = ref.watch(logProvider('routerProvider'));
 
-  return router;
+  return createRouter(log: log);
 });
 
 final destinations = [
@@ -52,50 +52,52 @@ final destinations = [
   ),
 ];
 
-final router = GoRouter(
-  // * Passing a navigatorKey causes an issue on hot reload:
-  // * https://github.com/flutter/flutter/issues/113757#issuecomment-1518421380
-  // * However it's still necessary otherwise the navigator pops back to
-  // * root on hot reload
-  navigatorKey: rootNavigatorKey,
-  initialLocation: '/books',
-  observers: [
-    AppObserver(),
-  ],
-  routes: <RouteBase>[
-    StatefulShellRoute(
-      parentNavigatorKey: rootNavigatorKey,
-      navigatorContainerBuilder: (
-        BuildContext context,
-        StatefulNavigationShell navigationShell,
-        List<Widget> children,
-      ) {
-        return ImplicitlyAnimatedPageSwitcher(
-          currentIndex: navigationShell.currentIndex,
-          duration: const Duration(milliseconds: 150),
-          animatePageTransition: true,
-          children: children,
-        );
-      },
-      builder: (
-        BuildContext context,
-        GoRouterState state,
-        StatefulNavigationShell navigationShell,
-      ) {
-        return RootScaffoldShell(
-          navigationShell: navigationShell,
-          destinations: destinations,
-          title: state.titleBuilder(context) ?? 'No Title',
-        );
-      },
-      branches: <StatefulShellBranch>[
-        _buildBooksBranch(destinations[0]),
-        _buildProfileBranch(destinations[1]),
-        _buildSettingsBranch(destinations[2]),
-      ],
-    ),
-  ],
-);
+GoRouter createRouter({required Logger log}) {
+  return GoRouter(
+    // * Passing a navigatorKey causes an issue on hot reload:
+    // * https://github.com/flutter/flutter/issues/113757#issuecomment-1518421380
+    // * However it's still necessary otherwise the navigator pops back to
+    // * root on hot reload
+    navigatorKey: rootNavigatorKey,
+    initialLocation: '/books',
+    observers: [
+      AppObserver(),
+    ],
+    routes: <RouteBase>[
+      StatefulShellRoute(
+        parentNavigatorKey: rootNavigatorKey,
+        navigatorContainerBuilder: (
+          BuildContext context,
+          StatefulNavigationShell navigationShell,
+          List<Widget> children,
+        ) {
+          return ImplicitlyAnimatedPageSwitcher(
+            currentIndex: navigationShell.currentIndex,
+            duration: const Duration(milliseconds: 150),
+            animatePageTransition: true,
+            children: children,
+          );
+        },
+        builder: (
+          BuildContext context,
+          GoRouterState state,
+          StatefulNavigationShell navigationShell,
+        ) {
+          return RootScaffoldShell(
+            navigationShell: navigationShell,
+            destinations: destinations,
+            title: state.titleBuilder(context) ?? 'No Title',
+          );
+        },
+        branches: <StatefulShellBranch>[
+          _buildBooksBranch(destinations[0]),
+          _buildProfileBranch(destinations[1]),
+          _buildSettingsBranch(destinations[2]),
+        ],
+      ),
+    ],
+  );
+}
 
 StatefulShellBranch _buildSettingsBranch(RouterDestination destination) {
   return StatefulShellBranch(
