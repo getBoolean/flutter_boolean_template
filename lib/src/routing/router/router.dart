@@ -19,12 +19,14 @@ final _shellNavigatorProfileKey =
 final _shellNavigatorSettingsKey =
     GlobalKey<NavigatorState>(debugLabel: 'shellSettings');
 
-const kBooksRouteName = 'books';
-const kBookDetailsRouteName = 'bookDetails';
-const kProfileRouteName = 'profile';
-const kProfileDetailsRouteName = 'profileDetails';
-const kSettingsRouteName = 'settings';
-const kSettingDetailsRouteName = 'settingDetails';
+enum RouteName {
+  books,
+  bookDetails,
+  profile,
+  profileDetails,
+  settings,
+  settingDetails;
+}
 
 final routerProvider = Provider<GoRouter>((ref) {
   final _ = ref.watch(logProvider('routerProvider'));
@@ -103,7 +105,7 @@ StatefulShellBranch _buildSettingsBranch(RouterDestination destination) {
     navigatorKey: destination.navigatorKey,
     routes: <RouteBase>[
       GoRoute(
-        name: kSettingsRouteName,
+        name: RouteName.settings.name,
         // The screen to display as the root in the third tab of the
         // bottom navigation bar.
         path: '/settings',
@@ -113,7 +115,7 @@ StatefulShellBranch _buildSettingsBranch(RouterDestination destination) {
         ),
         routes: <RouteBase>[
           GoRoute(
-            name: kSettingDetailsRouteName,
+            name: RouteName.settingDetails.name,
             path: 'details',
             builder: (BuildContext context, GoRouterState state) =>
                 const SettingDetailsRootScreen(),
@@ -132,7 +134,7 @@ StatefulShellBranch _buildProfileBranch(RouterDestination destination) {
     navigatorKey: destination.navigatorKey,
     routes: <RouteBase>[
       GoRoute(
-        name: kProfileRouteName,
+        name: RouteName.profile.name,
         path: '/profile',
         builder: (BuildContext context, GoRouterState state) =>
             const ProfileRootScreen(
@@ -140,7 +142,7 @@ StatefulShellBranch _buildProfileBranch(RouterDestination destination) {
         ),
         routes: <RouteBase>[
           GoRoute(
-            name: kProfileDetailsRouteName,
+            name: RouteName.profileDetails.name,
             path: 'details',
             builder: (BuildContext context, GoRouterState state) =>
                 const ProfileDetailsRootScreen(),
@@ -159,7 +161,7 @@ StatefulShellBranch _buildBooksBranch(RouterDestination destination) {
     ],
     routes: <RouteBase>[
       GoRoute(
-        name: kBooksRouteName,
+        name: RouteName.books.name,
         path: '/books',
         builder: (BuildContext context, GoRouterState state) {
           // only root routes should use query parameters because
@@ -186,7 +188,7 @@ StatefulShellBranch _buildBooksBranch(RouterDestination destination) {
         },
         routes: <RouteBase>[
           GoRoute(
-            name: kBookDetailsRouteName,
+            name: RouteName.bookDetails.name,
             path: 'details-:id',
             builder: (BuildContext context, GoRouterState state) {
               final id = state.pathParameters['id'];
@@ -201,21 +203,15 @@ StatefulShellBranch _buildBooksBranch(RouterDestination destination) {
 
 extension GoRouterStateTitleBuilder on GoRouterState {
   String? titleBuilder(BuildContext context) {
-    switch (topRoute?.name) {
-      case kBooksRouteName:
-        return 'Books';
-      case kBookDetailsRouteName:
-        final id = pathParameters['id'];
-        return 'Book $id';
-      case kProfileRouteName:
-        return 'Profile';
-      case kProfileDetailsRouteName:
-        return 'Profile Details';
-      case kSettingsRouteName:
-        return 'Settings';
-      case kSettingDetailsRouteName:
-        return 'Setting Details';
-    }
-    return null;
+    final routeName = topRoute?.name;
+    if (routeName == null) return null;
+    return switch (RouteName.values.byName(routeName)) {
+      RouteName.books => 'Books',
+      RouteName.bookDetails => 'Book ${pathParameters['id']}',
+      RouteName.profile => 'Profile',
+      RouteName.profileDetails => 'Profile Details',
+      RouteName.settings => 'Settings',
+      RouteName.settingDetails => 'Setting Details',
+    };
   }
 }
