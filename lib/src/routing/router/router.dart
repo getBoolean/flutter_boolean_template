@@ -20,8 +20,11 @@ final _shellNavigatorSettingsKey =
     GlobalKey<NavigatorState>(debugLabel: 'shellSettings');
 
 const kBooksRouteName = 'books';
+const kBookDetailsRouteName = 'bookDetails';
 const kProfileRouteName = 'profile';
+const kProfileDetailsRouteName = 'profileDetails';
 const kSettingsRouteName = 'settings';
+const kSettingDetailsRouteName = 'settingDetails';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final _ = ref.watch(logProvider('routerProvider'));
@@ -80,7 +83,7 @@ final router = GoRouter(
         return RootScaffoldShell(
           navigationShell: navigationShell,
           destinations: destinations,
-          title: state.titleBuilder?.call(context) ?? 'No Title',
+          title: state.titleBuilder(context) ?? 'No Title',
         );
       },
       branches: <StatefulShellBranch>[
@@ -104,19 +107,14 @@ StatefulShellBranch _buildSettingsBranch(RouterDestination destination) {
         // The screen to display as the root in the third tab of the
         // bottom navigation bar.
         path: '/settings',
-        titleBuilder: (BuildContext context, GoRouterState state) {
-          return 'Settings';
-        },
         builder: (BuildContext context, GoRouterState state) =>
             const SettingsRootScreen(
           key: ValueKey('SETTINGS'),
         ),
         routes: <RouteBase>[
           GoRoute(
+            name: kSettingDetailsRouteName,
             path: 'details',
-            titleBuilder: (BuildContext context, GoRouterState state) {
-              return 'Setting Details';
-            },
             builder: (BuildContext context, GoRouterState state) =>
                 const SettingDetailsRootScreen(),
           ),
@@ -136,19 +134,14 @@ StatefulShellBranch _buildProfileBranch(RouterDestination destination) {
       GoRoute(
         name: kProfileRouteName,
         path: '/profile',
-        titleBuilder: (BuildContext context, GoRouterState state) {
-          return 'Profile';
-        },
         builder: (BuildContext context, GoRouterState state) =>
             const ProfileRootScreen(
           key: ValueKey('PROFILE'),
         ),
         routes: <RouteBase>[
           GoRoute(
+            name: kProfileDetailsRouteName,
             path: 'details',
-            titleBuilder: (BuildContext context, GoRouterState state) {
-              return 'Profile Details';
-            },
             builder: (BuildContext context, GoRouterState state) =>
                 const ProfileDetailsRootScreen(),
           ),
@@ -168,9 +161,6 @@ StatefulShellBranch _buildBooksBranch(RouterDestination destination) {
       GoRoute(
         name: kBooksRouteName,
         path: '/books',
-        titleBuilder: (BuildContext context, GoRouterState state) {
-          return 'Books';
-        },
         builder: (BuildContext context, GoRouterState state) {
           // only root routes should use query parameters because
           // popping a route will not change the query parameters to the previous route's
@@ -196,12 +186,8 @@ StatefulShellBranch _buildBooksBranch(RouterDestination destination) {
         },
         routes: <RouteBase>[
           GoRoute(
-            name: 'Book Details',
+            name: kBookDetailsRouteName,
             path: 'details-:id',
-            titleBuilder: (BuildContext context, GoRouterState state) {
-              final id = state.pathParameters['id'];
-              return 'Book $id';
-            },
             builder: (BuildContext context, GoRouterState state) {
               final id = state.pathParameters['id'];
               return BookDetailsRootScreen(id: id);
@@ -211,4 +197,25 @@ StatefulShellBranch _buildBooksBranch(RouterDestination destination) {
       ),
     ],
   );
+}
+
+extension GoRouterStateTitleBuilder on GoRouterState {
+  String? titleBuilder(BuildContext context) {
+    switch (topRoute?.name) {
+      case kBooksRouteName:
+        return 'Books';
+      case kBookDetailsRouteName:
+        final id = pathParameters['id'];
+        return 'Book $id';
+      case kProfileRouteName:
+        return 'Profile';
+      case kProfileDetailsRouteName:
+        return 'Profile Details';
+      case kSettingsRouteName:
+        return 'Settings';
+      case kSettingDetailsRouteName:
+        return 'Setting Details';
+    }
+    return null;
+  }
 }

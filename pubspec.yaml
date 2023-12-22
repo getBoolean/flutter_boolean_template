@@ -50,7 +50,7 @@ dependencies:
   go_router:
     git:
       url: https://github.com/getBoolean/flutter_packages
-      ref: feature/go_router_title_builder
+      ref: feature/shellroute_top_route
       path: packages/go_router
   awesome_flutter_extensions: ^1.2.0
   collection: ^1.18.0
