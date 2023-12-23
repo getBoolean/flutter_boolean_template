@@ -653,25 +653,25 @@ class AppObserver extends NavigatorObserver {
 
   @override
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
-    log.warning(
+    log.info(
         'New route pushed: ${route.settings.name}, previous: ${previousRoute?.settings.name}');
   }
 
   @override
   void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
-    log.warning(
+    log.info(
         'Route popped: ${route.settings.name}, previous: ${previousRoute?.settings.name}');
   }
 
   @override
   void didRemove(Route<dynamic> route, Route<dynamic>? previousRoute) {
-    log.warning(
+    log.info(
         'Route removed: ${route.settings.name}, previous: ${previousRoute?.settings.name}');
   }
 
   @override
   void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
-    log.warning(
+    log.info(
         'Route replaced: ${newRoute?.settings.name}, previous: ${oldRoute?.settings.name}');
   }
 }
