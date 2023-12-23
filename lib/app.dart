@@ -95,12 +95,15 @@ class App extends ConsumerWidget {
       );
     });
 
-    final bannerEnabled = settings.bannerEnabled;
-    if (bannerEnabled) {
-      return FlavorBanner(
-        child: materialApp,
-      );
-    }
-    return materialApp;
+    return Stack(
+      alignment: Alignment.topRight,
+      children: [
+        materialApp,
+        if (settings.bannerEnabled)
+          const SafeArea(
+            child: FlavorBanner(),
+          ),
+      ],
+    );
   }
 }
