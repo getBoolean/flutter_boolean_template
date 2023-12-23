@@ -7,6 +7,7 @@ import 'package:flutter_boolean_template/utils/utils.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:log/log.dart';
 
 class RootScaffoldShell extends ConsumerStatefulWidget {
   const RootScaffoldShell({
@@ -31,55 +32,58 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
     final theme = Theme.of(context);
 
     final settings = ref.watch(settingsServiceProvider);
-    return SafeArea(
-      child: ResponsiveScaffold(
-        destinations: widget.destinations,
-        currentIndex: widget.navigationShell.currentIndex,
-        title: widget.title,
-        goToIndex: widget.navigationShell.goBranch,
-        navigationTypeResolver: $resolveNavigationType,
-        topBarStart: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32.0),
-          child: Text(
-            kAppName,
-            style: theme.textTheme.titleMedium?.merge(GoogleFonts.robotoMono()),
-          ),
-        ),
-        topBarEnd: Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: settings.isBannerShowing ? 60 : 4),
-          child: IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.search),
-          ),
-        ),
-        drawerHeader: Row(
-          children: [
-            Text(
+    return LoggerWidget(
+      child: SafeArea(
+        child: ResponsiveScaffold(
+          destinations: widget.destinations,
+          currentIndex: widget.navigationShell.currentIndex,
+          title: widget.title,
+          goToIndex: widget.navigationShell.goBranch,
+          navigationTypeResolver: $resolveNavigationType,
+          topBarStart: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32.0),
+            child: Text(
               kAppName,
               style:
                   theme.textTheme.titleMedium?.merge(GoogleFonts.robotoMono()),
             ),
-          ],
-        ),
-        drawerFooter: Row(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: OutlinedButton(
-                  onPressed: () {},
-                  child: const Text('Add'),
+          ),
+          topBarEnd: Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: settings.isBannerShowing ? 60 : 4),
+            child: IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.search),
+            ),
+          ),
+          drawerHeader: Row(
+            children: [
+              Text(
+                kAppName,
+                style: theme.textTheme.titleMedium
+                    ?.merge(GoogleFonts.robotoMono()),
+              ),
+            ],
+          ),
+          drawerFooter: Row(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: OutlinedButton(
+                    onPressed: () {},
+                    child: const Text('Add'),
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {},
+            child: const Icon(Icons.add),
+          ),
+          child: widget.navigationShell,
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          child: const Icon(Icons.add),
-        ),
-        child: widget.navigationShell,
       ),
     );
   }
