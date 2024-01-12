@@ -407,6 +407,9 @@ jobs:
 
   deploy_web:
     name: Deploy Flutter Web to GitHub Pages
+    permissions:
+      id-token: write
+    environment: github-pages
     runs-on: ubuntu-latest
     needs: [build_web]
     steps:
