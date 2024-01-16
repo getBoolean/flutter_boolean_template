@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
         with:
@@ -73,7 +73,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
         with:
@@ -124,7 +124,7 @@ jobs:
   #   runs-on: macos-latest
   #   steps:
   #     - name: Checkout repository
-  #       uses: actions/checkout@v3
+  #       uses: actions/checkout@v4
   #       # From github documentation
   #     - name: Install the Apple certificate, provisioning profile, and Firebase google services
   #       env:
@@ -189,7 +189,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
         with:
@@ -243,7 +243,7 @@ jobs:
       - name: Enable Git Long Paths
         run: git config --system core.longpaths true
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
         with:
@@ -287,7 +287,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
         with:
@@ -329,7 +329,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
         with:
@@ -368,7 +368,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
         with:
@@ -411,7 +411,7 @@ jobs:
     needs: [build_web]
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           token: ${{ secrets.PAT }}
       - name: Install and set Flutter version
