@@ -412,6 +412,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.PAT }}
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
         with:
