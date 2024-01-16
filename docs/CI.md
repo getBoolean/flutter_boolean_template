@@ -97,7 +97,6 @@ This workflow requires the other two workflow files to use a [Personal Access To
 name: gh_pages_readme
 
 on:
-  workflow_dispatch:
   push:
     branches:
       - "gh-pages"
@@ -183,3 +182,5 @@ jobs:
           github_token: ${{ secrets.PAT }}
           branch: gh-pages
 ```
+
+Thanks for reading, hope it helps. I previously used an older version of this process for a Godot project, so most of this should be reusable in other languages/frameworks.
