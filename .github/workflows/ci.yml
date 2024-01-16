@@ -408,7 +408,7 @@ jobs:
   deploy_web:
     name: Deploy Flutter Web to GitHub Pages
     runs-on: ubuntu-latest
-    needs: [build_web]
+    environment: ci
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
