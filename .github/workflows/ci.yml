@@ -244,6 +244,7 @@ jobs:
         run: |
           flutter pub get
           flutter build appbundle --release --dart-define FLAVOR=dev
+          cd build/app/outputs/bundle/release
           mv app-release.aab flutter_boolean_template-${{ github.ref_name }}-android-appbundle.aab
       - name: Upload Appbundle
         uses: actions/upload-artifact@v3
