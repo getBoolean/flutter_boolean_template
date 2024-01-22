@@ -1,6 +1,7 @@
 # flutter_boolean_template <!-- omit in toc -->
 
-[![Codecov](https://img.shields.io/codecov/c/github/getBoolean/flutter_boolean_template)](https://app.codecov.io/gh/getBoolean/flutter_boolean_template)
+[![latest release](https://img.shields.io/github/release/getBoolean/flutter_boolean_template.svg?maxAge=3600&label=download)](https://github.com/getBoolean/flutter_boolean_template/releases)
+[![coverage](https://img.shields.io/codecov/c/github/getBoolean/flutter_boolean_template)](https://app.codecov.io/gh/getBoolean/flutter_boolean_template)
 
 An opinionated starting point for a Flutter app intended to provide the boilerplate
 needed to create a large app and provides utilities to separate code generation into
