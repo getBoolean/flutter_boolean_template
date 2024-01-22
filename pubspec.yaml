@@ -57,7 +57,7 @@ dependencies:
 
 dev_dependencies:
   flutter_lints: ^3.0.1
-  custom_lint: ^0.5.7
+  custom_lint: ^0.5.8
   riverpod_lint: ^2.1.1
   riverpod_generator: ^2.3.9
   build_runner: ^2.4.8
