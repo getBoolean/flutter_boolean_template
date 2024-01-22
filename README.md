@@ -1,5 +1,7 @@
 # flutter_boolean_template <!-- omit in toc -->
 
+![Codecov](https://img.shields.io/codecov/c/github/getBoolean/flutter_boolean_template)
+
 An opinionated starting point for a Flutter app intended to provide the boilerplate
 needed to create a large app and provides utilities to separate code generation into
 separate packages.
