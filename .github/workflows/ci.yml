@@ -116,6 +116,7 @@ jobs:
       - name: Upload IPA
         uses: actions/upload-artifact@v3
         with:
+          name: flutter_boolean_template-${{ github.ref_name }}-ios
           path: build/ios/iphoneos/flutter_boolean_template-*.ipa
 
   # build_ios_with_signing:
@@ -217,7 +218,7 @@ jobs:
       - name: Bootstrap Melos
         run: melos bootstrap
 
-      - name: Build Android Split Apk and Appbundle
+      - name: Build Android Split Apk
         run: |
           flutter pub get
           flutter build apk --release --split-per-abi --dart-define FLAVOR=dev
@@ -228,6 +229,7 @@ jobs:
       - name: Upload Split APKs
         uses: actions/upload-artifact@v3
         with:
+          name: flutter_boolean_template-${{ github.ref_name }}-android-split
           path: build/app/outputs/flutter-apk/flutter_boolean_template-*.apk
       - name: Build Universal Apk
         run: |
@@ -238,7 +240,7 @@ jobs:
       - name: Upload Universal APK
         uses: actions/upload-artifact@v3
         with:
-          name: android_apk
+          name: flutter_boolean_template-${{ github.ref_name }}-android-universal
           path: build/app/outputs/flutter-apk/flutter_boolean_template-${{ github.ref_name }}-android-universal.apk
       - name: Build AppBundle
         run: |
@@ -249,6 +251,7 @@ jobs:
       - name: Upload Appbundle
         uses: actions/upload-artifact@v3
         with:
+          name: flutter_boolean_template-${{ github.ref_name }}-android-appbundle
           path: build/app/outputs/bundle/release/*.aab
 
   build_windows:
@@ -296,7 +299,7 @@ jobs:
       - name: Upload MSIX
         uses: actions/upload-artifact@v3
         with:
-          name: windows_release
+          name: flutter_boolean_template-${{ github.ref_name }}-windows
           path: build/windows/runner/Release/*.msix
 
   build_linux:
@@ -386,6 +389,7 @@ jobs:
       - name: Upload DMG
         uses: actions/upload-artifact@v3
         with:
+          name: flutter_boolean_template-${{ github.ref_name }}-macos
           path: "/Users/runner/work/flutter_boolean_template/flutter_boolean_template/*.dmg"
   build_web:
     name: Build Flutter for Web
@@ -427,7 +431,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: web
+          name: flutter_boolean_template-${{ github.ref_name }}-web
           path: build/web
 
   deploy_web:
