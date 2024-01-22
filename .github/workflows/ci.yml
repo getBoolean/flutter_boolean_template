@@ -340,9 +340,25 @@ jobs:
         run: melos bootstrap
 
       - name: Build Linux
-        run: |
-          flutter pub get
+        run: |  
+          sudo apt install -y libfuse2
+          
+          curl -JOL https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
+          chmod a+x appimagetool-x86_64.AppImage
+          mv appimagetool-x86_64.AppImage appimagetool
+
           flutter build linux --release --dart-define FLAVOR=dev
+          
+          mv build/linux/x64/release/bundle/{flutter_boolean_template,AppRun}
+          cp linux/appimage/* build/linux/x64/release/bundle/
+          ./appimagetool build/linux/x64/release/bundle/
+          mv *.AppImage build/flutter_boolean_template-${{ github.ref_name }}-linux.AppImage
+
+      - name: Upload AppImage
+        uses: actions/upload-artifact@v3
+        with:
+          name: flutter_boolean_template-${{ github.ref_name }}-linux-appimage
+          path: build/flutter_boolean_template-*.AppImage
 
   build_macos:
     name: Build Flutter for MacOS
