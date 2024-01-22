@@ -376,9 +376,16 @@ jobs:
 
       - name: Build MacOS
         run: |
+          git config --global core.longpaths true
           flutter pub get
           flutter build macos --release --dart-define FLAVOR=dev
-
+          brew install create-dmg 
+          create-dmg --volname flutter_boolean_template-${{ github.ref_name }}-macos --window-pos 200 120 --window-size 800 450 --icon-size 100 --app-drop-link 600 185 flutter_boolean_template-${{ github.ref_name }}-macos.dmg build/macos/Build/Products/Release/flutter_boolean_template.app
+      
+      - name: Upload DMG
+        uses: actions/upload-artifact@v3
+        with:
+          path: "/Users/runner/work/flutter_boolean_template/flutter_boolean_template/*.dmg"
   build_web:
     name: Build Flutter for Web
     needs: [flutter_test]
