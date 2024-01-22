@@ -409,11 +409,11 @@ jobs:
     name: Deploy Flutter Web to GitHub Pages
     runs-on: ubuntu-latest
     environment: ci
-    if: github.actor != 'dependabot[bot]'
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
       - name: Install and set Flutter version
+        if: github.actor != 'dependabot[bot]'
         uses: subosito/flutter-action@v2
         with:
           channel: ${{env.FLUTTER_CHANNEL}}
@@ -423,12 +423,15 @@ jobs:
           cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:"
       - name: Get branch name
         id: branch-name
+        if: github.actor != 'dependabot[bot]'
         uses: tj-actions/branch-names@v8
       - name: Build Web
+        if: github.actor != 'dependabot[bot]'
         run: |
           flutter pub get
           flutter build web --dart-define FLAVOR=staging --release --web-renderer=canvaskit --base-href="/${{ github.event.repository.name }}/${{ steps.branch-name.outputs.current_branch }}/"
       - name: Deploy to GitHub Pages 🚀
+        if: github.actor != 'dependabot[bot]'
         uses: JamesIves/github-pages-deploy-action@releases/v4
         with:
           # PAT required to trigger gh_pages_readme.yml workflow
