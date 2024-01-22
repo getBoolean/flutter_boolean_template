@@ -409,6 +409,7 @@ jobs:
     name: Deploy Flutter Web to GitHub Pages
     runs-on: ubuntu-latest
     environment: ci
+    if: github.actor == 'dependabot[bot]'
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
