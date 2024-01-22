@@ -296,6 +296,8 @@ jobs:
         run: |
           flutter pub get
           flutter build windows --dart-define FLAVOR=dev "&" dart run msix:create --build-windows false
+          cd build\windows\x64\runner\Release
+          mv flutter_boolean_template.msix flutter_boolean_template-${{ github.ref_name }}-windows.msix
       - name: Upload MSIX
         uses: actions/upload-artifact@v3
         with:
