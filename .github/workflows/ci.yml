@@ -112,11 +112,11 @@ jobs:
           ln -s ../Runner.app
           cd ..
           zip -r app-release.ipa Payload
+          mv app-release.ipa flutter_boolean_template-${{ github.ref_name }}-ios.ipa
       - name: Upload IPA
         uses: actions/upload-artifact@v3
         with:
-          name: ios_ipa
-          path: build/ios/iphoneos/app-release.ipa
+          path: build/ios/iphoneos/flutter_boolean_template-*.ipa
 
   # build_ios_with_signing:
   #   name: Build Flutter for iOS (Signed)
@@ -177,11 +177,11 @@ jobs:
   #         ln -s ../Runner.app
   #         cd ..
   #         zip -r app.ipa Payload
+  #.        mv app-release.ipa flutter_boolean_template-${{ github.ref_name }}-ios.ipa
   #     - name: Upload IPA
   #       uses: actions/upload-artifact@v3
   #       with:
-  #         name: ios_ipa
-  #         path: build/ios/iphoneos/
+  #         path: build/ios/iphoneos/flutter_boolean_template-*.ipa
 
   build_android:
     name: Build Flutter for Android
@@ -217,20 +217,37 @@ jobs:
       - name: Bootstrap Melos
         run: melos bootstrap
 
-      - name: Build Android APK and Appbundle
+      - name: Build Android Split Apk and Appbundle
+        run: |
+          flutter pub get
+          flutter build apk --release --split-per-abi --dart-define FLAVOR=dev
+          cd build/app/outputs/flutter-apk
+          mv app-arm64-v8a-release.apk flutter_boolean_template-${{ github.ref_name }}-android-arm64-v8a.apk
+          mv app-armeabi-v7a-release.apk flutter_boolean_template-${{ github.ref_name }}-android-armeabi-v7a.apk
+          mv app-x86_64-release.apk flutter_boolean_template-${{ github.ref_name }}-android-x86_64.apk
+      - name: Upload Split APKs
+        uses: actions/upload-artifact@v3
+        with:
+          path: build/app/outputs/flutter-apk/flutter_boolean_template-*.apk
+      - name: Build Universal Apk
         run: |
           flutter pub get
           flutter build apk --release --dart-define FLAVOR=dev
-          flutter build appbundle --release --dart-define FLAVOR=dev
-      - name: Upload APK
+          cd build/app/outputs/flutter-apk
+          mv app-release.apk flutter_boolean_template-${{ github.ref_name }}-android-universal.apk
+      - name: Upload Universal APK
         uses: actions/upload-artifact@v3
         with:
           name: android_apk
-          path: build/app/outputs/flutter-apk/*.apk
+          path: build/app/outputs/flutter-apk/flutter_boolean_template-${{ github.ref_name }}-android-universal.apk
+      - name: Build AppBundle
+        run: |
+          flutter pub get
+          flutter build appbundle --release --dart-define FLAVOR=dev
+          mv app-release.aab flutter_boolean_template-${{ github.ref_name }}-android-appbundle.aab
       - name: Upload Appbundle
         uses: actions/upload-artifact@v3
         with:
-          name: android_appbundle
           path: build/app/outputs/bundle/release/*.aab
 
   build_windows:
