@@ -39,7 +39,7 @@ jobs:
           echo "IS_TAG=$is_tag"
 
           flavor=""
-          if [ "${is_tag}" = "true"]; then
+          if [ "$is_tag" = "true"]; then
             flavor="prod"
           elif [ -z "${{ github.event.inputs.flavor }}" ]; then
             flavor="dev"
