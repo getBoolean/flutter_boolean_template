@@ -49,9 +49,7 @@ jobs:
 
       - name: Print FLAVOR
         run: |
-          echo "Current Flavor: $FLAVOR"
           echo "Current Flavor: ${{ env.FLAVOR }}"
-          echo "IS_TAG=$IS_TAG"
           echo "IS_TAG=${{ env.IS_TAG }}"
 
       - name: Install and set Flutter version
