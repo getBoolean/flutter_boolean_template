@@ -60,7 +60,7 @@ jobs:
 
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
-        if: github.event.inputs.run_tests == 'true'
+        if: github.event.inputs.run_tests == true
         with:
           channel: ${{env.FLUTTER_CHANNEL}}
           flutter-version: ${{env.FLUTTER_VERSION}}
@@ -70,7 +70,7 @@ jobs:
           architecture: x64
 
       - name: Check Flutter Version
-        if: github.event.inputs.run_tests == 'true'
+        if: github.event.inputs.run_tests == true
         run: flutter --version
 
       # Make environment variables available to the melos generate script.
