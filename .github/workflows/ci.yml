@@ -422,7 +422,7 @@ jobs:
           # }
 
           # "FLAVOR=$flavor" | Out-File -Append -LiteralPath $Env:GITHUB_ENV
-          Write-Output "FLAVOR=$flavor"
+          # Write-Output "FLAVOR=$flavor"
         shell: pwsh
 
         
