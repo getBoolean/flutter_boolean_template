@@ -36,6 +36,10 @@ jobs:
           cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:"
           architecture: x64
 
+      - name: Check Inputs
+        run: |
+          echo "Inputs: ${{ github.event.inputs }}"
+
       - name: Check Flutter Version
         run: flutter --version
 
