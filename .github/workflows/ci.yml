@@ -5,6 +5,10 @@ on:
       flavor:
         default: "dev"
         required: false
+      skip_tests:
+        default: false
+        required: false
+        type: boolean
   push:
     branches:
       - '**'
@@ -56,6 +60,7 @@ jobs:
 
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
+        if: !github.event.inputs.skip_tests
         with:
           channel: ${{env.FLUTTER_CHANNEL}}
           flutter-version: ${{env.FLUTTER_VERSION}}
@@ -65,6 +70,7 @@ jobs:
           architecture: x64
 
       - name: Check Flutter Version
+        if: !github.event.inputs.skip_tests
         run: flutter --version
 
       # Make environment variables available to the melos generate script.
@@ -72,23 +78,29 @@ jobs:
       # The environment variables need to be defined in the repository secrets
       - name: Load Environment Variables
         uses: oNaiPs/secrets-to-env-action@v1.2
+        if: !github.event.inputs.skip_tests
         with:
           secrets: ${{ toJSON(secrets) }}
 
       - name: Activate Melos
+        if: !github.event.inputs.skip_tests
         run: dart pub global activate melos ^3.4.0
 
       - name: Bootstrap Melos
+        if: !github.event.inputs.skip_tests
         run: melos bootstrap
 
       # Comment out this task if you don't want to enforce formatting.
       - name: Verify Formatting
+        if: !github.event.inputs.skip_tests
         run: melos run verify_format
 
       - name: Run Dart Analyzer
+        if: !github.event.inputs.skip_tests
         run: melos run analyze
 
       - name: Run Custom Lints
+        if: !github.event.inputs.skip_tests
         run: melos run custom_lint
 
       # Project needs to have tests in test/ and a dependency on
@@ -97,9 +109,11 @@ jobs:
       # Each package in the packages/ directory should have its own
       # test/ directory with tests for that package.
       - name: Run Tests
+        if: !github.event.inputs.skip_tests
         run: melos run test
 
       - name: Upload Coverage to Codecov
+        if: github.event_name == 'push' && !startsWith(github.event.ref, 'refs/tags/v')
         uses: codecov/codecov-action@v3.1.0
         with:
           files: "**/*/lcov.info"
