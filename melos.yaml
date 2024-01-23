@@ -62,7 +62,7 @@ scripts:
     description: Run `dart analyze` on all packages.
 
   custom_lint:
-    run: melos run lint:pkg --no-select
+    run: melos run custom_lint:pkg --no-select
     description: Run `dart run custom_lint` in all packages with custom lints.
 
   custom_lint:pkg:
