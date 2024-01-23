@@ -421,7 +421,7 @@ jobs:
           #     $flavor = "${{ github.event.inputs.flavor }}"
           # }
 
-          "FLAVOR=$flavor" | Out-File -Append -LiteralPath $Env:GITHUB_ENV
+          # "FLAVOR=$flavor" | Out-File -Append -LiteralPath $Env:GITHUB_ENV
           Write-Output "FLAVOR=$flavor"
         shell: pwsh
 
