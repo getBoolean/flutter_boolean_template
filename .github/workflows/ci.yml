@@ -34,17 +34,12 @@ jobs:
         run: |
           echo "Inputs: ${{ toJSON(github.event.inputs) }}"
 
-          is_tag_string=${{ github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v') }}
-          is_tag=false
-          if [ "$is_tag_string" = "true" ]; then
-            is_tag=true
-          fi
-
+          is_tag=${{ github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v') }}
           echo "IS_TAG=$is_tag" >> $GITHUB_ENV
           echo "IS_TAG=$is_tag"
 
           flavor=""
-          if $is_tag; then
+          if [ "${is_tag}" = "true"]; then
             flavor="prod"
           elif [ -z "${{ github.event.inputs.flavor }}" ]; then
             flavor="dev"
@@ -288,7 +283,7 @@ jobs:
           path: build/app/outputs/flutter-apk/flutter_boolean_template-*.apk
 
       - name: Release Split Apks
-        if: env.IS_TAG
+        if: env.IS_TAG == 'true'
         uses: ncipollo/release-action@v1
         with:
           artifacts: build/app/outputs/flutter-apk/flutter_boolean_template-*.apk
@@ -308,7 +303,7 @@ jobs:
           path: build/app/outputs/flutter-apk/flutter_boolean_template-${{ github.ref_name }}-android-universal.apk
 
       - name: Release Universal Apks
-        if: env.IS_TAG
+        if: env.IS_TAG == 'true'
         uses: ncipollo/release-action@v1
         with:
           artifacts: build/app/outputs/flutter-apk/flutter_boolean_template-${{ github.ref_name }}-android-universal.apk
@@ -328,7 +323,7 @@ jobs:
           path: build/app/outputs/bundle/release/*.aab
           
       - name: Release Appbundle
-        if: env.IS_TAG
+        if: env.IS_TAG == 'true'
         uses: ncipollo/release-action@v1
         with:
           artifacts: build/app/outputs/bundle/release/flutter_boolean_template-*.aab
@@ -387,7 +382,7 @@ jobs:
           path: build/windows/x64/runner/Release/*.msix
           
       - name: Release MSIX
-        if: env.IS_TAG
+        if: env.IS_TAG == 'true'
         uses: ncipollo/release-action@v1
         with:
           artifacts: build/windows/x64/runner/Release/flutter_boolean_template-*.msix
@@ -453,7 +448,7 @@ jobs:
           path: build/flutter_boolean_template-*.AppImage
           
       - name: Release AppImage
-        if: env.IS_TAG
+        if: env.IS_TAG == 'true'
         uses: ncipollo/release-action@v1
         with:
           artifacts: build/flutter_boolean_template-*.AppImage
@@ -511,7 +506,7 @@ jobs:
           path: "/Users/runner/work/flutter_boolean_template/flutter_boolean_template/*.dmg"
           
       - name: Release DMG
-        if: env.IS_TAG
+        if: env.IS_TAG == 'true'
         uses: ncipollo/release-action@v1
         with:
           artifacts: /Users/runner/work/flutter_boolean_template/flutter_boolean_template/flutter_boolean_template-*.dmg
