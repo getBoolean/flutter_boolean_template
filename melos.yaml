@@ -45,9 +45,13 @@ scripts:
     packageFilters:
       dependsOn: flutter
 
+  lint:
+    run: melos run analyze && melos run custom_lint
+    description: Run `melos run analyze` and `melos run custom_lint` in all packages.
+
   # which use different versions of `path`.
   analyze:
-    run: melos run analyze:pkg --no-select && melos run custom_lint
+    run: melos run analyze:pkg --no-select
     description: Run `dart analyze` in all packages.
 
   analyze:pkg:
@@ -58,7 +62,7 @@ scripts:
     description: Run `dart analyze` on all packages.
 
   custom_lint:
-    run: melos run custom_lint:pkg --no-select
+    run: melos run lint:pkg --no-select
     description: Run `dart run custom_lint` in all packages with custom lints.
 
   custom_lint:pkg:

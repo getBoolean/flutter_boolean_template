@@ -262,7 +262,9 @@ Code Generation:
 
 Tests:
 
+- `melos run lint` - Run dart analyzer and custom lints in all packages.
 - `melos run analyze` - Run `dart analyze` in all packages.
+- `melos run custom_lint` - Run `dart run custom_lint` in all packages.
 - `melos run test` - Run all Flutter tests.
 - `melos run format` - Run `dart format` in all packages.
 - `melos run fix` - Run `dart fix --apply` in all packages.

@@ -51,8 +51,11 @@ jobs:
       - name: Verify Formatting
         run: melos run verify_format
 
-      - name: Analyze
+      - name: Run Dart Analyzer
         run: melos run analyze
+
+      - name: Run Custom Lints
+        run: melos run custom_lint
 
       # Project needs to have tests in test/ and a dependency on
       # package:flutter_test for this step to succeed.
