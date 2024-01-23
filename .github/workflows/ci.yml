@@ -409,9 +409,6 @@ jobs:
 
       - name: Set Variables
         run: |
-          Write-Output "Inputs: ${{ toJSON(github.event.inputs) }}"
-
-          # GitHub Actions expressions are evaluated before the script runs
           $is_tag = ${{ github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v') }}
           $flavor = ""
           if ($is_tag) {
@@ -424,7 +421,6 @@ jobs:
               $flavor = "${{ github.event.inputs.flavor }}"
           }
 
-          # Setting environment variable and outputting
           "FLAVOR=$flavor" | Out-File -Append -LiteralPath $Env:GITHUB_ENV
           Write-Output "FLAVOR=$flavor"
         shell: pwsh
