@@ -33,6 +33,10 @@ jobs:
       - name: Set Variables
         run: |
           echo "Inputs: ${{ toJSON(github.event.inputs) }}"
+
+          echo "IS_TAG=${{ github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v') }}" >> $GITHUB_ENV
+          echo "IS_TAG=$IS_TAG"
+          
           flavor=""
           if [ ${{ env.IS_TAG }} ]; then
             flavor="prod"
@@ -43,9 +47,6 @@ jobs:
           fi
           echo "FLAVOR=$flavor" >> $GITHUB_ENV
           echo "FLAVOR=$flavor"
-
-          echo "IS_TAG=${{ github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v') }}" >> $GITHUB_ENV
-          echo "IS_TAG=$IS_TAG"
 
       - name: Print Variables
         run: |
