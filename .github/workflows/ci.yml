@@ -15,8 +15,8 @@ on:
 env:
   FLUTTER_CHANNEL: "stable"
   FLUTTER_VERSION: "any"
-  IS_TAG:
-  FLAVOR:
+  IS_TAG: ""
+  FLAVOR: ""
 
 # Needed to deploy to GitHub Pages
 permissions:
@@ -351,7 +351,7 @@ jobs:
           path: build/app/outputs/flutter-apk/flutter_boolean_template-*.apk
 
       - name: Release Split Apks
-        if: env.IS_TAG == 'true'
+        if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
         uses: ncipollo/release-action@v1
         with:
           artifacts: build/app/outputs/flutter-apk/flutter_boolean_template-*.apk
@@ -371,7 +371,7 @@ jobs:
           path: build/app/outputs/flutter-apk/flutter_boolean_template-${{ github.ref_name }}-android-universal.apk
 
       - name: Release Universal Apks
-        if: env.IS_TAG == 'true'
+        if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
         uses: ncipollo/release-action@v1
         with:
           artifacts: build/app/outputs/flutter-apk/flutter_boolean_template-${{ github.ref_name }}-android-universal.apk
@@ -391,7 +391,7 @@ jobs:
           path: build/app/outputs/bundle/release/*.aab
           
       - name: Release Appbundle
-        if: env.IS_TAG == 'true'
+        if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
         uses: ncipollo/release-action@v1
         with:
           artifacts: build/app/outputs/bundle/release/flutter_boolean_template-*.aab
@@ -408,27 +408,6 @@ jobs:
         run: git config --system core.longpaths true
       - name: Checkout Repository
         uses: actions/checkout@v4
-
-      - name: Set Variables
-        run: |
-          echo "Inputs: ${{ toJSON(github.event.inputs) }}"
-
-          is_tag_string=${{ github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v') }}
-          is_tag=false
-          if [ "$is_tag_string" = "true" ]; then
-            is_tag=true
-          fi
-
-          flavor=""
-          if $is_tag; then
-            flavor="prod"
-          elif [ -z "${{ github.event.inputs.flavor }}" ]; then
-            flavor="dev"
-          else
-            flavor="${{ github.event.inputs.flavor }}"
-          fi
-          echo "FLAVOR=$flavor" >> $GITHUB_ENV
-          echo "FLAVOR=$flavor"
 
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
@@ -472,7 +451,7 @@ jobs:
           path: build/windows/x64/runner/Release/*.msix
           
       - name: Release MSIX
-        if: env.IS_TAG == 'true'
+        if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
         uses: ncipollo/release-action@v1
         with:
           artifacts: build/windows/x64/runner/Release/flutter_boolean_template-*.msix
@@ -560,7 +539,7 @@ jobs:
           path: build/flutter_boolean_template-*.AppImage
           
       - name: Release AppImage
-        if: env.IS_TAG == 'true'
+        if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
         uses: ncipollo/release-action@v1
         with:
           artifacts: build/flutter_boolean_template-*.AppImage
@@ -640,7 +619,7 @@ jobs:
           path: "/Users/runner/work/flutter_boolean_template/flutter_boolean_template/*.dmg"
           
       - name: Release DMG
-        if: env.IS_TAG == 'true'
+        if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
         uses: ncipollo/release-action@v1
         with:
           artifacts: /Users/runner/work/flutter_boolean_template/flutter_boolean_template/flutter_boolean_template-*.dmg
