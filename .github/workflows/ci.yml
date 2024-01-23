@@ -410,16 +410,16 @@ jobs:
       - name: Set Variables
         run: |
           $is_tag = ${{ github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v') }}
-          $flavor = ""
-          if ($is_tag) {
-              $flavor = "prod"
-          }
+          $flavor = "dev"
+          # if ($is_tag) {
+          #     $flavor = "prod"
+          # }
           # elseif ([string]::IsNullOrEmpty("${{ github.event.inputs.flavor }}")) {
           #     $flavor = "dev"
           # }
-          else {
-              $flavor = "${{ github.event.inputs.flavor }}"
-          }
+          # else {
+          #     $flavor = "${{ github.event.inputs.flavor }}"
+          # }
 
           "FLAVOR=$flavor" | Out-File -Append -LiteralPath $Env:GITHUB_ENV
           Write-Output "FLAVOR=$flavor"
