@@ -34,12 +34,14 @@ jobs:
         run: |
           echo "Inputs: ${{ toJSON(github.event.inputs) }}"
 
-          is_tag=${{ github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v') }}
-          echo "IS_TAG=$is_tag" >> $GITHUB_ENV
-          echo "IS_TAG=$is_tag"
+          is_tag_string=${{ github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v') }}
+          is_tag=false
+          if [ "$is_tag_string" = "true" ]; then
+            is_tag=true
+          fi
 
           flavor=""
-          if [ "$is_tag" = "true"]; then
+          if $is_tag; then
             flavor="prod"
           elif [ -z "${{ github.event.inputs.flavor }}" ]; then
             flavor="dev"
