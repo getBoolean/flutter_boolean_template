@@ -113,6 +113,28 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+
+      - name: Set Variables
+        run: |
+          echo "Inputs: ${{ toJSON(github.event.inputs) }}"
+
+          is_tag_string=${{ github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v') }}
+          is_tag=false
+          if [ "$is_tag_string" = "true" ]; then
+            is_tag=true
+          fi
+
+          flavor=""
+          if $is_tag; then
+            flavor="prod"
+          elif [ -z "${{ github.event.inputs.flavor }}" ]; then
+            flavor="dev"
+          else
+            flavor="${{ github.event.inputs.flavor }}"
+          fi
+          echo "FLAVOR=$flavor" >> $GITHUB_ENV
+          echo "FLAVOR=$flavor"
+
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
         with:
@@ -172,6 +194,28 @@ jobs:
   #     - name: Checkout repository
   #       uses: actions/checkout@v4
   #       # From github documentation
+  # 
+  #     - name: Set Variables
+  #       run: |
+  #         echo "Inputs: ${{ toJSON(github.event.inputs) }}"
+  # 
+  #         is_tag_string=${{ github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v') }}
+  #         is_tag=false
+  #         if [ "$is_tag_string" = "true" ]; then
+  #           is_tag=true
+  #         fi
+  # 
+  #         flavor=""
+  #         if $is_tag; then
+  #           flavor="prod"
+  #         elif [ -z "${{ github.event.inputs.flavor }}" ]; then
+  #           flavor="dev"
+  #         else
+  #           flavor="${{ github.event.inputs.flavor }}"
+  #         fi
+  #         echo "FLAVOR=$flavor" >> $GITHUB_ENV
+  #         echo "FLAVOR=$flavor"
+  #
   #     - name: Install the Apple certificate, provisioning profile, and Firebase google services
   #       env:
   #         BUILD_CERTIFICATE_BASE64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
@@ -242,6 +286,28 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+
+      - name: Set Variables
+        run: |
+          echo "Inputs: ${{ toJSON(github.event.inputs) }}"
+
+          is_tag_string=${{ github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v') }}
+          is_tag=false
+          if [ "$is_tag_string" = "true" ]; then
+            is_tag=true
+          fi
+
+          flavor=""
+          if $is_tag; then
+            flavor="prod"
+          elif [ -z "${{ github.event.inputs.flavor }}" ]; then
+            flavor="dev"
+          else
+            flavor="${{ github.event.inputs.flavor }}"
+          fi
+          echo "FLAVOR=$flavor" >> $GITHUB_ENV
+          echo "FLAVOR=$flavor"
+
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
         with:
@@ -342,6 +408,28 @@ jobs:
         run: git config --system core.longpaths true
       - name: Checkout Repository
         uses: actions/checkout@v4
+
+      - name: Set Variables
+        run: |
+          echo "Inputs: ${{ toJSON(github.event.inputs) }}"
+
+          is_tag_string=${{ github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v') }}
+          is_tag=false
+          if [ "$is_tag_string" = "true" ]; then
+            is_tag=true
+          fi
+
+          flavor=""
+          if $is_tag; then
+            flavor="prod"
+          elif [ -z "${{ github.event.inputs.flavor }}" ]; then
+            flavor="dev"
+          else
+            flavor="${{ github.event.inputs.flavor }}"
+          fi
+          echo "FLAVOR=$flavor" >> $GITHUB_ENV
+          echo "FLAVOR=$flavor"
+
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
         with:
@@ -397,6 +485,28 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+
+      - name: Set Variables
+        run: |
+          echo "Inputs: ${{ toJSON(github.event.inputs) }}"
+
+          is_tag_string=${{ github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v') }}
+          is_tag=false
+          if [ "$is_tag_string" = "true" ]; then
+            is_tag=true
+          fi
+
+          flavor=""
+          if $is_tag; then
+            flavor="prod"
+          elif [ -z "${{ github.event.inputs.flavor }}" ]; then
+            flavor="dev"
+          else
+            flavor="${{ github.event.inputs.flavor }}"
+          fi
+          echo "FLAVOR=$flavor" >> $GITHUB_ENV
+          echo "FLAVOR=$flavor"
+
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
         with:
@@ -463,6 +573,28 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+
+      - name: Set Variables
+        run: |
+          echo "Inputs: ${{ toJSON(github.event.inputs) }}"
+
+          is_tag_string=${{ github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v') }}
+          is_tag=false
+          if [ "$is_tag_string" = "true" ]; then
+            is_tag=true
+          fi
+
+          flavor=""
+          if $is_tag; then
+            flavor="prod"
+          elif [ -z "${{ github.event.inputs.flavor }}" ]; then
+            flavor="dev"
+          else
+            flavor="${{ github.event.inputs.flavor }}"
+          fi
+          echo "FLAVOR=$flavor" >> $GITHUB_ENV
+          echo "FLAVOR=$flavor"
+
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
         with:
@@ -520,6 +652,28 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+
+      - name: Set Variables
+        run: |
+          echo "Inputs: ${{ toJSON(github.event.inputs) }}"
+
+          is_tag_string=${{ github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v') }}
+          is_tag=false
+          if [ "$is_tag_string" = "true" ]; then
+            is_tag=true
+          fi
+
+          flavor=""
+          if $is_tag; then
+            flavor="prod"
+          elif [ -z "${{ github.event.inputs.flavor }}" ]; then
+            flavor="dev"
+          else
+            flavor="${{ github.event.inputs.flavor }}"
+          fi
+          echo "FLAVOR=$flavor" >> $GITHUB_ENV
+          echo "FLAVOR=$flavor"
+
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
         with:
