@@ -396,20 +396,20 @@ jobs:
           artifacts: build/app/outputs/flutter-apk/flutter_boolean_template-${{ github.ref_name }}-android-universal.apk
           allowUpdates: true
 
-      - name: Build AppBundle
+      - name: Build Android App Bundle
         run: |
           flutter pub get
           flutter build appbundle --release --dart-define FLAVOR=${{ env.FLAVOR }}
           cd build/app/outputs/bundle/release
           mv app-release.aab flutter_boolean_template-${{ github.ref_name }}-android-appbundle.aab
 
-      - name: Upload Appbundle
+      - name: Upload Android App Bundle
         uses: actions/upload-artifact@v3
         with:
           name: flutter_boolean_template-${{ github.ref_name }}-android-appbundle
           path: build/app/outputs/bundle/release/*.aab
           
-      - name: Release Appbundle
+      - name: Release Android App Bundle
         if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
         uses: ncipollo/release-action@v1
         with:
