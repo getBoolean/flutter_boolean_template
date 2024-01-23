@@ -409,7 +409,7 @@ jobs:
 
       - name: Set Variables
         run: |
-          $is_tag = ${{ github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v') }}
+          # $is_tag = ${{ github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v') }}
           $flavor = "dev"
           # if ($is_tag) {
           #     $flavor = "prod"
