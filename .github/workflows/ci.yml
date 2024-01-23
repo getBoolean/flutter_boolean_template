@@ -413,12 +413,7 @@ jobs:
           Write-Output "Inputs: ${{ toJSON(github.event.inputs) }}"
 
           # GitHub Actions expressions are evaluated before the script runs
-          $is_tag_string = ${{ github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v') }}
-          $is_tag = $false
-          if ($is_tag_string -eq $true) {
-              $is_tag = $true
-          }
-
+          $is_tag = ${{ github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v') }}
           $flavor = ""
           if ($is_tag) {
               $flavor = "prod"
