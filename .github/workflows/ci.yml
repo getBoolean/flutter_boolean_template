@@ -48,6 +48,7 @@ jobs:
           else
             echo "FLAVOR=${{ github.event.inputs.flavor }}" >> $GITHUB_ENV
           fi
+          echo "FLAVOR=${{ env.FLAVOR }}"
 
       - name: Check Flutter Version
         run: flutter --version
