@@ -30,7 +30,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Set Environment Variables
+      - name: Set Variables
         run: |
           echo "Inputs: ${{ toJSON(github.event.inputs) }}"
           flavor=""
@@ -47,7 +47,7 @@ jobs:
           echo "IS_TAG=${{ github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v') }}" >> $GITHUB_ENV
           echo "IS_TAG=$IS_TAG"
 
-      - name: Print FLAVOR
+      - name: Print Variables
         run: |
           echo "Current Flavor: ${{ env.FLAVOR }}"
           echo "IS_TAG=${{ env.IS_TAG }}"
