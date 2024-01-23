@@ -31,7 +31,7 @@ jobs:
 
       - name: Check Inputs
         run: |
-          echo "Inputs: ${{ github.event.inputs }}"
+          echo "Inputs: ${{ toJSON(github.event.inputs) }}"
           flavor="${{ github.event.inputs.flavor }}"
           if [ ${{ env.IS_TAG }} ]; then
             flavor="prod"
