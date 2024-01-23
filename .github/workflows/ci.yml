@@ -354,7 +354,7 @@ jobs:
       - name: Bootstrap Melos
         run: melos bootstrap
 
-      - name: Build Android Split Apk
+      - name: Build Android Split APK
         run: |
           flutter pub get
           flutter build apk --release --split-per-abi --dart-define FLAVOR=${{ env.FLAVOR }}
@@ -369,14 +369,14 @@ jobs:
           name: flutter_boolean_template-${{ github.ref_name }}-android-split
           path: build/app/outputs/flutter-apk/flutter_boolean_template-*.apk
 
-      - name: Release Split Apks
+      - name: Release Split APKs
         if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
         uses: ncipollo/release-action@v1
         with:
           artifacts: build/app/outputs/flutter-apk/flutter_boolean_template-*.apk
           allowUpdates: true
 
-      - name: Build Universal Apk
+      - name: Build Universal APK
         run: |
           flutter pub get
           flutter build apk --release --dart-define FLAVOR=${{ env.FLAVOR }}
@@ -389,7 +389,7 @@ jobs:
           name: flutter_boolean_template-${{ github.ref_name }}-android-universal
           path: build/app/outputs/flutter-apk/flutter_boolean_template-${{ github.ref_name }}-android-universal.apk
 
-      - name: Release Universal Apks
+      - name: Release Universal APKs
         if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
         uses: ncipollo/release-action@v1
         with:
