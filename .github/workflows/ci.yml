@@ -4,6 +4,7 @@ on:
     inputs:
       flavor:
         default: "dev"
+        required: false
   push:
     branches:
       - '**'
@@ -32,14 +33,20 @@ jobs:
       - name: Check Inputs
         run: |
           echo "Inputs: ${{ toJSON(github.event.inputs) }}"
-          flavor="${{ github.event.inputs.flavor }}"
+          flavor=""
           if [ ${{ env.IS_TAG }} ]; then
             flavor="prod"
-          elif [ -z "$flavor" ]; then
+          elif [ -z "${{ github.event.inputs.flavor }}" ]; then
             flavor="dev"
+          else
+            flavor="${{ github.event.inputs.flavor }}"
           fi
           echo "FLAVOR=$flavor" >> $GITHUB_ENV
           echo "FLAVOR=$flavor"
+
+      - name: Print FLAVOR
+        run: |
+          echo "Current Flavor: $FLAVOR"
 
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
