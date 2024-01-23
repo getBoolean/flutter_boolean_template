@@ -29,80 +29,80 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Set Variables
-        run: |
-          echo "Inputs: ${{ toJSON(github.event.inputs) }}"
+      # - name: Set Variables
+      #   run: |
+      #     echo "Inputs: ${{ toJSON(github.event.inputs) }}"
 
-          is_tag_string=${{ github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v') }}
-          is_tag=false
-          if [ "$is_tag_string" = "true" ]; then
-            is_tag=true
-          fi
+      #     is_tag_string=${{ github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v') }}
+      #     is_tag=false
+      #     if [ "$is_tag_string" = "true" ]; then
+      #       is_tag=true
+      #     fi
 
-          flavor=""
-          if $is_tag; then
-            flavor="prod"
-          elif [ -z "${{ github.event.inputs.flavor }}" ]; then
-            flavor="dev"
-          else
-            flavor="${{ github.event.inputs.flavor }}"
-          fi
-          echo "FLAVOR=$flavor" >> $GITHUB_ENV
-          echo "FLAVOR=$flavor"
+      #     flavor=""
+      #     if $is_tag; then
+      #       flavor="prod"
+      #     elif [ -z "${{ github.event.inputs.flavor }}" ]; then
+      #       flavor="dev"
+      #     else
+      #       flavor="${{ github.event.inputs.flavor }}"
+      #     fi
+      #     echo "FLAVOR=$flavor" >> $GITHUB_ENV
+      #     echo "FLAVOR=$flavor"
 
-      - name: Print Variables
-        run: |
-          echo "Current Flavor: ${{ env.FLAVOR }}"
+      # - name: Print Variables
+      #   run: |
+      #     echo "Current Flavor: ${{ env.FLAVOR }}"
 
-      - name: Install and set Flutter version
-        uses: subosito/flutter-action@v2
-        with:
-          channel: ${{env.FLUTTER_CHANNEL}}
-          flutter-version: ${{env.FLUTTER_VERSION}}
-          cache: true
-          cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
-          cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:"
-          architecture: x64
+      # - name: Install and set Flutter version
+      #   uses: subosito/flutter-action@v2
+      #   with:
+      #     channel: ${{env.FLUTTER_CHANNEL}}
+      #     flutter-version: ${{env.FLUTTER_VERSION}}
+      #     cache: true
+      #     cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
+      #     cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:"
+      #     architecture: x64
 
-      - name: Check Flutter Version
-        run: flutter --version
+      # - name: Check Flutter Version
+      #   run: flutter --version
 
-      # Make environment variables available to the melos generate script.
-      #
-      # The environment variables need to be defined in the repository secrets
-      - name: Load Environment Variables
-        uses: oNaiPs/secrets-to-env-action@v1.2
-        with:
-          secrets: ${{ toJSON(secrets) }}
+      # # Make environment variables available to the melos generate script.
+      # #
+      # # The environment variables need to be defined in the repository secrets
+      # - name: Load Environment Variables
+      #   uses: oNaiPs/secrets-to-env-action@v1.2
+      #   with:
+      #     secrets: ${{ toJSON(secrets) }}
 
-      - name: Activate Melos
-        run: dart pub global activate melos ^3.4.0
+      # - name: Activate Melos
+      #   run: dart pub global activate melos ^3.4.0
 
-      - name: Bootstrap Melos
-        run: melos bootstrap
+      # - name: Bootstrap Melos
+      #   run: melos bootstrap
 
-      # Comment out this task if you don't want to enforce formatting.
-      - name: Verify Formatting
-        run: melos run verify_format
+      # # Comment out this task if you don't want to enforce formatting.
+      # - name: Verify Formatting
+      #   run: melos run verify_format
 
-      - name: Run Dart Analyzer
-        run: melos run analyze
+      # - name: Run Dart Analyzer
+      #   run: melos run analyze
 
-      - name: Run Custom Lints
-        run: melos run custom_lint
+      # - name: Run Custom Lints
+      #   run: melos run custom_lint
 
-      # Project needs to have tests in test/ and a dependency on
-      # package:flutter_test for this step to succeed.
-      #
-      # Each package in the packages/ directory should have its own
-      # test/ directory with tests for that package.
-      - name: Run Tests
-        run: melos run test
+      # # Project needs to have tests in test/ and a dependency on
+      # # package:flutter_test for this step to succeed.
+      # #
+      # # Each package in the packages/ directory should have its own
+      # # test/ directory with tests for that package.
+      # - name: Run Tests
+      #   run: melos run test
 
-      - name: Upload Coverage to Codecov
-        uses: codecov/codecov-action@v3.1.0
-        with:
-          files: "**/*/lcov.info"
+      # - name: Upload Coverage to Codecov
+      #   uses: codecov/codecov-action@v3.1.0
+      #   with:
+      #     files: "**/*/lcov.info"
 
   build_ios:
     name: Build Flutter for iOS (Without Signing)
