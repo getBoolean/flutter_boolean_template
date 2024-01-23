@@ -43,7 +43,7 @@ jobs:
           echo "Inputs: ${{ github.event.inputs }}"
           if [ -z "${{ github.event.inputs.flavor }}" ]; then
             echo "FLAVOR=dev" >> $GITHUB_ENV
-          else if [ ${{ env.IS_TAG }} ]; then
+          elif [ ${{ env.IS_TAG }} ]; then
             echo "FLAVOR=prod" >> $GITHUB_ENV
           else
             echo "FLAVOR=${{ github.event.inputs.flavor }}" >> $GITHUB_ENV
