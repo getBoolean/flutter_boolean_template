@@ -15,7 +15,7 @@ on:
 env:
   FLUTTER_CHANNEL: "stable"
   FLUTTER_VERSION: "any"
-  IS_TAG: ${{ github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v') }}
+  IS_TAG:
   FLAVOR:
 
 # Needed to deploy to GitHub Pages
@@ -30,7 +30,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Check Inputs
+      - name: Set Environment Variables
         run: |
           echo "Inputs: ${{ toJSON(github.event.inputs) }}"
           flavor=""
@@ -44,9 +44,15 @@ jobs:
           echo "FLAVOR=$flavor" >> $GITHUB_ENV
           echo "FLAVOR=$flavor"
 
+          echo "IS_TAG=${{ github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v') }}" >> $GITHUB_ENV
+          echo "IS_TAG=$IS_TAG"
+
       - name: Print FLAVOR
         run: |
           echo "Current Flavor: $FLAVOR"
+          echo "Current Flavor: ${{ env.FLAVOR }}"
+          echo "IS_TAG=$IS_TAG"
+          echo "IS_TAG=${{ env.IS_TAG }}"
 
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
