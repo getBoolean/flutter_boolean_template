@@ -409,7 +409,7 @@ jobs:
 
       - name: Set Variables
         run: |
-          echo "Inputs: ${{ toJSON(github.event.inputs) }}"
+          Write-Output "Inputs: ${{ toJSON(github.event.inputs) }}"
 
           # GitHub Actions expressions are evaluated before the script runs
           $is_tag = ${{ github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v') }}
@@ -425,12 +425,13 @@ jobs:
           }
 
           # Setting environment variable and outputting
-          echo "FLAVOR=$flavor" >> $Env:GITHUB_ENV
-          echo "FLAVOR=$flavor"
+          "FLAVOR=$flavor" | Out-File -Append -LiteralPath $Env:GITHUB_ENV
+          Write-Output "FLAVOR=$flavor"
+        shell: pwsh
         
       - name: Print Variables
         run: |
-          echo "Current Flavor: ${{ env.FLAVOR }}"
+          Write-Output "Current Flavor: ${{ env.FLAVOR }}"
 
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
