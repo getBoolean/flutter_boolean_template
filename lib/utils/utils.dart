@@ -125,23 +125,22 @@ DeviceType get _deviceTypeByUserAgent {
 
 NavigationType $resolveNavigationType(BuildContext context) {
   final (_, form, orientation) = $deviceDetails(context);
-  if (orientation == Orientation.portrait) {
-    return switch (form) {
-      DeviceForm.largeDesktop => NavigationType.top,
-      DeviceForm.desktop => NavigationType.top,
-      DeviceForm.tablet => NavigationType.top,
-      DeviceForm.largePhone => NavigationType.bottom,
-      DeviceForm.phone => NavigationType.bottom,
-    };
-  } else {
-    return switch (form) {
-      DeviceForm.largeDesktop => NavigationType.top,
-      DeviceForm.desktop => NavigationType.permanentDrawer,
-      DeviceForm.tablet => NavigationType.permanentDrawer,
-      DeviceForm.largePhone => NavigationType.rail,
-      DeviceForm.phone => NavigationType.drawer,
-    };
-  }
+  return switch (orientation) {
+    Orientation.portrait => switch (form) {
+        DeviceForm.largeDesktop => NavigationType.top,
+        DeviceForm.desktop => NavigationType.top,
+        DeviceForm.tablet => NavigationType.top,
+        DeviceForm.largePhone => NavigationType.bottom,
+        DeviceForm.phone => NavigationType.bottom,
+      },
+    Orientation.landscape => switch (form) {
+        DeviceForm.largeDesktop => NavigationType.top,
+        DeviceForm.desktop => NavigationType.top,
+        DeviceForm.tablet => NavigationType.permanentDrawer,
+        DeviceForm.largePhone => NavigationType.rail,
+        DeviceForm.phone => NavigationType.drawer,
+      },
+  };
 }
 
 extension ListSwap<T> on List<T> {
