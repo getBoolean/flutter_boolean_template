@@ -41,14 +41,16 @@ jobs:
       - name: Check Inputs
         run: |
           echo "Inputs: ${{ github.event.inputs }}"
-          if [ -z "${{ github.event.inputs.flavor }}" ]; then
-            echo "FLAVOR=dev" >> $GITHUB_ENV
+          flavor="${{ github.event.inputs.flavor }}"
+          if [ -z "$flavor" ]; then
+            flavor="dev"
           elif [ ${{ env.IS_TAG }} ]; then
-            echo "FLAVOR=prod" >> $GITHUB_ENV
+            flavor="prod"
           else
-            echo "FLAVOR=${{ github.event.inputs.flavor }}" >> $GITHUB_ENV
+            flavor="${{ github.event.inputs.flavor }}"
           fi
-          echo "FLAVOR=${{ env.FLAVOR }}"
+          echo "FLAVOR=$flavor" >> $GITHUB_ENV
+          echo "FLAVOR=$flavor"
 
       - name: Check Flutter Version
         run: flutter --version
