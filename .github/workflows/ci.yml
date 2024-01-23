@@ -3,9 +3,16 @@ on:
   workflow_dispatch:
     inputs:
       flavor:
+        type: choice
+        description: "Flavor"
         default: "dev"
         required: false
+        options:
+          - "dev"
+          - "staging"
+          - "prod"
       run_tests:
+        description: "Run tests"
         default: true
         required: false
         type: boolean
