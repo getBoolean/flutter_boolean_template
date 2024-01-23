@@ -14,6 +14,8 @@ on:
 env:
   FLUTTER_CHANNEL: "stable"
   FLUTTER_VERSION: "any"
+  IS_TAG: ${{ github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v') }}
+  FLAVOR:
 
 # Needed to deploy to GitHub Pages
 permissions:
@@ -39,6 +41,13 @@ jobs:
       - name: Check Inputs
         run: |
           echo "Inputs: ${{ github.event.inputs }}"
+          if [ -z "${{ github.event.inputs.flavor }}" ]; then
+            echo "FLAVOR=dev" >> $GITHUB_ENV
+          else if [ ${{ env.IS_TAG }} ]; then
+            echo "FLAVOR=prod" >> $GITHUB_ENV
+          else
+            echo "FLAVOR=${{ github.event.inputs.flavor }}" >> $GITHUB_ENV
+          fi
 
       - name: Check Flutter Version
         run: flutter --version
@@ -116,21 +125,9 @@ jobs:
 
       # Zip into IPA from here:
       # https://gist.github.com/devhammed/617d920b7ee886591a46c22633ab0093
-      - name: Build Flutter IPA for Tag
-        if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
+      - name: Build Flutter IPA
         run: |
-          flutter build ios --release --no-codesign --dart-define FLAVOR=prod
-          cd build/ios/iphoneos
-          mkdir Payload
-          cd Payload
-          ln -s ../Runner.app
-          cd ..
-          zip -r app-release.ipa Payload
-          mv app-release.ipa flutter_boolean_template-${{ github.ref_name }}-ios.ipa
-      - name: Build Flutter IPA for Branch
-        if: github.event_name != 'push' || !startsWith(github.event.ref, 'refs/tags/v')
-        run: |
-          flutter build ios --release --no-codesign --dart-define FLAVOR=${{ github.event.inputs.flavor }}
+          flutter build ios --release --no-codesign --dart-define FLAVOR=${{ env.FLAVOR }}
           cd build/ios/iphoneos
           mkdir Payload
           cd Payload
@@ -200,21 +197,9 @@ jobs:
   #     - run: flutter clean
   #     # Zip into IPA from here:
   #     # https://gist.github.com/devhammed/617d920b7ee886591a46c22633ab0093
-  #     - name: Build Flutter IPA for Tag
-  #       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
+  #     - name: Build Flutter IPA
   #       run: |
-  #         flutter build ios --release --no-codesign --dart-define FLAVOR=prod
-  #         cd build/ios/iphoneos
-  #         mkdir Payload
-  #         cd Payload
-  #         ln -s ../Runner.app
-  #         cd ..
-  #         zip -r app-release.ipa Payload
-  #         mv app-release.ipa flutter_boolean_template-${{ github.ref_name }}-ios.ipa
-  #     - name: Build Flutter IPA for Branch
-  #       if: github.event_name != 'push' || !startsWith(github.event.ref, 'refs/tags/v')
-  #       run: |
-  #         flutter build ios --release --no-codesign --dart-define FLAVOR=${{ github.event.inputs.flavor }}
+  #         flutter build ios --release --no-codesign --dart-define FLAVOR=${{ env.FLAVOR }}
   #         cd build/ios/iphoneos
   #         mkdir Payload
   #         cd Payload
@@ -267,21 +252,10 @@ jobs:
       - name: Bootstrap Melos
         run: melos bootstrap
 
-      - name: Build Android Split Apk for Tag
-        if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
+      - name: Build Android Split Apk
         run: |
           flutter pub get
-          flutter build apk --release --split-per-abi --dart-define FLAVOR=prod
-          cd build/app/outputs/flutter-apk
-          mv app-arm64-v8a-release.apk flutter_boolean_template-${{ github.ref_name }}-android-arm64-v8a.apk
-          mv app-armeabi-v7a-release.apk flutter_boolean_template-${{ github.ref_name }}-android-armeabi-v7a.apk
-          mv app-x86_64-release.apk flutter_boolean_template-${{ github.ref_name }}-android-x86_64.apk
-
-      - name: Build Android Split Apk for Branch
-        if: github.event_name != 'push' || !startsWith(github.event.ref, 'refs/tags/v')
-        run: |
-          flutter pub get
-          flutter build apk --release --split-per-abi --dart-define FLAVOR=${{ github.event.inputs.flavor }}
+          flutter build apk --release --split-per-abi --dart-define FLAVOR=${{ env.FLAVOR }}
           cd build/app/outputs/flutter-apk
           mv app-arm64-v8a-release.apk flutter_boolean_template-${{ github.ref_name }}-android-arm64-v8a.apk
           mv app-armeabi-v7a-release.apk flutter_boolean_template-${{ github.ref_name }}-android-armeabi-v7a.apk
@@ -294,25 +268,16 @@ jobs:
           path: build/app/outputs/flutter-apk/flutter_boolean_template-*.apk
 
       - name: Release Split Apks
-        if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
+        if: env.IS_TAG
         uses: ncipollo/release-action@v1
         with:
           artifacts: build/app/outputs/flutter-apk/flutter_boolean_template-*.apk
           allowUpdates: true
 
-      - name: Build Universal Apk for Tag
-        if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
+      - name: Build Universal Apk
         run: |
           flutter pub get
-          flutter build apk --release --dart-define FLAVOR=prod
-          cd build/app/outputs/flutter-apk
-          mv app-release.apk flutter_boolean_template-${{ github.ref_name }}-android-universal.apk
-
-      - name: Build Universal Apk for Branch
-        if: github.event_name != 'push' || !startsWith(github.event.ref, 'refs/tags/v')
-        run: |
-          flutter pub get
-          flutter build apk --release --dart-define FLAVOR=${{ github.event.inputs.flavor }}
+          flutter build apk --release --dart-define FLAVOR=${{ env.FLAVOR }}
           cd build/app/outputs/flutter-apk
           mv app-release.apk flutter_boolean_template-${{ github.ref_name }}-android-universal.apk
 
@@ -323,25 +288,16 @@ jobs:
           path: build/app/outputs/flutter-apk/flutter_boolean_template-${{ github.ref_name }}-android-universal.apk
 
       - name: Release Universal Apks
-        if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
+        if: env.IS_TAG
         uses: ncipollo/release-action@v1
         with:
           artifacts: build/app/outputs/flutter-apk/flutter_boolean_template-${{ github.ref_name }}-android-universal.apk
           allowUpdates: true
 
-      - name: Build AppBundle for Tag
-        if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
+      - name: Build AppBundle
         run: |
           flutter pub get
-          flutter build appbundle --release --dart-define FLAVOR=prod
-          cd build/app/outputs/bundle/release
-          mv app-release.aab flutter_boolean_template-${{ github.ref_name }}-android-appbundle.aab
-
-      - name: Build AppBundle for Branch
-        if: github.event_name != 'push' || !startsWith(github.event.ref, 'refs/tags/v')
-        run: |
-          flutter pub get
-          flutter build appbundle --release --dart-define FLAVOR=${{ github.event.inputs.flavor }}
+          flutter build appbundle --release --dart-define FLAVOR=${{ env.FLAVOR }}
           cd build/app/outputs/bundle/release
           mv app-release.aab flutter_boolean_template-${{ github.ref_name }}-android-appbundle.aab
 
@@ -352,7 +308,7 @@ jobs:
           path: build/app/outputs/bundle/release/*.aab
           
       - name: Release Appbundle
-        if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
+        if: env.IS_TAG
         uses: ncipollo/release-action@v1
         with:
           artifacts: build/app/outputs/bundle/release/flutter_boolean_template-*.aab
@@ -396,13 +352,8 @@ jobs:
       - name: Bootstrap Melos
         run: melos bootstrap
 
-      - name: Build Windows for Tag
-        if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
-        run: flutter build windows --dart-define FLAVOR=prod
-
-      - name: Build Windows for Branch
-        if: github.event_name != 'push' || !startsWith(github.event.ref, 'refs/tags/v')
-        run: flutter build windows --dart-define FLAVOR=${{ github.event.inputs.flavor }}
+      - name: Build Windows
+        run: flutter build windows --dart-define FLAVOR=${{ env.FLAVOR }}
       
       - name: Build MSIX
         run: |
@@ -416,7 +367,7 @@ jobs:
           path: build/windows/x64/runner/Release/*.msix
           
       - name: Release MSIX
-        if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
+        if: env.IS_TAG
         uses: ncipollo/release-action@v1
         with:
           artifacts: build/windows/x64/runner/Release/flutter_boolean_template-*.msix
@@ -461,13 +412,8 @@ jobs:
       - name: Bootstrap Melos
         run: melos bootstrap
 
-      - name: Build Linux for Tag
-        if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
-        run: flutter build linux --release --dart-define FLAVOR=prod
-      
-      - name: Build Linux for Branch
-        if: github.event_name != 'push' || !startsWith(github.event.ref, 'refs/tags/v')
-        run: flutter build linux --release --dart-define FLAVOR=${{ github.event.inputs.flavor }}
+      - name: Build Linux
+        run: flutter build linux --release --dart-define FLAVOR=${{ env.FLAVOR }}
 
       - name: Build AppImage
         run: |
@@ -487,7 +433,7 @@ jobs:
           path: build/flutter_boolean_template-*.AppImage
           
       - name: Release AppImage
-        if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
+        if: env.IS_TAG
         uses: ncipollo/release-action@v1
         with:
           artifacts: build/flutter_boolean_template-*.AppImage
@@ -527,19 +473,11 @@ jobs:
       - name: Bootstrap Melos
         run: melos bootstrap
 
-      - name: Build MacOS for Tag
-        if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
+      - name: Build MacOS
         run: |
           git config --global core.longpaths true
           flutter pub get
-          flutter build macos --release --dart-define FLAVOR=prod
-      
-      - name: Build MacOS for Branch
-        if: github.event_name != 'push' || !startsWith(github.event.ref, 'refs/tags/v')
-        run: |
-          git config --global core.longpaths true
-          flutter pub get
-          flutter build macos --release --dart-define FLAVOR=${{ github.event.inputs.flavor }}
+          flutter build macos --release --dart-define FLAVOR=${{ env.FLAVOR }}
       
       - name: Build DMG
         run: |
@@ -553,7 +491,7 @@ jobs:
           path: "/Users/runner/work/flutter_boolean_template/flutter_boolean_template/*.dmg"
           
       - name: Release DMG
-        if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
+        if: env.IS_TAG
         uses: ncipollo/release-action@v1
         with:
           artifacts: /Users/runner/work/flutter_boolean_template/flutter_boolean_template/flutter_boolean_template-*.dmg
@@ -591,17 +529,10 @@ jobs:
       - name: Bootstrap Melos
         run: melos bootstrap
 
-      - name: Build Web for Tag
-        if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
+      - name: Build Web
         run: |
           flutter pub get
-          flutter build web --dart-define FLAVOR=prod --release --web-renderer=canvaskit
-
-      - name: Build Web for Branch
-        if: github.event_name != 'push' || !startsWith(github.event.ref, 'refs/tags/v')
-        run: |
-          flutter pub get
-          flutter build web --dart-define FLAVOR=${{ github.event.inputs.flavor }} --release --web-renderer=canvaskit
+          flutter build web --dart-define FLAVOR=${{ env.FLAVOR }} --release --web-renderer=canvaskit
           
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
