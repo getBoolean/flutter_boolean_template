@@ -414,9 +414,9 @@ jobs:
           if ($is_tag) {
               $flavor = "prod"
           }
-          elseif ([string]::IsNullOrEmpty("${{ github.event.inputs.flavor }}")) {
-              $flavor = "dev"
-          }
+          # elseif ([string]::IsNullOrEmpty("${{ github.event.inputs.flavor }}")) {
+          #     $flavor = "dev"
+          # }
           else {
               $flavor = "${{ github.event.inputs.flavor }}"
           }
@@ -424,6 +424,7 @@ jobs:
           "FLAVOR=$flavor" | Out-File -Append -LiteralPath $Env:GITHUB_ENV
           Write-Output "FLAVOR=$flavor"
         shell: pwsh
+
         
       - name: Print Variables
         run: |
