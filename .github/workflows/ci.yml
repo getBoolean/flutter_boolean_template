@@ -407,6 +407,32 @@ jobs:
         run: git config --system core.longpaths true
       - name: Checkout Repository
         uses: actions/checkout@v4
+
+      - name: Set Variables
+        run: |
+          echo "Inputs: ${{ toJSON(github.event.inputs) }}"
+
+          # GitHub Actions expressions are evaluated before the script runs
+          $is_tag_string = ${{ github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v') }}
+          $is_tag = $false
+          if ($is_tag_string -eq $true) {
+              $is_tag = $true
+          }
+
+          $flavor = ""
+          if ($is_tag) {
+              $flavor = "prod"
+          }
+          elseif ([string]::IsNullOrEmpty("${{ github.event.inputs.flavor }}")) {
+              $flavor = "dev"
+          }
+          else {
+              $flavor = "${{ github.event.inputs.flavor }}"
+          }
+
+          # Setting environment variable and outputting
+          "FLAVOR=$flavor" | Out-File -Append -FilePath $Env:GITHUB_ENV
+          Write-Output "FLAVOR=$flavor"
         
       - name: Print Variables
         run: |
