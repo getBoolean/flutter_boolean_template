@@ -95,11 +95,14 @@ class App extends ConsumerWidget {
       );
     });
 
+    // avoids nullcheck error in FlavorBanner() with no child
+    final showBanner = !(FlavorConfig.instance.name == null ||
+        (FlavorConfig.instance.name?.isEmpty ?? true));
     return Stack(
       alignment: Alignment.topRight,
       children: [
         materialApp,
-        if (settings.bannerEnabled)
+        if (settings.bannerEnabled && showBanner)
           const SafeArea(
             child: FlavorBanner(),
           ),
