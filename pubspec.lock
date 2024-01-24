@@ -1179,10 +1179,11 @@ packages:
   sidebarx:
     dependency: "direct main"
     description:
-      name: sidebarx
-      sha256: "7042d64844b8e64ca5c17e70d89b49df35b54a26c015b90000da9741eab70bc0"
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: "feature/inkwell"
+      resolved-ref: f5378e9cc6e8c767b6d2d208141ed6ae4a752e0d
+      url: "https://github.com/getBoolean/sidebarx"
+    source: git
     version: "0.16.3"
   sky_engine:
     dependency: transitive

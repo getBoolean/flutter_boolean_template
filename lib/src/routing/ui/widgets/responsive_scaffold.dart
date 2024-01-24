@@ -323,7 +323,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
       },
     );
 
-    final buildSidebar = widget.sidebarBuilder ?? _buildDefaultSidebar;
+    final buildSidebar = widget.sidebarBuilder ?? _defaultBuildSidebar;
     final sidebar = buildSidebar(
       context,
       selectedIndex,
@@ -442,14 +442,14 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
     );
   }
 
-  Widget _buildDefaultSidebar(
+  Widget _defaultBuildSidebar(
     BuildContext context,
     int selectedIndex,
     void Function(int index) setPage,
     NavigationType navigationType,
   ) {
     return _StyledResponsiveSidebar(
-      key: const Key('sidebarx-rail'),
+      key: const Key('responsive-sidebarx'),
       controller: _sidebarController,
       destinations: widget.destinations,
       onTap: _setPage,
@@ -469,6 +469,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
   ) {
     final theme = Theme.of(context);
     return Drawer(
+      elevation: 0.0,
       width: widget.drawerWidth,
       child: Column(
         children: [
@@ -668,6 +669,7 @@ class _StyledResponsiveSidebar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return ResponsiveSidebar(
       controller: controller,
       destinations: destinations,
@@ -693,6 +695,39 @@ class _StyledResponsiveSidebar extends StatelessWidget {
                 ),
               );
       },
+      separatorBuilder: (_, __) => const SizedBox.shrink(),
+      theme: SidebarXTheme(
+        itemPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+        selectedItemPadding:
+            const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+        itemMargin: const EdgeInsets.symmetric(vertical: 1),
+        selectedItemMargin: const EdgeInsets.symmetric(vertical: 1),
+        itemTextPadding: const EdgeInsets.symmetric(horizontal: 14),
+        selectedItemTextPadding: const EdgeInsets.symmetric(horizontal: 14),
+        decoration: BoxDecoration(
+          color: theme.canvasColor,
+        ),
+        hoverColor: theme.hoverColor,
+        selectedHoverColor: theme.hoverColor,
+        hoverTextStyle: theme.textTheme.bodyLarge
+            ?.copyWith(color: theme.colorScheme.onSurface),
+        textStyle: theme.textTheme.bodyLarge
+            ?.copyWith(color: theme.colorScheme.onSurface),
+        selectedTextStyle: theme.textTheme.bodyLarge
+            ?.copyWith(color: theme.colorScheme.secondary),
+        itemDecoration: BoxDecoration(
+          border: Border.all(color: theme.canvasColor),
+        ),
+        selectedItemDecoration: BoxDecoration(
+          border: Border.all(color: theme.canvasColor),
+        ),
+        iconTheme: IconTheme.of(context).copyWith(
+          color: theme.colorScheme.onSurfaceVariant,
+        ),
+        selectedIconTheme: IconTheme.of(context).copyWith(
+          color: theme.colorScheme.secondary,
+        ),
+      ),
     );
   }
 }
