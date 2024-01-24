@@ -67,12 +67,15 @@ class AutoLeadingButton extends ConsumerStatefulWidget {
   /// Defaults to `false`
   final bool? showDisabled;
 
+  final Duration transitionDuration;
+
   /// Default constructor
   const AutoLeadingButton({
     super.key,
     this.color,
     this.builder,
     this.showDisabled,
+    this.transitionDuration = const Duration(milliseconds: 150),
   })  : assert(color == null || builder == null,
             'Cannot use both color and builder'),
         assert(showDisabled == null || builder == null,
@@ -100,9 +103,11 @@ class _AutoLeadingButtonState extends ConsumerState<AutoLeadingButton> {
 
   @override
   Widget build(BuildContext context) {
+    final Widget button;
     final ModalRoute<dynamic>? parentRoute = ModalRoute.of(context);
     final router = ref.watch(routerProvider);
     final canPop = router.canGoBack() || router.canPop();
+    final ScaffoldState? scaffold = Scaffold.maybeOf(context);
     if (canPop) {
       final bool useCloseButton =
           parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog;
@@ -122,18 +127,18 @@ class _AutoLeadingButtonState extends ConsumerState<AutoLeadingButton> {
           pop,
         );
       }
-      return useCloseButton
+      button = useCloseButton
           ? CloseButton(
               color: widget.color,
+              style: IconButtonTheme.of(context).style,
               onPressed: pop,
             )
           : BackButton(
               color: widget.color,
+              style: IconButtonTheme.of(context).style,
               onPressed: pop,
             );
-    }
-    final ScaffoldState? scaffold = Scaffold.maybeOf(context);
-    if (scaffold?.hasDrawer ?? false) {
+    } else if (scaffold?.hasDrawer ?? false) {
       if (widget.builder != null) {
         return widget.builder!(
           context,
@@ -141,27 +146,31 @@ class _AutoLeadingButtonState extends ConsumerState<AutoLeadingButton> {
           () => _handleDrawerButton(context),
         );
       }
-      return IconButton(
+      button = IconButton(
         icon: const Icon(Icons.menu),
         iconSize: Theme.of(context).iconTheme.size ?? 24,
         onPressed: () => _handleDrawerButton(context),
         tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+        style: IconButtonTheme.of(context).style,
+      );
+    } else if (widget.builder != null) {
+      button = widget.builder!(context, LeadingType.noLeading, null);
+    } else if (!(widget.showDisabled ?? false)) {
+      button = const SizedBox.shrink(
+        key: ValueKey('HiddenAutoLeadingButton'),
+      );
+    } else {
+      button = IconButton(
+        icon: const BackButtonIcon(),
+        iconSize: context.themes.icon.size ?? 24,
+        style: IconButtonTheme.of(context).style,
+        onPressed: null,
       );
     }
 
-    if (widget.builder != null) {
-      return widget.builder!(context, LeadingType.noLeading, null);
-    }
-
-    final showDisabled = widget.showDisabled ?? false;
-    if (!showDisabled) {
-      return const SizedBox.shrink();
-    }
-
-    return IconButton(
-      icon: const BackButtonIcon(),
-      iconSize: context.themes.icon.size ?? 24,
-      onPressed: null,
+    return AnimatedSwitcher(
+      duration: widget.transitionDuration,
+      child: button,
     );
   }
 
