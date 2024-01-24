@@ -5,8 +5,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/common_widgets/constrained_scrollable_child.dart';
 import 'package:flutter_boolean_template/src/routing/ui/widgets/auto_leading_button.dart';
+import 'package:flutter_boolean_template/src/routing/ui/widgets/responsive_sidebar.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:log/log.dart';
+import 'package:sidebarx/sidebarx.dart';
 
 typedef NavigationTypeResolver = NavigationType Function(BuildContext context);
 
@@ -260,6 +262,34 @@ class ResponsiveScaffold extends StatefulHookWidget {
 class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
     with TickerProviderStateMixin {
   late TabController _tabController;
+  final _key = GlobalKey<ScaffoldState>();
+
+  late SidebarXController _sidebarController;
+  late SidebarXController _drawerController;
+  @override
+  void initState() {
+    super.initState();
+
+    _sidebarController = SidebarXController(
+      selectedIndex: widget.currentIndex,
+      extended: true,
+    );
+
+    _drawerController = SidebarXController(
+      selectedIndex: widget.currentIndex,
+      extended: true,
+    );
+  }
+
+  @override
+  void dispose() {
+    _sidebarController.dispose();
+    _drawerController.dispose();
+    super.dispose();
+  }
+
+  NavigationType getNavigationType() =>
+      (widget.navigationTypeResolver ?? defaultNavigationTypeResolver)(context);
 
   @override
   Widget build(BuildContext context) {
@@ -267,9 +297,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
       initialLength: widget.destinations.length,
       initialIndex: widget.currentIndex,
     );
-    final NavigationTypeResolver navigationTypeResolver =
-        widget.navigationTypeResolver ?? defaultNavigationTypeResolver;
-    final navigationType = navigationTypeResolver(context);
+    final navigationType = getNavigationType();
 
     final bottomDestinations = widget.destinations.sublist(
       0,
@@ -322,6 +350,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
     final hasDrawer = navigationType == NavigationType.drawer;
     final hasBottomNavigationBar = navigationType == NavigationType.bottom;
     return Scaffold(
+      key: _key,
       appBar: navigationType == NavigationType.top
           ? buildTopBar(
               context,
@@ -343,32 +372,51 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
         },
         body: Row(
           children: [
-            ConstrainedScrollableChild(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  AnimatedSwitcher(
-                    duration: widget.transitionDuration,
-                    reverseDuration: widget.transitionReverseDuration,
-                    child: navigationType == NavigationType.permanentDrawer
-                        ? permanentDrawer
-                        : navigationType == NavigationType.rail
-                            ? navigationRail
-                            : null,
-                  ),
-                  widget.divider ??
-                      const VerticalDivider(
-                        width: 1,
-                        thickness: 1,
-                      ),
-                ],
-              ),
+            // if (navigationType == NavigationType.permanentDrawer ||
+            //     navigationType == NavigationType.rail)
+            //   CustomSidebarX(
+            //     key: const Key('sidebarx-rail'),
+            //     controller: _sidebarController,
+            //     destinations: widget.destinations,
+            //     setPage: _setPage,
+            //     // extended: _navigationType == NavigationType.permanentDrawer,
+            //     expandable: true,
+            //     shouldExpand: navigationType == NavigationType.permanentDrawer,
+            //     shouldShrink: navigationType == NavigationType.rail,
+            //   ),
+            // widget.divider ??
+            //     const VerticalDivider(
+            //       width: 1,
+            //       thickness: 1,
+            //     ),
+
+            AnimatedSwitcher(
+              duration: widget.transitionDuration,
+              reverseDuration: widget.transitionReverseDuration,
+              child: navigationType == NavigationType.permanentDrawer ||
+                      navigationType == NavigationType.rail
+                  ? _StyledResponsiveSidebar(
+                      key: const Key('sidebarx-rail'),
+                      controller: _sidebarController,
+                      destinations: widget.destinations,
+                      onTap: _setPage,
+                      expandable: true,
+                      shouldExpand:
+                          navigationType == NavigationType.permanentDrawer,
+                      shouldShrink: navigationType == NavigationType.rail,
+                    )
+                  : null,
             ),
+            widget.divider ??
+                const VerticalDivider(
+                  width: 1,
+                  thickness: 1,
+                ),
             Expanded(child: widget.child),
           ],
         ),
       ),
-      drawer: hasDrawer ? ConstrainedScrollableChild(child: drawer) : null,
+      drawer: hasDrawer ? drawer : null,
       bottomNavigationBar: hasBottomNavigationBar ? bottomNavigationBar : null,
       floatingActionButton: AnimatedSwitcher(
         duration: widget.transitionDuration,
@@ -508,34 +556,43 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
     void Function(int index) setPage,
   ) {
     final theme = Theme.of(context);
-    return Drawer(
-      child: Column(
-        children: [
-          if (widget.drawerHeader != null)
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: widget.drawerHeader,
-              ),
-            ),
-          for (final destination in widget.destinations)
-            ListTile(
-              leading: Icon(destination.icon),
-              title: Text(destination.title),
-              selected:
-                  widget.destinations.indexOf(destination) == selectedIndex,
-              onTap: () => setPage(
-                widget.destinations.indexOf(destination),
-              ),
-              style: ListTileStyle.drawer,
-              selectedColor: theme.colorScheme.secondary,
-            ),
-          const Spacer(),
-          if (widget.drawerFooter != null) widget.drawerFooter!,
-        ],
-      ),
+    return _StyledResponsiveSidebar(
+      key: const Key('sidebarx-drawer'),
+      controller: _drawerController,
+      destinations: widget.destinations,
+      onTap: _setPage,
+      expandable: false,
+      shouldExpand: false,
+      shouldShrink: false,
     );
+    // return Drawer(
+    //   child: Column(
+    //     children: [
+    //       if (widget.drawerHeader != null)
+    //         Padding(
+    //           padding: const EdgeInsets.only(left: 8.0),
+    //           child: Padding(
+    //             padding: const EdgeInsets.all(16.0),
+    //             child: widget.drawerHeader,
+    //           ),
+    //         ),
+    //       for (final destination in widget.destinations)
+    //         ListTile(
+    //           leading: Icon(destination.icon),
+    //           title: Text(destination.title),
+    //           selected:
+    //               widget.destinations.indexOf(destination) == selectedIndex,
+    //           onTap: () => setPage(
+    //             widget.destinations.indexOf(destination),
+    //           ),
+    //           style: ListTileStyle.drawer,
+    //           selectedColor: theme.colorScheme.secondary,
+    //         ),
+    //       const Spacer(),
+    //       if (widget.drawerFooter != null) widget.drawerFooter!,
+    //     ],
+    //   ),
+    // );
   }
 
   Widget _defaultBottomNavigationBarBuilder(
@@ -673,5 +730,45 @@ class AppObserver extends NavigatorObserver {
   void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
     log.info(
         'Route replaced: ${newRoute?.settings.name}, previous: ${oldRoute?.settings.name}');
+  }
+}
+
+class _StyledResponsiveSidebar extends StatelessWidget {
+  const _StyledResponsiveSidebar({
+    super.key,
+    required this.destinations,
+    required this.controller,
+    required this.expandable,
+    required this.shouldExpand,
+    required this.shouldShrink,
+    required this.onTap,
+  });
+
+  /// The index into [destinations] for the current selected
+  /// [RouterDestination].
+  final List<RouterDestination> destinations;
+  final SidebarXController controller;
+
+  final bool expandable;
+  final bool shouldExpand;
+  final bool shouldShrink;
+
+  /// Callback to set the current page in the navigator
+  final void Function(int index) onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return ResponsiveSidebar(
+      controller: controller,
+      destinations: destinations,
+      onTap: onTap,
+      shouldExpand: shouldExpand,
+      shouldShrink: shouldShrink,
+      expandable: expandable,
+      footerDivider: const Divider(
+        height: 1,
+        thickness: 1,
+      ),
+    );
   }
 }
