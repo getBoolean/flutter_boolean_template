@@ -539,6 +539,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
   ) {
     return switch (navigationType) {
       NavigationType.bottom => SliverAppBar(
+          centerTitle: true,
           leading: const AutoLeadingButton(),
           title: title == null ? null : Text(title),
           elevation: 10.0,
@@ -548,6 +549,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
           snap: true,
         ),
       NavigationType.drawer => SliverAppBar(
+          centerTitle: true,
           leading: const AutoLeadingButton(),
           title: title == null ? null : Text(title),
           elevation: 10.0,
