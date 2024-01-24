@@ -13,7 +13,11 @@ class ResponsiveSidebar extends StatefulWidget {
     this.expandable = true,
     this.shouldExpand = false,
     this.shouldShrink = false,
-    this.theme = const SidebarXTheme(),
+    this.theme = const SidebarXTheme(
+      itemTextPadding: EdgeInsets.symmetric(horizontal: 12),
+      itemMargin: EdgeInsets.all(4),
+      selectedItemTextPadding: EdgeInsets.symmetric(horizontal: 12),
+    ),
     this.expandedWidth = 200,
     this.footerDivider,
     this.extendedTheme,
@@ -66,8 +70,7 @@ class _ResponsiveSidebarState extends State<ResponsiveSidebar> {
         widget.shouldShrink &&
         oldWidget.controller.extended) {
       widget.controller.setExtended(false);
-    }
-    if (!oldWidget.shouldExpand &&
+    } else if (!oldWidget.shouldExpand &&
         widget.shouldExpand &&
         !oldWidget.controller.extended) {
       widget.controller.setExtended(true);
@@ -76,45 +79,6 @@ class _ResponsiveSidebarState extends State<ResponsiveSidebar> {
 
   @override
   Widget build(BuildContext context) {
-    // SidebarXTheme(
-    //   margin: const EdgeInsets.all(10),
-    //   decoration: BoxDecoration(
-    //     color: canvasColor,
-    //     borderRadius: BorderRadius.circular(20),
-    //   ),
-    //   hoverColor: scaffoldBackgroundColor,
-    //   textStyle: TextStyle(color: Colors.white.withOpacity(0.7)),
-    //   selectedTextStyle: const TextStyle(color: Colors.white),
-    //   itemTextPadding: const EdgeInsets.only(left: 30),
-    //   selectedItemTextPadding: const EdgeInsets.only(left: 30),
-    //   itemDecoration: BoxDecoration(
-    //     borderRadius: BorderRadius.circular(10),
-    //     border: Border.all(color: canvasColor),
-    //   ),
-    //   selectedItemDecoration: BoxDecoration(
-    //     borderRadius: BorderRadius.circular(10),
-    //     border: Border.all(
-    //       color: actionColor.withOpacity(0.37),
-    //     ),
-    //     gradient: const LinearGradient(
-    //       colors: [accentCanvasColor, canvasColor],
-    //     ),
-    //     boxShadow: [
-    //       BoxShadow(
-    //         color: Colors.black.withOpacity(0.28),
-    //         blurRadius: 30,
-    //       )
-    //     ],
-    //   ),
-    //   iconTheme: IconThemeData(
-    //     color: Colors.white.withOpacity(0.7),
-    //     size: 20,
-    //   ),
-    //   selectedIconTheme: const IconThemeData(
-    //     color: Colors.white,
-    //     size: 20,
-    //   ),
-    // ),
     return SidebarX(
       showToggleButton: widget.expandable,
       controller: widget.controller,

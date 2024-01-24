@@ -1,1 +1,1 @@
-const kAppName = 'Template App';
+const kAppName = 'Flutter App';

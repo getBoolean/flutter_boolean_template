@@ -41,11 +41,27 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
           goToIndex: widget.navigationShell.goBranch,
           navigationTypeResolver: $resolveNavigationType,
           topBarStart: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32.0),
-            child: Text(
-              kAppName,
-              style:
-                  theme.textTheme.titleMedium?.merge(GoogleFonts.robotoMono()),
+            padding: const EdgeInsets.only(left: 48.0, right: 32.0),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: IntrinsicWidth(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const _StylizedFlutterLogo(),
+                    gap12,
+                    Expanded(
+                      child: Text(
+                        kAppName,
+                        style: theme.textTheme.titleMedium
+                            ?.merge(GoogleFonts.robotoMono()),
+                        overflow: TextOverflow.clip,
+                        maxLines: 1,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
           topBarEnd: Padding(
@@ -56,12 +72,19 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
               icon: const Icon(Icons.search),
             ),
           ),
+          logo: const _StylizedFlutterLogo(),
           drawerHeader: Row(
             children: [
-              Text(
-                kAppName,
-                style: theme.textTheme.titleMedium
-                    ?.merge(GoogleFonts.robotoMono()),
+              const _StylizedFlutterLogo(),
+              gap12,
+              Expanded(
+                child: Text(
+                  kAppName,
+                  style: theme.textTheme.titleMedium
+                      ?.merge(GoogleFonts.robotoMono()),
+                  overflow: TextOverflow.clip,
+                  maxLines: 1,
+                ),
               ),
             ],
           ),
@@ -85,6 +108,41 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
           child: widget.navigationShell,
         ),
       ),
+    );
+  }
+}
+
+class _StylizedFlutterLogo extends StatelessWidget {
+  final double? size;
+
+  const _StylizedFlutterLogo({super.key, this.size});
+
+  @override
+  Widget build(BuildContext context) {
+    return ColorFiltered(
+      colorFilter: const ColorFilter.matrix(<double>[
+        0.2126,
+        0.7152,
+        0.0722,
+        0,
+        0,
+        0.2126,
+        0.7152,
+        0.0722,
+        0,
+        0,
+        0.2126,
+        0.7152,
+        0.0722,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+      ]),
+      child: FlutterLogo(size: size),
     );
   }
 }
