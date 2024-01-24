@@ -115,6 +115,7 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
 class _StylizedFlutterLogo extends StatelessWidget {
   final double? size;
 
+  // ignore: unused_element
   const _StylizedFlutterLogo({super.key, this.size});
 
   @override
