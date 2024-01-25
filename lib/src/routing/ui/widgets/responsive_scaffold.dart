@@ -709,6 +709,12 @@ class _StyledResponsiveSidebar extends StatelessWidget {
         ),
         hoverColor: theme.hoverColor,
         selectedHoverColor: theme.hoverColor,
+        focusColor: theme.focusColor,
+        selectedFocusColor: theme.focusColor,
+        highlightColor: theme.highlightColor,
+        selectedHighlightColor: theme.highlightColor,
+        splashColor: theme.splashColor,
+        selectedSplashColor: theme.splashColor,
         hoverTextStyle: theme.textTheme.bodyLarge
             ?.copyWith(color: theme.colorScheme.onSurface),
         textStyle: theme.textTheme.bodyLarge
