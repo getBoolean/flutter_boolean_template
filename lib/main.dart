@@ -68,12 +68,18 @@ void registerErrorHandlers() {
               mainAxisSize: MainAxisSize.min,
               children: [
                 const SizedBox(height: 16),
-                Text(details.exceptionAsString(),
-                    style: const TextStyle(color: Colors.red),),
+                Text(
+                  details.exceptionAsString(),
+                  style: const TextStyle(color: Colors.red),
+                ),
                 const SizedBox(height: 16),
-                const Text('Restart the app to continue.',
-                    style: TextStyle(
-                        color: Colors.red, fontWeight: FontWeight.bold,),),
+                const Text(
+                  'Restart the app to continue.',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ],
             ),
           ),

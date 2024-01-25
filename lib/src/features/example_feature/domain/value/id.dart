@@ -4,13 +4,17 @@ import 'package:modddels_annotation_fpdart/modddels_annotation_fpdart.dart';
 part 'id.freezed.dart';
 part 'id.modddel.dart';
 
-@Modddel(validationSteps: [
-  ValidationStep([
-    Validation('allowed', FailureType<IdValidFailure>()),
-  ], name: 'Value',),
-],)
+@Modddel(
+  validationSteps: [
+    ValidationStep(
+      [
+        Validation('allowed', FailureType<IdValidFailure>()),
+      ],
+      name: 'Value',
+    ),
+  ],
+)
 class Id extends SingleValueObject<InvalidId, ValidId> with _$Id {
-
   factory Id(
     String value,
   ) =>

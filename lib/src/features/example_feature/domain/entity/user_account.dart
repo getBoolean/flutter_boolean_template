@@ -12,9 +12,12 @@ part 'user_account.modddel.dart';
     ValidationStep([
       contentValidation,
     ]),
-    ValidationStep([
-      Validation('account', FailureType<UserAccountValidFailure>()),
-    ], name: 'Value',),
+    ValidationStep(
+      [
+        Validation('account', FailureType<UserAccountValidFailure>()),
+      ],
+      name: 'Value',
+    ),
   ],
 )
 class UserAccount extends SimpleEntity<InvalidUserAccount, ValidUserAccount>
@@ -30,7 +33,8 @@ class UserAccount extends SimpleEntity<InvalidUserAccount, ValidUserAccount>
 
   @override
   Option<UserAccountValidFailure> validateAccount(
-      _ValidateUserAccountAccount userAccount,) {
+    _ValidateUserAccountAccount userAccount,
+  ) {
     return none();
   }
 }

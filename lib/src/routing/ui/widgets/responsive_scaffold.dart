@@ -19,7 +19,12 @@ typedef GoToIndexCallback = void Function(
 
 class ResponsiveScaffold extends StatefulHookWidget {
   const ResponsiveScaffold({
-    required this.destinations, required this.currentIndex, required this.title, required this.child, required this.goToIndex, super.key,
+    required this.destinations,
+    required this.currentIndex,
+    required this.title,
+    required this.child,
+    required this.goToIndex,
+    super.key,
     this.transitionDuration = const Duration(milliseconds: 300),
     this.transitionReverseDuration = Duration.zero,
     this.floatingActionButton,
@@ -64,8 +69,10 @@ class ResponsiveScaffold extends StatefulHookWidget {
   static ResponsiveScaffold of(BuildContext context) {
     final scaffold =
         context.findAncestorWidgetOfExactType<ResponsiveScaffold>();
-    assert(scaffold != null,
-        'No ResponsiveScaffold found in context. Wrap your app in an ResponsiveScaffold to fix this error.',);
+    assert(
+      scaffold != null,
+      'No ResponsiveScaffold found in context. Wrap your app in an ResponsiveScaffold to fix this error.',
+    );
     return scaffold!;
   }
 
@@ -610,31 +617,44 @@ class AppObserver extends NavigatorObserver {
   @override
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
     log.info(
-        'New route pushed: ${route.settings.name}, previous: ${previousRoute?.settings.name}',);
+      'New route pushed: ${route.settings.name}, previous: ${previousRoute?.settings.name}',
+    );
   }
 
   @override
   void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
     log.info(
-        'Route popped: ${route.settings.name}, previous: ${previousRoute?.settings.name}',);
+      'Route popped: ${route.settings.name}, previous: ${previousRoute?.settings.name}',
+    );
   }
 
   @override
   void didRemove(Route<dynamic> route, Route<dynamic>? previousRoute) {
     log.info(
-        'Route removed: ${route.settings.name}, previous: ${previousRoute?.settings.name}',);
+      'Route removed: ${route.settings.name}, previous: ${previousRoute?.settings.name}',
+    );
   }
 
   @override
   void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
     log.info(
-        'Route replaced: ${newRoute?.settings.name}, previous: ${oldRoute?.settings.name}',);
+      'Route replaced: ${newRoute?.settings.name}, previous: ${oldRoute?.settings.name}',
+    );
   }
 }
 
 class _StyledResponsiveSidebar extends StatelessWidget {
   const _StyledResponsiveSidebar({
-    required this.destinations, required this.controller, required this.expandable, required this.shouldExpand, required this.shouldShrink, required this.onTap, required this.expandedWidth, required this.header, required this.logo, super.key,
+    required this.destinations,
+    required this.controller,
+    required this.expandable,
+    required this.shouldExpand,
+    required this.shouldShrink,
+    required this.onTap,
+    required this.expandedWidth,
+    required this.header,
+    required this.logo,
+    super.key,
   });
 
   /// The index into [destinations] for the current selected
