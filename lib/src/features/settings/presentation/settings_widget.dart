@@ -56,6 +56,10 @@ class _SettingsWidgetState extends ConsumerState<SettingsWidget> {
                 final navigationTypeOverride =
                     await showModalActionSheet<NavigationTypeOverride>(
                   context: context,
+                  title: 'Navigation',
+                  style: AdaptiveStyle.adaptive.effectiveStyle(
+                    Theme.of(context),
+                  ),
                   actions: [
                     for (final navigationTypeOverride
                         in NavigationTypeOverride.values)
