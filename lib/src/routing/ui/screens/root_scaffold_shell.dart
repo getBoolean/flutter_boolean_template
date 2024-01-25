@@ -89,19 +89,6 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
               ),
             ],
           ),
-          drawerFooter: Row(
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: OutlinedButton(
-                    onPressed: () {},
-                    child: const Text('Add'),
-                  ),
-                ),
-              ),
-            ],
-          ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {},
             child: const Icon(Icons.add),

@@ -48,7 +48,6 @@ class ResponsiveScaffold extends StatefulHookWidget {
     this.drawerWidth = 200,
     this.drawerHeader,
     this.drawerFooter,
-    this.fabInRail = true,
     this.includeBaseDestinationsInMenu = true,
     this.bottomNavigationOverflow = 5,
     this.railDestinationsOverflow = 7,
@@ -94,14 +93,10 @@ class ResponsiveScaffold extends StatefulHookWidget {
   /// Only used for [NavigationType.bottom], [NavigationType.drawer], and [NavigationType.rail]
   final FloatingActionButton? floatingActionButton;
 
-  /// See [Scaffold.floatingActionButtonLocation].
-  ///
-  /// Ignored if [fabInRail] is true.
+  /// See [Scaffold.floatingActionButtonLocation]..
   final FloatingActionButtonLocation? floatingActionButtonLocation;
 
   /// See [Scaffold.floatingActionButtonAnimator].
-  ///
-  /// Ignored if [fabInRail] is true.
   final FloatingActionButtonAnimator? floatingActionButtonAnimator;
 
   /// See [Scaffold.persistentFooterButtons].
@@ -159,13 +154,6 @@ class ResponsiveScaffold extends StatefulHookWidget {
   ///
   /// If null, then there is no footer.
   final Widget? drawerFooter;
-
-  /// Whether the [floatingActionButton] is inside or the rail or in the regular
-  /// spot.
-  ///
-  /// If true, then [floatingActionButtonLocation] and
-  /// [floatingActionButtonAnimator] are ignored.
-  final bool fabInRail;
 
   /// Weather the overflow menu defaults to include overflow destinations and
   /// the overflow destinations.
@@ -381,11 +369,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
       floatingActionButton: AnimatedSwitcher(
         duration: widget.transitionDuration,
         reverseDuration: widget.transitionReverseDuration,
-        child: (widget.fabInRail &&
-                !(navigationType == NavigationType.bottom ||
-                    navigationType == NavigationType.drawer))
-            ? null
-            : widget.floatingActionButton,
+        child: widget.floatingActionButton,
       ),
       floatingActionButtonLocation: widget.floatingActionButtonLocation,
       floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
@@ -458,8 +442,6 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
       expandedWidth: widget.drawerWidth,
       expandedHeader: widget.drawerHeader,
       collapseHeader: widget.logo,
-      expandedFooter: widget.drawerFooter,
-      collapseFooter: widget.fabInRail ? widget.floatingActionButton : null,
       transitionDuration: widget.transitionDuration,
       reverseTransitionDuration: widget.transitionReverseDuration,
     );
@@ -655,8 +637,6 @@ class _StyledResponsiveSidebar extends StatelessWidget {
     required this.expandedWidth,
     required this.expandedHeader,
     required this.collapseHeader,
-    required this.expandedFooter,
-    required this.collapseFooter,
     required this.transitionDuration,
     required this.reverseTransitionDuration,
     super.key,
@@ -675,9 +655,6 @@ class _StyledResponsiveSidebar extends StatelessWidget {
   final Widget? expandedHeader;
   final Widget? collapseHeader;
 
-  final Widget? expandedFooter;
-  final Widget? collapseFooter;
-
   final Duration? transitionDuration;
   final Duration? reverseTransitionDuration;
 
@@ -695,6 +672,7 @@ class _StyledResponsiveSidebar extends StatelessWidget {
       shouldShrink: shouldShrink,
       expandable: expandable,
       expandedWidth: expandedWidth,
+      footerDivider: hdivider,
       headerBuilder: (context, isExpanded) {
         final Widget? widget = isExpanded ? expandedHeader : collapseHeader;
         return widget == null
@@ -707,26 +685,6 @@ class _StyledResponsiveSidebar extends StatelessWidget {
                   reverseDuration: reverseTransitionDuration,
                   child: widget,
                 ),
-              );
-      },
-      footerBuilder: (context, isExpanded) {
-        final Widget? widget = isExpanded ? expandedFooter : collapseFooter;
-        return widget == null
-            ? const SizedBox.shrink()
-            : Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: AnimatedSwitcher(
-                      duration: transitionDuration ??
-                          const Duration(milliseconds: 300),
-                      reverseDuration: reverseTransitionDuration,
-                      child: widget,
-                    ),
-                  ),
-                  hdivider,
-                ],
               );
       },
       separatorBuilder: (_, __) => const SizedBox.shrink(),
