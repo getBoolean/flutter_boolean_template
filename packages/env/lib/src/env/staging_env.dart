@@ -14,5 +14,5 @@ class StagingEnv implements EnvFlavor, EnvFields {
 
   @override
   @EnviedField(varName: 'BASE_URL')
-  String? get baseUrl => _Env.baseUrl;
+  final String? baseUrl = _Env.baseUrl;
 }
