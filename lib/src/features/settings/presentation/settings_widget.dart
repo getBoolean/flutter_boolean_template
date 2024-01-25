@@ -21,7 +21,16 @@ class _SettingsWidgetState extends ConsumerState<SettingsWidget> {
   Widget build(BuildContext context) {
     final settings = ref.watch(settingsServiceProvider);
     final developerSettings = _buildDeveloperSettings(settings: settings);
+    final theme = Theme.of(context);
     return SettingsList(
+      lightTheme: SettingsThemeData(
+        settingsListBackground: theme.colorScheme.background,
+        settingsSectionBackground: theme.colorScheme.background,
+      ),
+      darkTheme: SettingsThemeData(
+        settingsListBackground: theme.colorScheme.background,
+        settingsSectionBackground: theme.colorScheme.background,
+      ),
       platform: DevicePlatform.android,
       sections: [
         if (developerSettings.isNotEmpty)
@@ -57,9 +66,7 @@ class _SettingsWidgetState extends ConsumerState<SettingsWidget> {
                     await showModalActionSheet<NavigationTypeOverride>(
                   context: context,
                   title: 'Navigation',
-                  style: AdaptiveStyle.adaptive.effectiveStyle(
-                    Theme.of(context),
-                  ),
+                  style: AdaptiveStyle.adaptive.effectiveStyle(theme),
                   actions: [
                     for (final navigationTypeOverride
                         in NavigationTypeOverride.values)
