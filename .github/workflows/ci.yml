@@ -62,13 +62,16 @@ jobs:
           fi
           echo "FLAVOR=$flavor" >> $GITHUB_ENV
           echo "FLAVOR=$flavor"
+          
+          echo "BRANCH_NAME=${{ env.BRANCH_NAME }}" >> $GITHUB_ENV
+          echo "BRANCH_NAME=${{ env.BRANCH_NAME }}"
 
       - name: Print Variables
         run: |
           echo "Flutter Channel: ${{ env.FLUTTER_CHANNEL }}"
           echo "Flutter Version: ${{ env.FLUTTER_VERSION }}"
           echo "Current Flavor: ${{ env.FLAVOR }}"
-          echo "Current Branch: $BRANCH_NAME"
+          echo "Current Branch: ${{ env.BRANCH_NAME }}"
 
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
@@ -158,6 +161,9 @@ jobs:
           fi
           echo "FLAVOR=$flavor" >> $GITHUB_ENV
           echo "FLAVOR=$flavor"
+          
+          echo "BRANCH_NAME=${{ env.BRANCH_NAME }}" >> $GITHUB_ENV
+          echo "BRANCH_NAME=${{ env.BRANCH_NAME }}"
 
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
@@ -239,6 +245,9 @@ jobs:
   #         fi
   #         echo "FLAVOR=$flavor" >> $GITHUB_ENV
   #         echo "FLAVOR=$flavor"
+          
+          # echo "BRANCH_NAME=${{ env.BRANCH_NAME }}" >> $GITHUB_ENV
+          # echo "BRANCH_NAME=${{ env.BRANCH_NAME }}"
   #
   #     - name: Install the Apple certificate, provisioning profile, and Firebase google services
   #       env:
@@ -331,6 +340,9 @@ jobs:
           fi
           echo "FLAVOR=$flavor" >> $GITHUB_ENV
           echo "FLAVOR=$flavor"
+          
+          echo "BRANCH_NAME=${{ env.BRANCH_NAME }}" >> $GITHUB_ENV
+          echo "BRANCH_NAME=${{ env.BRANCH_NAME }}"
 
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
@@ -449,6 +461,10 @@ jobs:
 
           "FLAVOR=$flavor" | Out-File -Append -LiteralPath $Env:GITHUB_ENV
           Write-Output "FLAVOR=$flavor"
+
+          
+          "BRANCH_NAME=${{ env.BRANCH_NAME }}" | Out-File -Append -LiteralPath $Env:GITHUB_ENV
+          Write-Output "BRANCH_NAME=${{ env.BRANCH_NAME }}"
         shell: pwsh
 
         
@@ -533,6 +549,9 @@ jobs:
           fi
           echo "FLAVOR=$flavor" >> $GITHUB_ENV
           echo "FLAVOR=$flavor"
+          
+          echo "BRANCH_NAME=${{ env.BRANCH_NAME }}" >> $GITHUB_ENV
+          echo "BRANCH_NAME=${{ env.BRANCH_NAME }}"
 
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
@@ -621,6 +640,9 @@ jobs:
           fi
           echo "FLAVOR=$flavor" >> $GITHUB_ENV
           echo "FLAVOR=$flavor"
+          
+          echo "BRANCH_NAME=${{ env.BRANCH_NAME }}" >> $GITHUB_ENV
+          echo "BRANCH_NAME=${{ env.BRANCH_NAME }}"
 
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
@@ -700,6 +722,9 @@ jobs:
           fi
           echo "FLAVOR=$flavor" >> $GITHUB_ENV
           echo "FLAVOR=$flavor"
+          
+          echo "BRANCH_NAME=${{ env.BRANCH_NAME }}" >> $GITHUB_ENV
+          echo "BRANCH_NAME=${{ env.BRANCH_NAME }}"
 
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
