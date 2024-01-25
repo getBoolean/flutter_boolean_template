@@ -65,6 +65,8 @@ jobs:
 
       - name: Print Variables
         run: |
+          echo "Flutter Channel: ${{ env.FLUTTER_CHANNEL }}"
+          echo "Flutter Version: ${{ env.FLUTTER_VERSION }}"
           echo "Current Flavor: ${{ env.FLAVOR }}"
           echo "Current Branch: ${{ env.BRANCH_NAME }}"
 
@@ -195,11 +197,11 @@ jobs:
           ln -s ../Runner.app
           cd ..
           zip -r app-release.ipa Payload
-          mv app-release.ipa flutter_boolean_template-${{ github.ref_name }}-ios.ipa
+          mv app-release.ipa flutter_boolean_template-${{ env.BRANCH_NAME }}-ios.ipa
       - name: Upload IPA
         uses: actions/upload-artifact@v3
         with:
-          name: flutter_boolean_template-${{ github.ref_name }}-ios
+          name: flutter_boolean_template-${{ env.BRANCH_NAME }}-ios
           path: build/ios/iphoneos/flutter_boolean_template-*.ipa
       - name: Release IPA
         if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
@@ -289,7 +291,7 @@ jobs:
   #         ln -s ../Runner.app
   #         cd ..
   #         zip -r app-release.ipa Payload
-  #         mv app-release.ipa flutter_boolean_template-${{ github.ref_name }}-ios.ipa
+  #         mv app-release.ipa flutter_boolean_template-${{ env.BRANCH_NAME }}-ios.ipa
   #     - name: Upload IPA
   #       uses: actions/upload-artifact@v3
   #       with:
@@ -362,14 +364,14 @@ jobs:
           flutter pub get
           flutter build apk --release --split-per-abi --dart-define FLAVOR=${{ env.FLAVOR }}
           cd build/app/outputs/flutter-apk
-          mv app-arm64-v8a-release.apk flutter_boolean_template-${{ github.ref_name }}-android-arm64-v8a.apk
-          mv app-armeabi-v7a-release.apk flutter_boolean_template-${{ github.ref_name }}-android-armeabi-v7a.apk
-          mv app-x86_64-release.apk flutter_boolean_template-${{ github.ref_name }}-android-x86_64.apk
+          mv app-arm64-v8a-release.apk flutter_boolean_template-${{ env.BRANCH_NAME }}-android-arm64-v8a.apk
+          mv app-armeabi-v7a-release.apk flutter_boolean_template-${{ env.BRANCH_NAME }}-android-armeabi-v7a.apk
+          mv app-x86_64-release.apk flutter_boolean_template-${{ env.BRANCH_NAME }}-android-x86_64.apk
 
       - name: Upload Split APKs
         uses: actions/upload-artifact@v3
         with:
-          name: flutter_boolean_template-${{ github.ref_name }}-android-split
+          name: flutter_boolean_template-${{ env.BRANCH_NAME }}-android-split
           path: build/app/outputs/flutter-apk/flutter_boolean_template-*.apk
 
       - name: Release Split APKs
@@ -384,19 +386,19 @@ jobs:
           flutter pub get
           flutter build apk --release --dart-define FLAVOR=${{ env.FLAVOR }}
           cd build/app/outputs/flutter-apk
-          mv app-release.apk flutter_boolean_template-${{ github.ref_name }}-android-universal.apk
+          mv app-release.apk flutter_boolean_template-${{ env.BRANCH_NAME }}-android-universal.apk
 
       - name: Upload Universal APK
         uses: actions/upload-artifact@v3
         with:
-          name: flutter_boolean_template-${{ github.ref_name }}-android-universal
-          path: build/app/outputs/flutter-apk/flutter_boolean_template-${{ github.ref_name }}-android-universal.apk
+          name: flutter_boolean_template-${{ env.BRANCH_NAME }}-android-universal
+          path: build/app/outputs/flutter-apk/flutter_boolean_template-${{ env.BRANCH_NAME }}-android-universal.apk
 
       - name: Release Universal APKs
         if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
         uses: ncipollo/release-action@v1
         with:
-          artifacts: build/app/outputs/flutter-apk/flutter_boolean_template-${{ github.ref_name }}-android-universal.apk
+          artifacts: build/app/outputs/flutter-apk/flutter_boolean_template-${{ env.BRANCH_NAME }}-android-universal.apk
           allowUpdates: true
 
       - name: Build Android App Bundle
@@ -404,12 +406,12 @@ jobs:
           flutter pub get
           flutter build appbundle --release --dart-define FLAVOR=${{ env.FLAVOR }}
           cd build/app/outputs/bundle/release
-          mv app-release.aab flutter_boolean_template-${{ github.ref_name }}-android-appbundle.aab
+          mv app-release.aab flutter_boolean_template-${{ env.BRANCH_NAME }}-android-appbundle.aab
 
       - name: Upload Android App Bundle
         uses: actions/upload-artifact@v3
         with:
-          name: flutter_boolean_template-${{ github.ref_name }}-android-appbundle
+          name: flutter_boolean_template-${{ env.BRANCH_NAME }}-android-appbundle
           path: build/app/outputs/bundle/release/*.aab
           
       - name: Release Android App Bundle
@@ -488,11 +490,11 @@ jobs:
         run: |
           dart run msix:create --build-windows false
           cd build\windows\x64\runner\Release
-          mv flutter_boolean_template.msix flutter_boolean_template-${{ github.ref_name }}-windows.msix
+          mv flutter_boolean_template.msix flutter_boolean_template-${{ env.BRANCH_NAME }}-windows.msix
       - name: Upload MSIX
         uses: actions/upload-artifact@v3
         with:
-          name: flutter_boolean_template-${{ github.ref_name }}-windows
+          name: flutter_boolean_template-${{ env.BRANCH_NAME }}-windows
           path: build/windows/x64/runner/Release/*.msix
           
       - name: Release MSIX
@@ -575,12 +577,12 @@ jobs:
           mv build/linux/x64/release/bundle/{flutter_boolean_template,AppRun}
           cp linux/appimage/* build/linux/x64/release/bundle/
           ./appimagetool build/linux/x64/release/bundle/
-          mv *.AppImage build/flutter_boolean_template-${{ github.ref_name }}-linux.AppImage
+          mv *.AppImage build/flutter_boolean_template-${{ env.BRANCH_NAME }}-linux.AppImage
 
       - name: Upload AppImage
         uses: actions/upload-artifact@v3
         with:
-          name: flutter_boolean_template-${{ github.ref_name }}-linux-appimage
+          name: flutter_boolean_template-${{ env.BRANCH_NAME }}-linux-appimage
           path: build/flutter_boolean_template-*.AppImage
           
       - name: Release AppImage
@@ -655,12 +657,12 @@ jobs:
       - name: Build DMG
         run: |
           brew install create-dmg 
-          create-dmg --volname flutter_boolean_template-${{ github.ref_name }}-macos --window-pos 200 120 --window-size 800 450 --icon-size 100 --app-drop-link 600 185 flutter_boolean_template-${{ github.ref_name }}-macos.dmg build/macos/Build/Products/Release/flutter_boolean_template.app
+          create-dmg --volname flutter_boolean_template-${{ env.BRANCH_NAME }}-macos --window-pos 200 120 --window-size 800 450 --icon-size 100 --app-drop-link 600 185 flutter_boolean_template-${{ env.BRANCH_NAME }}-macos.dmg build/macos/Build/Products/Release/flutter_boolean_template.app
       
       - name: Upload DMG
         uses: actions/upload-artifact@v3
         with:
-          name: flutter_boolean_template-${{ github.ref_name }}-macos
+          name: flutter_boolean_template-${{ env.BRANCH_NAME }}-macos
           path: "/Users/runner/work/flutter_boolean_template/flutter_boolean_template/*.dmg"
           
       - name: Release DMG
@@ -732,7 +734,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: flutter_boolean_template-${{ github.ref_name }}-web
+          name: flutter_boolean_template-${{ env.BRANCH_NAME }}-web
           path: build/web
 
   deploy_web:
