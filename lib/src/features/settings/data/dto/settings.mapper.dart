@@ -13,6 +13,7 @@ class SettingsMapper extends ClassMapperBase<Settings> {
   static SettingsMapper ensureInitialized() {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = SettingsMapper._());
+      NavigationTypeOverrideMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -32,13 +33,20 @@ class SettingsMapper extends ClassMapperBase<Settings> {
   static bool _$confirmExit(Settings v) => v.confirmExit;
   static const Field<Settings, bool> _f$confirmExit =
       Field('confirmExit', _$confirmExit, opt: true, def: true);
+  static NavigationTypeOverride _$navigationTypeOverride(Settings v) =>
+      v.navigationTypeOverride;
+  static const Field<Settings, NavigationTypeOverride>
+      _f$navigationTypeOverride = Field(
+          'navigationTypeOverride', _$navigationTypeOverride,
+          opt: true, def: NavigationTypeOverride.auto);
 
   @override
-  final Map<Symbol, Field<Settings, dynamic>> fields = const {
+  final MappableFields<Settings> fields = const {
     #bannerEnabled: _f$bannerEnabled,
     #darkMode: _f$darkMode,
     #systemThemeMode: _f$systemThemeMode,
     #confirmExit: _f$confirmExit,
+    #navigationTypeOverride: _f$navigationTypeOverride,
   };
 
   static Settings _instantiate(DecodingData data) {
@@ -46,7 +54,8 @@ class SettingsMapper extends ClassMapperBase<Settings> {
         bannerEnabled: data.dec(_f$bannerEnabled),
         darkMode: data.dec(_f$darkMode),
         systemThemeMode: data.dec(_f$systemThemeMode),
-        confirmExit: data.dec(_f$confirmExit));
+        confirmExit: data.dec(_f$confirmExit),
+        navigationTypeOverride: data.dec(_f$navigationTypeOverride));
   }
 
   @override
@@ -104,7 +113,8 @@ abstract class SettingsCopyWith<$R, $In extends Settings, $Out>
       {bool? bannerEnabled,
       bool? darkMode,
       bool? systemThemeMode,
-      bool? confirmExit});
+      bool? confirmExit,
+      NavigationTypeOverride? navigationTypeOverride});
   SettingsCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -121,19 +131,24 @@ class _SettingsCopyWithImpl<$R, $Out>
           {bool? bannerEnabled,
           bool? darkMode,
           bool? systemThemeMode,
-          bool? confirmExit}) =>
+          bool? confirmExit,
+          NavigationTypeOverride? navigationTypeOverride}) =>
       $apply(FieldCopyWithData({
         if (bannerEnabled != null) #bannerEnabled: bannerEnabled,
         if (darkMode != null) #darkMode: darkMode,
         if (systemThemeMode != null) #systemThemeMode: systemThemeMode,
-        if (confirmExit != null) #confirmExit: confirmExit
+        if (confirmExit != null) #confirmExit: confirmExit,
+        if (navigationTypeOverride != null)
+          #navigationTypeOverride: navigationTypeOverride
       }));
   @override
   Settings $make(CopyWithData data) => Settings(
       bannerEnabled: data.get(#bannerEnabled, or: $value.bannerEnabled),
       darkMode: data.get(#darkMode, or: $value.darkMode),
       systemThemeMode: data.get(#systemThemeMode, or: $value.systemThemeMode),
-      confirmExit: data.get(#confirmExit, or: $value.confirmExit));
+      confirmExit: data.get(#confirmExit, or: $value.confirmExit),
+      navigationTypeOverride:
+          data.get(#navigationTypeOverride, or: $value.navigationTypeOverride));
 
   @override
   SettingsCopyWith<$R2, Settings, $Out2> $chain<$R2, $Out2>(

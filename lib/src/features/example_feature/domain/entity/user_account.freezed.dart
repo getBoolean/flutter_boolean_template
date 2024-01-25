@@ -96,7 +96,7 @@ class _$InvalidImpl implements _Invalid {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$InvalidImpl);
   }

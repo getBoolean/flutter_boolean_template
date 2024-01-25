@@ -4,6 +4,7 @@ import 'package:constants/constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/app.dart';
+import 'package:flutter_boolean_template/src/features/settings/data/dto/navigation_type_override.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/dto/settings.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/repository/settings_repository.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
@@ -27,7 +28,7 @@ void main() async {
   if (!kIsWeb &&
       (io.Platform.isWindows || io.Platform.isLinux || io.Platform.isMacOS)) {
     await windowManager.ensureInitialized();
-    await windowManager.setMinimumSize(const Size(100, 200));
+    await windowManager.setMinimumSize(const Size(600, 300));
   }
 
   runApp(const ProviderScope(child: App()));
@@ -36,6 +37,7 @@ void main() async {
 Future<void> initHive() async {
   await Hive.initFlutter();
   Hive.registerAdapter(SettingsAdapter());
+  Hive.registerAdapter(NavigationTypeOverrideAdapter());
   await SettingsRepository.initBox();
 }
 

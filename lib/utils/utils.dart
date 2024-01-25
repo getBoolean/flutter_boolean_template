@@ -5,7 +5,7 @@ import 'dart:io' as io;
 import 'package:adaptive_breakpoints/adaptive_breakpoints.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_boolean_template/src/routing/ui/widgets/responsive_scaffold.dart';
+import 'package:flutter_boolean_template/src/routing/data/navigation_type.dart';
 import 'package:universal_html/html.dart' as html;
 
 enum DeviceType {
@@ -144,7 +144,7 @@ NavigationType $resolveNavigationType(BuildContext context) {
       },
     Orientation.landscape => switch (form) {
         DeviceForm.largeDesktop || DeviceForm.desktop => NavigationType.top,
-        DeviceForm.tablet => NavigationType.permanentDrawer,
+        DeviceForm.tablet => NavigationType.expandedSidebar,
         DeviceForm.largePhone => NavigationType.rail,
         DeviceForm.phone => NavigationType.drawer,
       },

@@ -107,7 +107,7 @@ class _$IllegalCharactersImpl implements _IllegalCharacters {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$IllegalCharactersImpl);
   }
@@ -215,7 +215,7 @@ class _$ObsceneImpl implements _Obscene {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$ObsceneImpl);
   }
@@ -323,7 +323,7 @@ class _$EmptyImpl implements _Empty {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$EmptyImpl);
   }

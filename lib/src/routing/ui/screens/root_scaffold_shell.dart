@@ -1,6 +1,7 @@
 import 'package:constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/features/settings/application/settings_service.dart';
+import 'package:flutter_boolean_template/src/features/settings/data/dto/navigation_type_override.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/dto/settings.dart';
 import 'package:flutter_boolean_template/src/routing/ui/widgets/responsive_scaffold.dart';
 import 'package:flutter_boolean_template/utils/utils.dart';
@@ -39,7 +40,14 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
           currentIndex: widget.navigationShell.currentIndex,
           title: widget.title,
           goToIndex: widget.navigationShell.goBranch,
-          navigationTypeResolver: $resolveNavigationType,
+          navigationTypeResolver: (context) {
+            final settings = ref.watch(settingsServiceProvider);
+            final navigationTypeOverride = settings.navigationTypeOverride;
+            if (navigationTypeOverride == NavigationTypeOverride.auto) {
+              return $resolveNavigationType(context);
+            }
+            return navigationTypeOverride.navigationType;
+          },
           topBarStart: Padding(
             padding: const EdgeInsets.only(left: 48.0, right: 32.0),
             child: Align(

@@ -28,7 +28,7 @@ class LocationHistoryMapper extends ClassMapperBase<LocationHistory> {
       Field('popped', _$popped, opt: true, def: const []);
 
   @override
-  final Map<Symbol, Field<LocationHistory, dynamic>> fields = const {
+  final MappableFields<LocationHistory> fields = const {
     #history: _f$history,
     #popped: _f$popped,
   };

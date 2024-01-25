@@ -1,5 +1,6 @@
 import 'package:constants/constants.dart';
 import 'package:dart_mappable/dart_mappable.dart';
+import 'package:flutter_boolean_template/src/features/settings/data/dto/navigation_type_override.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 part 'settings.g.dart';
@@ -24,11 +25,16 @@ class Settings with SettingsMappable {
   @HiveField(3, defaultValue: true)
   final bool confirmExit;
 
+  @MappableField()
+  @HiveField(4, defaultValue: NavigationTypeOverride.auto)
+  final NavigationTypeOverride navigationTypeOverride;
+
   const Settings({
     this.bannerEnabled = true,
     this.darkMode = true,
     this.systemThemeMode = true,
     this.confirmExit = true,
+    this.navigationTypeOverride = NavigationTypeOverride.auto,
   });
 
   static const fromMap = SettingsMapper.fromMap;

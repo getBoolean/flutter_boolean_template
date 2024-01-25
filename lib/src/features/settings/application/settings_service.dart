@@ -1,3 +1,4 @@
+import 'package:flutter_boolean_template/src/features/settings/data/dto/navigation_type_override.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/dto/settings.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/repository/settings_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -16,6 +17,15 @@ class SettingsService extends _$SettingsService {
     final settings = _settingsRepository.getSettings();
 
     return settings ?? const Settings();
+  }
+
+  void setNavigationTypeOverride(
+    NavigationTypeOverride navigationTypeOverride,
+  ) {
+    final newSettings =
+        state.copyWith(navigationTypeOverride: navigationTypeOverride);
+    state = newSettings;
+    _settingsRepository.saveSettings(newSettings);
   }
 
   void toggleBanner() {

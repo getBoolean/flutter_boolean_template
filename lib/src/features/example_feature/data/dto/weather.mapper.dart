@@ -30,7 +30,7 @@ class WeatherParamsMapper extends ClassMapperBase<WeatherParams> {
       Field('tempMax', _$tempMax, key: 'temp_max');
 
   @override
-  final Map<Symbol, Field<WeatherParams, dynamic>> fields = const {
+  final MappableFields<WeatherParams> fields = const {
     #temp: _f$temp,
     #tempMin: _f$tempMin,
     #tempMax: _f$tempMax,
@@ -152,7 +152,7 @@ class WeatherInfoMapper extends ClassMapperBase<WeatherInfo> {
   static const Field<WeatherInfo, String> _f$icon = Field('icon', _$icon);
 
   @override
-  final Map<Symbol, Field<WeatherInfo, dynamic>> fields = const {
+  final MappableFields<WeatherInfo> fields = const {
     #main: _f$main,
     #description: _f$description,
     #icon: _f$icon,
@@ -275,7 +275,7 @@ class WeatherMapper extends ClassMapperBase<Weather> {
   static const Field<Weather, int> _f$dt = Field('dt', _$dt);
 
   @override
-  final Map<Symbol, Field<Weather, dynamic>> fields = const {
+  final MappableFields<Weather> fields = const {
     #weatherParams: _f$weatherParams,
     #weatherInfo: _f$weatherInfo,
     #dt: _f$dt,

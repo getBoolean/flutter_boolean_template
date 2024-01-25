@@ -5,6 +5,7 @@ import 'package:constants/constants.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/common_widgets/constrained_scrollable_child.dart';
+import 'package:flutter_boolean_template/src/routing/data/navigation_type.dart';
 import 'package:flutter_boolean_template/src/routing/ui/widgets/auto_leading_button.dart';
 import 'package:flutter_boolean_template/src/routing/ui/widgets/responsive_sidebar.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -223,7 +224,7 @@ class ResponsiveScaffold extends StatefulHookWidget {
     void Function(int index) setPage,
   )? drawerBuilder;
 
-  /// Custom builder for [NavigationType.permanentDrawer]
+  /// Custom builder for [NavigationType.expandedSidebar]
   /// and [NavigationType.rail]
   ///
   /// If not null, then [drawerHeader] and [drawerFooter] are ignored for this type.
@@ -354,7 +355,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
             AnimatedSwitcher(
               duration: widget.transitionDuration,
               reverseDuration: widget.transitionReverseDuration,
-              child: navigationType == NavigationType.permanentDrawer ||
+              child: navigationType == NavigationType.expandedSidebar ||
                       navigationType == NavigationType.rail
                   ? sidebar
                   : null,
@@ -437,7 +438,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
       destinations: widget.destinations,
       onTap: _setPage,
       expandable: true,
-      shouldExpand: navigationType == NavigationType.permanentDrawer,
+      shouldExpand: navigationType == NavigationType.expandedSidebar,
       shouldShrink: navigationType == NavigationType.rail,
       expandedWidth: widget.drawerWidth,
       expandedHeader: widget.drawerHeader,
@@ -549,24 +550,6 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
   }
 }
 
-/// The navigation mechanism to configure the [Scaffold] with.
-enum NavigationType {
-  /// Used to configure a [Scaffold] with a [NavigationBar].
-  bottom,
-
-  /// Used to configure a [Scaffold] with a [NavigationRail].
-  rail,
-
-  /// Used to configure a [Scaffold] with a modal [Drawer].
-  drawer,
-
-  /// Used to configure a [Scaffold] with an always open [Drawer].
-  permanentDrawer,
-
-  /// Used to configure a [Scaffold] with a [TabBar]
-  top,
-}
-
 class RouterDestination {
   const RouterDestination({
     required this.title,
@@ -581,7 +564,7 @@ class RouterDestination {
 
 NavigationType defaultNavigationTypeResolver(BuildContext context) {
   if (defaultIsLargeScreen(context)) {
-    return NavigationType.permanentDrawer;
+    return NavigationType.expandedSidebar;
   } else if (defaultIsMediumScreen(context)) {
     return NavigationType.rail;
   } else {
