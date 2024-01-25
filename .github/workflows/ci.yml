@@ -28,7 +28,7 @@ env:
   FLUTTER_VERSION: "any"
   FLAVOR: ""
   # https://github.com/transferwise/sanitize-branch-name/blob/main/action.yml
-  BRANCH_NAME: $(echo ${{ github.ref }} | sed 's/refs\/heads\///')
+  BRANCH_NAME: $(${{ github.head_ref || github.ref_name }} | tr "/" "-")
 
 # Needed to deploy to GitHub Pages
 permissions:
