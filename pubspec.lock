@@ -17,14 +17,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.1.7"
-  adaptive_dialog:
-    dependency: "direct main"
-    description:
-      name: adaptive_dialog
-      sha256: "30dc6deee139cde31e5d10a1d05e1a2a1bb6d592cf0eea27b978884b1ff03405"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.0"
   analyzer:
     dependency: transitive
     description:
@@ -41,14 +33,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.11.3"
-  animations:
-    dependency: transitive
-    description:
-      name: animations
-      sha256: d3d6dcfb218225bbe68e87ccf6378bbb2e32a94900722c5f81611dad089911cb
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.11"
   ansi_styles:
     dependency: transitive
     description:
@@ -72,14 +56,6 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
-  appkit_ui_element_colors:
-    dependency: transitive
-    description:
-      name: appkit_ui_element_colors
-      sha256: c3e50f900aae314d339de489535736238627071457c4a4a2dbbb1545b4f04f22
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
   archive:
     dependency: transitive
     description:
@@ -390,14 +366,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.10.1"
-  dynamic_color:
-    dependency: transitive
-    description:
-      name: dynamic_color
-      sha256: a866f1f8947bfdaf674d7928e769eac7230388a2e7a2542824fad4bb5b87be3b
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.6.9"
   env:
     dependency: "direct main"
     description:
@@ -495,6 +463,54 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.20.4"
+  flutter_keyboard_visibility:
+    dependency: transitive
+    description:
+      name: flutter_keyboard_visibility
+      sha256: "98664be7be0e3ffca00de50f7f6a287ab62c763fc8c762e0a21584584a3ff4f8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.0.0"
+  flutter_keyboard_visibility_linux:
+    dependency: transitive
+    description:
+      name: flutter_keyboard_visibility_linux
+      sha256: "6fba7cd9bb033b6ddd8c2beb4c99ad02d728f1e6e6d9b9446667398b2ac39f08"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
+  flutter_keyboard_visibility_macos:
+    dependency: transitive
+    description:
+      name: flutter_keyboard_visibility_macos
+      sha256: c5c49b16fff453dfdafdc16f26bdd8fb8d55812a1d50b0ce25fc8d9f2e53d086
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
+  flutter_keyboard_visibility_platform_interface:
+    dependency: transitive
+    description:
+      name: flutter_keyboard_visibility_platform_interface
+      sha256: e43a89845873f7be10cb3884345ceb9aebf00a659f479d1c8f4293fcb37022a4
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
+  flutter_keyboard_visibility_web:
+    dependency: transitive
+    description:
+      name: flutter_keyboard_visibility_web
+      sha256: d3771a2e752880c79203f8d80658401d0c998e4183edca05a149f5098ce6e3d1
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
+  flutter_keyboard_visibility_windows:
+    dependency: transitive
+    description:
+      name: flutter_keyboard_visibility_windows
+      sha256: fc4b0f0b6be9b93ae527f3d527fb56ee2d918cd88bbca438c478af7bcfd0ef73
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:
@@ -628,14 +644,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.0"
-  gradient_borders:
-    dependency: transitive
-    description:
-      name: gradient_borders
-      sha256: "69eeaff519d145a4c6c213ada1abae386bcc8981a4970d923e478ce7ba19e309"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
   graphs:
     dependency: transitive
     description:
@@ -729,14 +737,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  intersperse:
-    dependency: transitive
-    description:
-      name: intersperse
-      sha256: "2f8a905c96f6cbba978644a3d5b31b8d86ddc44917662df7d27a61f3df66a576"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.0"
   intl:
     dependency: transitive
     description:
@@ -847,22 +847,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
-  macos_ui:
-    dependency: transitive
-    description:
-      name: macos_ui
-      sha256: d351f0bada7e5b0cee8cf394299878a6c04e5cfcd784fa1d40e44299501124d8
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.5"
-  macos_window_utils:
-    dependency: transitive
-    description:
-      name: macos_window_utils
-      sha256: b3dfd47bbc605f0e315af684b50370a8f84932267aaa542098063fa384d593bd
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.4.0"
   mason:
     dependency: "direct dev"
     description:
@@ -1557,6 +1541,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.3.7"
+  wolt_modal_sheet:
+    dependency: "direct main"
+    description:
+      name: wolt_modal_sheet
+      sha256: "5dcf57ac13bf2614a38ea3e51ed9ca1883bc2368d0e19b8c0cd53bb1467ffeea"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.0"
   xdg_directories:
     dependency: transitive
     description:

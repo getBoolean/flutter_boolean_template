@@ -1,4 +1,3 @@
-import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/features/settings/application/settings_service.dart';
@@ -6,6 +5,7 @@ import 'package:flutter_boolean_template/src/features/settings/data/dto/navigati
 import 'package:flutter_boolean_template/src/features/settings/data/dto/settings.dart';
 import 'package:flutter_settings_ui/flutter_settings_ui.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 
 class SettingsWidget extends StatefulHookConsumerWidget {
   const SettingsWidget({
@@ -26,11 +26,14 @@ class _SettingsWidgetState extends ConsumerState<SettingsWidget> {
       lightTheme: SettingsThemeData(
         settingsListBackground: theme.colorScheme.background,
         settingsSectionBackground: theme.colorScheme.background,
+        tileHighlightColor: theme.highlightColor,
       ),
       darkTheme: SettingsThemeData(
         settingsListBackground: theme.colorScheme.background,
         settingsSectionBackground: theme.colorScheme.background,
+        tileHighlightColor: theme.highlightColor,
       ),
+      brightness: theme.brightness,
       platform: DevicePlatform.android,
       sections: [
         if (developerSettings.isNotEmpty)
@@ -63,18 +66,38 @@ class _SettingsWidgetState extends ConsumerState<SettingsWidget> {
               value: Text(settings.navigationTypeOverride.humanName),
               onPressed: (context) async {
                 final navigationTypeOverride =
-                    await showModalActionSheet<NavigationTypeOverride>(
+                    await WoltModalSheet.show<NavigationTypeOverride>(
                   context: context,
-                  title: 'Navigation',
-                  style: AdaptiveStyle.adaptive.effectiveStyle(theme),
-                  actions: [
-                    for (final navigationTypeOverride
-                        in NavigationTypeOverride.values)
-                      SheetAction(
-                        label: navigationTypeOverride.humanName,
-                        key: navigationTypeOverride,
+                  useRootNavigator: true,
+                  pageListBuilder: (BuildContext context) {
+                    final theme = Theme.of(context);
+                    return [
+                      SliverWoltModalSheetPage(
+                        topBarTitle: Center(
+                          child: Text(
+                            'Navigation',
+                            style: theme.textTheme.titleSmall,
+                          ),
+                        ),
+                        isTopBarLayerAlwaysVisible: true,
+                        mainContentSlivers: [
+                          SliverList(
+                            delegate: SliverChildListDelegate([
+                              for (final navigationTypeOverride
+                                  in NavigationTypeOverride.values)
+                                ListTile(
+                                  title: Text(navigationTypeOverride.humanName),
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .pop(navigationTypeOverride);
+                                  },
+                                ),
+                            ]),
+                          ),
+                        ],
                       ),
-                  ],
+                    ];
+                  },
                 );
                 if (navigationTypeOverride != null) {
                   ref
