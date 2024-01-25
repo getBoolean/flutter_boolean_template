@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:adaptive_breakpoints/adaptive_breakpoints.dart';
+import 'package:constants/constants.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/common_widgets/constrained_scrollable_child.dart';
@@ -370,11 +371,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
                   ? sidebar
                   : null,
             ),
-            widget.divider ??
-                const VerticalDivider(
-                  width: 1,
-                  thickness: 1,
-                ),
+            widget.divider ?? vdivider,
             Expanded(child: widget.child),
           ],
         ),
@@ -459,8 +456,12 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
       shouldExpand: navigationType == NavigationType.permanentDrawer,
       shouldShrink: navigationType == NavigationType.rail,
       expandedWidth: widget.drawerWidth,
-      header: widget.drawerHeader,
-      logo: widget.logo,
+      expandedHeader: widget.drawerHeader,
+      collapseHeader: widget.logo,
+      expandedFooter: widget.drawerFooter,
+      collapseFooter: widget.fabInRail ? widget.floatingActionButton : null,
+      transitionDuration: widget.transitionDuration,
+      reverseTransitionDuration: widget.transitionReverseDuration,
     );
   }
 
@@ -652,8 +653,12 @@ class _StyledResponsiveSidebar extends StatelessWidget {
     required this.shouldShrink,
     required this.onTap,
     required this.expandedWidth,
-    required this.header,
-    required this.logo,
+    required this.expandedHeader,
+    required this.collapseHeader,
+    required this.expandedFooter,
+    required this.collapseFooter,
+    required this.transitionDuration,
+    required this.reverseTransitionDuration,
     super.key,
   });
 
@@ -667,8 +672,14 @@ class _StyledResponsiveSidebar extends StatelessWidget {
   final bool shouldShrink;
   final double expandedWidth;
 
-  final Widget? header;
-  final Widget? logo;
+  final Widget? expandedHeader;
+  final Widget? collapseHeader;
+
+  final Widget? expandedFooter;
+  final Widget? collapseFooter;
+
+  final Duration? transitionDuration;
+  final Duration? reverseTransitionDuration;
 
   /// Callback to set the current page in the navigator
   final void Function(int index) onTap;
@@ -683,22 +694,39 @@ class _StyledResponsiveSidebar extends StatelessWidget {
       shouldExpand: shouldExpand,
       shouldShrink: shouldShrink,
       expandable: expandable,
-      footerDivider: const Divider(
-        height: 1,
-        thickness: 1,
-      ),
       expandedWidth: expandedWidth,
       headerBuilder: (context, isExpanded) {
-        final Widget? widget = isExpanded ? header : logo;
-
+        final Widget? widget = isExpanded ? expandedHeader : collapseHeader;
         return widget == null
             ? const SizedBox.shrink()
             : Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 300),
+                  duration:
+                      transitionDuration ?? const Duration(milliseconds: 300),
+                  reverseDuration: reverseTransitionDuration,
                   child: widget,
                 ),
+              );
+      },
+      footerBuilder: (context, isExpanded) {
+        final Widget? widget = isExpanded ? expandedFooter : collapseFooter;
+        return widget == null
+            ? const SizedBox.shrink()
+            : Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: AnimatedSwitcher(
+                      duration: transitionDuration ??
+                          const Duration(milliseconds: 300),
+                      reverseDuration: reverseTransitionDuration,
+                      child: widget,
+                    ),
+                  ),
+                  hdivider,
+                ],
               );
       },
       separatorBuilder: (_, __) => const SizedBox.shrink(),
@@ -733,9 +761,8 @@ class _StyledResponsiveSidebar extends StatelessWidget {
         selectedItemDecoration: BoxDecoration(
           border: Border.all(color: theme.canvasColor),
         ),
-        iconTheme: IconTheme.of(context).copyWith(
-          color: theme.colorScheme.onSurfaceVariant,
-        ),
+        iconTheme: IconTheme.of(context)
+            .copyWith(color: theme.colorScheme.onSurfaceVariant),
         selectedIconTheme: IconTheme.of(context).copyWith(
           color: theme.colorScheme.secondary,
         ),
