@@ -59,7 +59,7 @@ I highly recommend reading the article. Each `layer` has its own folder per feat
 - Minimal OS Version:
   - iOS: 13.0
   - Android: 5.0 (SDK 21)
-  - MacOS: 10.14
+  - MacOS: 10.14.6
   - Windows 10
   - Linux: Whatever Flutter's is
 
