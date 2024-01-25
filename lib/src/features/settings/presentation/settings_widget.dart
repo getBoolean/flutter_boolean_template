@@ -58,7 +58,7 @@ class _SettingsWidgetState extends ConsumerState<SettingsWidget> {
               onToggle: (value) async {
                 ref.read(settingsServiceProvider.notifier).toggleConfirmExit();
               },
-            )
+            ),
           ],
         ),
       ],

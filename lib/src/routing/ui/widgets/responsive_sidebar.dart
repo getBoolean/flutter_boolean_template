@@ -6,10 +6,10 @@ import 'package:sidebarx/sidebarx.dart';
 
 class ResponsiveSidebar extends StatefulWidget {
   const ResponsiveSidebar({
-    super.key,
     required this.controller,
     required this.destinations,
     required this.onTap,
+    super.key,
     this.expandable = true,
     this.shouldExpand = false,
     this.shouldShrink = false,
@@ -26,6 +26,11 @@ class ResponsiveSidebar extends StatefulWidget {
     this.separatorBuilder,
     this.toggleButtonBuilder,
     this.headerDivider,
+    this.footerItems = const [],
+    this.showToggleButton = true,
+    this.animationDuration = const Duration(milliseconds: 300),
+    this.collapseIcon = Icons.arrow_back_ios_new,
+    this.extendIcon = Icons.arrow_forward_ios,
   });
 
   /// The index into [destinations] for the current selected
@@ -38,18 +43,18 @@ class ResponsiveSidebar extends StatefulWidget {
   final bool shouldShrink;
   final SidebarXTheme theme;
   final double expandedWidth;
-  final List<SidebarXItem> footerItems = const [];
+  final List<SidebarXItem> footerItems;
   final SidebarXTheme? extendedTheme;
   final Widget Function(BuildContext, bool)? headerBuilder;
   final Widget Function(BuildContext, bool)? footerBuilder;
   final Widget Function(BuildContext, int)? separatorBuilder;
   final Widget Function(BuildContext, bool)? toggleButtonBuilder;
-  final bool showToggleButton = true;
+  final bool showToggleButton;
   final Widget? headerDivider;
   final Widget? footerDivider;
-  final Duration animationDuration = const Duration(milliseconds: 300);
-  final IconData collapseIcon = Icons.arrow_back_ios_new;
-  final IconData extendIcon = Icons.arrow_forward_ios;
+  final Duration animationDuration;
+  final IconData collapseIcon;
+  final IconData extendIcon;
 
   /// Callback to set the current page in the navigator
   final void Function(int index) onTap;

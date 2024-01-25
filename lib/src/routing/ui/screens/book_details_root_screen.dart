@@ -18,7 +18,7 @@ class _BookDetailsRootScreenState extends State<BookDetailsRootScreen> {
       color: Colors.blueAccent,
       child: Center(
         child: Text(
-            widget.id != null ? 'Book ${widget.id}' : 'Book Details Screen'),
+            widget.id != null ? 'Book ${widget.id}' : 'Book Details Screen',),
       ),
     );
   }

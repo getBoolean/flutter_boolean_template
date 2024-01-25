@@ -7,10 +7,9 @@ part 'name.modddel.dart';
 @Modddel(validationSteps: [
   ValidationStep([
     Validation('allowed', FailureType<NameValidFailure>()),
-  ], name: 'Value')
-])
+  ], name: 'Value',),
+],)
 class Name extends MultiValueObject<InvalidName, ValidName> with _$Name {
-  const Name._();
 
   factory Name({
     required String firstName,
@@ -18,10 +17,11 @@ class Name extends MultiValueObject<InvalidName, ValidName> with _$Name {
     String middleName = '',
   }) =>
       _$Name._create(
-          firstName: firstName, lastName: lastName, middleName: middleName);
+          firstName: firstName, lastName: lastName, middleName: middleName,);
+  const Name._();
 
   @override
-  Option<NameValidFailure> validateAllowed(name) {
+  Option<NameValidFailure> validateAllowed(_ValidateNameAllowed name) {
     if (name.firstName.isEmpty || name.lastName.isEmpty) {
       // also check for valid email format
       return some(const NameValidFailure.empty());

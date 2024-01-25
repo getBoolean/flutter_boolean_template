@@ -11,10 +11,7 @@ import 'package:log/log.dart';
 
 class RootScaffoldShell extends ConsumerStatefulWidget {
   const RootScaffoldShell({
-    super.key,
-    required this.navigationShell,
-    required this.destinations,
-    required this.title,
+    required this.navigationShell, required this.destinations, required this.title, super.key,
   });
 
   /// The navigation shell and container for the branch Navigators.
@@ -66,7 +63,7 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
           ),
           topBarEnd: Padding(
             padding: EdgeInsets.symmetric(
-                horizontal: settings.isBannerShowing ? 60 : 4),
+                horizontal: settings.isBannerShowing ? 60 : 4,),
             child: IconButton(
               onPressed: () {},
               icon: const Icon(Icons.search),

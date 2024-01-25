@@ -77,9 +77,9 @@ class AutoLeadingButton extends ConsumerStatefulWidget {
     this.showDisabled,
     this.transitionDuration = const Duration(milliseconds: 150),
   })  : assert(color == null || builder == null,
-            'Cannot use both color and builder'),
+            'Cannot use both color and builder',),
         assert(showDisabled == null || builder == null,
-            'Cannot use both hideDisabled and builder');
+            'Cannot use both hideDisabled and builder',);
 
   @override
   ConsumerState<AutoLeadingButton> createState() => _AutoLeadingButtonState();

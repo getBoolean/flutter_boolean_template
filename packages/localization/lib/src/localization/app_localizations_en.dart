@@ -1,8 +1,8 @@
-import 'app_localizations.dart';
+import 'package:localization/src/localization/app_localizations.dart';
 
 /// The translations for English (`en`).
 class AppLocalizationsEn extends AppLocalizations {
-  AppLocalizationsEn([String locale = 'en']) : super(locale);
+  AppLocalizationsEn([super.locale = 'en']);
 
   @override
   String get appTitle => 'flutter_boolean_template';

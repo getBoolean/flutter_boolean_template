@@ -3,7 +3,7 @@ import 'package:flutter_boolean_template/src/routing/router/router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class RouterWidget extends ConsumerWidget {
-  const RouterWidget({super.key, required this.builder});
+  const RouterWidget({required this.builder, super.key});
 
   final Widget Function(BuildContext, RouterConfig<Object>) builder;
 

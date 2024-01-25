@@ -6,38 +6,43 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final locationHistoryProvider =
     NotifierProvider<LocationHistoryNotifier, LocationHistory>(
-        LocationHistoryNotifier.new);
+  LocationHistoryNotifier.new,
+);
 
 /// Source: @cgestes https://github.com/flutter/flutter/issues/115353#issuecomment-1675808675
 class LocationHistoryNotifier extends Notifier<LocationHistory> {
   @override
   LocationHistory build() {
-    ref.listen(locationProvider, (previous, next) {
-      if (state.history.isNotEmpty && state.history.last == next) {
-        return;
-      }
-      final history = [...state.history];
-      final popped = [...state.popped];
+    ref.listen(
+      locationProvider,
+      (previous, next) {
+        if (state.history.isNotEmpty && state.history.last == next) {
+          return;
+        }
+        final history = [...state.history];
+        final popped = [...state.popped];
 
-      history.add(next);
-      if (popped.isNotEmpty && popped.last == next) {
-        popped.removeLast();
-      } else {
-        popped.clear();
-      }
-      state = state.copyWith(history: history, popped: popped);
-    }, fireImmediately: true);
+        history.add(next);
+        if (popped.isNotEmpty && popped.last == next) {
+          popped.removeLast();
+        } else {
+          popped.clear();
+        }
+        state = state.copyWith(history: history, popped: popped);
+      },
+      fireImmediately: true,
+    );
     return const LocationHistory();
   }
 
   /// Whether it is possible to [goBack],
-  /// i.e. there is more than 1 entry in [state.history].
+  /// i.e. there is more than 1 entry in [Notifier.state.history].
   bool canGoBack() {
     return state.hasBackward();
   }
 
   /// Whether it is possible to [goForward],
-  /// i.e. [state.popped] is not empty.
+  /// i.e. [Notifier.state.popped] is not empty.
   bool canGoForward() {
     return state.hasForward();
   }

@@ -49,6 +49,7 @@ void registerErrorHandlers() {
   // * Handle errors from the underlying platform/OS
   PlatformDispatcher.instance.onError = (Object error, StackTrace stackTrace) {
     debugPrint(error.toString());
+
     return true;
   };
   // * Show some error UI when any widget in teh app fails to build
@@ -64,17 +65,15 @@ void registerErrorHandlers() {
         body: SingleChildScrollView(
           child: Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 16),
                 Text(details.exceptionAsString(),
-                    style: const TextStyle(color: Colors.red)),
+                    style: const TextStyle(color: Colors.red),),
                 const SizedBox(height: 16),
                 const Text('Restart the app to continue.',
                     style: TextStyle(
-                        color: Colors.red, fontWeight: FontWeight.bold)),
+                        color: Colors.red, fontWeight: FontWeight.bold,),),
               ],
             ),
           ),

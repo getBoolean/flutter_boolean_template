@@ -7,9 +7,7 @@ extension BuildContextSettings on BuildContext {
 
 class AppSettings extends InheritedModel<String> {
   const AppSettings({
-    super.key,
-    required this.settings,
-    required super.child,
+    required this.settings, required super.child, super.key,
   });
 
   final Settings settings;
@@ -30,7 +28,7 @@ class AppSettings extends InheritedModel<String> {
 
   @override
   bool updateShouldNotifyDependent(
-      AppSettings oldWidget, Set<String> dependencies) {
+      AppSettings oldWidget, Set<String> dependencies,) {
     return settings != oldWidget.settings && dependencies.contains('settings');
   }
 }

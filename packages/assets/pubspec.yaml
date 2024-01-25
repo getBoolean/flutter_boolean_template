@@ -10,14 +10,15 @@ dependencies:
   equatable: ^2.0.5
   flutter:
     sdk: flutter
-  hooks_riverpod: ^2.3.6
   fpdart: ^1.1.0
+  hooks_riverpod: ^2.3.6
 
 dev_dependencies:
+  app_lints:
+    path: ../app_lints
+  assets_gen: ^1.5.0
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.1
-  assets_gen: ^1.5.0
 
 flutter:
   # Must specify full path to each asset, directories will not work

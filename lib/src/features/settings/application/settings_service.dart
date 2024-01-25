@@ -14,6 +14,7 @@ class SettingsService extends _$SettingsService {
   Settings build() {
     _settingsRepository = ref.watch(settingsRepositoryProvider.notifier);
     final settings = _settingsRepository.getSettings();
+
     return settings ?? const Settings();
   }
 

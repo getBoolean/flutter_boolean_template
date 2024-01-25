@@ -73,8 +73,6 @@ GoRouter createRouter({required Logger log}) {
         ) {
           return ImplicitlyAnimatedPageSwitcher(
             currentIndex: navigationShell.currentIndex,
-            duration: const Duration(milliseconds: 300),
-            animatePageTransition: true,
             children: children,
           );
         },

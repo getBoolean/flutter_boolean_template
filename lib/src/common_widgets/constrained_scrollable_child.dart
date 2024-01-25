@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 class ConstrainedScrollableChild extends StatelessWidget {
   const ConstrainedScrollableChild({
-    super.key,
     required this.child,
+    super.key,
     this.scrollDirection = Axis.vertical,
     this.controller,
     this.primary,

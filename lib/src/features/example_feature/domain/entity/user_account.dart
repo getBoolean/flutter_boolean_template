@@ -14,13 +14,11 @@ part 'user_account.modddel.dart';
     ]),
     ValidationStep([
       Validation('account', FailureType<UserAccountValidFailure>()),
-    ], name: 'Value')
+    ], name: 'Value',),
   ],
 )
 class UserAccount extends SimpleEntity<InvalidUserAccount, ValidUserAccount>
     with _$UserAccount {
-  UserAccount._();
-
   factory UserAccount({
     required Id id,
     required Name name,
@@ -28,9 +26,11 @@ class UserAccount extends SimpleEntity<InvalidUserAccount, ValidUserAccount>
   }) {
     return _$UserAccount._create(id: id, name: name, email: email);
   }
+  UserAccount._();
 
   @override
-  Option<UserAccountValidFailure> validateAccount(userAccount) {
+  Option<UserAccountValidFailure> validateAccount(
+      _ValidateUserAccountAccount userAccount,) {
     return none();
   }
 }

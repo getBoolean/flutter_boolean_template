@@ -2,7 +2,7 @@ import 'package:stock/stock.dart';
 
 class FutureStore {
   const FutureStore();
-  final _LocalDatabaseApi _local = const _LocalDatabaseApi();
+  _LocalDatabaseApi get _local => const _LocalDatabaseApi();
 
   /// Fetches new data from the network
   Fetcher<String, List<String>> get futureFetcher => Fetcher.ofFuture(
@@ -16,7 +16,7 @@ class FutureStore {
 
 class StreamStore {
   const StreamStore();
-  final _LocalDatabaseApi _local = const _LocalDatabaseApi();
+  _LocalDatabaseApi get _local => const _LocalDatabaseApi();
 
   /// Fetches new data from the network
   Fetcher<String, List<String>> get streamFetcher =>
