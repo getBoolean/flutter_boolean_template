@@ -24,7 +24,7 @@ on:
       - 'v*'
 
 env:
-  FLUTTER_CHANNEL: "stable"
+  FLUTTER_CHANNEL: "beta"
   FLUTTER_VERSION: "any"
   FLAVOR: ""
 
