@@ -27,6 +27,8 @@ env:
   FLUTTER_CHANNEL: "beta"
   FLUTTER_VERSION: "any"
   FLAVOR: ""
+  # https://github.com/transferwise/sanitize-branch-name/blob/main/action.yml
+  BRANCH_NAME: $(echo ${{ github.ref }} | sed 's/refs\/heads\///')
 
 # Needed to deploy to GitHub Pages
 permissions:
@@ -64,6 +66,7 @@ jobs:
       - name: Print Variables
         run: |
           echo "Current Flavor: ${{ env.FLAVOR }}"
+          echo "Current Branch: ${{ env.BRANCH_NAME }}"
 
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
