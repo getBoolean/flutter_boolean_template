@@ -770,11 +770,11 @@ jobs:
       name: github-pages
     # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
     permissions:
-      pages: write        # to deploy to Pages
-      id-token: write     # to verify the deployment originates from an appropriate source
-      contents: read      # to find the issue number from the commit
-      pull-requests: read # to find the issue number from the pr
-      issues: write       # to leave a comment on the issue
+      pages: write         # to deploy to Pages
+      id-token: write      # to verify the deployment originates from an appropriate source
+      contents: read       # to find the issue number from the commit
+      pull-requests: write # to find the issue number from the pr and leave a comment
+      issues: write        # to leave a comment on the issue
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     if: github.event_name == 'push' && !startsWith(github.event.ref, 'refs/tags/v')
