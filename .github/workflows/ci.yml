@@ -827,23 +827,24 @@ jobs:
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                 })
-              ).data[0];
+              ).data[0].number;
             }
           result-encoding: string
       - name: Find Comment
         uses: peter-evans/find-comment@v3
         id: comment
         with:
-          issue-number: ${{ fromJson(steps.get_pr_data.outputs.result).number }}
+          issue-number: ${{ steps.get_pr_data.outputs.result }}
           body-includes: Deployed to GitHub Pages 🚀
+          comment-author: github-actions[bot]
       - name: Link Deployment in Pull Request Comment
         # if: github.actor != 'dependabot[bot]'
-        if: fromJson(steps.get_pr_data.outputs.result) != 'null' && steps.deployment.outputs.deployment-status == 'success' && fromJson(steps.get_pr_data.outputs.result).state == 'open' && steps.comment.outputs.comment-author == 'github-actions[bot]'
+        if: fromJson(steps.get_pr_data.outputs.result) != 'null' && steps.deployment.outputs.deployment-status == 'success' && fromJson(steps.get_pr_data.outputs.result).state == 'open' && steps.comment.outputs != 'null'
         uses: actions/github-script@v7
         with:
           script: |
             github.rest.issues.createComment({
-              issue_number: ${{ fromJson(steps.get_pr_data.outputs.result).number }},
+              issue_number: ${{ steps.get_pr_data.outputs.result }},
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: 'Deployed to GitHub Pages 🚀: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ steps.branch-name.outputs.current_branch }}/'
