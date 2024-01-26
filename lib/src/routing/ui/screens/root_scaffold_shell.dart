@@ -107,10 +107,6 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
               ),
             ],
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {},
-            child: const Icon(Icons.add),
-          ),
           child: widget.navigationShell,
         ),
       ),

@@ -29,9 +29,6 @@ class ResponsiveScaffold extends StatefulHookWidget {
     super.key,
     this.transitionDuration = const Duration(milliseconds: 300),
     this.transitionReverseDuration = Duration.zero,
-    this.floatingActionButton,
-    this.floatingActionButtonLocation,
-    this.floatingActionButtonAnimator,
     this.persistentFooterButtons,
     this.endDrawer,
     this.bottomSheet,
@@ -88,17 +85,6 @@ class ResponsiveScaffold extends StatefulHookWidget {
   /// The index into [destinations] for the current selected
   /// [RouterDestination].
   final List<RouterDestination> destinations;
-
-  /// See [Scaffold.floatingActionButton].
-  ///
-  /// Only used for [NavigationType.bottom], [NavigationType.drawer], and [NavigationType.rail]
-  final FloatingActionButton? floatingActionButton;
-
-  /// See [Scaffold.floatingActionButtonLocation]..
-  final FloatingActionButtonLocation? floatingActionButtonLocation;
-
-  /// See [Scaffold.floatingActionButtonAnimator].
-  final FloatingActionButtonAnimator? floatingActionButtonAnimator;
 
   /// See [Scaffold.persistentFooterButtons].
   final List<Widget>? persistentFooterButtons;
@@ -367,13 +353,6 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
       ),
       drawer: hasDrawer ? drawer : null,
       bottomNavigationBar: hasBottomNavigationBar ? bottomNavigationBar : null,
-      floatingActionButton: AnimatedSwitcher(
-        duration: widget.transitionDuration,
-        reverseDuration: widget.transitionReverseDuration,
-        child: widget.floatingActionButton,
-      ),
-      floatingActionButtonLocation: widget.floatingActionButtonLocation,
-      floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
       persistentFooterButtons: widget.persistentFooterButtons,
       endDrawer: widget.endDrawer,
       bottomSheet: widget.bottomSheet,

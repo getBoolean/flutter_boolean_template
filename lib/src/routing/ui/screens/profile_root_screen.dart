@@ -11,14 +11,20 @@ class ProfileRootScreen extends StatefulWidget {
 class _ProfileRootScreenState extends State<ProfileRootScreen> {
   @override
   Widget build(BuildContext context) {
-    return ColoredBox(
-      color: Colors.deepPurple,
-      child: Center(
-        child: FilledButton(
-          onPressed: () {
-            context.go('/profile/details');
-          },
-          child: const Text('Push Details'),
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.add),
+      ),
+      body: ColoredBox(
+        color: Colors.deepPurple,
+        child: Center(
+          child: FilledButton(
+            onPressed: () {
+              context.go('/profile/details');
+            },
+            child: const Text('Push Details'),
+          ),
         ),
       ),
     );

@@ -92,7 +92,7 @@ jobs:
       #
       # The environment variables need to be defined in the repository secrets
       - name: Load Environment Variables
-        uses: oNaiPs/secrets-to-env-action@v1.2
+        uses: oNaiPs/secrets-to-env-action@v1
         if: github.event.inputs.run_tests == 'true' || github.event.inputs.run_tests == null
         with:
           secrets: ${{ toJSON(secrets) }}
@@ -109,6 +109,15 @@ jobs:
       - name: Verify Formatting
         if: github.event.inputs.run_tests == 'true' || github.event.inputs.run_tests == null
         run: melos run verify_format
+
+      - name: Annotate PR
+        if: github.event.inputs.run_tests == 'true' || github.event.inputs.run_tests == null
+        uses: invertase/github-action-dart-analyzer@v2.0.0
+        with:
+          fatal-infos: false
+          fatal-warnings: false
+          annotate-only: true
+          # custom-lint: true
 
       - name: Run Dart Analyzer
         if: github.event.inputs.run_tests == 'true' || github.event.inputs.run_tests == null
@@ -129,7 +138,7 @@ jobs:
 
       - name: Upload Coverage to Codecov
         if: github.event_name == 'push' && !startsWith(github.event.ref, 'refs/tags/v')
-        uses: codecov/codecov-action@v3.1.0
+        uses: codecov/codecov-action@v3
         with:
           files: "**/*/lcov.info"
 
@@ -182,7 +191,7 @@ jobs:
       #
       # The environment variables need to be defined in the repository secrets
       - name: Load Environment Variables
-        uses: oNaiPs/secrets-to-env-action@v1.2
+        uses: oNaiPs/secrets-to-env-action@v1
         with:
           secrets: ${{ toJSON(secrets) }}
 
@@ -205,7 +214,7 @@ jobs:
           zip -r app-release.ipa Payload
           mv app-release.ipa flutter_boolean_template-${{ env.BRANCH_NAME }}-ios.ipa
       - name: Upload IPA
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: flutter_boolean_template-${{ env.BRANCH_NAME }}-ios
           path: build/ios/iphoneos/flutter_boolean_template-*.ipa
@@ -302,7 +311,7 @@ jobs:
   #         zip -r app-release.ipa Payload
   #         mv app-release.ipa flutter_boolean_template-${{ env.BRANCH_NAME }}-ios.ipa
   #     - name: Upload IPA
-  #       uses: actions/upload-artifact@v3
+  #       uses: actions/upload-artifact@v4
   #       with:
   #         path: build/ios/iphoneos/flutter_boolean_template-*.ipa
   #     - name: Release IPA
@@ -361,7 +370,7 @@ jobs:
       #
       # The environment variables need to be defined in the repository secrets
       - name: Load Environment Variables
-        uses: oNaiPs/secrets-to-env-action@v1.2
+        uses: oNaiPs/secrets-to-env-action@v1
         with:
           secrets: ${{ toJSON(secrets) }}
 
@@ -381,7 +390,7 @@ jobs:
           mv app-x86_64-release.apk flutter_boolean_template-${{ env.BRANCH_NAME }}-android-x86_64.apk
 
       - name: Upload Split APKs
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: flutter_boolean_template-${{ env.BRANCH_NAME }}-android-split
           path: build/app/outputs/flutter-apk/flutter_boolean_template-*.apk
@@ -401,7 +410,7 @@ jobs:
           mv app-release.apk flutter_boolean_template-${{ env.BRANCH_NAME }}-android-universal.apk
 
       - name: Upload Universal APK
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: flutter_boolean_template-${{ env.BRANCH_NAME }}-android-universal
           path: build/app/outputs/flutter-apk/flutter_boolean_template-${{ env.BRANCH_NAME }}-android-universal.apk
@@ -421,7 +430,7 @@ jobs:
           mv app-release.aab flutter_boolean_template-${{ env.BRANCH_NAME }}-android-appbundle.aab
 
       - name: Upload Android App Bundle
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: flutter_boolean_template-${{ env.BRANCH_NAME }}-android-appbundle
           path: build/app/outputs/bundle/release/*.aab
@@ -489,7 +498,7 @@ jobs:
       #
       # The environment variables need to be defined in the repository secrets
       - name: Load Environment Variables
-        uses: oNaiPs/secrets-to-env-action@v1.2
+        uses: oNaiPs/secrets-to-env-action@v1
         with:
           secrets: ${{ toJSON(secrets) }}
 
@@ -508,7 +517,7 @@ jobs:
           cd build\windows\x64\runner\Release
           mv flutter_boolean_template.msix flutter_boolean_template-${{ env.BRANCH_NAME }}-windows.msix
       - name: Upload MSIX
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: flutter_boolean_template-${{ env.BRANCH_NAME }}-windows
           path: build/windows/x64/runner/Release/*.msix
@@ -574,7 +583,7 @@ jobs:
       #
       # The environment variables need to be defined in the repository secrets
       - name: Load Environment Variables
-        uses: oNaiPs/secrets-to-env-action@v1.2
+        uses: oNaiPs/secrets-to-env-action@v1
         with:
           secrets: ${{ toJSON(secrets) }}
 
@@ -599,7 +608,7 @@ jobs:
           mv *.AppImage build/flutter_boolean_template-${{ env.BRANCH_NAME }}-linux.AppImage
 
       - name: Upload AppImage
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: flutter_boolean_template-${{ env.BRANCH_NAME }}-linux-appimage
           path: build/flutter_boolean_template-*.AppImage
@@ -660,7 +669,7 @@ jobs:
       #
       # The environment variables need to be defined in the repository secrets
       - name: Load Environment Variables
-        uses: oNaiPs/secrets-to-env-action@v1.2
+        uses: oNaiPs/secrets-to-env-action@v1
         with:
           secrets: ${{ toJSON(secrets) }}
 
@@ -677,12 +686,17 @@ jobs:
           flutter build macos --release --dart-define FLAVOR=${{ env.FLAVOR }}
       
       - name: Build DMG
-        run: |
-          brew install create-dmg 
-          create-dmg --volname flutter_boolean_template-${{ env.BRANCH_NAME }}-macos --window-pos 200 120 --window-size 800 450 --icon-size 100 --app-drop-link 600 185 flutter_boolean_template-${{ env.BRANCH_NAME }}-macos.dmg build/macos/Build/Products/Release/flutter_boolean_template.app
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          retry_on: error
+          command: |
+            brew install create-dmg 
+            create-dmg --volname flutter_boolean_template-${{ env.BRANCH_NAME }}-macos --window-pos 200 120 --window-size 800 450 --icon-size 100 --app-drop-link 600 185 flutter_boolean_template-${{ env.BRANCH_NAME }}-macos.dmg build/macos/Build/Products/Release/flutter_boolean_template.app
       
       - name: Upload DMG
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: flutter_boolean_template-${{ env.BRANCH_NAME }}-macos
           path: "/Users/runner/work/flutter_boolean_template/flutter_boolean_template/*.dmg"
@@ -741,7 +755,7 @@ jobs:
       #
       # The environment variables need to be defined in the repository secrets
       - name: Load Environment Variables
-        uses: oNaiPs/secrets-to-env-action@v1.2
+        uses: oNaiPs/secrets-to-env-action@v1
         with:
           secrets: ${{ toJSON(secrets) }}
 
@@ -757,7 +771,7 @@ jobs:
           flutter build web --dart-define FLAVOR=${{ env.FLAVOR }} --release --web-renderer=canvaskit
           
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: flutter_boolean_template-${{ env.BRANCH_NAME }}-web
           path: build/web

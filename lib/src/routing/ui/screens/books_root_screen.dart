@@ -20,23 +20,29 @@ class _BooksRootScreenState extends State<BooksRootScreen> {
   @override
   Widget build(BuildContext context) {
     final deviceForm = $deviceForm(context);
-    return ColoredBox(
-      color: Colors.blue,
-      child: Center(
-        child: AnimatedFadeSwitcher(
-          shouldSwitch: deviceForm.isNotSmall && widget.id != null,
-          secondChild: FilledButton(
-            key: const ValueKey('button'),
-            onPressed: () async {
-              context.go('/books/details-${widget.id ?? "1"}');
-              // context.go('/profile/details');
-            },
-            child: const Text('Push Details'),
-          ),
-          child: Text(
-            'Book ${widget.id}',
-            key: const ValueKey('text'),
-            style: context.textStyles.titleLarge,
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.add),
+      ),
+      body: ColoredBox(
+        color: Colors.blue,
+        child: Center(
+          child: AnimatedFadeSwitcher(
+            shouldSwitch: deviceForm.isNotSmall && widget.id != null,
+            secondChild: FilledButton(
+              key: const ValueKey('button'),
+              onPressed: () async {
+                context.go('/books/details-${widget.id ?? "1"}');
+                // context.go('/profile/details');
+              },
+              child: const Text('Push Details'),
+            ),
+            child: Text(
+              'Book ${widget.id}',
+              key: const ValueKey('text'),
+              style: context.textStyles.titleLarge,
+            ),
           ),
         ),
       ),
