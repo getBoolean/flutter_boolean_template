@@ -1,8 +1,8 @@
 FROM gitpod/workspace-full-vnc:2022-07-20-05-50-58
 SHELL ["/bin/bash", "-c"]
 ENV ANDROID_HOME=$HOME/androidsdk \
-    FLUTTER_VERSION=3.16.8-stable \
-    MELOS_VERSION=3.4.0 \
+    FLUTTER_VERSION=3.19.0-0.2.pre-beta \
+    MELOS_VERSION=4.0.0 \
     QTWEBENGINE_DISABLE_SANDBOX=1
 ENV PATH="$HOME/flutter/bin:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH"
 ENV PATH="$PATH:$HOME/.pub-cache/bin"

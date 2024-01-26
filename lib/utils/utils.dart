@@ -1,9 +1,12 @@
+// ignore_for_file: constant_identifier_names
+
 import 'dart:io' as io;
 
 import 'package:adaptive_breakpoints/adaptive_breakpoints.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_boolean_template/src/routing/ui/widgets/responsive_scaffold.dart';
+import 'package:flutter_boolean_template/src/routing/data/navigation_type.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:universal_html/html.dart' as html;
 
 enum DeviceType {
@@ -24,10 +27,19 @@ enum DeviceType {
 }
 
 enum DeviceForm {
+  /// Large computer screens
   largeDesktop(AdaptiveWindowType.xlarge),
+
+  /// Computer screens
   desktop(AdaptiveWindowType.large),
+
+  /// Large tablets in landscape
   tablet(AdaptiveWindowType.medium),
+
+  /// Tablets in portrait and phones in landscape
   largePhone(AdaptiveWindowType.small),
+
+  /// Phones and small tablets in portrait
   phone(AdaptiveWindowType.xsmall);
 
   const DeviceForm(this.adaptiveWindowType);
@@ -127,16 +139,13 @@ NavigationType $resolveNavigationType(BuildContext context) {
   final (_, form, orientation) = $deviceDetails(context);
   return switch (orientation) {
     Orientation.portrait => switch (form) {
-        DeviceForm.largeDesktop => NavigationType.top,
-        DeviceForm.desktop => NavigationType.top,
+        DeviceForm.largeDesktop || DeviceForm.desktop => NavigationType.top,
         DeviceForm.tablet => NavigationType.top,
-        DeviceForm.largePhone => NavigationType.bottom,
-        DeviceForm.phone => NavigationType.bottom,
+        DeviceForm.phone || DeviceForm.largePhone => NavigationType.bottom,
       },
     Orientation.landscape => switch (form) {
-        DeviceForm.largeDesktop => NavigationType.top,
-        DeviceForm.desktop => NavigationType.top,
-        DeviceForm.tablet => NavigationType.permanentDrawer,
+        DeviceForm.largeDesktop || DeviceForm.desktop => NavigationType.top,
+        DeviceForm.tablet => NavigationType.expandedSidebar,
         DeviceForm.largePhone => NavigationType.rail,
         DeviceForm.phone => NavigationType.drawer,
       },
@@ -152,4 +161,8 @@ extension ListSwap<T> on List<T> {
 
     return items;
   }
+}
+
+Future<io.Directory?> $applicationDocumentsDirectory() async {
+  return kIsWeb ? null : await getApplicationDocumentsDirectory();
 }

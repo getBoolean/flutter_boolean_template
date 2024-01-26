@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class AnimatedFadeSwitcher extends StatelessWidget {
   const AnimatedFadeSwitcher({
-    super.key,
     required this.shouldSwitch,
     required this.child,
     required this.secondChild,
+    super.key,
   });
 
   final bool shouldSwitch;

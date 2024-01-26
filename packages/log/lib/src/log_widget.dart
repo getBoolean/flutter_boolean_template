@@ -8,7 +8,7 @@ import 'package:logging/logging.dart';
 ///
 /// This widget should be placed at the top of the widget tree.
 class LoggerWidget extends StatefulWidget {
-  const LoggerWidget({super.key, required this.child, this.format});
+  const LoggerWidget({required this.child, super.key, this.format});
 
   final String Function(LogRecord)? format;
   final Widget child;

@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
 const Gap gap4 = Gap(4);
@@ -40,3 +40,6 @@ const EdgeInsets pv16 = EdgeInsets.symmetric(vertical: 16);
 const EdgeInsets pv24 = EdgeInsets.symmetric(vertical: 24);
 const EdgeInsets pv32 = EdgeInsets.symmetric(vertical: 32);
 const EdgeInsets pv48 = EdgeInsets.symmetric(vertical: 48);
+
+const Divider hdivider = Divider(thickness: 1, height: 1);
+const VerticalDivider vdivider = VerticalDivider(thickness: 1, width: 1);

@@ -1,6 +1,7 @@
 import 'package:constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/features/settings/application/settings_service.dart';
+import 'package:flutter_boolean_template/src/features/settings/data/dto/navigation_type_override.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/dto/settings.dart';
 import 'package:flutter_boolean_template/src/routing/ui/widgets/responsive_scaffold.dart';
 import 'package:flutter_boolean_template/utils/utils.dart';
@@ -11,10 +12,10 @@ import 'package:log/log.dart';
 
 class RootScaffoldShell extends ConsumerStatefulWidget {
   const RootScaffoldShell({
-    super.key,
     required this.navigationShell,
     required this.destinations,
     required this.title,
+    super.key,
   });
 
   /// The navigation shell and container for the branch Navigators.
@@ -39,41 +40,69 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
           currentIndex: widget.navigationShell.currentIndex,
           title: widget.title,
           goToIndex: widget.navigationShell.goBranch,
-          navigationTypeResolver: $resolveNavigationType,
+          navigationTypeResolver: (context) {
+            final settings = ref.watch(settingsServiceProvider);
+            final Orientation currentOrientation =
+                MediaQuery.orientationOf(context);
+            final autoNavigationType = $resolveNavigationType(context);
+            final landscapeNavigationType =
+                settings.landscapeNavigationTypeOverride.isAuto
+                    ? autoNavigationType
+                    : settings.landscapeNavigationTypeOverride.navigationType;
+            final portraitNavigationType =
+                settings.portraitNavigationTypeOverride.isAuto
+                    ? autoNavigationType
+                    : settings.portraitNavigationTypeOverride.navigationType;
+            return switch (currentOrientation) {
+              Orientation.landscape => landscapeNavigationType,
+              Orientation.portrait => portraitNavigationType,
+            };
+          },
           topBarStart: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32.0),
-            child: Text(
-              kAppName,
-              style:
-                  theme.textTheme.titleMedium?.merge(GoogleFonts.robotoMono()),
+            padding: const EdgeInsets.only(left: 48.0, right: 32.0),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: IntrinsicWidth(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const _StylizedFlutterLogo(),
+                    gap12,
+                    Expanded(
+                      child: Text(
+                        kAppName,
+                        style: theme.textTheme.titleMedium
+                            ?.merge(GoogleFonts.robotoMono()),
+                        overflow: TextOverflow.clip,
+                        maxLines: 1,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
           topBarEnd: Padding(
             padding: EdgeInsets.symmetric(
-                horizontal: settings.isBannerShowing ? 60 : 4),
+              horizontal: settings.isBannerShowing ? 60 : 4,
+            ),
             child: IconButton(
               onPressed: () {},
               icon: const Icon(Icons.search),
             ),
           ),
+          logo: const _StylizedFlutterLogo(),
           drawerHeader: Row(
             children: [
-              Text(
-                kAppName,
-                style: theme.textTheme.titleMedium
-                    ?.merge(GoogleFonts.robotoMono()),
-              ),
-            ],
-          ),
-          drawerFooter: Row(
-            children: [
+              const _StylizedFlutterLogo(),
+              gap12,
               Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: OutlinedButton(
-                    onPressed: () {},
-                    child: const Text('Add'),
-                  ),
+                child: Text(
+                  kAppName,
+                  style: theme.textTheme.titleMedium
+                      ?.merge(GoogleFonts.robotoMono()),
+                  overflow: TextOverflow.clip,
+                  maxLines: 1,
                 ),
               ),
             ],
@@ -85,6 +114,42 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
           child: widget.navigationShell,
         ),
       ),
+    );
+  }
+}
+
+class _StylizedFlutterLogo extends StatelessWidget {
+  final double? size;
+
+  // ignore: unused_element
+  const _StylizedFlutterLogo({super.key, this.size});
+
+  @override
+  Widget build(BuildContext context) {
+    return ColorFiltered(
+      colorFilter: const ColorFilter.matrix(<double>[
+        0.2126,
+        0.7152,
+        0.0722,
+        0,
+        0,
+        0.2126,
+        0.7152,
+        0.0722,
+        0,
+        0,
+        0.2126,
+        0.7152,
+        0.0722,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+      ]),
+      child: FlutterLogo(size: size),
     );
   }
 }

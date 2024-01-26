@@ -108,7 +108,7 @@ class _$TakenImpl implements _Taken {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$TakenImpl);
   }
@@ -216,7 +216,7 @@ class _$ReservedImpl implements _Reserved {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$ReservedImpl);
   }
@@ -324,7 +324,7 @@ class _$BannedImpl implements _Banned {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$BannedImpl);
   }
@@ -486,7 +486,7 @@ class _$InvalidImpl implements _Invalid {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$InvalidImpl);
   }

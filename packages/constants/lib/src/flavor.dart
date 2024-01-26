@@ -67,7 +67,6 @@ extension _FlavorToConfig on Flavor {
         ),
       Flavor.dev => FlavorConfig(
           name: 'DEVELOP',
-          color: Colors.red,
           location: BannerLocation.topEnd,
           variables: {
             'usePathUrlStrategy': true,

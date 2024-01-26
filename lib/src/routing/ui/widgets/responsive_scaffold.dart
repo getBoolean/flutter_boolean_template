@@ -1,12 +1,16 @@
 import 'dart:math' as math;
 
 import 'package:adaptive_breakpoints/adaptive_breakpoints.dart';
+import 'package:constants/constants.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/common_widgets/constrained_scrollable_child.dart';
+import 'package:flutter_boolean_template/src/routing/data/navigation_type.dart';
 import 'package:flutter_boolean_template/src/routing/ui/widgets/auto_leading_button.dart';
+import 'package:flutter_boolean_template/src/routing/ui/widgets/responsive_sidebar.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:log/log.dart';
+import 'package:sidebarx/sidebarx.dart';
 
 typedef NavigationTypeResolver = NavigationType Function(BuildContext context);
 
@@ -17,12 +21,12 @@ typedef GoToIndexCallback = void Function(
 
 class ResponsiveScaffold extends StatefulHookWidget {
   const ResponsiveScaffold({
-    super.key,
     required this.destinations,
     required this.currentIndex,
     required this.title,
     required this.child,
     required this.goToIndex,
+    super.key,
     this.transitionDuration = const Duration(milliseconds: 300),
     this.transitionReverseDuration = Duration.zero,
     this.floatingActionButton,
@@ -42,9 +46,9 @@ class ResponsiveScaffold extends StatefulHookWidget {
     this.drawerEnableOpenDragGesture = true,
     this.endDrawerEnableOpenDragGesture = true,
     this.navigationTypeResolver,
+    this.drawerWidth = 200,
     this.drawerHeader,
     this.drawerFooter,
-    this.fabInRail = true,
     this.includeBaseDestinationsInMenu = true,
     this.bottomNavigationOverflow = 5,
     this.railDestinationsOverflow = 7,
@@ -57,17 +61,19 @@ class ResponsiveScaffold extends StatefulHookWidget {
     this.tabBarBuilder,
     this.bottomNavigationBarBuilder,
     this.drawerBuilder,
-    this.permanentDrawerBuilder,
-    this.railBuilder,
+    this.sidebarBuilder,
     this.sliverAppBarBuilder,
     this.topBarBuilder,
+    this.logo,
   });
 
   static ResponsiveScaffold of(BuildContext context) {
     final scaffold =
         context.findAncestorWidgetOfExactType<ResponsiveScaffold>();
-    assert(scaffold != null,
-        'No ResponsiveScaffold found in context. Wrap your app in an ResponsiveScaffold to fix this error.');
+    assert(
+      scaffold != null,
+      'No ResponsiveScaffold found in context. Wrap your app in an ResponsiveScaffold to fix this error.',
+    );
     return scaffold!;
   }
 
@@ -88,14 +94,10 @@ class ResponsiveScaffold extends StatefulHookWidget {
   /// Only used for [NavigationType.bottom], [NavigationType.drawer], and [NavigationType.rail]
   final FloatingActionButton? floatingActionButton;
 
-  /// See [Scaffold.floatingActionButtonLocation].
-  ///
-  /// Ignored if [fabInRail] is true.
+  /// See [Scaffold.floatingActionButtonLocation]..
   final FloatingActionButtonLocation? floatingActionButtonLocation;
 
   /// See [Scaffold.floatingActionButtonAnimator].
-  ///
-  /// Ignored if [fabInRail] is true.
   final FloatingActionButtonAnimator? floatingActionButtonAnimator;
 
   /// See [Scaffold.persistentFooterButtons].
@@ -140,6 +142,10 @@ class ResponsiveScaffold extends StatefulHookWidget {
   /// Determines the navigation type that the scaffold uses.
   final NavigationTypeResolver? navigationTypeResolver;
 
+  final Widget? logo;
+
+  final double drawerWidth;
+
   /// The leading item in the drawer when the navigation has a drawer.
   ///
   /// If null, then there is no header.
@@ -149,13 +155,6 @@ class ResponsiveScaffold extends StatefulHookWidget {
   ///
   /// If null, then there is no footer.
   final Widget? drawerFooter;
-
-  /// Whether the [floatingActionButton] is inside or the rail or in the regular
-  /// spot.
-  ///
-  /// If true, then [floatingActionButtonLocation] and
-  /// [floatingActionButtonAnimator] are ignored.
-  final bool fabInRail;
 
   /// Weather the overflow menu defaults to include overflow destinations and
   /// the overflow destinations.
@@ -225,24 +224,16 @@ class ResponsiveScaffold extends StatefulHookWidget {
     void Function(int index) setPage,
   )? drawerBuilder;
 
-  /// Custom builder for [NavigationType.permanentDrawer]
+  /// Custom builder for [NavigationType.expandedSidebar]
+  /// and [NavigationType.rail]
   ///
   /// If not null, then [drawerHeader] and [drawerFooter] are ignored for this type.
   final Widget Function(
     BuildContext context,
     int selectedIndex,
     void Function(int index) setPage,
-  )? permanentDrawerBuilder;
-
-  /// Custom builder for [NavigationType.rail]
-  ///
-  /// If not null, then [fabInRail] and [floatingActionButton] are ignored for this type.
-  final Widget Function(
-    BuildContext context,
-    int selectedIndex,
-    List<RouterDestination> railDestinations,
-    void Function(int index) setPage,
-  )? railBuilder;
+    NavigationType navigationType,
+  )? sidebarBuilder;
 
   /// Custom [SliverAppBar] builder for [NavigationType.drawer] and [NavigationType.bottom]
   ///
@@ -260,6 +251,34 @@ class ResponsiveScaffold extends StatefulHookWidget {
 class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
     with TickerProviderStateMixin {
   late TabController _tabController;
+  final _key = GlobalKey<ScaffoldState>();
+
+  late SidebarXController _sidebarController;
+  late SidebarXController _drawerController;
+  @override
+  void initState() {
+    super.initState();
+
+    _sidebarController = SidebarXController(
+      selectedIndex: widget.currentIndex,
+      extended: true,
+    );
+
+    _drawerController = SidebarXController(
+      selectedIndex: widget.currentIndex,
+      extended: true,
+    );
+  }
+
+  @override
+  void dispose() {
+    _sidebarController.dispose();
+    _drawerController.dispose();
+    super.dispose();
+  }
+
+  NavigationType getNavigationType() =>
+      (widget.navigationTypeResolver ?? defaultNavigationTypeResolver)(context);
 
   @override
   Widget build(BuildContext context) {
@@ -267,18 +286,13 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
       initialLength: widget.destinations.length,
       initialIndex: widget.currentIndex,
     );
-    final NavigationTypeResolver navigationTypeResolver =
-        widget.navigationTypeResolver ?? defaultNavigationTypeResolver;
-    final navigationType = navigationTypeResolver(context);
+    final navigationType = getNavigationType();
+    final hasDrawer = navigationType == NavigationType.drawer;
+    final hasBottomNavigationBar = navigationType == NavigationType.bottom;
 
     final bottomDestinations = widget.destinations.sublist(
       0,
       math.min(widget.destinations.length, widget.bottomNavigationOverflow),
-    );
-
-    final railDestinations = widget.destinations.sublist(
-      0,
-      math.min(widget.destinations.length, widget.railDestinationsOverflow),
     );
 
     final buildBottomNavigationBar =
@@ -295,33 +309,28 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
     final drawer = buildDrawer(
       context,
       selectedIndex,
+      (index) {
+        _key.currentState?.closeDrawer();
+        _setPage(index);
+      },
+    );
+
+    final buildSidebar = widget.sidebarBuilder ?? _defaultBuildSidebar;
+    final sidebar = buildSidebar(
+      context,
+      selectedIndex,
       _setPage,
+      navigationType,
     );
 
     final buildSliverAppBar = widget.sliverAppBarBuilder ??
         _defaultBuildDrawerNavigationTypeSliverAppBar;
 
-    final buildPermanentDrawer =
-        widget.permanentDrawerBuilder ?? _defaultBuildPermanentDrawer;
-    final permanentDrawer = buildPermanentDrawer(
-      context,
-      selectedIndex,
-      _setPage,
-    );
-
-    final buildRail = widget.railBuilder ?? _defaultBuildNavigationRail;
-    final navigationRail = buildRail(
-      context,
-      selectedIndex,
-      railDestinations,
-      _setPage,
-    );
     final buildTabBar = widget.tabBarBuilder ?? _defaultTabBarBuilder;
 
     final buildTopBar = widget.topBarBuilder ?? _defaultTopBarBuilder;
-    final hasDrawer = navigationType == NavigationType.drawer;
-    final hasBottomNavigationBar = navigationType == NavigationType.bottom;
     return Scaffold(
+      key: _key,
       appBar: navigationType == NavigationType.top
           ? buildTopBar(
               context,
@@ -343,41 +352,25 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
         },
         body: Row(
           children: [
-            ConstrainedScrollableChild(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  AnimatedSwitcher(
-                    duration: widget.transitionDuration,
-                    reverseDuration: widget.transitionReverseDuration,
-                    child: navigationType == NavigationType.permanentDrawer
-                        ? permanentDrawer
-                        : navigationType == NavigationType.rail
-                            ? navigationRail
-                            : null,
-                  ),
-                  widget.divider ??
-                      const VerticalDivider(
-                        width: 1,
-                        thickness: 1,
-                      ),
-                ],
-              ),
+            AnimatedSwitcher(
+              duration: widget.transitionDuration,
+              reverseDuration: widget.transitionReverseDuration,
+              child: navigationType == NavigationType.expandedSidebar ||
+                      navigationType == NavigationType.rail
+                  ? sidebar
+                  : null,
             ),
+            widget.divider ?? vdivider,
             Expanded(child: widget.child),
           ],
         ),
       ),
-      drawer: hasDrawer ? ConstrainedScrollableChild(child: drawer) : null,
+      drawer: hasDrawer ? drawer : null,
       bottomNavigationBar: hasBottomNavigationBar ? bottomNavigationBar : null,
       floatingActionButton: AnimatedSwitcher(
         duration: widget.transitionDuration,
         reverseDuration: widget.transitionReverseDuration,
-        child: (widget.fabInRail &&
-                !(navigationType == NavigationType.bottom ||
-                    navigationType == NavigationType.drawer))
-            ? null
-            : widget.floatingActionButton,
+        child: widget.floatingActionButton,
       ),
       floatingActionButtonLocation: widget.floatingActionButtonLocation,
       floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
@@ -410,95 +403,52 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
   ) {
     return PreferredSize(
       preferredSize: tabBar.preferredSize,
-      child: ConstrainedScrollableChild(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [
-            if (widget.topBarStart != null) widget.topBarStart!,
-            const AutoLeadingButton(showDisabled: true),
-            tabBar,
-            const Spacer(),
-            if (widget.topBarEnd != null) widget.topBarEnd!,
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _defaultBuildNavigationRail(
-    BuildContext context,
-    int selectedIndex,
-    List<RouterDestination> railDestinations,
-    void Function(int index) setPage,
-  ) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Expanded(
-          child: NavigationRail(
-            leading: const AutoLeadingButton(showDisabled: true),
-            groupAlignment: 1.0,
-            destinations: [
-              for (final destination in railDestinations)
-                NavigationRailDestination(
-                  icon: Icon(destination.icon),
-                  label: Text(destination.title),
-                ),
-            ],
-            selectedIndex: selectedIndex,
-            onDestinationSelected: setPage,
-          ),
-        ),
-        if (widget.fabInRail)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 12.0, top: 8.0),
-            child: widget.floatingActionButton,
-          ),
-      ],
-    );
-  }
-
-  Widget _defaultBuildPermanentDrawer(
-    BuildContext context,
-    int selectedIndex,
-    void Function(int index) setPage,
-  ) {
-    final theme = Theme.of(context);
-    return Drawer(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
+      child: Stack(
+        alignment: Alignment.centerLeft,
         children: [
-          Row(
-            children: [
-              if (widget.drawerHeader != null) ...[
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: widget.drawerHeader,
-                ),
+          ConstrainedScrollableChild(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                if (widget.topBarStart != null) widget.topBarStart!,
+                tabBar,
                 const Spacer(),
+                if (widget.topBarEnd != null) widget.topBarEnd!,
               ],
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: AutoLeadingButton(showDisabled: true),
-              ),
-            ],
-          ),
-          for (final destination in widget.destinations)
-            ListTile(
-              leading: Icon(destination.icon),
-              title: Text(destination.title),
-              selected:
-                  widget.destinations.indexOf(destination) == selectedIndex,
-              onTap: () => setPage(
-                widget.destinations.indexOf(destination),
-              ),
-              style: ListTileStyle.drawer,
-              selectedColor: theme.colorScheme.secondary,
             ),
-          const Spacer(),
-          if (widget.drawerFooter != null) widget.drawerFooter!,
+          ),
+          const Padding(
+            padding: EdgeInsets.only(left: 4.0),
+            child: AutoLeadingButton(showDisabled: false),
+          ),
         ],
       ),
+    );
+  }
+
+  Widget _defaultBuildSidebar(
+    BuildContext context,
+    int selectedIndex,
+    void Function(int index) setPage,
+    NavigationType navigationType,
+  ) {
+    return _StyledResponsiveSidebar(
+      key: const Key('responsive-sidebarx'),
+      controller: _sidebarController,
+      destinations: widget.destinations,
+      onTap: _setPage,
+      expandable: true,
+      shouldExpand: navigationType.isSidebar
+          ? navigationType == NavigationType.expandedSidebar
+          : null,
+      shouldShrink: navigationType.isSidebar
+          ? navigationType == NavigationType.rail
+          : null,
+      expandedWidth: widget.drawerWidth,
+      expandedHeader: widget.drawerHeader,
+      collapseHeader: widget.logo,
+      transitionDuration: widget.transitionDuration,
+      reverseTransitionDuration: widget.transitionReverseDuration,
     );
   }
 
@@ -509,15 +459,14 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
   ) {
     final theme = Theme.of(context);
     return Drawer(
+      elevation: 0.0,
+      width: widget.drawerWidth,
       child: Column(
         children: [
           if (widget.drawerHeader != null)
             Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: widget.drawerHeader,
-              ),
+              padding: const EdgeInsets.all(16.0),
+              child: widget.drawerHeader,
             ),
           for (final destination in widget.destinations)
             ListTile(
@@ -581,6 +530,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
   ) {
     return switch (navigationType) {
       NavigationType.bottom => SliverAppBar(
+          centerTitle: true,
           leading: const AutoLeadingButton(),
           title: title == null ? null : Text(title),
           elevation: 10.0,
@@ -590,6 +540,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
           snap: true,
         ),
       NavigationType.drawer => SliverAppBar(
+          centerTitle: true,
           leading: const AutoLeadingButton(),
           title: title == null ? null : Text(title),
           elevation: 10.0,
@@ -601,24 +552,6 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
       _ => const SliverToBoxAdapter(child: SizedBox.shrink()),
     };
   }
-}
-
-/// The navigation mechanism to configure the [Scaffold] with.
-enum NavigationType {
-  /// Used to configure a [Scaffold] with a [NavigationBar].
-  bottom,
-
-  /// Used to configure a [Scaffold] with a [NavigationRail].
-  rail,
-
-  /// Used to configure a [Scaffold] with a modal [Drawer].
-  drawer,
-
-  /// Used to configure a [Scaffold] with an always open [Drawer].
-  permanentDrawer,
-
-  /// Used to configure a [Scaffold] with a [TabBar]
-  top,
 }
 
 class RouterDestination {
@@ -635,7 +568,7 @@ class RouterDestination {
 
 NavigationType defaultNavigationTypeResolver(BuildContext context) {
   if (defaultIsLargeScreen(context)) {
-    return NavigationType.permanentDrawer;
+    return NavigationType.expandedSidebar;
   } else if (defaultIsMediumScreen(context)) {
     return NavigationType.rail;
   } else {
@@ -654,24 +587,131 @@ class AppObserver extends NavigatorObserver {
   @override
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
     log.info(
-        'New route pushed: ${route.settings.name}, previous: ${previousRoute?.settings.name}');
+      'New route pushed: ${route.settings.name}, previous: ${previousRoute?.settings.name}',
+    );
   }
 
   @override
   void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
     log.info(
-        'Route popped: ${route.settings.name}, previous: ${previousRoute?.settings.name}');
+      'Route popped: ${route.settings.name}, previous: ${previousRoute?.settings.name}',
+    );
   }
 
   @override
   void didRemove(Route<dynamic> route, Route<dynamic>? previousRoute) {
     log.info(
-        'Route removed: ${route.settings.name}, previous: ${previousRoute?.settings.name}');
+      'Route removed: ${route.settings.name}, previous: ${previousRoute?.settings.name}',
+    );
   }
 
   @override
   void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
     log.info(
-        'Route replaced: ${newRoute?.settings.name}, previous: ${oldRoute?.settings.name}');
+      'Route replaced: ${newRoute?.settings.name}, previous: ${oldRoute?.settings.name}',
+    );
+  }
+}
+
+class _StyledResponsiveSidebar extends StatelessWidget {
+  const _StyledResponsiveSidebar({
+    required this.destinations,
+    required this.controller,
+    required this.expandable,
+    required this.shouldExpand,
+    required this.shouldShrink,
+    required this.onTap,
+    required this.expandedWidth,
+    required this.expandedHeader,
+    required this.collapseHeader,
+    required this.transitionDuration,
+    required this.reverseTransitionDuration,
+    super.key,
+  });
+
+  /// The index into [destinations] for the current selected
+  /// [RouterDestination].
+  final List<RouterDestination> destinations;
+  final SidebarXController controller;
+
+  final bool expandable;
+  final bool? shouldExpand;
+  final bool? shouldShrink;
+  final double expandedWidth;
+
+  final Widget? expandedHeader;
+  final Widget? collapseHeader;
+
+  final Duration? transitionDuration;
+  final Duration? reverseTransitionDuration;
+
+  /// Callback to set the current page in the navigator
+  final void Function(int index) onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return ResponsiveSidebar(
+      controller: controller,
+      destinations: destinations,
+      onTap: onTap,
+      shouldExpand: shouldExpand,
+      shouldShrink: shouldShrink,
+      expandable: expandable,
+      expandedWidth: expandedWidth,
+      footerDivider: hdivider,
+      headerBuilder: (context, isExpanded) {
+        final Widget? widget = isExpanded ? expandedHeader : collapseHeader;
+        return widget == null
+            ? const SizedBox.shrink()
+            : Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: AnimatedSwitcher(
+                  duration:
+                      transitionDuration ?? const Duration(milliseconds: 300),
+                  reverseDuration: reverseTransitionDuration,
+                  child: widget,
+                ),
+              );
+      },
+      separatorBuilder: (_, __) => const SizedBox.shrink(),
+      theme: SidebarXTheme(
+        itemPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+        selectedItemPadding:
+            const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+        itemMargin: const EdgeInsets.symmetric(vertical: 1),
+        selectedItemMargin: const EdgeInsets.symmetric(vertical: 1),
+        itemTextPadding: const EdgeInsets.symmetric(horizontal: 14),
+        selectedItemTextPadding: const EdgeInsets.symmetric(horizontal: 14),
+        decoration: BoxDecoration(
+          color: theme.canvasColor,
+        ),
+        hoverColor: theme.hoverColor,
+        selectedHoverColor: theme.hoverColor,
+        focusColor: theme.focusColor,
+        selectedFocusColor: theme.focusColor,
+        highlightColor: theme.highlightColor,
+        selectedHighlightColor: theme.highlightColor,
+        splashColor: theme.splashColor,
+        selectedSplashColor: theme.splashColor,
+        hoverTextStyle: theme.textTheme.bodyLarge
+            ?.copyWith(color: theme.colorScheme.onSurface),
+        textStyle: theme.textTheme.bodyLarge
+            ?.copyWith(color: theme.colorScheme.onSurface),
+        selectedTextStyle: theme.textTheme.bodyLarge
+            ?.copyWith(color: theme.colorScheme.secondary),
+        itemDecoration: BoxDecoration(
+          border: Border.all(color: theme.canvasColor),
+        ),
+        selectedItemDecoration: BoxDecoration(
+          border: Border.all(color: theme.canvasColor),
+        ),
+        iconTheme: IconTheme.of(context)
+            .copyWith(color: theme.colorScheme.onSurfaceVariant),
+        selectedIconTheme: IconTheme.of(context).copyWith(
+          color: theme.colorScheme.secondary,
+        ),
+      ),
+    );
   }
 }

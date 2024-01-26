@@ -1,0 +1,6 @@
+include: package:app_lints/lints.yaml
+
+linter:
+  rules:
+    # getters not supported by package:envied
+    avoid_field_initializers_in_const_classes: false
