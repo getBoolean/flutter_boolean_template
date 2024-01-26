@@ -110,6 +110,13 @@ jobs:
         if: github.event.inputs.run_tests == 'true' || github.event.inputs.run_tests == null
         run: melos run verify_format
 
+      - name: Annotate PR
+        if: github.event.inputs.run_tests == 'true' || github.event.inputs.run_tests == null
+        uses: invertase/github-action-dart-analyzer@v2.0.0
+        with:
+          fatal-infos: true
+          annotate-only: true
+
       - name: Run Dart Analyzer
         if: github.event.inputs.run_tests == 'true' || github.event.inputs.run_tests == null
         run: melos run analyze
