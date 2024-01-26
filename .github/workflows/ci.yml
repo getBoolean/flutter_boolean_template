@@ -814,6 +814,7 @@ jobs:
           folder: build/web # The folder the action should deploy.
           target-folder: "${{ steps.branch-name.outputs.current_branch }}"
 
+      # Ref: https://github.com/orgs/community/discussions/27071
       - name: Find PR Number
         uses: actions/github-script@v6
         id: get_pr_number
