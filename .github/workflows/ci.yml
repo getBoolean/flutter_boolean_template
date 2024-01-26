@@ -765,7 +765,7 @@ jobs:
   deploy_web:
     name: Deploy Flutter Web to GitHub Pages
     runs-on: ubuntu-latest
-    needs: [build_web]
+    # needs: [build_web]
     environment:
       name: github-pages
     # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
@@ -860,6 +860,9 @@ jobs:
           issue-number: ${{ steps.get_pr_number.outputs.result }}
           body-includes: Deployed to GitHub Pages 🚀
           comment-author: github-actions[bot]
+      - name: Check Comment
+        run: |
+          echo "Comment: ${{ steps.comment.outputs }}"
 
       - name: Link Deployment in Pull Request Comment
         # if: github.actor != 'dependabot[bot]'
