@@ -3,10 +3,10 @@ const MANIFEST = 'flutter-app-manifest';
 const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 
-const RESOURCES = {"main.dart.js": "eceddbf3f38f98740302052d72ca41df",
+const RESOURCES = {"main.dart.js": "390bcb17731d60d8875463b2e50bf8ac",
 "favicon.png": "5dcef449791fa27946b3d35ad8803796",
 "flutter.js": "c71a09214cb6f5f8996a531350400a9a",
-"assets/fonts/MaterialIcons-Regular.otf": "ac58d4c47c6f7c8a7bdc6a34b681811e",
+"assets/fonts/MaterialIcons-Regular.otf": "0b620565ec174491a4dc76fa8453ea33",
 "assets/AssetManifest.bin": "87823796ee149ca291bc6aee8ae02034",
 "assets/shaders/ink_sparkle.frag": "ecc85a2e95f5e9f53123dcaf8cb9b6ce",
 "assets/AssetManifest.bin.json": "3a4a2d536763a6e0930319555124a355",
@@ -17,7 +17,7 @@ const RESOURCES = {"main.dart.js": "eceddbf3f38f98740302052d72ca41df",
 "assets/packages/window_manager/images/ic_chrome_unmaximize.png": "4a90c1909cb74e8f0d35794e2f61d8bf",
 "assets/packages/window_manager/images/ic_chrome_minimize.png": "4282cd84cb36edf2efb950ad9269ca62",
 "assets/packages/assets/images/flutter_logo.png": "d0515092173211776ceed19b39c2a041",
-"assets/NOTICES": "d08049b33d8374b056eca4ec69495412",
+"assets/NOTICES": "18072025611d7d5d55874b9e4c8113b8",
 "canvaskit/skwasm.wasm": "e42815763c5d05bba43f9d0337fa7d84",
 "canvaskit/canvaskit.js": "c86fbd9e7b17accae76e5ad116583dc4",
 "canvaskit/skwasm.worker.js": "bfb704a6c714a75da9ef320991e88b03",
@@ -32,8 +32,8 @@ const RESOURCES = {"main.dart.js": "eceddbf3f38f98740302052d72ca41df",
 "icons/Icon-maskable-192.png": "c457ef57daa1d16f64b27b786ec2ea3c",
 "icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
 "icons/Icon-maskable-512.png": "301a7604d45b3e739efc881eb04896ea",
-"index.html": "84718c6b90d0a394b5beac3f8771bb32",
-"/": "84718c6b90d0a394b5beac3f8771bb32",
+"index.html": "5eb934fa7448903ac40e5eb36adf98b9",
+"/": "5eb934fa7448903ac40e5eb36adf98b9",
 "version.json": "c839b1dd8ab5bda2a3d1c4cc45e601fa",
 "manifest.json": "d9c6f42c23888c34cbd03f47fb19ec16"};
 // The application shell files that are downloaded before a service worker can
