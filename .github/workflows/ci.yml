@@ -862,7 +862,7 @@ jobs:
           comment-author: github-actions[bot]
       - name: Check Comment
         run: |
-          echo "Comment: ${{ steps.comment.outputs }}"
+          echo "Comment: ${{ steps.comment.outputs.comment-id }}"
 
       - name: Link Deployment in Pull Request Comment
         # if: github.actor != 'dependabot[bot]'
