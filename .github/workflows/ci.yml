@@ -809,9 +809,9 @@ jobs:
           branch: gh-pages # The branch the action should deploy to.
           folder: build/web # The folder the action should deploy.
           target-folder: "${{ steps.branch-name.outputs.current_branch }}"
-      - name: Find Issue Number
+      - name: Find PR Number
         uses: actions/github-script@v6
-        id: get_pr_data
+        id: get_pr_number
         # if: github.actor != 'dependabot[bot]'
         if: steps.deployment.outputs.deployment-status == 'success'
         with:
@@ -830,21 +830,37 @@ jobs:
               ).data[0].number;
             }
           result-encoding: string
+      - name: Get PR State
+        uses: actions/github-script@v6
+        id: get_pr_state
+        # if: github.actor != 'dependabot[bot]'
+        if: steps.deployment.outputs.deployment-status == 'success'
+        with:
+          script: |
+            return (
+                await github.rest.issues.get({
+                  issue_number: ${{ steps.get_pr_number.outputs.result }},
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                })
+              ).data.state;
+          result-encoding: string
       - name: Find Comment
         uses: peter-evans/find-comment@v3
         id: comment
+        if: steps.get_pr_number.outputs.result != 'null' && steps.deployment.outputs.deployment-status == 'success'
         with:
-          issue-number: ${{ steps.get_pr_data.outputs.result }}
+          issue-number: ${{ steps.get_pr_number.outputs.result }}
           body-includes: Deployed to GitHub Pages 🚀
           comment-author: github-actions[bot]
       - name: Link Deployment in Pull Request Comment
         # if: github.actor != 'dependabot[bot]'
-        if: fromJson(steps.get_pr_data.outputs.result) != 'null' && steps.deployment.outputs.deployment-status == 'success' && fromJson(steps.get_pr_data.outputs.result).state == 'open' && steps.comment.outputs != 'null'
+        if: steps.get_pr_number.outputs.result != 'null' && steps.deployment.outputs.deployment-status == 'success' && steps.get_pr_state.outputs.result == 'open' && steps.comment.outputs != 'null'
         uses: actions/github-script@v7
         with:
           script: |
             github.rest.issues.createComment({
-              issue_number: ${{ steps.get_pr_data.outputs.result }},
+              issue_number: ${{ steps.get_pr_number.outputs.result }},
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: 'Deployed to GitHub Pages 🚀: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ steps.branch-name.outputs.current_branch }}/'
