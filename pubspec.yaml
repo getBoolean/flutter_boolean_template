@@ -46,6 +46,7 @@ dependencies:
   log:
     path: packages/log
   modddels_annotation_fpdart: ^0.2.0
+  package_info_plus: ^5.0.1
   path: ^1.9.0
   path_provider: ^2.1.2
   riverpod: ^2.3.6
@@ -54,8 +55,10 @@ dependencies:
     git:
       url: https://github.com/getBoolean/sidebarx
       ref: feature/inkwell
+  skeletonizer: ^1.0.1
   stock: ^1.0.1
   universal_html: ^2.2.4
+  url_launcher: ^6.2.4
   window_manager: ^0.3.7
   wolt_modal_sheet: ^0.3.0
 

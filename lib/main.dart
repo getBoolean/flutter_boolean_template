@@ -1,17 +1,10 @@
-import 'dart:io' as io;
-
 import 'package:constants/constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/app.dart';
-import 'package:flutter_boolean_template/src/features/settings/data/dto/navigation_type_override.dart';
-import 'package:flutter_boolean_template/src/features/settings/data/dto/settings.dart';
-import 'package:flutter_boolean_template/src/features/settings/data/repository/settings_repository.dart';
-import 'package:flutter_boolean_template/utils/utils.dart';
+import 'package:flutter_boolean_template/src/features/initialization/presentation/app_startup_widget.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:window_manager/window_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,23 +17,13 @@ void main() async {
     usePathUrlStrategy();
   }
 
-  await initHive();
-
-  if (!kIsWeb &&
-      (io.Platform.isWindows || io.Platform.isLinux || io.Platform.isMacOS)) {
-    await windowManager.ensureInitialized();
-    await windowManager.setMinimumSize(const Size(600, 300));
-  }
-
-  runApp(const ProviderScope(child: App()));
-}
-
-Future<void> initHive() async {
-  await Hive.initFlutter();
-  Hive.registerAdapter(SettingsAdapter());
-  Hive.registerAdapter(NavigationTypeOverrideAdapter());
-  final documentsDirectory = await $applicationDocumentsDirectory();
-  await SettingsRepository.initBox(documentsDirectory?.path);
+  runApp(
+    ProviderScope(
+      child: AppStartupWidget(
+        onLoaded: (context) => const App(),
+      ),
+    ),
+  );
 }
 
 /// Source: Flutter Foundations course by CodeWithAndrea
