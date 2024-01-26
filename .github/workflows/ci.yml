@@ -830,14 +830,21 @@ jobs:
               ).data[0];
             }
           result-encoding: string
+      - name: Find Comment
+        uses: peter-evans/find-comment@v3
+        id: comment
+        with:
+          issue-number: ${{ fromJson(steps.get_pr_data.outputs.result).number }}
+          body-includes: Deployed to GitHub Pages 🚀
       - name: Link Deployment in Pull Request Comment
         # if: github.actor != 'dependabot[bot]'
-        if: fromJson(steps.get_pr_data.outputs.result) != 'null' && steps.deployment.outputs.deployment-status == 'success' && fromJson(steps.get_pr_data.outputs.result).state == 'open'
+        if: fromJson(steps.get_pr_data.outputs.result) != 'null' && steps.deployment.outputs.deployment-status == 'success' && fromJson(steps.get_pr_data.outputs.result).state == 'open' && steps.comment.outputs.comment-author == 'github-actions[bot]'
         uses: actions/github-script@v7
         with:
           script: |
-            const comments = await github.rest.issues.listComments({
+            github.rest.issues.createComment({
               issue_number: ${{ fromJson(steps.get_pr_data.outputs.result).number }},
               owner: context.repo.owner,
               repo: context.repo.repo,
+              body: 'Deployed to GitHub Pages 🚀: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ steps.branch-name.outputs.current_branch }}/'
             });
