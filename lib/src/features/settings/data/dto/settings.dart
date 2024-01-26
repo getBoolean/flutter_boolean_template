@@ -22,22 +22,17 @@ class Settings with SettingsMappable {
   final bool systemThemeMode;
 
   @MappableField()
-  @HiveField(3, defaultValue: true)
-  final bool confirmExit;
-
-  @MappableField()
-  @HiveField(4, defaultValue: NavigationTypeOverride.auto)
+  @HiveField(3, defaultValue: NavigationTypeOverride.auto)
   final NavigationTypeOverride portraitNavigationTypeOverride;
 
   @MappableField()
-  @HiveField(5, defaultValue: NavigationTypeOverride.auto)
+  @HiveField(4, defaultValue: NavigationTypeOverride.auto)
   final NavigationTypeOverride landscapeNavigationTypeOverride;
 
   const Settings({
     this.bannerEnabled = true,
     this.darkMode = true,
     this.systemThemeMode = true,
-    this.confirmExit = true,
     this.portraitNavigationTypeOverride = NavigationTypeOverride.auto,
     this.landscapeNavigationTypeOverride = NavigationTypeOverride.auto,
   });
