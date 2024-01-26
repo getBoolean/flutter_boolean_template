@@ -438,8 +438,12 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
       destinations: widget.destinations,
       onTap: _setPage,
       expandable: true,
-      shouldExpand: navigationType == NavigationType.expandedSidebar,
-      shouldShrink: navigationType == NavigationType.rail,
+      shouldExpand: navigationType.isSidebar
+          ? navigationType == NavigationType.expandedSidebar
+          : null,
+      shouldShrink: navigationType.isSidebar
+          ? navigationType == NavigationType.rail
+          : null,
       expandedWidth: widget.drawerWidth,
       expandedHeader: widget.drawerHeader,
       collapseHeader: widget.logo,
@@ -631,8 +635,8 @@ class _StyledResponsiveSidebar extends StatelessWidget {
   final SidebarXController controller;
 
   final bool expandable;
-  final bool shouldExpand;
-  final bool shouldShrink;
+  final bool? shouldExpand;
+  final bool? shouldShrink;
   final double expandedWidth;
 
   final Widget? expandedHeader;

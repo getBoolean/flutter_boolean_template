@@ -11,8 +11,8 @@ class ResponsiveSidebar extends StatefulWidget {
     required this.onTap,
     super.key,
     this.expandable = true,
-    this.shouldExpand = false,
-    this.shouldShrink = false,
+    this.shouldExpand,
+    this.shouldShrink,
     this.theme = const SidebarXTheme(
       itemTextPadding: EdgeInsets.symmetric(horizontal: 12),
       itemMargin: EdgeInsets.all(4),
@@ -39,8 +39,8 @@ class ResponsiveSidebar extends StatefulWidget {
   final SidebarXController controller;
 
   final bool expandable;
-  final bool shouldExpand;
-  final bool shouldShrink;
+  final bool? shouldExpand;
+  final bool? shouldShrink;
   final SidebarXTheme theme;
   final double expandedWidth;
   final List<SidebarXItem> footerItems;
@@ -65,19 +65,54 @@ class ResponsiveSidebar extends StatefulWidget {
 
 class _ResponsiveSidebarState extends State<ResponsiveSidebar> {
   @override
-  void didUpdateWidget(ResponsiveSidebar oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.shouldExpand && widget.shouldShrink) {
+  void initState() {
+    super.initState();
+    final ResponsiveSidebar(
+      :shouldExpand,
+      :shouldShrink,
+      controller: SidebarXController(:extended),
+    ) = widget;
+
+    if (shouldExpand == null || shouldShrink == null) {
       return;
     }
 
-    if (!oldWidget.shouldShrink &&
-        widget.shouldShrink &&
-        oldWidget.controller.extended) {
+    if (shouldShrink && extended) {
       widget.controller.setExtended(false);
-    } else if (!oldWidget.shouldExpand &&
-        widget.shouldExpand &&
-        !oldWidget.controller.extended) {
+    } else if (shouldExpand && !extended) {
+      widget.controller.setExtended(true);
+    }
+  }
+
+  @override
+  void didUpdateWidget(ResponsiveSidebar oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    final ResponsiveSidebar(
+      :shouldExpand,
+      :shouldShrink,
+      controller: SidebarXController(:extended),
+    ) = widget;
+    final ResponsiveSidebar(
+      shouldExpand: oldShouldExpand,
+      shouldShrink: oldShouldShrink,
+    ) = oldWidget;
+
+    if (shouldExpand == null || shouldShrink == null) {
+      return;
+    }
+
+    if (shouldExpand && shouldShrink) {
+      // should never happen, but just in case
+      return;
+    }
+
+    if ((oldShouldShrink == null || !oldShouldShrink) &&
+        shouldShrink &&
+        extended) {
+      widget.controller.setExtended(false);
+    } else if ((oldShouldExpand == null || !oldShouldExpand) &&
+        shouldExpand &&
+        !extended) {
       widget.controller.setExtended(true);
     }
   }

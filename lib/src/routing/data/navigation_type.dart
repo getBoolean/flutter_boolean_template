@@ -16,5 +16,10 @@ enum NavigationType {
   expandedSidebar,
 
   /// Used to configure a [Scaffold] with a [TabBar]
-  top,
+  top;
+
+  bool get isSidebar {
+    return this == NavigationType.expandedSidebar ||
+        this == NavigationType.rail;
+  }
 }
