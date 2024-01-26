@@ -1,6 +1,9 @@
+import 'dart:io' as io;
+
 import 'package:flutter_boolean_template/src/features/settings/data/dto/navigation_type_override.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/dto/settings.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/repository/settings_repository.dart';
+import 'package:flutter_boolean_template/utils/utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'settings_service.g.dart';
@@ -15,6 +18,14 @@ class SettingsService extends _$SettingsService {
   Settings build() {
     _settingsRepository = ref.watch(settingsRepositoryProvider.notifier);
     return _settingsRepository.getSettings();
+  }
+
+  Future<void> resetSettings() async {
+    final io.Directory? documentsDirectory =
+        await $applicationDocumentsDirectory();
+    await SettingsRepository.deleteBox(documentsDirectory?.path);
+    await SettingsRepository.initBox(documentsDirectory?.path);
+    state = _settingsRepository.getSettings();
   }
 
   void setPortraitNavigationTypeOverride(
