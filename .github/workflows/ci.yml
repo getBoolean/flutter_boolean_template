@@ -774,6 +774,7 @@ jobs:
       id-token: write     # to verify the deployment originates from an appropriate source
       contents: read      # to find the issue number from the commit
       pull-requests: read # to find the issue number from the pr
+      issues: write       # to leave a comment on the issue
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     if: github.event_name == 'push' && !startsWith(github.event.ref, 'refs/tags/v')
