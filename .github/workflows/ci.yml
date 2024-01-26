@@ -836,19 +836,19 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const comments = await github.rest.issues.listComments({
+            const comments = (await github.rest.issues.listComments({
               issue_number: ${{ fromJson(steps.get_pr_data.outputs.result).number }},
               owner: context.repo.owner,
               repo: context.repo.repo,
-            })
-            const comment = comments.data.find(comment => comment.body.includes('Deployed to GitHub Pages 🚀'))
+            })).data;
+            const comment = comments.find(comment => comment['body'].includes('Deployed to GitHub Pages 🚀'))
             if (comment) {
               core.info('Comment already exists')
               return
-            }
+            };
             github.rest.issues.createComment({
               issue_number: ${{ fromJson(steps.get_pr_data.outputs.result).number }},
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: 'Deployed to GitHub Pages 🚀: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ steps.branch-name.outputs.current_branch }}/'
-            })
+            });
