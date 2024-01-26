@@ -15,6 +15,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:localization/localization.dart';
 
+import 'src/features/settings/presentation/widgets/app_settings.dart';
+
 /// The main app widget at the root of the widget tree.
 class App extends ConsumerWidget {
   const App({super.key});

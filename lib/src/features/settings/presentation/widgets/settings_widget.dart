@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/features/settings/application/settings_service.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/dto/navigation_type_override.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/dto/settings.dart';
+import 'package:flutter_boolean_template/src/features/settings/presentation/extensions.dart';
 import 'package:flutter_settings_ui/flutter_settings_ui.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 
 class SettingsWidget extends StatefulHookConsumerWidget {
   const SettingsWidget({
@@ -65,39 +65,12 @@ class _SettingsWidgetState extends ConsumerState<SettingsWidget> {
               title: const Text('Navigation'),
               value: Text(settings.navigationTypeOverride.humanName),
               onPressed: (context) async {
-                final navigationTypeOverride =
-                    await WoltModalSheet.show<NavigationTypeOverride>(
-                  context: context,
-                  useRootNavigator: true,
-                  pageListBuilder: (BuildContext context) {
-                    final theme = Theme.of(context);
-                    return [
-                      SliverWoltModalSheetPage(
-                        topBarTitle: Center(
-                          child: Text(
-                            'Navigation',
-                            style: theme.textTheme.titleSmall,
-                          ),
-                        ),
-                        isTopBarLayerAlwaysVisible: true,
-                        mainContentSlivers: [
-                          SliverList(
-                            delegate: SliverChildListDelegate([
-                              for (final navigationTypeOverride
-                                  in NavigationTypeOverride.values)
-                                ListTile(
-                                  title: Text(navigationTypeOverride.humanName),
-                                  onTap: () {
-                                    Navigator.of(context)
-                                        .pop(navigationTypeOverride);
-                                  },
-                                ),
-                            ]),
-                          ),
-                        ],
-                      ),
-                    ];
-                  },
+                final navigationTypeOverride = await context.showOptionsMenu<
+                    NavigationTypeOverride, NavigationTypeOverride>(
+                  title: 'Navigation',
+                  current: settings.navigationTypeOverride,
+                  options: NavigationTypeOverride.values,
+                  itemTitleBuilder: (context, option) => option.humanName,
                 );
                 if (navigationTypeOverride != null) {
                   ref
