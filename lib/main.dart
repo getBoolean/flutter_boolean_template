@@ -18,10 +18,8 @@ void main() async {
   }
 
   runApp(
-    ProviderScope(
-      child: AppStartupWidget(
-        onLoaded: (context) => const App(),
-      ),
+    AppStartupWidget(
+      onLoaded: (context) => const App(),
     ),
   );
 }
