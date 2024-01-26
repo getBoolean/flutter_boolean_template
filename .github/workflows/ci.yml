@@ -834,7 +834,7 @@ jobs:
         uses: actions/github-script@v6
         id: get_pr_state
         # if: github.actor != 'dependabot[bot]'
-        if: steps.deployment.outputs.deployment-status == 'success'
+        if: steps.get_pr_number.outputs.result != 'null' && steps.deployment.outputs.deployment-status == 'success'
         with:
           script: |
             return (
