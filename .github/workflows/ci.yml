@@ -114,6 +114,8 @@ jobs:
         if: github.event.inputs.run_tests == 'true' || github.event.inputs.run_tests == null
         uses: invertase/github-action-dart-analyzer@93de49b4573f71dc20c6464d59ad6cb5a1997001
         with:
+          fatal-infos: false
+          fatal-warnings: false
           annotate-only: true
           custom-lint: true
 
