@@ -802,6 +802,7 @@ jobs:
       - name: Deploy to GitHub Pages 🚀
         # if: github.actor != 'dependabot[bot]'
         uses: JamesIves/github-pages-deploy-action@releases/v4
+        id: deployment
         with:
           # PAT required to trigger gh_pages_readme.yml workflow
           token: ${{ secrets.PAT }}
@@ -810,8 +811,9 @@ jobs:
           target-folder: "${{ steps.branch-name.outputs.current_branch }}"
       - name: Find Issue Number
         uses: actions/github-script@v6
-        id: get_issue_number
+        id: get_pr_data
         # if: github.actor != 'dependabot[bot]'
+        if: steps.deployment.outputs.deployment-status == 'success'
         with:
           script: |
             if (context.issue.number) {
@@ -825,18 +827,17 @@ jobs:
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                 })
-              ).data[0].number;
+              ).data[0];
             }
           result-encoding: string
-      # Leave comment with the published URL
       - name: Link Deployment in Pull Request Comment
         # if: github.actor != 'dependabot[bot]'
-        if: steps.get_issue_number.outputs.result != 'null'
+        if: fromJson(steps.get_pr_data.outputs.result) != 'null' && steps.deployment.outputs.deployment-status == 'success' && fromJson(steps.get_pr_data.outputs.result).state == 'open'
         uses: actions/github-script@v7
         with:
           script: |
             github.rest.issues.createComment({
-              issue_number: ${{ steps.get_issue_number.outputs.result }},
+              issue_number: ${{ fromJson(steps.get_pr_data.outputs.result).number }},
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: 'Deployed to GitHub Pages 🚀: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ steps.branch-name.outputs.current_branch }}/'
