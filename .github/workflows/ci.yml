@@ -781,6 +781,7 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+
       - name: Install and set Flutter version
         if: github.actor != 'dependabot[bot]'
         uses: subosito/flutter-action@v2
@@ -790,15 +791,18 @@ jobs:
           cache: true
           cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
           cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:"
+
       - name: Get branch name
         id: branch-name
         if: github.actor != 'dependabot[bot]'
         uses: tj-actions/branch-names@v8
+
       - name: Build Web
         if: github.actor != 'dependabot[bot]'
         run: |
           flutter pub get
           flutter build web --dart-define FLAVOR=staging --release --web-renderer=canvaskit --base-href="/${{ github.event.repository.name }}/${{ steps.branch-name.outputs.current_branch }}/"
+      
       - name: Deploy to GitHub Pages 🚀
         # if: github.actor != 'dependabot[bot]'
         uses: JamesIves/github-pages-deploy-action@releases/v4
@@ -809,6 +813,7 @@ jobs:
           branch: gh-pages # The branch the action should deploy to.
           folder: build/web # The folder the action should deploy.
           target-folder: "${{ steps.branch-name.outputs.current_branch }}"
+
       - name: Find PR Number
         uses: actions/github-script@v6
         id: get_pr_number
@@ -830,6 +835,7 @@ jobs:
               ).data[0].number;
             }
           result-encoding: string
+
       - name: Get PR State
         uses: actions/github-script@v6
         id: get_pr_state
@@ -845,6 +851,7 @@ jobs:
                 })
               ).data.state;
           result-encoding: string
+
       - name: Find Comment
         uses: peter-evans/find-comment@v3
         id: comment
@@ -853,6 +860,7 @@ jobs:
           issue-number: ${{ steps.get_pr_number.outputs.result }}
           body-includes: Deployed to GitHub Pages 🚀
           comment-author: github-actions[bot]
+
       - name: Link Deployment in Pull Request Comment
         # if: github.actor != 'dependabot[bot]'
         if: steps.get_pr_number.outputs.result != 'null' && steps.deployment.outputs.deployment-status == 'success' && steps.get_pr_state.outputs.result == 'open' && steps.comment.outputs == 'null'
