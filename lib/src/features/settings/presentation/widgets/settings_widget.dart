@@ -62,20 +62,42 @@ class _SettingsWidgetState extends ConsumerState<SettingsWidget> {
               },
             ),
             SettingsTile.navigation(
-              title: const Text('Navigation'),
-              value: Text(settings.navigationTypeOverride.humanName),
+              title: const Text('Portrait Navigation'),
+              value: Text(settings.portraitNavigationTypeOverride.humanName),
               onPressed: (context) async {
                 final navigationTypeOverride = await context.showOptionsMenu<
                     NavigationTypeOverride, NavigationTypeOverride>(
                   title: 'Navigation',
-                  current: settings.navigationTypeOverride,
+                  current: settings.portraitNavigationTypeOverride,
                   options: NavigationTypeOverride.values,
                   itemTitleBuilder: (context, option) => option.humanName,
                 );
                 if (navigationTypeOverride != null) {
                   ref
                       .read(settingsServiceProvider.notifier)
-                      .setNavigationTypeOverride(navigationTypeOverride);
+                      .setPortraitNavigationTypeOverride(
+                        navigationTypeOverride,
+                      );
+                }
+              },
+            ),
+            SettingsTile.navigation(
+              title: const Text('Landscape Navigation'),
+              value: Text(settings.landscapeNavigationTypeOverride.humanName),
+              onPressed: (context) async {
+                final navigationTypeOverride = await context.showOptionsMenu<
+                    NavigationTypeOverride, NavigationTypeOverride>(
+                  title: 'Navigation',
+                  current: settings.landscapeNavigationTypeOverride,
+                  options: NavigationTypeOverride.values,
+                  itemTitleBuilder: (context, option) => option.humanName,
+                );
+                if (navigationTypeOverride != null) {
+                  ref
+                      .read(settingsServiceProvider.notifier)
+                      .setLandscapeNavigationTypeOverride(
+                        navigationTypeOverride,
+                      );
                 }
               },
             ),

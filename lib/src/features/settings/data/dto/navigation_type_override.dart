@@ -24,6 +24,8 @@ enum NavigationTypeOverride {
   const NavigationTypeOverride(this.humanName);
 
   final String humanName;
+
+  bool get isAuto => this == NavigationTypeOverride.auto;
 }
 
 extension NavigationTypeOverrideConverter on NavigationTypeOverride {

@@ -13,19 +13,15 @@ class SettingsRepository extends _$SettingsRepository {
 
   @override
   Settings build() {
-    final settings = getSettings();
-
-    return settings ?? const Settings();
+    return getSettings();
   }
 
   void saveSettings(Settings settings) {
     Hive.box<Settings>(_settingsBoxName).put('settings', settings);
   }
 
-  Settings? getSettings() {
-    final settingsBox = Hive.box<Settings>(_settingsBoxName);
-    final settingsJson = settingsBox.get('settings');
-
-    return settingsJson;
+  Settings getSettings() {
+    return Hive.box<Settings>(_settingsBoxName).get('settings') ??
+        const Settings();
   }
 }

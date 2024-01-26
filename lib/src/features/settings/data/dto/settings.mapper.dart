@@ -33,11 +33,17 @@ class SettingsMapper extends ClassMapperBase<Settings> {
   static bool _$confirmExit(Settings v) => v.confirmExit;
   static const Field<Settings, bool> _f$confirmExit =
       Field('confirmExit', _$confirmExit, opt: true, def: true);
-  static NavigationTypeOverride _$navigationTypeOverride(Settings v) =>
-      v.navigationTypeOverride;
+  static NavigationTypeOverride _$portraitNavigationTypeOverride(Settings v) =>
+      v.portraitNavigationTypeOverride;
   static const Field<Settings, NavigationTypeOverride>
-      _f$navigationTypeOverride = Field(
-          'navigationTypeOverride', _$navigationTypeOverride,
+      _f$portraitNavigationTypeOverride = Field(
+          'portraitNavigationTypeOverride', _$portraitNavigationTypeOverride,
+          opt: true, def: NavigationTypeOverride.auto);
+  static NavigationTypeOverride _$landscapeNavigationTypeOverride(Settings v) =>
+      v.landscapeNavigationTypeOverride;
+  static const Field<Settings, NavigationTypeOverride>
+      _f$landscapeNavigationTypeOverride = Field(
+          'landscapeNavigationTypeOverride', _$landscapeNavigationTypeOverride,
           opt: true, def: NavigationTypeOverride.auto);
 
   @override
@@ -46,7 +52,8 @@ class SettingsMapper extends ClassMapperBase<Settings> {
     #darkMode: _f$darkMode,
     #systemThemeMode: _f$systemThemeMode,
     #confirmExit: _f$confirmExit,
-    #navigationTypeOverride: _f$navigationTypeOverride,
+    #portraitNavigationTypeOverride: _f$portraitNavigationTypeOverride,
+    #landscapeNavigationTypeOverride: _f$landscapeNavigationTypeOverride,
   };
 
   static Settings _instantiate(DecodingData data) {
@@ -55,7 +62,10 @@ class SettingsMapper extends ClassMapperBase<Settings> {
         darkMode: data.dec(_f$darkMode),
         systemThemeMode: data.dec(_f$systemThemeMode),
         confirmExit: data.dec(_f$confirmExit),
-        navigationTypeOverride: data.dec(_f$navigationTypeOverride));
+        portraitNavigationTypeOverride:
+            data.dec(_f$portraitNavigationTypeOverride),
+        landscapeNavigationTypeOverride:
+            data.dec(_f$landscapeNavigationTypeOverride));
   }
 
   @override
@@ -114,7 +124,8 @@ abstract class SettingsCopyWith<$R, $In extends Settings, $Out>
       bool? darkMode,
       bool? systemThemeMode,
       bool? confirmExit,
-      NavigationTypeOverride? navigationTypeOverride});
+      NavigationTypeOverride? portraitNavigationTypeOverride,
+      NavigationTypeOverride? landscapeNavigationTypeOverride});
   SettingsCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -132,14 +143,17 @@ class _SettingsCopyWithImpl<$R, $Out>
           bool? darkMode,
           bool? systemThemeMode,
           bool? confirmExit,
-          NavigationTypeOverride? navigationTypeOverride}) =>
+          NavigationTypeOverride? portraitNavigationTypeOverride,
+          NavigationTypeOverride? landscapeNavigationTypeOverride}) =>
       $apply(FieldCopyWithData({
         if (bannerEnabled != null) #bannerEnabled: bannerEnabled,
         if (darkMode != null) #darkMode: darkMode,
         if (systemThemeMode != null) #systemThemeMode: systemThemeMode,
         if (confirmExit != null) #confirmExit: confirmExit,
-        if (navigationTypeOverride != null)
-          #navigationTypeOverride: navigationTypeOverride
+        if (portraitNavigationTypeOverride != null)
+          #portraitNavigationTypeOverride: portraitNavigationTypeOverride,
+        if (landscapeNavigationTypeOverride != null)
+          #landscapeNavigationTypeOverride: landscapeNavigationTypeOverride
       }));
   @override
   Settings $make(CopyWithData data) => Settings(
@@ -147,8 +161,11 @@ class _SettingsCopyWithImpl<$R, $Out>
       darkMode: data.get(#darkMode, or: $value.darkMode),
       systemThemeMode: data.get(#systemThemeMode, or: $value.systemThemeMode),
       confirmExit: data.get(#confirmExit, or: $value.confirmExit),
-      navigationTypeOverride:
-          data.get(#navigationTypeOverride, or: $value.navigationTypeOverride));
+      portraitNavigationTypeOverride: data.get(#portraitNavigationTypeOverride,
+          or: $value.portraitNavigationTypeOverride),
+      landscapeNavigationTypeOverride: data.get(
+          #landscapeNavigationTypeOverride,
+          or: $value.landscapeNavigationTypeOverride));
 
   @override
   SettingsCopyWith<$R2, Settings, $Out2> $chain<$R2, $Out2>(

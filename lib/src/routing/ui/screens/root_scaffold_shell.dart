@@ -42,11 +42,21 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
           goToIndex: widget.navigationShell.goBranch,
           navigationTypeResolver: (context) {
             final settings = ref.watch(settingsServiceProvider);
-            final navigationTypeOverride = settings.navigationTypeOverride;
-            if (navigationTypeOverride == NavigationTypeOverride.auto) {
-              return $resolveNavigationType(context);
-            }
-            return navigationTypeOverride.navigationType;
+            final Orientation currentOrientation =
+                MediaQuery.orientationOf(context);
+            final autoNavigationType = $resolveNavigationType(context);
+            final landscapeNavigationType =
+                settings.landscapeNavigationTypeOverride.isAuto
+                    ? autoNavigationType
+                    : settings.landscapeNavigationTypeOverride.navigationType;
+            final portraitNavigationType =
+                settings.portraitNavigationTypeOverride.isAuto
+                    ? autoNavigationType
+                    : settings.portraitNavigationTypeOverride.navigationType;
+            return switch (currentOrientation) {
+              Orientation.landscape => landscapeNavigationType,
+              Orientation.portrait => portraitNavigationType,
+            };
           },
           topBarStart: Padding(
             padding: const EdgeInsets.only(left: 48.0, right: 32.0),

@@ -14,16 +14,25 @@ class SettingsService extends _$SettingsService {
   @override
   Settings build() {
     _settingsRepository = ref.watch(settingsRepositoryProvider.notifier);
-    final settings = _settingsRepository.getSettings();
-
-    return settings ?? const Settings();
+    return _settingsRepository.getSettings();
   }
 
-  void setNavigationTypeOverride(
-    NavigationTypeOverride navigationTypeOverride,
+  void setPortraitNavigationTypeOverride(
+    NavigationTypeOverride portraitNavigationTypeOverride,
   ) {
-    final newSettings =
-        state.copyWith(navigationTypeOverride: navigationTypeOverride);
+    final newSettings = state.copyWith(
+      portraitNavigationTypeOverride: portraitNavigationTypeOverride,
+    );
+    state = newSettings;
+    _settingsRepository.saveSettings(newSettings);
+  }
+
+  void setLandscapeNavigationTypeOverride(
+    NavigationTypeOverride landscapeNavigationTypeOverride,
+  ) {
+    final newSettings = state.copyWith(
+      landscapeNavigationTypeOverride: landscapeNavigationTypeOverride,
+    );
     state = newSettings;
     _settingsRepository.saveSettings(newSettings);
   }

@@ -27,20 +27,23 @@ class Settings with SettingsMappable {
 
   @MappableField()
   @HiveField(4, defaultValue: NavigationTypeOverride.auto)
-  final NavigationTypeOverride navigationTypeOverride;
+  final NavigationTypeOverride portraitNavigationTypeOverride;
+
+  @MappableField()
+  @HiveField(5, defaultValue: NavigationTypeOverride.auto)
+  final NavigationTypeOverride landscapeNavigationTypeOverride;
 
   const Settings({
     this.bannerEnabled = true,
     this.darkMode = true,
     this.systemThemeMode = true,
     this.confirmExit = true,
-    this.navigationTypeOverride = NavigationTypeOverride.auto,
+    this.portraitNavigationTypeOverride = NavigationTypeOverride.auto,
+    this.landscapeNavigationTypeOverride = NavigationTypeOverride.auto,
   });
 
   static const fromMap = SettingsMapper.fromMap;
   static const fromJson = SettingsMapper.fromJson;
-  factory Settings.box() =>
-      Hive.box<Settings>('settingsBox').get('settings') ?? const Settings();
 }
 
 extension SettingsExtension on Settings {
