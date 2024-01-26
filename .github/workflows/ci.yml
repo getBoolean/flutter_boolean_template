@@ -765,7 +765,7 @@ jobs:
   deploy_web:
     name: Deploy Flutter Web to GitHub Pages
     runs-on: ubuntu-latest
-    needs: [build_web]
+    # needs: [build_web]
     environment:
       name: github-pages
     # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
