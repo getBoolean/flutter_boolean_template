@@ -8,14 +8,12 @@ import 'package:flutter_boolean_template/src/features/example_feature/domain/val
 import 'package:flutter_boolean_template/src/features/example_feature/domain/value/name.dart';
 import 'package:flutter_boolean_template/src/features/settings/application/settings_service.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/dto/settings.dart';
-import 'package:flutter_boolean_template/src/features/settings/presentation/extensions.dart';
+import 'package:flutter_boolean_template/src/features/settings/presentation/widgets/app_settings.dart';
 import 'package:flutter_boolean_template/src/routing/ui/widgets/router_widget.dart';
 import 'package:flutter_flavor/flutter_flavor.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:localization/localization.dart';
-
-import 'src/features/settings/presentation/widgets/app_settings.dart';
 
 /// The main app widget at the root of the widget tree.
 class App extends ConsumerWidget {
