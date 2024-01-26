@@ -103,6 +103,44 @@ class _SettingsWidgetState extends ConsumerState<SettingsWidget> {
             ),
           ],
         ),
+        SettingsSection(
+          tiles: [
+            SettingsTile(
+              title: const Text('Reset settings'),
+              leading: const Icon(Icons.restore),
+              onPressed: (context) async {
+                await showAdaptiveDialog<dynamic>(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog.adaptive(
+                      title: const Text('Reset settings'),
+                      content: const Text(
+                        'Are you sure you want to reset your settings?',
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('Cancel'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            ref
+                                .read(settingsServiceProvider.notifier)
+                                .resetSettings();
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('Reset'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+            ),
+          ],
+        ),
       ],
     );
   }
