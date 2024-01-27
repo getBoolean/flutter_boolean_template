@@ -40,7 +40,7 @@ class ResponsiveScaffold extends StatefulHookWidget {
     this.tabAlignment = TabAlignment.start,
     this.scaffoldConfig = const ScaffoldConfig(),
     this.buildTabBarItem = _defaultTabBarItemBuilder,
-    this.buildBottomNavigationBar,
+    this.buildBottomNavigationBar = _defaultBottomNavigationBarBuilder,
     this.buildDrawer,
     this.buildSidebar,
     this.buildDismissableSliverAppBar,
@@ -137,7 +137,7 @@ class ResponsiveScaffold extends StatefulHookWidget {
     int selectedIndex,
     List<RouterDestination> bottomDestinations,
     void Function(int index) setPage,
-  )? buildBottomNavigationBar;
+  ) buildBottomNavigationBar;
 
   /// Custom builder for [NavigationType.drawer]
   final Widget Function(
@@ -219,11 +219,9 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
       0,
       math.min(widget.destinations.length, widget.bottomNavigationOverflow),
     );
-
-    final buildBottomNavigationBar =
-        widget.buildBottomNavigationBar ?? _defaultBottomNavigationBarBuilder;
+    ;
     final selectedIndex = widget.currentIndex;
-    final bottomNavigationBar = buildBottomNavigationBar(
+    final bottomNavigationBar = widget.buildBottomNavigationBar(
       context,
       selectedIndex,
       bottomDestinations,
@@ -458,25 +456,6 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
       ),
     );
   }
-
-  Widget _defaultBottomNavigationBarBuilder(
-    BuildContext context,
-    int selectedIndex,
-    List<RouterDestination> bottomDestinations,
-    void Function(int index) setPage,
-  ) {
-    return NavigationBar(
-      selectedIndex: selectedIndex,
-      onDestinationSelected: setPage,
-      destinations: [
-        for (final destination in bottomDestinations)
-          NavigationDestination(
-            label: destination.title,
-            icon: Icon(destination.icon),
-          ),
-      ],
-    );
-  }
 }
 
 class ResponsiveNavigationToolbar extends NavigationToolbar {
@@ -521,6 +500,25 @@ class ResponsiveNavigationToolbar extends NavigationToolbar {
       trailing: trailing,
     );
   }
+}
+
+Widget _defaultBottomNavigationBarBuilder(
+  BuildContext context,
+  int selectedIndex,
+  List<RouterDestination> bottomDestinations,
+  void Function(int index) setPage,
+) {
+  return NavigationBar(
+    selectedIndex: selectedIndex,
+    onDestinationSelected: setPage,
+    destinations: [
+      for (final destination in bottomDestinations)
+        NavigationDestination(
+          label: destination.title,
+          icon: Icon(destination.icon),
+        ),
+    ],
+  );
 }
 
 Widget _defaultBuildDismissableSliverAppBar(
