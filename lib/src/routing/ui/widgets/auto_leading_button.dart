@@ -63,12 +63,21 @@ class AutoLeadingButton extends ConsumerStatefulWidget {
 
   final Duration transitionDuration;
 
+  /// Whether to use location only to determine
+  /// if the leading button should be shown
+  ///
+  /// If false, the button will be shown if
+  /// - the router delegate can go back (location is not the first location)
+  /// - the router delegate can pop
+  final bool useLocationOnly;
+
   /// Default constructor
   const AutoLeadingButton({
     super.key,
     this.color,
     this.builder,
     this.transitionDuration = const Duration(milliseconds: 150),
+    this.useLocationOnly = false,
   }) : assert(
           color == null || builder == null,
           'Cannot use both color and builder',
@@ -106,7 +115,8 @@ class _AutoLeadingButtonState extends ConsumerState<AutoLeadingButton> {
     final Widget button;
     final ModalRoute<dynamic>? parentRoute = ModalRoute.of(context);
     final router = ref.watch(routerProvider);
-    final canPop = router.canGoBack() || router.canPop();
+    final canPop =
+        router.canGoBack() || (!widget.useLocationOnly && router.canPop());
     final ScaffoldState? scaffold = Scaffold.maybeOf(context);
     if (canPop) {
       final bool useCloseButton =

@@ -51,6 +51,7 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
           buildLeadingButton: (context, navigationType) {
             return AutoLeadingButton(
               key: ValueKey(navigationType),
+              useLocationOnly: true,
             );
           },
           navigationTypeResolver: (context) {
