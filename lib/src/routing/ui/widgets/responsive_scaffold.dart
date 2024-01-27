@@ -520,7 +520,13 @@ class LogoBuilder extends StatelessWidget {
       builder: (context, constraints) {
         return builder(
           context,
-          constraints.maxWidth > 600 ? logoExpanded ?? logo : logo,
+          switch (constraints) {
+            BoxConstraints() when constraints.maxWidth < 350 => null,
+            BoxConstraints() when constraints.maxWidth < 600 => logo,
+            BoxConstraints() when constraints.maxWidth >= 600 =>
+              logoExpanded ?? logo,
+            BoxConstraints() => null
+          },
         );
       },
     );
