@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/features/settings/application/settings_service.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/dto/navigation_type_override.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/dto/settings.dart';
+import 'package:flutter_boolean_template/src/routing/router/router_extensions.dart';
+import 'package:flutter_boolean_template/src/routing/ui/widgets/auto_leading_button.dart';
 import 'package:flutter_boolean_template/src/routing/ui/widgets/responsive_scaffold.dart';
 import 'package:flutter_boolean_template/utils/utils.dart';
 import 'package:go_router/go_router.dart';
@@ -40,6 +42,18 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
           currentIndex: widget.navigationShell.currentIndex,
           title: widget.title,
           goToIndex: widget.navigationShell.goBranch,
+          willShowLeadingButton: (context) {
+            final router = GoRouter.of(context);
+            final canPop = router.canGoBack() || router.canPop();
+            final ScaffoldState? scaffold = Scaffold.maybeOf(context);
+            return canPop || (scaffold?.hasDrawer ?? false);
+          },
+          buildLeadingButton: (context, navigationType) {
+            return AutoLeadingButton(
+              key: ValueKey(navigationType),
+              useLocationOnly: true,
+            );
+          },
           navigationTypeResolver: (context) {
             final settings = ref.watch(settingsServiceProvider);
             final Orientation currentOrientation =
@@ -58,33 +72,17 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
               Orientation.portrait => portraitNavigationType,
             };
           },
-          topBarStart: Padding(
-            padding: const EdgeInsets.only(left: 48.0, right: 32.0),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: IntrinsicWidth(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const _StylizedFlutterLogo(),
-                    gap12,
-                    Expanded(
-                      child: Text(
-                        kAppName,
-                        style: theme.textTheme.titleMedium
-                            ?.merge(GoogleFonts.robotoMono()),
-                        overflow: TextOverflow.clip,
-                        maxLines: 1,
-                      ),
-                    ),
-                  ],
-                ),
+          actionExpanded: const IntrinsicWidth(
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: SearchBar(
+                trailing: [Icon(Icons.search)],
               ),
             ),
           ),
-          topBarEnd: Padding(
+          action: Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: settings.isBannerShowing ? 60 : 4,
+              horizontal: settings.isBannerShowing ? 48 : 0,
             ),
             child: IconButton(
               onPressed: () {},
@@ -92,20 +90,24 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
             ),
           ),
           logo: const _StylizedFlutterLogo(),
-          drawerHeader: Row(
-            children: [
-              const _StylizedFlutterLogo(),
-              gap12,
-              Expanded(
-                child: Text(
-                  kAppName,
-                  style: theme.textTheme.titleMedium
-                      ?.merge(GoogleFonts.robotoMono()),
-                  overflow: TextOverflow.clip,
-                  maxLines: 1,
+          logoExpanded: IntrinsicWidth(
+            child: Row(
+              children: [
+                const _StylizedFlutterLogo(),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Text(
+                      kAppName,
+                      style: theme.textTheme.titleMedium
+                          ?.merge(GoogleFonts.robotoMono()),
+                      overflow: TextOverflow.clip,
+                      maxLines: 1,
+                    ),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           child: widget.navigationShell,
         ),

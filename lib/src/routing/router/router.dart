@@ -60,9 +60,6 @@ GoRouter createRouter({required Logger log}) {
     // * root on hot reload
     navigatorKey: _rootNavigatorKey,
     initialLocation: '/books',
-    observers: [
-      AppObserver(),
-    ],
     routes: <RouteBase>[
       StatefulShellRoute(
         parentNavigatorKey: _rootNavigatorKey,
@@ -99,9 +96,6 @@ GoRouter createRouter({required Logger log}) {
 
 StatefulShellBranch _buildSettingsBranch(RouterDestination destination) {
   return StatefulShellBranch(
-    observers: [
-      AppObserver(),
-    ],
     navigatorKey: destination.navigatorKey,
     routes: <RouteBase>[
       GoRoute(
@@ -128,9 +122,6 @@ StatefulShellBranch _buildSettingsBranch(RouterDestination destination) {
 
 StatefulShellBranch _buildProfileBranch(RouterDestination destination) {
   return StatefulShellBranch(
-    observers: [
-      AppObserver(),
-    ],
     navigatorKey: destination.navigatorKey,
     routes: <RouteBase>[
       GoRoute(
@@ -156,9 +147,6 @@ StatefulShellBranch _buildProfileBranch(RouterDestination destination) {
 StatefulShellBranch _buildBooksBranch(RouterDestination destination) {
   return StatefulShellBranch(
     navigatorKey: destination.navigatorKey,
-    observers: [
-      AppObserver(),
-    ],
     routes: <RouteBase>[
       GoRoute(
         name: RouteName.books.name,
@@ -206,7 +194,9 @@ extension GoRouterStateTitleBuilder on GoRouterState {
     final routeName = topRoute?.name;
     if (routeName == null) return null;
     return switch (RouteName.values.byName(routeName)) {
-      RouteName.books => 'Books',
+      RouteName.books => uri.queryParameters['id'] != null
+          ? 'Book ${uri.queryParameters['id']}'
+          : 'Books',
       RouteName.bookDetails => 'Book ${pathParameters['id']}',
       RouteName.profile => 'Profile',
       RouteName.profileDetails => 'Profile Details',

@@ -1,4 +1,3 @@
-import 'package:awesome_flutter_extensions/awesome_flutter_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/routing/router/router.dart';
 import 'package:go_router/go_router.dart';
@@ -62,28 +61,34 @@ class AutoLeadingButton extends ConsumerStatefulWidget {
   /// the looks and feels of their leading buttons
   final AutoLeadingButtonBuilder? builder;
 
-  /// Hides the button when the leading type is [LeadingType.noLeading]
-  ///
-  /// Defaults to `false`
-  final bool? showDisabled;
-
   final Duration transitionDuration;
+
+  /// Whether to use location only to determine
+  /// if the leading button should be shown
+  ///
+  /// If false, the button will be shown if
+  /// - the router delegate can go back (location is not the first location)
+  /// - the router delegate can pop
+  final bool useLocationOnly;
 
   /// Default constructor
   const AutoLeadingButton({
     super.key,
     this.color,
     this.builder,
-    this.showDisabled,
     this.transitionDuration = const Duration(milliseconds: 150),
-  })  : assert(
+    this.useLocationOnly = false,
+  }) : assert(
           color == null || builder == null,
           'Cannot use both color and builder',
-        ),
-        assert(
-          showDisabled == null || builder == null,
-          'Cannot use both hideDisabled and builder',
         );
+
+  bool willShowButton(BuildContext context) {
+    final router = GoRouter.of(context);
+    final canPop = router.canGoBack() || router.canPop();
+    final ScaffoldState? scaffold = Scaffold.maybeOf(context);
+    return canPop || (scaffold?.hasDrawer ?? false);
+  }
 
   @override
   ConsumerState<AutoLeadingButton> createState() => _AutoLeadingButtonState();
@@ -110,7 +115,8 @@ class _AutoLeadingButtonState extends ConsumerState<AutoLeadingButton> {
     final Widget button;
     final ModalRoute<dynamic>? parentRoute = ModalRoute.of(context);
     final router = ref.watch(routerProvider);
-    final canPop = router.canGoBack() || router.canPop();
+    final canPop =
+        router.canGoBack() || (!widget.useLocationOnly && router.canPop());
     final ScaffoldState? scaffold = Scaffold.maybeOf(context);
     if (canPop) {
       final bool useCloseButton =
@@ -159,17 +165,8 @@ class _AutoLeadingButtonState extends ConsumerState<AutoLeadingButton> {
       );
     } else if (widget.builder != null) {
       button = widget.builder!(context, LeadingType.noLeading, null);
-    } else if (!(widget.showDisabled ?? false)) {
-      button = const SizedBox.shrink(
-        key: ValueKey('HiddenAutoLeadingButton'),
-      );
     } else {
-      button = IconButton(
-        icon: const BackButtonIcon(),
-        iconSize: context.themes.icon.size ?? 24,
-        style: IconButtonTheme.of(context).style,
-        onPressed: null,
-      );
+      button = const SizedBox.shrink();
     }
 
     return AnimatedSwitcher(

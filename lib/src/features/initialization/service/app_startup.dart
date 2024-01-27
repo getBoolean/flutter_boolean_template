@@ -39,6 +39,6 @@ Future<void> _initWindow() async {
   if (!kIsWeb &&
       (io.Platform.isWindows || io.Platform.isLinux || io.Platform.isMacOS)) {
     await windowManager.ensureInitialized();
-    await windowManager.setMinimumSize(const Size(600, 300));
+    await windowManager.setMinimumSize(const Size(300, 150));
   }
 }
