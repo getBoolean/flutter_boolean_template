@@ -85,6 +85,13 @@ class AutoLeadingButton extends ConsumerStatefulWidget {
           'Cannot use both hideDisabled and builder',
         );
 
+  bool willShowButton(BuildContext context) {
+    final router = GoRouter.of(context);
+    final canPop = router.canGoBack() || router.canPop();
+    final ScaffoldState? scaffold = Scaffold.maybeOf(context);
+    return canPop || (scaffold?.hasDrawer ?? false) || (showDisabled ?? false);
+  }
+
   @override
   ConsumerState<AutoLeadingButton> createState() => _AutoLeadingButtonState();
 }

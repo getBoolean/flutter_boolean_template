@@ -58,33 +58,9 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
               Orientation.portrait => portraitNavigationType,
             };
           },
-          topBarStart: Padding(
-            padding: const EdgeInsets.only(left: 48.0, right: 32.0),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: IntrinsicWidth(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const _StylizedFlutterLogo(),
-                    gap12,
-                    Expanded(
-                      child: Text(
-                        kAppName,
-                        style: theme.textTheme.titleMedium
-                            ?.merge(GoogleFonts.robotoMono()),
-                        overflow: TextOverflow.clip,
-                        maxLines: 1,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          topBarEnd: Padding(
+          primaryActionExpanded: Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: settings.isBannerShowing ? 60 : 4,
+              horizontal: settings.isBannerShowing ? 48 : 0,
             ),
             child: IconButton(
               onPressed: () {},
@@ -92,20 +68,24 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
             ),
           ),
           logo: const _StylizedFlutterLogo(),
-          drawerHeader: Row(
-            children: [
-              const _StylizedFlutterLogo(),
-              gap12,
-              Expanded(
-                child: Text(
-                  kAppName,
-                  style: theme.textTheme.titleMedium
-                      ?.merge(GoogleFonts.robotoMono()),
-                  overflow: TextOverflow.clip,
-                  maxLines: 1,
+          expandedLogo: IntrinsicWidth(
+            child: Row(
+              children: [
+                const _StylizedFlutterLogo(),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Text(
+                      kAppName,
+                      style: theme.textTheme.titleMedium
+                          ?.merge(GoogleFonts.robotoMono()),
+                      overflow: TextOverflow.clip,
+                      maxLines: 1,
+                    ),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           child: widget.navigationShell,
         ),

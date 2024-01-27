@@ -4,7 +4,6 @@ import 'package:adaptive_breakpoints/adaptive_breakpoints.dart';
 import 'package:constants/constants.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_boolean_template/src/common_widgets/constrained_scrollable_child.dart';
 import 'package:flutter_boolean_template/src/routing/data/navigation_type.dart';
 import 'package:flutter_boolean_template/src/routing/ui/widgets/auto_leading_button.dart';
 import 'package:flutter_boolean_template/src/routing/ui/widgets/responsive_sidebar.dart';
@@ -44,13 +43,9 @@ class ResponsiveScaffold extends StatefulHookWidget {
     this.endDrawerEnableOpenDragGesture = true,
     this.navigationTypeResolver,
     this.drawerWidth = 200,
-    this.drawerHeader,
-    this.drawerFooter,
     this.includeBaseDestinationsInMenu = true,
     this.bottomNavigationOverflow = 5,
     this.railDestinationsOverflow = 7,
-    this.topBarStart,
-    this.topBarEnd,
     this.isTabBarScrollable = true,
     this.tabAlignment = TabAlignment.start,
     this.divider,
@@ -61,7 +56,10 @@ class ResponsiveScaffold extends StatefulHookWidget {
     this.buildSidebar,
     this.buildDismissableSliverAppBar,
     this.buildTopBar,
+    this.expandedLogo,
     this.logo,
+    this.primaryAction,
+    this.primaryActionExpanded,
   });
 
   static ResponsiveScaffold of(BuildContext context) {
@@ -128,19 +126,18 @@ class ResponsiveScaffold extends StatefulHookWidget {
   /// Determines the navigation type that the scaffold uses.
   final NavigationTypeResolver? navigationTypeResolver;
 
+  /// A small logo to display when there is little space available
   final Widget? logo;
 
+  /// A larger logo to display when there is more space available
+  final Widget? expandedLogo;
+
+  final Widget? primaryAction;
+
+  final Widget? primaryActionExpanded;
+
+  /// The width of the drawer and expanded sidebar
   final double drawerWidth;
-
-  /// The leading item in the drawer when the navigation has a drawer.
-  ///
-  /// If null, then there is no header.
-  final Widget? drawerHeader;
-
-  /// The footer item in the drawer when the navigation has a drawer.
-  ///
-  /// If null, then there is no footer.
-  final Widget? drawerFooter;
 
   /// Weather the overflow menu defaults to include overflow destinations and
   /// the overflow destinations.
@@ -151,12 +148,6 @@ class ResponsiveScaffold extends StatefulHookWidget {
 
   /// Maximum number of items to display in [NavigationRail]
   final int railDestinationsOverflow;
-
-  /// The starting item in the [TabBar].
-  final Widget? topBarStart;
-
-  /// The trailing item in the [TabBar].
-  final Widget? topBarEnd;
 
   /// The alignment for the tabs in the [TabBar]
   final TabAlignment tabAlignment;
@@ -202,8 +193,6 @@ class ResponsiveScaffold extends StatefulHookWidget {
   )? buildBottomNavigationBar;
 
   /// Custom builder for [NavigationType.drawer]
-  ///
-  /// If not null, then [drawerHeader] and [drawerFooter] are ignored for this type.
   final Widget Function(
     BuildContext context,
     int selectedIndex,
@@ -212,8 +201,6 @@ class ResponsiveScaffold extends StatefulHookWidget {
 
   /// Custom builder for [NavigationType.expandedSidebar]
   /// and [NavigationType.rail]
-  ///
-  /// If not null, then [drawerHeader] and [drawerFooter] are ignored for this type.
   final Widget Function(
     BuildContext context,
     int selectedIndex,
@@ -381,25 +368,32 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
   ) {
     return PreferredSize(
       preferredSize: tabBar.preferredSize,
-      child: Stack(
-        alignment: Alignment.centerLeft,
-        children: [
-          ConstrainedScrollableChild(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                if (widget.topBarStart != null) widget.topBarStart!,
-                tabBar,
-                const Spacer(),
-                if (widget.topBarEnd != null) widget.topBarEnd!,
-              ],
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.only(left: 4.0),
-            child: AutoLeadingButton(showDisabled: false),
-          ),
-        ],
+      child: Builder(
+        builder: (context) {
+          const appbar = AutoLeadingButton(showDisabled: false);
+          final willShowAppBar = appbar.willShowButton(context);
+          return Stack(
+            alignment: Alignment.centerLeft,
+            children: [
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  gap16,
+                  if (willShowAppBar) gap32,
+                  if (widget.expandedLogo != null) widget.expandedLogo!,
+                  Expanded(child: tabBar),
+                  if (widget.primaryActionExpanded != null)
+                    widget.primaryActionExpanded!,
+                  gap16,
+                ],
+              ),
+              const Padding(
+                padding: EdgeInsets.only(left: 4.0),
+                child: appbar,
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -423,7 +417,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
           ? navigationType == NavigationType.rail
           : null,
       expandedWidth: widget.drawerWidth,
-      expandedHeader: widget.drawerHeader,
+      expandedHeader: widget.expandedLogo,
       collapseHeader: widget.logo,
       transitionDuration: widget.transitionDuration,
       reverseTransitionDuration: widget.transitionReverseDuration,
@@ -441,10 +435,10 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
       width: widget.drawerWidth,
       child: Column(
         children: [
-          if (widget.drawerHeader != null)
+          if (widget.expandedLogo != null)
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: widget.drawerHeader,
+              child: widget.expandedLogo,
             ),
           for (final destination in widget.destinations)
             ListTile(
@@ -459,7 +453,8 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
               selectedColor: theme.colorScheme.secondary,
             ),
           const Spacer(),
-          if (widget.drawerFooter != null) widget.drawerFooter!,
+          if (widget.primaryActionExpanded != null)
+            widget.primaryActionExpanded!,
         ],
       ),
     );
