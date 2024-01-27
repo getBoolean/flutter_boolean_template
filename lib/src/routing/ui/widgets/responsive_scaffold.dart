@@ -39,7 +39,7 @@ class ResponsiveScaffold extends StatefulHookWidget {
     this.isTabBarScrollable = true,
     this.tabAlignment = TabAlignment.start,
     this.scaffoldConfig = const ScaffoldConfig(),
-    this.buildTopBarTabBar,
+    this.buildTabBarItem = _defaultTabBarItemBuilder,
     this.buildBottomNavigationBar,
     this.buildDrawer,
     this.buildSidebar,
@@ -117,20 +117,18 @@ class ResponsiveScaffold extends StatefulHookWidget {
   /// Custom builder for the [AppBar]'s leading button
   final Widget Function(BuildContext context) buildLeadingButton;
 
-  /// Custom builder for [NavigationType.top]'s [TabBar]
+  /// Custom builder for [NavigationType.top]'s [Tab] item in [TabBar]
   ///
   /// If not null, then [isTabBarScrollable], and [tabAlignment] are ignored for this type.
-  final TabBar Function(
+  final Tab Function(
     BuildContext context,
-    TabController controller,
-    void Function(int index) setPage,
-  )? buildTopBarTabBar;
+    RouterDestination destination,
+  ) buildTabBarItem;
 
   /// Custom builder for [NavigationType.top]
   final PreferredSizeWidget Function(
     BuildContext context,
     TabBar tabBar,
-    void Function(int index) setPage,
   )? buildTopBar;
 
   /// Custom builder for [NavigationType.bottom]
@@ -256,16 +254,22 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
     final buildSidebarAppBar =
         widget.buildSidebarAppBar ?? _defaultSidebarAppBarBuilder;
 
-    final buildTabBar = widget.buildTopBarTabBar ?? _defaultTabBarBuilder;
-
     final buildTopBar = widget.buildTopBar ?? _defaultTopBarBuilder;
     return Scaffold(
       key: _key,
       appBar: switch (navigationType) {
         NavigationType.top => buildTopBar(
             context,
-            buildTabBar(context, _tabController, _setPage),
-            _setPage,
+            TabBar(
+              onTap: _setPage,
+              isScrollable: widget.isTabBarScrollable,
+              tabAlignment: widget.tabAlignment,
+              controller: _tabController,
+              tabs: <Tab>[
+                for (final destination in widget.destinations)
+                  widget.buildTabBarItem(context, destination),
+              ],
+            ),
           ),
         NavigationType.expandedSidebar ||
         NavigationType.rail =>
@@ -381,7 +385,6 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
   PreferredSizeWidget _defaultTopBarBuilder(
     BuildContext context,
     TabBar tabBar,
-    void Function(int index) setPage,
   ) {
     return PreferredSize(
       preferredSize: tabBar.preferredSize,
@@ -503,23 +506,6 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
     );
   }
 
-  TabBar _defaultTabBarBuilder(
-    BuildContext context,
-    TabController controller,
-    void Function(int index) setPage,
-  ) {
-    return TabBar(
-      onTap: setPage,
-      isScrollable: widget.isTabBarScrollable,
-      tabAlignment: widget.tabAlignment,
-      controller: controller,
-      tabs: <Tab>[
-        for (final destination in widget.destinations)
-          Tab(child: Text(destination.title)),
-      ],
-    );
-  }
-
   Widget _defaultBuildDismissableSliverAppBar(
     BuildContext context,
     NavigationType navigationType,
@@ -536,6 +522,12 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
     );
   }
 }
+
+Tab _defaultTabBarItemBuilder(
+  BuildContext context,
+  RouterDestination destination,
+) =>
+    Tab(child: Text(destination.title));
 
 class RouterDestination {
   const RouterDestination({
