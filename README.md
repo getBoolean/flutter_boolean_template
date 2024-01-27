@@ -2,6 +2,7 @@
 
 [![latest release](https://img.shields.io/github/release/getBoolean/flutter_boolean_template.svg?maxAge=3600&label=download)](https://github.com/getBoolean/flutter_boolean_template/releases)
 [![coverage](https://img.shields.io/codecov/c/github/getBoolean/flutter_boolean_template)](https://app.codecov.io/gh/getBoolean/flutter_boolean_template)
+[![Codemagic build status](https://api.codemagic.io/apps/64d885be0dff4f86138da577/64d885be0dff4f86138da576/status_badge.svg)](https://codemagic.io/apps/64d885be0dff4f86138da577/64d885be0dff4f86138da576/latest_build)
 
 An opinionated starting point for a Flutter app intended to provide the boilerplate
 needed to create a large app and provides utilities to separate code generation into
