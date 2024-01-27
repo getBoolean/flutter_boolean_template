@@ -72,7 +72,15 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
               Orientation.portrait => portraitNavigationType,
             };
           },
-          primaryActionExpanded: Padding(
+          actionExpanded: const IntrinsicWidth(
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: SearchBar(
+                trailing: [Icon(Icons.search)],
+              ),
+            ),
+          ),
+          action: Padding(
             padding: EdgeInsets.symmetric(
               horizontal: settings.isBannerShowing ? 48 : 0,
             ),

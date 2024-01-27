@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:adaptive_breakpoints/adaptive_breakpoints.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/routing/data/navigation_type.dart';
@@ -27,8 +28,12 @@ class ResponsiveScaffold extends StatefulHookWidget {
     super.key,
     this.logoExpanded,
     this.logo,
-    this.primaryAction,
-    this.primaryActionExpanded,
+    this.action,
+    this.actionExpanded,
+    this.minActionExpandedWidth = 1000,
+    this.minActionCollapsedWidth = 300,
+    this.minLogoExpandedWidth = 600,
+    this.minLogoCollapsedWidth = 350,
     this.divider = const VerticalDivider(width: 1.0, thickness: 1),
     this.navigationTypeResolver = defaultNavigationTypeResolver,
     this.transitionDuration = const Duration(milliseconds: 300),
@@ -76,9 +81,15 @@ class ResponsiveScaffold extends StatefulHookWidget {
   /// A larger logo to display when there is more space available
   final Widget? logoExpanded;
 
-  final Widget? primaryAction;
+  final double minLogoExpandedWidth;
+  final double minLogoCollapsedWidth;
 
-  final Widget? primaryActionExpanded;
+  final Widget? action;
+
+  final Widget? actionExpanded;
+
+  final double minActionExpandedWidth;
+  final double minActionCollapsedWidth;
 
   /// The width of the drawer and expanded sidebar
   final double drawerWidth;
@@ -145,6 +156,7 @@ class ResponsiveScaffold extends StatefulHookWidget {
   final Widget Function(
     BuildContext context,
     Widget leading,
+    Widget? trailing,
     String? title,
   )? buildDismissableSliverAppBar;
 
@@ -252,38 +264,49 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
           buildSidebarAppBar(context, navigationType, widget.title),
         _ => null,
       },
-      body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return [
-            switch (navigationType) {
-              NavigationType.bottom => buildSliverAppBar(
-                  context,
-                  widget.buildLeadingButton(context, navigationType),
-                  widget.title,
-                ),
-              NavigationType.drawer => buildSliverAppBar(
-                  context,
-                  widget.buildLeadingButton(context, navigationType),
-                  widget.title,
-                ),
-              _ => const SliverToBoxAdapter(child: SizedBox.shrink()),
+      body: SwapExpandedWidgetBuilder(
+        logo: widget.action,
+        logoExpanded: widget.actionExpanded,
+        minExpandedWidth: widget.minActionExpandedWidth,
+        minCollapsedWidth: widget.minActionCollapsedWidth,
+        builder: (context, action) {
+          return NestedScrollView(
+            headerSliverBuilder:
+                (BuildContext context, bool innerBoxIsScrolled) {
+              return [
+                switch (navigationType) {
+                  NavigationType.bottom => buildSliverAppBar(
+                      context,
+                      widget.buildLeadingButton(context, navigationType),
+                      action,
+                      widget.title,
+                    ),
+                  NavigationType.drawer => buildSliverAppBar(
+                      context,
+                      widget.buildLeadingButton(context, navigationType),
+                      action,
+                      widget.title,
+                    ),
+                  _ => const SliverToBoxAdapter(child: SizedBox.shrink()),
+                },
+              ];
             },
-          ];
-        },
-        body: Row(
-          children: [
-            AnimatedSwitcher(
-              duration: widget.transitionDuration,
-              reverseDuration: widget.transitionReverseDuration,
-              child: navigationType == NavigationType.expandedSidebar ||
-                      navigationType == NavigationType.rail
-                  ? sidebar
-                  : null,
+            body: Row(
+              children: [
+                AnimatedSwitcher(
+                  duration: widget.transitionDuration,
+                  reverseDuration: widget.transitionReverseDuration,
+                  child: navigationType == NavigationType.expandedSidebar ||
+                          navigationType == NavigationType.rail
+                      ? sidebar
+                      : null,
+                ),
+                widget.divider,
+                Expanded(child: widget.child),
+              ],
             ),
-            widget.divider,
-            Expanded(child: widget.child),
-          ],
-        ),
+          );
+        },
       ),
       drawer: hasDrawer ? drawer : null,
       bottomNavigationBar: hasBottomNavigationBar ? bottomNavigationBar : null,
@@ -326,20 +349,30 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
               widget.buildLeadingButton(context, navigationType);
           final willShowLeadingButton = widget.willShowLeadingButton(context);
           return Material(
-            child: ResponsiveNavigationToolbar(
-              leadingButton: leadingButton,
-              middle: title != null
-                  ? Text(
-                      title,
-                      style: theme.textTheme.titleLarge,
-                    )
-                  : null,
-              trailing: widget.primaryActionExpanded,
-              willShowLeadingButton: willShowLeadingButton,
-              transitionDuration: widget.transitionDuration,
-              transitionReverseDuration: widget.transitionReverseDuration,
-              logoExpanded: widget.logoExpanded,
-              logo: widget.logo,
+            child: SwapExpandedWidgetBuilder(
+              logo: widget.action,
+              logoExpanded: widget.actionExpanded,
+              minExpandedWidth: widget.minActionExpandedWidth,
+              minCollapsedWidth: widget.minActionCollapsedWidth,
+              builder: (context, action) {
+                return ResponsiveNavigationToolbar(
+                  leadingButton: leadingButton,
+                  middle: title != null
+                      ? Text(
+                          title,
+                          style: theme.textTheme.titleLarge,
+                        )
+                      : null,
+                  trailing: action,
+                  willShowLeadingButton: willShowLeadingButton,
+                  transitionDuration: widget.transitionDuration,
+                  transitionReverseDuration: widget.transitionReverseDuration,
+                  logoExpanded: widget.logoExpanded,
+                  logo: widget.logo,
+                  minLogoCollapsedWidth: widget.minLogoCollapsedWidth,
+                  minLogoExpandedWidth: widget.minLogoExpandedWidth,
+                );
+              },
             ),
           );
         },
@@ -371,6 +404,8 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
               transitionReverseDuration: widget.transitionReverseDuration,
               logoExpanded: widget.logoExpanded,
               logo: widget.logo,
+              minLogoCollapsedWidth: widget.minLogoCollapsedWidth,
+              minLogoExpandedWidth: widget.minLogoExpandedWidth,
             ),
           );
         },
@@ -431,8 +466,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
               selectedColor: theme.colorScheme.secondary,
             ),
           const Spacer(),
-          if (widget.primaryActionExpanded != null)
-            widget.primaryActionExpanded!,
+          if (widget.actionExpanded != null) widget.actionExpanded!,
         ],
       ),
     );
@@ -446,26 +480,32 @@ class ResponsiveNavigationToolbar extends NavigationToolbar {
     required this.willShowLeadingButton,
     required this.transitionDuration,
     super.key,
+    this.minLogoExpandedWidth = 600,
+    this.minLogoCollapsedWidth = 350,
+    this.transitionReverseDuration,
     this.logo,
     this.logoExpanded,
-    this.transitionReverseDuration,
     super.trailing,
   });
 
   final Widget leadingButton;
   final bool willShowLeadingButton;
   final Duration transitionDuration;
+  final Duration? transitionReverseDuration;
+
   final Widget? logo;
   final Widget? logoExpanded;
-  final Duration? transitionReverseDuration;
+
+  final double minLogoExpandedWidth;
+  final double minLogoCollapsedWidth;
 
   @override
   Widget build(BuildContext context) {
-    return LogoBuilder(
+    return SwapExpandedWidgetBuilder(
       logo: logo,
       logoExpanded: logoExpanded,
-      middle: middle,
-      trailing: trailing,
+      minExpandedWidth: minLogoExpandedWidth,
+      minCollapsedWidth: minLogoCollapsedWidth,
       builder: (constext, logo) {
         return NavigationToolbar(
           leading: Row(
@@ -498,36 +538,50 @@ class ResponsiveNavigationToolbar extends NavigationToolbar {
   }
 }
 
-class LogoBuilder extends StatelessWidget {
-  const LogoBuilder({
+class SwapExpandedWidgetBuilder extends StatelessWidget {
+  const SwapExpandedWidgetBuilder({
     required this.logo,
     required this.logoExpanded,
-    required this.middle,
-    required this.trailing,
     required this.builder,
     super.key,
+    this.minExpandedWidth = 600,
+    this.minCollapsedWidth = 350,
   });
 
   final Widget? logo;
   final Widget? logoExpanded;
-  final Widget? middle;
-  final Widget? trailing;
-  final Widget Function(BuildContext context, Widget? logo) builder;
+  final Widget? Function(BuildContext context, Widget? action) builder;
+  final double minExpandedWidth;
+  final double minCollapsedWidth;
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
         return builder(
-          context,
-          switch (constraints) {
-            BoxConstraints() when constraints.maxWidth < 350 => null,
-            BoxConstraints() when constraints.maxWidth < 600 => logo,
-            BoxConstraints() when constraints.maxWidth >= 600 =>
-              logoExpanded ?? logo,
-            BoxConstraints() => null
-          },
-        );
+              context,
+              switch (constraints) {
+                BoxConstraints() when constraints.maxWidth == double.infinity =>
+                  () {
+                    if (kDebugMode) {
+                      print(
+                        'Warning(ExpandedWidgetBuilder): constraints.maxWidth == double.infinity',
+                      );
+                    }
+                    return null;
+                  }(),
+                BoxConstraints()
+                    when constraints.maxWidth < minCollapsedWidth =>
+                  null,
+                BoxConstraints() when constraints.maxWidth < minExpandedWidth =>
+                  logo,
+                BoxConstraints()
+                    when constraints.maxWidth >= minExpandedWidth =>
+                  logoExpanded ?? logo,
+                BoxConstraints() => null
+              },
+            ) ??
+            const SizedBox.shrink();
       },
     );
   }
@@ -555,6 +609,7 @@ Widget _defaultBottomNavigationBarBuilder(
 Widget _defaultBuildDismissableSliverAppBar(
   BuildContext context,
   Widget leading,
+  Widget? trailing,
   String? title,
 ) {
   return SliverAppBar(
@@ -565,6 +620,7 @@ Widget _defaultBuildDismissableSliverAppBar(
     expandedHeight: 50,
     floating: true,
     snap: true,
+    actions: trailing == null ? null : [trailing],
   );
 }
 
