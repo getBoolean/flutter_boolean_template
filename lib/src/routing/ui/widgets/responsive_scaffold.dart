@@ -166,7 +166,6 @@ class ResponsiveScaffold extends StatefulHookWidget {
 
   final PreferredSizeWidget Function(
     BuildContext context,
-    NavigationType navigationType,
     String? title,
   )? buildSidebarAppBar;
 
@@ -273,7 +272,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
           ),
         NavigationType.expandedSidebar ||
         NavigationType.rail =>
-          buildSidebarAppBar(context, navigationType, widget.title),
+          buildSidebarAppBar(context, widget.title),
         _ => null,
       },
       body: NestedScrollView(
@@ -336,7 +335,6 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
 
   PreferredSizeWidget _defaultSidebarAppBarBuilder(
     BuildContext context,
-    NavigationType navigationType,
     String? title,
   ) {
     final theme = Theme.of(context);
