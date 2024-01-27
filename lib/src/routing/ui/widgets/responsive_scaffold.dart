@@ -34,7 +34,6 @@ class ResponsiveScaffold extends StatefulHookWidget {
     this.transitionDuration = const Duration(milliseconds: 300),
     this.transitionReverseDuration,
     this.bottomNavigationOverflow = 5,
-    this.railDestinationsOverflow = 7,
     this.drawerWidth = 200,
     this.isTabBarScrollable = true,
     this.tabAlignment = TabAlignment.start,
@@ -89,9 +88,6 @@ class ResponsiveScaffold extends StatefulHookWidget {
   /// Maximum number of items to display in [NavigationBar]
   final int bottomNavigationOverflow;
 
-  /// Maximum number of items to display in [NavigationRail]
-  final int railDestinationsOverflow;
-
   /// The alignment for the tabs in the [TabBar]
   final TabAlignment tabAlignment;
 
@@ -102,7 +98,7 @@ class ResponsiveScaffold extends StatefulHookWidget {
   /// share of the available space.
   final bool isTabBarScrollable;
 
-  /// The [VerticalDivider] between the [Drawer]/[NavigationRail] and the body.
+  /// The [VerticalDivider] between the [Drawer]/[ResponsiveSidebar] and the body.
   final Widget? divider;
 
   final Duration transitionDuration;
