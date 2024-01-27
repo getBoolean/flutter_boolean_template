@@ -349,25 +349,8 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
           final leadingButton = widget.buildLeadingButton(context);
           final willShowLeadingButton = widget.willShowLeadingButton(context);
           return Material(
-            child: NavigationToolbar(
-              leading: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  AnimatedSwitcher(
-                    duration: widget.transitionDuration,
-                    reverseDuration: widget.transitionReverseDuration,
-                    child: Padding(
-                      key: ValueKey('leadingButton-$willShowLeadingButton'),
-                      padding: const EdgeInsets.symmetric(
-                        // left: willShowLeadingButton ? 4.0 : 8.0,
-                        horizontal: 4.0,
-                      ),
-                      child: leadingButton,
-                    ),
-                  ),
-                  if (widget.logoExpanded != null) widget.logoExpanded!,
-                ],
-              ),
+            child: ResponsiveNavigationToolbar(
+              leadingButton: leadingButton,
               middle: title != null
                   ? Text(
                       title,
@@ -375,6 +358,10 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
                     )
                   : null,
               trailing: widget.primaryActionExpanded,
+              willShowLeadingButton: willShowLeadingButton,
+              transitionDuration: widget.transitionDuration,
+              transitionReverseDuration: widget.transitionReverseDuration,
+              logoExpanded: widget.logoExpanded,
             ),
           );
         },
@@ -393,25 +380,8 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
           final leadingButton = widget.buildLeadingButton(context);
           final willShowLeadingButton = widget.willShowLeadingButton(context);
           return Material(
-            child: NavigationToolbar(
-              leading: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  AnimatedSwitcher(
-                    duration: widget.transitionDuration,
-                    reverseDuration: widget.transitionReverseDuration,
-                    child: Padding(
-                      key: ValueKey('leadingButton-$willShowLeadingButton'),
-                      padding: const EdgeInsets.symmetric(
-                        // left: willShowLeadingButton ? 4.0 : 8.0,
-                        horizontal: 4.0,
-                      ),
-                      child: leadingButton,
-                    ),
-                  ),
-                  if (widget.logoExpanded != null) widget.logoExpanded!,
-                ],
-              ),
+            child: ResponsiveNavigationToolbar(
+              leadingButton: leadingButton,
               middle: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -420,6 +390,10 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
                 ],
               ),
               trailing: widget.primaryActionExpanded,
+              willShowLeadingButton: willShowLeadingButton,
+              transitionDuration: widget.transitionDuration,
+              transitionReverseDuration: widget.transitionReverseDuration,
+              logoExpanded: widget.logoExpanded,
             ),
           );
         },
@@ -519,6 +493,50 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
       expandedHeight: 50,
       floating: true,
       snap: true,
+    );
+  }
+}
+
+class ResponsiveNavigationToolbar extends NavigationToolbar {
+  const ResponsiveNavigationToolbar({
+    required this.leadingButton,
+    required super.middle,
+    required this.willShowLeadingButton,
+    required this.transitionDuration,
+    super.key,
+    this.logoExpanded,
+    this.transitionReverseDuration,
+    super.trailing,
+  });
+
+  final Widget leadingButton;
+  final bool willShowLeadingButton;
+  final Duration transitionDuration;
+  final Widget? logoExpanded;
+  final Duration? transitionReverseDuration;
+
+  @override
+  Widget build(BuildContext context) {
+    return NavigationToolbar(
+      leading: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          AnimatedSwitcher(
+            duration: transitionDuration,
+            reverseDuration: transitionReverseDuration,
+            child: Padding(
+              key: ValueKey('leadingButton-$willShowLeadingButton'),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 4.0,
+              ),
+              child: leadingButton,
+            ),
+          ),
+          if (logoExpanded != null) logoExpanded!,
+        ],
+      ),
+      middle: middle,
+      trailing: trailing,
     );
   }
 }
