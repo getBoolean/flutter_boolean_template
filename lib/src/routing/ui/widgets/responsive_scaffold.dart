@@ -160,7 +160,7 @@ class ResponsiveScaffold extends StatefulHookWidget {
   /// A sliver must be returned from this builder.
   final Widget Function(
     BuildContext context,
-    NavigationType navigationType,
+    Widget leading,
     String? title,
   )? buildDismissableSliverAppBar;
 
@@ -281,12 +281,12 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
             switch (navigationType) {
               NavigationType.bottom => buildSliverAppBar(
                   context,
-                  navigationType,
+                  widget.buildLeadingButton(context),
                   widget.title,
                 ),
               NavigationType.drawer => buildSliverAppBar(
                   context,
-                  navigationType,
+                  widget.buildLeadingButton(context),
                   widget.title,
                 ),
               _ => const SliverToBoxAdapter(child: SizedBox.shrink()),
@@ -477,22 +477,6 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
       ],
     );
   }
-
-  Widget _defaultBuildDismissableSliverAppBar(
-    BuildContext context,
-    NavigationType navigationType,
-    String? title,
-  ) {
-    return SliverAppBar(
-      centerTitle: true,
-      leading: widget.buildLeadingButton(context),
-      title: title == null ? null : Text(title),
-      automaticallyImplyLeading: false,
-      expandedHeight: 50,
-      floating: true,
-      snap: true,
-    );
-  }
 }
 
 class ResponsiveNavigationToolbar extends NavigationToolbar {
@@ -537,6 +521,22 @@ class ResponsiveNavigationToolbar extends NavigationToolbar {
       trailing: trailing,
     );
   }
+}
+
+Widget _defaultBuildDismissableSliverAppBar(
+  BuildContext context,
+  Widget leading,
+  String? title,
+) {
+  return SliverAppBar(
+    centerTitle: true,
+    leading: leading,
+    title: title == null ? null : Text(title),
+    automaticallyImplyLeading: false,
+    expandedHeight: 50,
+    floating: true,
+    snap: true,
+  );
 }
 
 Tab _defaultTabBarItemBuilder(
