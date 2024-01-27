@@ -355,6 +355,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
               transitionDuration: widget.transitionDuration,
               transitionReverseDuration: widget.transitionReverseDuration,
               logoExpanded: widget.logoExpanded,
+              logo: widget.logo,
             ),
           );
         },
@@ -389,6 +390,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
               transitionDuration: widget.transitionDuration,
               transitionReverseDuration: widget.transitionReverseDuration,
               logoExpanded: widget.logoExpanded,
+              logo: widget.logo,
             ),
           );
         },
@@ -464,6 +466,7 @@ class ResponsiveNavigationToolbar extends NavigationToolbar {
     required this.willShowLeadingButton,
     required this.transitionDuration,
     super.key,
+    this.logo,
     this.logoExpanded,
     this.transitionReverseDuration,
     super.trailing,
@@ -472,31 +475,72 @@ class ResponsiveNavigationToolbar extends NavigationToolbar {
   final Widget leadingButton;
   final bool willShowLeadingButton;
   final Duration transitionDuration;
+  final Widget? logo;
   final Widget? logoExpanded;
   final Duration? transitionReverseDuration;
 
   @override
   Widget build(BuildContext context) {
-    return NavigationToolbar(
-      leading: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          AnimatedSwitcher(
-            duration: transitionDuration,
-            reverseDuration: transitionReverseDuration,
-            child: Padding(
-              key: ValueKey('leadingButton-$willShowLeadingButton'),
-              padding: const EdgeInsets.symmetric(
-                horizontal: 4.0,
-              ),
-              child: leadingButton,
-            ),
-          ),
-          if (logoExpanded != null) logoExpanded!,
-        ],
-      ),
+    return LogoBuilder(
+      logo: logo,
+      logoExpanded: logoExpanded,
       middle: middle,
       trailing: trailing,
+      builder: (constext, logo) {
+        return NavigationToolbar(
+          leading: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AnimatedSwitcher(
+                duration: transitionDuration,
+                reverseDuration: transitionReverseDuration,
+                child: Padding(
+                  key: ValueKey('leadingButton-$willShowLeadingButton'),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8.0,
+                  ),
+                  child: leadingButton,
+                ),
+              ),
+              if (logo != null)
+                AnimatedSwitcher(
+                  duration: transitionDuration,
+                  reverseDuration: transitionReverseDuration,
+                  child: logo,
+                ),
+            ],
+          ),
+          middle: middle,
+          trailing: trailing,
+        );
+      },
+    );
+  }
+}
+
+class LogoBuilder extends StatelessWidget {
+  const LogoBuilder({
+    required this.logo,
+    required this.logoExpanded,
+    required this.middle,
+    required this.trailing,
+    required this.builder,
+    super.key,
+  });
+
+  final Widget? logo;
+  final Widget? logoExpanded;
+  final Widget? middle;
+  final Widget? trailing;
+  final Widget Function(BuildContext context, Widget? logo) builder;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return builder(
+            context, constraints.maxWidth > 600 ? logoExpanded ?? logo : logo);
+      },
     );
   }
 }
