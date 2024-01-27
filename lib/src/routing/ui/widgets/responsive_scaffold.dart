@@ -39,7 +39,7 @@ class ResponsiveScaffold extends StatefulHookWidget {
     this.isTabBarScrollable = true,
     this.tabAlignment = TabAlignment.start,
     this.scaffoldConfig = const ScaffoldConfig(),
-    this.buildTabBarItem = _defaultTabBarItemBuilder,
+    this.buildTobBarItem = _defaultTabBarItemBuilder,
     this.buildBottomNavigationBar = _defaultBottomNavigationBarBuilder,
     this.buildDrawer,
     this.buildSidebar,
@@ -123,7 +123,7 @@ class ResponsiveScaffold extends StatefulHookWidget {
   final Tab Function(
     BuildContext context,
     RouterDestination destination,
-  ) buildTabBarItem;
+  ) buildTobBarItem;
 
   /// Custom builder for [NavigationType.top]
   final PreferredSizeWidget Function(
@@ -263,7 +263,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
               controller: _tabController,
               tabs: <Tab>[
                 for (final destination in widget.destinations)
-                  widget.buildTabBarItem(context, destination),
+                  widget.buildTobBarItem(context, destination),
               ],
             ),
           ),
