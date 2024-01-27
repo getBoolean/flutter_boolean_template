@@ -30,10 +30,10 @@ class ResponsiveScaffold extends StatefulHookWidget {
     this.logo,
     this.action,
     this.actionExpanded,
-    this.minActionExpandedWidth = 1000,
+    this.minActionExpandedWidth = 1100,
     this.minActionCollapsedWidth = 300,
-    this.minLogoExpandedWidth = 600,
-    this.minLogoCollapsedWidth = 350,
+    this.minLogoExpandedWidth = 900,
+    this.minLogoCollapsedWidth = 600,
     this.divider = const VerticalDivider(width: 1.0, thickness: 1),
     this.navigationTypeResolver = defaultNavigationTypeResolver,
     this.transitionDuration = const Duration(milliseconds: 300),
@@ -155,7 +155,7 @@ class ResponsiveScaffold extends StatefulHookWidget {
   /// A sliver must be returned from this builder.
   final Widget Function(
     BuildContext context,
-    Widget leading,
+    NavigationType navigationType,
     Widget? trailing,
     String? title,
   )? buildDismissableSliverAppBar;
@@ -277,13 +277,13 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
                 switch (navigationType) {
                   NavigationType.bottom => buildSliverAppBar(
                       context,
-                      widget.buildLeadingButton(context, navigationType),
+                      navigationType,
                       action,
                       widget.title,
                     ),
                   NavigationType.drawer => buildSliverAppBar(
                       context,
-                      widget.buildLeadingButton(context, navigationType),
+                      navigationType,
                       action,
                       widget.title,
                     ),
@@ -393,7 +393,6 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
         builder: (context) {
           final leadingButton =
               widget.buildLeadingButton(context, navigationType);
-          final willShowLeadingButton = widget.willShowLeadingButton(context);
           return Material(
             child: ResponsiveNavigationToolbar(
               leadingButton: leadingButton,
@@ -401,7 +400,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
                 alignment: Alignment.centerLeft,
                 child: IntrinsicWidth(child: tabBar),
               ),
-              willShowLeadingButton: willShowLeadingButton,
+              willShowLeadingButton: widget.willShowLeadingButton(context),
               transitionDuration: widget.transitionDuration,
               transitionReverseDuration: widget.transitionReverseDuration,
               logoExpanded: widget.logoExpanded,
@@ -412,6 +411,52 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
           );
         },
       ),
+    );
+  }
+
+  Widget _defaultBuildDismissableSliverAppBar(
+    BuildContext context,
+    NavigationType navigationType,
+    Widget? trailing,
+    String? title,
+  ) {
+    return SliverAppBar(
+      centerTitle: true,
+      leading: Builder(
+        builder: (context) {
+          final leadingButton =
+              widget.buildLeadingButton(context, navigationType);
+          final willShowLeadingButton = widget.willShowLeadingButton(context);
+          return Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AnimatedSwitcher(
+                duration: widget.transitionDuration,
+                reverseDuration: Duration.zero,
+                child: Padding(
+                  key: ValueKey('leadingButton-$willShowLeadingButton'),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8.0,
+                  ),
+                  child: leadingButton,
+                ),
+              ),
+              if (widget.logo != null)
+                AnimatedSwitcher(
+                  duration: widget.transitionDuration,
+                  reverseDuration: Duration.zero,
+                  child: willShowLeadingButton ? null : widget.logo,
+                ),
+            ],
+          );
+        },
+      ),
+      title: title == null ? null : Text(title),
+      automaticallyImplyLeading: false,
+      expandedHeight: 50,
+      floating: true,
+      snap: true,
+      actions: trailing == null ? null : [trailing],
     );
   }
 
@@ -481,9 +526,9 @@ class ResponsiveNavigationToolbar extends NavigationToolbar {
     required super.middle,
     required this.willShowLeadingButton,
     required this.transitionDuration,
+    required this.minLogoExpandedWidth,
+    required this.minLogoCollapsedWidth,
     super.key,
-    this.minLogoExpandedWidth = 600,
-    this.minLogoCollapsedWidth = 350,
     this.transitionReverseDuration,
     this.logo,
     this.logoExpanded,
@@ -545,9 +590,9 @@ class SwapExpandedWidgetBuilder extends StatelessWidget {
     required this.logo,
     required this.logoExpanded,
     required this.builder,
+    required this.minExpandedWidth,
+    required this.minCollapsedWidth,
     super.key,
-    this.minExpandedWidth = 600,
-    this.minCollapsedWidth = 350,
   });
 
   final Widget? logo;
@@ -605,24 +650,6 @@ Widget _defaultBottomNavigationBarBuilder(
           icon: Icon(destination.icon),
         ),
     ],
-  );
-}
-
-Widget _defaultBuildDismissableSliverAppBar(
-  BuildContext context,
-  Widget leading,
-  Widget? trailing,
-  String? title,
-) {
-  return SliverAppBar(
-    centerTitle: true,
-    leading: leading,
-    title: title == null ? null : Text(title),
-    automaticallyImplyLeading: false,
-    expandedHeight: 50,
-    floating: true,
-    snap: true,
-    actions: trailing == null ? null : [trailing],
   );
 }
 
