@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/routing/data/navigation_type.dart';
 import 'package:flutter_boolean_template/src/routing/ui/widgets/responsive_sidebar.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:log/log.dart';
 import 'package:sidebarx/sidebarx.dart';
 
 typedef NavigationTypeResolver = NavigationType Function(BuildContext context);
@@ -565,38 +564,6 @@ bool defaultIsLargeScreen(BuildContext context) =>
     getWindowType(context) >= AdaptiveWindowType.large;
 bool defaultIsMediumScreen(BuildContext context) =>
     getWindowType(context) == AdaptiveWindowType.medium;
-
-class AppObserver extends NavigatorObserver {
-  final log = Logger('AppObserver');
-
-  @override
-  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
-    log.info(
-      'New route pushed: ${route.settings.name}, previous: ${previousRoute?.settings.name}',
-    );
-  }
-
-  @override
-  void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
-    log.info(
-      'Route popped: ${route.settings.name}, previous: ${previousRoute?.settings.name}',
-    );
-  }
-
-  @override
-  void didRemove(Route<dynamic> route, Route<dynamic>? previousRoute) {
-    log.info(
-      'Route removed: ${route.settings.name}, previous: ${previousRoute?.settings.name}',
-    );
-  }
-
-  @override
-  void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
-    log.info(
-      'Route replaced: ${newRoute?.settings.name}, previous: ${oldRoute?.settings.name}',
-    );
-  }
-}
 
 class _StyledResponsiveSidebar extends StatelessWidget {
   const _StyledResponsiveSidebar({
