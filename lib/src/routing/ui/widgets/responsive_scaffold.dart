@@ -55,12 +55,12 @@ class ResponsiveScaffold extends StatefulHookWidget {
     this.tabAlignment = TabAlignment.start,
     this.divider,
     this.leadingButtonBuilder,
-    this.tabBarBuilder,
-    this.bottomNavigationBarBuilder,
-    this.drawerBuilder,
-    this.sidebarBuilder,
-    this.sliverAppBarBuilder,
-    this.topBarBuilder,
+    this.buildTopBarTabBar,
+    this.buildBottomNavigationBar,
+    this.buildDrawer,
+    this.buildSidebar,
+    this.buildDismissableSliverAppBar,
+    this.buildTopBar,
     this.logo,
   });
 
@@ -184,14 +184,14 @@ class ResponsiveScaffold extends StatefulHookWidget {
     BuildContext context,
     TabController controller,
     void Function(int index) setPage,
-  )? tabBarBuilder;
+  )? buildTopBarTabBar;
 
   /// Custom builder for [NavigationType.top]
   final PreferredSize Function(
     BuildContext context,
     TabBar tabBar,
     void Function(int index) setPage,
-  )? topBarBuilder;
+  )? buildTopBar;
 
   /// Custom builder for [NavigationType.bottom]
   final Widget Function(
@@ -199,7 +199,7 @@ class ResponsiveScaffold extends StatefulHookWidget {
     int selectedIndex,
     List<RouterDestination> bottomDestinations,
     void Function(int index) setPage,
-  )? bottomNavigationBarBuilder;
+  )? buildBottomNavigationBar;
 
   /// Custom builder for [NavigationType.drawer]
   ///
@@ -208,7 +208,7 @@ class ResponsiveScaffold extends StatefulHookWidget {
     BuildContext context,
     int selectedIndex,
     void Function(int index) setPage,
-  )? drawerBuilder;
+  )? buildDrawer;
 
   /// Custom builder for [NavigationType.expandedSidebar]
   /// and [NavigationType.rail]
@@ -219,7 +219,7 @@ class ResponsiveScaffold extends StatefulHookWidget {
     int selectedIndex,
     void Function(int index) setPage,
     NavigationType navigationType,
-  )? sidebarBuilder;
+  )? buildSidebar;
 
   /// Custom [SliverAppBar] builder for [NavigationType.drawer] and [NavigationType.bottom]
   ///
@@ -228,7 +228,7 @@ class ResponsiveScaffold extends StatefulHookWidget {
     BuildContext context,
     NavigationType navigationType,
     String? title,
-  )? sliverAppBarBuilder;
+  )? buildDismissableSliverAppBar;
 
   @override
   State<ResponsiveScaffold> createState() => _ResponsiveScaffoldState();
@@ -282,7 +282,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
     );
 
     final buildBottomNavigationBar =
-        widget.bottomNavigationBarBuilder ?? _defaultBottomNavigationBarBuilder;
+        widget.buildBottomNavigationBar ?? _defaultBottomNavigationBarBuilder;
     final selectedIndex = widget.currentIndex;
     final bottomNavigationBar = buildBottomNavigationBar(
       context,
@@ -291,7 +291,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
       _setPage,
     );
 
-    final buildDrawer = widget.drawerBuilder ?? _defaultBuildDrawer;
+    final buildDrawer = widget.buildDrawer ?? _defaultBuildDrawer;
     final drawer = buildDrawer(
       context,
       selectedIndex,
@@ -301,7 +301,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
       },
     );
 
-    final buildSidebar = widget.sidebarBuilder ?? _defaultBuildSidebar;
+    final buildSidebar = widget.buildSidebar ?? _defaultBuildSidebar;
     final sidebar = buildSidebar(
       context,
       selectedIndex,
@@ -309,12 +309,12 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
       navigationType,
     );
 
-    final buildSliverAppBar = widget.sliverAppBarBuilder ??
-        _defaultBuildDrawerNavigationTypeSliverAppBar;
+    final buildSliverAppBar = widget.buildDismissableSliverAppBar ??
+        _defaultBuildDismissableSliverAppBar;
 
-    final buildTabBar = widget.tabBarBuilder ?? _defaultTabBarBuilder;
+    final buildTabBar = widget.buildTopBarTabBar ?? _defaultTabBarBuilder;
 
-    final buildTopBar = widget.topBarBuilder ?? _defaultTopBarBuilder;
+    final buildTopBar = widget.buildTopBar ?? _defaultTopBarBuilder;
     return Scaffold(
       key: _key,
       appBar: navigationType == NavigationType.top
@@ -327,8 +327,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return [
-            if (navigationType != NavigationType.top &&
-                navigationType != NavigationType.rail)
+            if (navigationType != NavigationType.top)
               buildSliverAppBar(
                 context,
                 navigationType,
@@ -502,7 +501,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
     );
   }
 
-  Widget _defaultBuildDrawerNavigationTypeSliverAppBar(
+  Widget _defaultBuildDismissableSliverAppBar(
     BuildContext context,
     NavigationType navigationType,
     String? title,
@@ -512,7 +511,6 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
           centerTitle: true,
           leading: const AutoLeadingButton(),
           title: title == null ? null : Text(title),
-          elevation: 10.0,
           automaticallyImplyLeading: false,
           expandedHeight: 50,
           floating: true,
@@ -522,7 +520,6 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
           centerTitle: true,
           leading: const AutoLeadingButton(),
           title: title == null ? null : Text(title),
-          elevation: 10.0,
           automaticallyImplyLeading: false,
           expandedHeight: 50,
           floating: true,
