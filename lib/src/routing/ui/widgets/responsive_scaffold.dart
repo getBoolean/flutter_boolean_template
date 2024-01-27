@@ -361,6 +361,8 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
                       ? Text(
                           title,
                           style: theme.textTheme.titleLarge,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         )
                       : null,
                   trailing: action,

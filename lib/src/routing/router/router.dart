@@ -194,7 +194,9 @@ extension GoRouterStateTitleBuilder on GoRouterState {
     final routeName = topRoute?.name;
     if (routeName == null) return null;
     return switch (RouteName.values.byName(routeName)) {
-      RouteName.books => 'Books',
+      RouteName.books => uri.queryParameters['id'] != null
+          ? 'Book ${uri.queryParameters['id']}'
+          : 'Books',
       RouteName.bookDetails => 'Book ${pathParameters['id']}',
       RouteName.profile => 'Profile',
       RouteName.profileDetails => 'Profile Details',
