@@ -1,7 +1,6 @@
 import 'dart:math' as math;
 
 import 'package:adaptive_breakpoints/adaptive_breakpoints.dart';
-import 'package:constants/constants.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/routing/data/navigation_type.dart';
@@ -301,7 +300,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
                   ? sidebar
                   : null,
             ),
-            widget.divider ?? vdivider,
+            widget.divider ?? const VerticalDivider(width: 1.0, thickness: 1),
             Expanded(child: widget.child),
           ],
         ),
@@ -606,7 +605,7 @@ class _StyledResponsiveSidebar extends StatelessWidget {
       shouldShrink: shouldShrink,
       expandable: expandable,
       expandedWidth: expandedWidth,
-      footerDivider: hdivider,
+      footerDivider: const Divider(height: 1.0, thickness: 1),
       separatorBuilder: (_, __) => const SizedBox.shrink(),
       theme: SidebarXTheme(
         itemPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
