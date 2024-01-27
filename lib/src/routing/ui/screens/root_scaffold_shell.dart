@@ -48,8 +48,10 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
             final ScaffoldState? scaffold = Scaffold.maybeOf(context);
             return canPop || (scaffold?.hasDrawer ?? false);
           },
-          buildLeadingButton: (context) {
-            return const AutoLeadingButton();
+          buildLeadingButton: (context, navigationType) {
+            return AutoLeadingButton(
+              key: ValueKey(navigationType),
+            );
           },
           navigationTypeResolver: (context) {
             final settings = ref.watch(settingsServiceProvider);

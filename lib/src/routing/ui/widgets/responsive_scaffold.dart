@@ -111,7 +111,8 @@ class ResponsiveScaffold extends StatefulHookWidget {
   final bool Function(BuildContext context) willShowLeadingButton;
 
   /// Custom builder for the [AppBar]'s leading button
-  final Widget Function(BuildContext context) buildLeadingButton;
+  final Widget Function(BuildContext context, NavigationType navigationType)
+      buildLeadingButton;
 
   /// Custom builder for [NavigationType.top]'s [Tab] item in [TabBar]
   ///
@@ -124,6 +125,7 @@ class ResponsiveScaffold extends StatefulHookWidget {
   /// Custom builder for [NavigationType.top]
   final PreferredSizeWidget Function(
     BuildContext context,
+    NavigationType navigationType,
     TabBar tabBar,
   )? buildTopBar;
 
@@ -162,6 +164,7 @@ class ResponsiveScaffold extends StatefulHookWidget {
 
   final PreferredSizeWidget Function(
     BuildContext context,
+    NavigationType navigationType,
     String? title,
   )? buildSidebarAppBar;
 
@@ -248,6 +251,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
       appBar: switch (navigationType) {
         NavigationType.top => buildTopBar(
             context,
+            navigationType,
             TabBar(
               onTap: _setPage,
               isScrollable: widget.isTabBarScrollable,
@@ -261,7 +265,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
           ),
         NavigationType.expandedSidebar ||
         NavigationType.rail =>
-          buildSidebarAppBar(context, widget.title),
+          buildSidebarAppBar(context, navigationType, widget.title),
         _ => null,
       },
       body: NestedScrollView(
@@ -270,12 +274,12 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
             switch (navigationType) {
               NavigationType.bottom => buildSliverAppBar(
                   context,
-                  widget.buildLeadingButton(context),
+                  widget.buildLeadingButton(context, navigationType),
                   widget.title,
                 ),
               NavigationType.drawer => buildSliverAppBar(
                   context,
-                  widget.buildLeadingButton(context),
+                  widget.buildLeadingButton(context, navigationType),
                   widget.title,
                 ),
               _ => const SliverToBoxAdapter(child: SizedBox.shrink()),
@@ -324,6 +328,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
 
   PreferredSizeWidget _defaultSidebarAppBarBuilder(
     BuildContext context,
+    NavigationType navigationType,
     String? title,
   ) {
     final theme = Theme.of(context);
@@ -333,7 +338,8 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
       child: Builder(
         builder: (context) {
           final theme = Theme.of(context);
-          final leadingButton = widget.buildLeadingButton(context);
+          final leadingButton =
+              widget.buildLeadingButton(context, navigationType);
           final willShowLeadingButton = widget.willShowLeadingButton(context);
           return Material(
             child: ResponsiveNavigationToolbar(
@@ -358,13 +364,15 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
 
   PreferredSizeWidget _defaultTopBarBuilder(
     BuildContext context,
+    NavigationType navigationType,
     TabBar tabBar,
   ) {
     return PreferredSize(
       preferredSize: tabBar.preferredSize,
       child: Builder(
         builder: (context) {
-          final leadingButton = widget.buildLeadingButton(context);
+          final leadingButton =
+              widget.buildLeadingButton(context, navigationType);
           final willShowLeadingButton = widget.willShowLeadingButton(context);
           return Material(
             child: ResponsiveNavigationToolbar(

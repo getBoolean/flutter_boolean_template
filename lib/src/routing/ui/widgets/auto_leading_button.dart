@@ -156,9 +156,7 @@ class _AutoLeadingButtonState extends ConsumerState<AutoLeadingButton> {
     } else if (widget.builder != null) {
       button = widget.builder!(context, LeadingType.noLeading, null);
     } else {
-      button = const SizedBox.shrink(
-        key: ValueKey('HiddenAutoLeadingButton'),
-      );
+      button = const SizedBox.shrink();
     }
 
     return AnimatedSwitcher(
