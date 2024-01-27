@@ -38,7 +38,7 @@ Future<void> _initHive() async {
 Future<void> _initWindow() async {
   if (!kIsWeb &&
       (io.Platform.isWindows || io.Platform.isLinux || io.Platform.isMacOS)) {
-    await windowManager.ensureInitialized();
-    await windowManager.setMinimumSize(const Size(350, 300));
+    // await windowManager.ensureInitialized();
+    // await windowManager.setMinimumSize(const Size(350, 300));
   }
 }

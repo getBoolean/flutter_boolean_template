@@ -35,8 +35,6 @@ class ResponsiveScaffold extends StatefulHookWidget {
     this.transitionReverseDuration,
     this.bottomNavigationOverflow = 5,
     this.drawerWidth = 200,
-    this.isTabBarScrollable = true,
-    this.tabAlignment = TabAlignment.start,
     this.scaffoldConfig = const ScaffoldConfig(),
     this.buildTobBarItem = _defaultTabBarItemBuilder,
     this.buildBottomNavigationBar = _defaultBottomNavigationBarBuilder,
@@ -88,16 +86,6 @@ class ResponsiveScaffold extends StatefulHookWidget {
   /// Maximum number of items to display in [NavigationBar]
   final int bottomNavigationOverflow;
 
-  /// The alignment for the tabs in the [TabBar]
-  final TabAlignment tabAlignment;
-
-  /// Whether the [TabBar] can be scrolled horizontally.
-  ///
-  /// If [isTabBarScrollable] is true, then each tab is as wide as needed for its label
-  /// and the entire [TabBar] is scrollable. Otherwise each tab gets an equal
-  /// share of the available space.
-  final bool isTabBarScrollable;
-
   /// The [VerticalDivider] between the [Drawer]/[ResponsiveSidebar] and the body.
   final Widget divider;
 
@@ -115,8 +103,6 @@ class ResponsiveScaffold extends StatefulHookWidget {
       buildLeadingButton;
 
   /// Custom builder for [NavigationType.top]'s [Tab] item in [TabBar]
-  ///
-  /// If not null, then [isTabBarScrollable], and [tabAlignment] are ignored for this type.
   final Tab Function(
     BuildContext context,
     RouterDestination destination,
@@ -254,8 +240,6 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
             navigationType,
             TabBar(
               onTap: _setPage,
-              isScrollable: widget.isTabBarScrollable,
-              tabAlignment: widget.tabAlignment,
               controller: _tabController,
               tabs: <Tab>[
                 for (final destination in widget.destinations)
@@ -378,14 +362,10 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
           return Material(
             child: ResponsiveNavigationToolbar(
               leadingButton: leadingButton,
-              middle: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  tabBar,
-                  const Spacer(),
-                ],
+              middle: Align(
+                alignment: Alignment.centerLeft,
+                child: IntrinsicWidth(child: tabBar),
               ),
-              trailing: widget.primaryActionExpanded,
               willShowLeadingButton: willShowLeadingButton,
               transitionDuration: widget.transitionDuration,
               transitionReverseDuration: widget.transitionReverseDuration,
@@ -539,7 +519,9 @@ class LogoBuilder extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         return builder(
-            context, constraints.maxWidth > 600 ? logoExpanded ?? logo : logo);
+          context,
+          constraints.maxWidth > 600 ? logoExpanded ?? logo : logo,
+        );
       },
     );
   }
