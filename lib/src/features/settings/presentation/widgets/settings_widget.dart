@@ -75,7 +75,6 @@ class _SettingsWidgetState extends ConsumerState<SettingsWidget> {
             showLicensePage(
               context: context,
               applicationName: packageInfo.requireValue.appName,
-              applicationLegalese: 'Powered by Flutter',
             );
           },
         ),
@@ -83,6 +82,7 @@ class _SettingsWidgetState extends ConsumerState<SettingsWidget> {
         SettingsTile(
           title: const Text('GitHub'),
           leading: const Icon(Icons.code),
+          value: const Text('getBoolean/flutter_boolean_template'),
           onPressed: (context) async {
             final url = Uri.parse(
               'https://www.github.com/getBoolean/flutter_boolean_template',
