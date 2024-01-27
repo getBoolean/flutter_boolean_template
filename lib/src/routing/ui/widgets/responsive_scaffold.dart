@@ -55,6 +55,7 @@ class ResponsiveScaffold extends StatefulHookWidget {
     this.buildDrawer,
     this.buildSidebar,
     this.buildDismissableSliverAppBar,
+    this.buildSidebarAppBar,
     this.buildTopBar,
     this.expandedLogo,
     this.logo,
@@ -178,7 +179,7 @@ class ResponsiveScaffold extends StatefulHookWidget {
   )? buildTopBarTabBar;
 
   /// Custom builder for [NavigationType.top]
-  final PreferredSize Function(
+  final PreferredSizeWidget Function(
     BuildContext context,
     TabBar tabBar,
     void Function(int index) setPage,
@@ -216,6 +217,12 @@ class ResponsiveScaffold extends StatefulHookWidget {
     NavigationType navigationType,
     String? title,
   )? buildDismissableSliverAppBar;
+
+  final PreferredSizeWidget Function(
+    BuildContext context,
+    NavigationType navigationType,
+    String? title,
+  )? buildSidebarAppBar;
 
   @override
   State<ResponsiveScaffold> createState() => _ResponsiveScaffoldState();
@@ -298,28 +305,41 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
 
     final buildSliverAppBar = widget.buildDismissableSliverAppBar ??
         _defaultBuildDismissableSliverAppBar;
+    final buildSidebarAppBar =
+        widget.buildSidebarAppBar ?? _defaultSidebarAppBarBuilder;
 
     final buildTabBar = widget.buildTopBarTabBar ?? _defaultTabBarBuilder;
 
     final buildTopBar = widget.buildTopBar ?? _defaultTopBarBuilder;
     return Scaffold(
       key: _key,
-      appBar: navigationType == NavigationType.top
-          ? buildTopBar(
-              context,
-              buildTabBar(context, _tabController, _setPage),
-              _setPage,
-            )
-          : null,
+      appBar: switch (navigationType) {
+        NavigationType.top => buildTopBar(
+            context,
+            buildTabBar(context, _tabController, _setPage),
+            _setPage,
+          ),
+        NavigationType.expandedSidebar ||
+        NavigationType.rail =>
+          buildSidebarAppBar(context, navigationType, widget.title),
+        _ => null,
+      },
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return [
-            if (navigationType != NavigationType.top)
-              buildSliverAppBar(
-                context,
-                navigationType,
-                widget.title,
-              ),
+            switch (navigationType) {
+              NavigationType.bottom => buildSliverAppBar(
+                  context,
+                  navigationType,
+                  widget.title,
+                ),
+              NavigationType.drawer => buildSliverAppBar(
+                  context,
+                  navigationType,
+                  widget.title,
+                ),
+              _ => const SliverToBoxAdapter(child: SizedBox.shrink()),
+            },
           ];
         },
         body: Row(
@@ -361,7 +381,54 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
     _tabController.index = index;
   }
 
-  PreferredSize _defaultTopBarBuilder(
+  PreferredSizeWidget _defaultSidebarAppBarBuilder(
+    BuildContext context,
+    NavigationType navigationType,
+    String? title,
+  ) {
+    final theme = Theme.of(context);
+    return PreferredSize(
+      preferredSize:
+          Size.fromHeight(theme.appBarTheme.toolbarHeight ?? kToolbarHeight),
+      child: Builder(
+        builder: (context) {
+          final theme = Theme.of(context);
+          const leadingButton = AutoLeadingButton(showDisabled: false);
+          final willShowLeadingButton = leadingButton.willShowButton(context);
+          return Material(
+            child: NavigationToolbar(
+              leading: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  AnimatedSwitcher(
+                    duration: widget.transitionDuration,
+                    child: Padding(
+                      key: ValueKey('leadingButton-$willShowLeadingButton'),
+                      padding: const EdgeInsets.symmetric(
+                        // left: willShowLeadingButton ? 4.0 : 8.0,
+                        horizontal: 4.0,
+                      ),
+                      child: leadingButton,
+                    ),
+                  ),
+                  if (widget.expandedLogo != null) widget.expandedLogo!,
+                ],
+              ),
+              middle: title != null
+                  ? Text(
+                      title,
+                      style: theme.textTheme.titleLarge,
+                    )
+                  : null,
+              trailing: widget.primaryActionExpanded,
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  PreferredSizeWidget _defaultTopBarBuilder(
     BuildContext context,
     TabBar tabBar,
     void Function(int index) setPage,
@@ -370,28 +437,36 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
       preferredSize: tabBar.preferredSize,
       child: Builder(
         builder: (context) {
-          const appbar = AutoLeadingButton(showDisabled: false);
-          final willShowAppBar = appbar.willShowButton(context);
-          return Stack(
-            alignment: Alignment.centerLeft,
-            children: [
-              Row(
+          const leadingButton = AutoLeadingButton(showDisabled: false);
+          final willShowLeadingButton = leadingButton.willShowButton(context);
+          return Material(
+            child: NavigationToolbar(
+              leading: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  gap16,
-                  if (willShowAppBar) gap32,
+                  AnimatedSwitcher(
+                    duration: widget.transitionDuration,
+                    child: Padding(
+                      key: ValueKey('leadingButton-$willShowLeadingButton'),
+                      padding: const EdgeInsets.symmetric(
+                        // left: willShowLeadingButton ? 4.0 : 8.0,
+                        horizontal: 4.0,
+                      ),
+                      child: leadingButton,
+                    ),
+                  ),
                   if (widget.expandedLogo != null) widget.expandedLogo!,
-                  Expanded(child: tabBar),
-                  if (widget.primaryActionExpanded != null)
-                    widget.primaryActionExpanded!,
-                  gap16,
                 ],
               ),
-              const Padding(
-                padding: EdgeInsets.only(left: 4.0),
-                child: appbar,
+              middle: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  tabBar,
+                  const Spacer(),
+                ],
               ),
-            ],
+              trailing: widget.primaryActionExpanded,
+            ),
           );
         },
       ),
@@ -417,8 +492,6 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
           ? navigationType == NavigationType.rail
           : null,
       expandedWidth: widget.drawerWidth,
-      expandedHeader: widget.expandedLogo,
-      collapseHeader: widget.logo,
       transitionDuration: widget.transitionDuration,
       reverseTransitionDuration: widget.transitionReverseDuration,
     );
@@ -501,27 +574,15 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
     NavigationType navigationType,
     String? title,
   ) {
-    return switch (navigationType) {
-      NavigationType.bottom => SliverAppBar(
-          centerTitle: true,
-          leading: const AutoLeadingButton(),
-          title: title == null ? null : Text(title),
-          automaticallyImplyLeading: false,
-          expandedHeight: 50,
-          floating: true,
-          snap: true,
-        ),
-      NavigationType.drawer => SliverAppBar(
-          centerTitle: true,
-          leading: const AutoLeadingButton(),
-          title: title == null ? null : Text(title),
-          automaticallyImplyLeading: false,
-          expandedHeight: 50,
-          floating: true,
-          snap: true,
-        ),
-      _ => const SliverToBoxAdapter(child: SizedBox.shrink()),
-    };
+    return SliverAppBar(
+      centerTitle: true,
+      leading: const AutoLeadingButton(),
+      title: title == null ? null : Text(title),
+      automaticallyImplyLeading: false,
+      expandedHeight: 50,
+      floating: true,
+      snap: true,
+    );
   }
 }
 
@@ -593,8 +654,6 @@ class _StyledResponsiveSidebar extends StatelessWidget {
     required this.shouldShrink,
     required this.onTap,
     required this.expandedWidth,
-    required this.expandedHeader,
-    required this.collapseHeader,
     required this.transitionDuration,
     required this.reverseTransitionDuration,
     super.key,
@@ -609,9 +668,6 @@ class _StyledResponsiveSidebar extends StatelessWidget {
   final bool? shouldExpand;
   final bool? shouldShrink;
   final double expandedWidth;
-
-  final Widget? expandedHeader;
-  final Widget? collapseHeader;
 
   final Duration? transitionDuration;
   final Duration? reverseTransitionDuration;
@@ -631,20 +687,6 @@ class _StyledResponsiveSidebar extends StatelessWidget {
       expandable: expandable,
       expandedWidth: expandedWidth,
       footerDivider: hdivider,
-      headerBuilder: (context, isExpanded) {
-        final Widget? widget = isExpanded ? expandedHeader : collapseHeader;
-        return widget == null
-            ? const SizedBox.shrink()
-            : Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: AnimatedSwitcher(
-                  duration:
-                      transitionDuration ?? const Duration(milliseconds: 300),
-                  reverseDuration: reverseTransitionDuration,
-                  child: widget,
-                ),
-              );
-      },
       separatorBuilder: (_, __) => const SizedBox.shrink(),
       theme: SidebarXTheme(
         itemPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
