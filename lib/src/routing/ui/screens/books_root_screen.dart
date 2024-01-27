@@ -25,12 +25,12 @@ class _BooksRootScreenState extends State<BooksRootScreen> {
         onPressed: () {},
         child: const Icon(Icons.add),
       ),
-      body: ColoredBox(
-        color: Colors.blue,
-        child: Center(
-          child: AnimatedFadeSwitcher(
-            shouldSwitch: deviceForm.isNotSmall && widget.id != null,
-            secondChild: FilledButton(
+      body: AnimatedFadeSwitcher(
+        shouldSwitch: deviceForm.isNotSmall && widget.id != null,
+        secondChild: ColoredBox(
+          color: Colors.blue,
+          child: Center(
+            child: FilledButton(
               key: const ValueKey('button'),
               onPressed: () async {
                 context.go('/books/details-${widget.id ?? "1"}');
@@ -38,12 +38,32 @@ class _BooksRootScreenState extends State<BooksRootScreen> {
               },
               child: const Text('Push Details'),
             ),
-            child: Text(
-              'Book ${widget.id}',
-              key: const ValueKey('text'),
-              style: context.textStyles.titleLarge,
-            ),
           ),
+        ),
+        child: Row(
+          children: [
+            const Flexible(
+              child: ColoredBox(
+                color: Colors.blue,
+                child: Center(
+                  child: Text('Books List'),
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 3,
+              child: ColoredBox(
+                color: Colors.orange,
+                child: Center(
+                  child: Text(
+                    'Book ${widget.id}',
+                    key: const ValueKey('text'),
+                    style: context.textStyles.titleLarge,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
