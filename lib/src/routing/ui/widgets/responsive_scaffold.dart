@@ -265,8 +265,8 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
         _ => null,
       },
       body: SwapExpandedWidgetBuilder(
-        logo: widget.action,
-        logoExpanded: widget.actionExpanded,
+        collapsed: widget.action,
+        expanded: widget.actionExpanded,
         minExpandedWidth: widget.minActionExpandedWidth,
         minCollapsedWidth: widget.minActionCollapsedWidth,
         builder: (context, action) {
@@ -350,8 +350,8 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
           final willShowLeadingButton = widget.willShowLeadingButton(context);
           return Material(
             child: SwapExpandedWidgetBuilder(
-              logo: widget.action,
-              logoExpanded: widget.actionExpanded,
+              collapsed: widget.action,
+              expanded: widget.actionExpanded,
               minExpandedWidth: widget.minActionExpandedWidth,
               minCollapsedWidth: widget.minActionCollapsedWidth,
               builder: (context, action) {
@@ -549,8 +549,8 @@ class ResponsiveNavigationToolbar extends NavigationToolbar {
   @override
   Widget build(BuildContext context) {
     return SwapExpandedWidgetBuilder(
-      logo: logo,
-      logoExpanded: logoExpanded,
+      collapsed: logo,
+      expanded: logoExpanded,
       minExpandedWidth: minLogoExpandedWidth,
       minCollapsedWidth: minLogoCollapsedWidth,
       builder: (constext, logo) {
@@ -587,16 +587,16 @@ class ResponsiveNavigationToolbar extends NavigationToolbar {
 
 class SwapExpandedWidgetBuilder extends StatelessWidget {
   const SwapExpandedWidgetBuilder({
-    required this.logo,
-    required this.logoExpanded,
+    required this.collapsed,
+    required this.expanded,
     required this.builder,
     required this.minExpandedWidth,
     required this.minCollapsedWidth,
     super.key,
   });
 
-  final Widget? logo;
-  final Widget? logoExpanded;
+  final Widget? collapsed;
+  final Widget? expanded;
   final Widget? Function(BuildContext context, Widget? action) builder;
   final double minExpandedWidth;
   final double minCollapsedWidth;
@@ -621,10 +621,10 @@ class SwapExpandedWidgetBuilder extends StatelessWidget {
                     when constraints.maxWidth < minCollapsedWidth =>
                   null,
                 BoxConstraints() when constraints.maxWidth < minExpandedWidth =>
-                  logo,
+                  collapsed,
                 BoxConstraints()
                     when constraints.maxWidth >= minExpandedWidth =>
-                  logoExpanded ?? logo,
+                  expanded ?? collapsed,
                 BoxConstraints() => null
               },
             ) ??
