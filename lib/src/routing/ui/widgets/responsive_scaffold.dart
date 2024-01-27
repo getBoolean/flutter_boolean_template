@@ -26,30 +26,21 @@ class ResponsiveScaffold extends StatefulHookWidget {
     required this.child,
     required this.goToIndex,
     super.key,
-    this.transitionDuration = const Duration(milliseconds: 300),
-    this.transitionReverseDuration = Duration.zero,
-    this.persistentFooterButtons,
-    this.endDrawer,
-    this.bottomSheet,
-    this.backgroundColor,
-    this.resizeToAvoidBottomInset,
-    this.primary = true,
-    this.drawerDragStartBehavior = DragStartBehavior.start,
-    this.extendBody = false,
-    this.extendBodyBehindAppBar = false,
-    this.drawerScrimColor,
-    this.drawerEdgeDragWidth,
-    this.drawerEnableOpenDragGesture = true,
-    this.endDrawerEnableOpenDragGesture = true,
+    this.logoExpanded,
+    this.logo,
+    this.primaryAction,
+    this.primaryActionExpanded,
+    this.divider,
     this.navigationTypeResolver,
-    this.drawerWidth = 200,
-    this.includeBaseDestinationsInMenu = true,
+    this.transitionDuration = const Duration(milliseconds: 300),
+    this.transitionReverseDuration,
     this.bottomNavigationOverflow = 5,
     this.railDestinationsOverflow = 7,
+    this.drawerWidth = 200,
     this.isTabBarScrollable = true,
     this.tabAlignment = TabAlignment.start,
-    this.divider,
-    this.leadingButtonBuilder,
+    this.scaffoldConfig = const ScaffoldConfig(),
+    this.buildLeadingButton,
     this.buildTopBarTabBar,
     this.buildBottomNavigationBar,
     this.buildDrawer,
@@ -57,10 +48,6 @@ class ResponsiveScaffold extends StatefulHookWidget {
     this.buildDismissableSliverAppBar,
     this.buildSidebarAppBar,
     this.buildTopBar,
-    this.expandedLogo,
-    this.logo,
-    this.primaryAction,
-    this.primaryActionExpanded,
   });
 
   static ResponsiveScaffold of(BuildContext context) {
@@ -85,45 +72,6 @@ class ResponsiveScaffold extends StatefulHookWidget {
   /// [RouterDestination].
   final List<RouterDestination> destinations;
 
-  /// See [Scaffold.persistentFooterButtons].
-  final List<Widget>? persistentFooterButtons;
-
-  /// See [Scaffold.endDrawer].
-  final Widget? endDrawer;
-
-  /// See [Scaffold.drawerScrimColor].
-  final Color? drawerScrimColor;
-
-  /// See [Scaffold.backgroundColor].
-  final Color? backgroundColor;
-
-  /// See [Scaffold.bottomSheet].
-  final Widget? bottomSheet;
-
-  /// See [Scaffold.resizeToAvoidBottomInset].
-  final bool? resizeToAvoidBottomInset;
-
-  /// See [Scaffold.primary].
-  final bool primary;
-
-  /// See [Scaffold.drawerDragStartBehavior].
-  final DragStartBehavior drawerDragStartBehavior;
-
-  /// See [Scaffold.extendBody].
-  final bool extendBody;
-
-  /// See [Scaffold.extendBodyBehindAppBar].
-  final bool extendBodyBehindAppBar;
-
-  /// See [Scaffold.drawerEdgeDragWidth].
-  final double? drawerEdgeDragWidth;
-
-  /// See [Scaffold.drawerEnableOpenDragGesture].
-  final bool drawerEnableOpenDragGesture;
-
-  /// See [Scaffold.endDrawerEnableOpenDragGesture].
-  final bool endDrawerEnableOpenDragGesture;
-
   /// Determines the navigation type that the scaffold uses.
   final NavigationTypeResolver? navigationTypeResolver;
 
@@ -131,7 +79,7 @@ class ResponsiveScaffold extends StatefulHookWidget {
   final Widget? logo;
 
   /// A larger logo to display when there is more space available
-  final Widget? expandedLogo;
+  final Widget? logoExpanded;
 
   final Widget? primaryAction;
 
@@ -139,10 +87,6 @@ class ResponsiveScaffold extends StatefulHookWidget {
 
   /// The width of the drawer and expanded sidebar
   final double drawerWidth;
-
-  /// Weather the overflow menu defaults to include overflow destinations and
-  /// the overflow destinations.
-  final bool includeBaseDestinationsInMenu;
 
   /// Maximum number of items to display in [NavigationBar]
   final int bottomNavigationOverflow;
@@ -165,9 +109,13 @@ class ResponsiveScaffold extends StatefulHookWidget {
 
   final Duration transitionDuration;
 
-  final Duration transitionReverseDuration;
+  final Duration? transitionReverseDuration;
 
-  final Widget Function(BuildContext context)? leadingButtonBuilder;
+  /// Properties are applied to the root [Scaffold] widget.
+  final ScaffoldConfig scaffoldConfig;
+
+  /// Custom builder for the [AppBar]'s leading button
+  final Widget Function(BuildContext context)? buildLeadingButton;
 
   /// Custom builder for [NavigationType.top]'s [TabBar]
   ///
@@ -359,19 +307,20 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
       ),
       drawer: hasDrawer ? drawer : null,
       bottomNavigationBar: hasBottomNavigationBar ? bottomNavigationBar : null,
-      persistentFooterButtons: widget.persistentFooterButtons,
-      endDrawer: widget.endDrawer,
-      bottomSheet: widget.bottomSheet,
-      backgroundColor: widget.backgroundColor,
-      resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
-      primary: widget.primary,
-      drawerDragStartBehavior: widget.drawerDragStartBehavior,
-      extendBody: widget.extendBody,
-      extendBodyBehindAppBar: widget.extendBodyBehindAppBar,
-      drawerScrimColor: widget.drawerScrimColor,
-      drawerEdgeDragWidth: widget.drawerEdgeDragWidth,
-      drawerEnableOpenDragGesture: widget.drawerEnableOpenDragGesture,
-      endDrawerEnableOpenDragGesture: widget.endDrawerEnableOpenDragGesture,
+      endDrawer: widget.scaffoldConfig.endDrawer,
+      bottomSheet: widget.scaffoldConfig.bottomSheet,
+      backgroundColor: widget.scaffoldConfig.backgroundColor,
+      resizeToAvoidBottomInset: widget.scaffoldConfig.resizeToAvoidBottomInset,
+      primary: widget.scaffoldConfig.primary,
+      drawerDragStartBehavior: widget.scaffoldConfig.drawerDragStartBehavior,
+      extendBody: widget.scaffoldConfig.extendBody,
+      extendBodyBehindAppBar: widget.scaffoldConfig.extendBodyBehindAppBar,
+      drawerScrimColor: widget.scaffoldConfig.drawerScrimColor,
+      drawerEdgeDragWidth: widget.scaffoldConfig.drawerEdgeDragWidth,
+      drawerEnableOpenDragGesture:
+          widget.scaffoldConfig.drawerEnableOpenDragGesture,
+      endDrawerEnableOpenDragGesture:
+          widget.scaffoldConfig.endDrawerEnableOpenDragGesture,
     );
   }
 
@@ -402,6 +351,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
                 children: [
                   AnimatedSwitcher(
                     duration: widget.transitionDuration,
+                    reverseDuration: widget.transitionReverseDuration,
                     child: Padding(
                       key: ValueKey('leadingButton-$willShowLeadingButton'),
                       padding: const EdgeInsets.symmetric(
@@ -411,7 +361,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
                       child: leadingButton,
                     ),
                   ),
-                  if (widget.expandedLogo != null) widget.expandedLogo!,
+                  if (widget.logoExpanded != null) widget.logoExpanded!,
                 ],
               ),
               middle: title != null
@@ -446,6 +396,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
                 children: [
                   AnimatedSwitcher(
                     duration: widget.transitionDuration,
+                    reverseDuration: widget.transitionReverseDuration,
                     child: Padding(
                       key: ValueKey('leadingButton-$willShowLeadingButton'),
                       padding: const EdgeInsets.symmetric(
@@ -455,7 +406,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
                       child: leadingButton,
                     ),
                   ),
-                  if (widget.expandedLogo != null) widget.expandedLogo!,
+                  if (widget.logoExpanded != null) widget.logoExpanded!,
                 ],
               ),
               middle: Row(
@@ -508,10 +459,10 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
       width: widget.drawerWidth,
       child: Column(
         children: [
-          if (widget.expandedLogo != null)
+          if (widget.logoExpanded != null)
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: widget.expandedLogo,
+              child: widget.logoExpanded,
             ),
           for (final destination in widget.destinations)
             ListTile(
@@ -727,4 +678,59 @@ class _StyledResponsiveSidebar extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Creates a configuration for a [Scaffold].
+class ScaffoldConfig {
+  /// Creates a configuration for a [Scaffold].
+  const ScaffoldConfig({
+    this.endDrawer,
+    this.bottomSheet,
+    this.backgroundColor,
+    this.resizeToAvoidBottomInset,
+    this.primary = true,
+    this.drawerDragStartBehavior = DragStartBehavior.start,
+    this.extendBody = false,
+    this.extendBodyBehindAppBar = false,
+    this.drawerScrimColor,
+    this.drawerEdgeDragWidth,
+    this.drawerEnableOpenDragGesture = true,
+    this.endDrawerEnableOpenDragGesture = true,
+  });
+
+  /// See [Scaffold.endDrawer].
+  final Widget? endDrawer;
+
+  /// See [Scaffold.drawerScrimColor].
+  final Color? drawerScrimColor;
+
+  /// See [Scaffold.backgroundColor].
+  final Color? backgroundColor;
+
+  /// See [Scaffold.bottomSheet].
+  final Widget? bottomSheet;
+
+  /// See [Scaffold.resizeToAvoidBottomInset].
+  final bool? resizeToAvoidBottomInset;
+
+  /// See [Scaffold.primary].
+  final bool primary;
+
+  /// See [Scaffold.drawerDragStartBehavior].
+  final DragStartBehavior drawerDragStartBehavior;
+
+  /// See [Scaffold.extendBody].
+  final bool extendBody;
+
+  /// See [Scaffold.extendBodyBehindAppBar].
+  final bool extendBodyBehindAppBar;
+
+  /// See [Scaffold.drawerEdgeDragWidth].
+  final double? drawerEdgeDragWidth;
+
+  /// See [Scaffold.drawerEnableOpenDragGesture].
+  final bool drawerEnableOpenDragGesture;
+
+  /// See [Scaffold.endDrawerEnableOpenDragGesture].
+  final bool endDrawerEnableOpenDragGesture;
 }

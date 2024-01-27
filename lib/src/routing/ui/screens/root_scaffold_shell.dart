@@ -68,7 +68,7 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
             ),
           ),
           logo: const _StylizedFlutterLogo(),
-          expandedLogo: IntrinsicWidth(
+          logoExpanded: IntrinsicWidth(
             child: Row(
               children: [
                 const _StylizedFlutterLogo(),
