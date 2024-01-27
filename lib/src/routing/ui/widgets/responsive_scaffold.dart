@@ -570,10 +570,12 @@ class ResponsiveNavigationToolbar extends NavigationToolbar {
                 ),
               ),
               if (logo != null)
-                AnimatedSwitcher(
-                  duration: transitionDuration,
-                  reverseDuration: transitionReverseDuration,
-                  child: logo,
+                ExcludeSemantics(
+                  child: AnimatedSwitcher(
+                    duration: transitionDuration,
+                    reverseDuration: transitionReverseDuration,
+                    child: logo,
+                  ),
                 ),
             ],
           ),
