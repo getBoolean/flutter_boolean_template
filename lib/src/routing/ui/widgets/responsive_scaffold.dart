@@ -29,8 +29,8 @@ class ResponsiveScaffold extends StatefulHookWidget {
     this.logo,
     this.primaryAction,
     this.primaryActionExpanded,
-    this.divider,
-    this.navigationTypeResolver,
+    this.divider = const VerticalDivider(width: 1.0, thickness: 1),
+    this.navigationTypeResolver = defaultNavigationTypeResolver,
     this.transitionDuration = const Duration(milliseconds: 300),
     this.transitionReverseDuration,
     this.bottomNavigationOverflow = 5,
@@ -70,7 +70,7 @@ class ResponsiveScaffold extends StatefulHookWidget {
   final List<RouterDestination> destinations;
 
   /// Determines the navigation type that the scaffold uses.
-  final NavigationTypeResolver? navigationTypeResolver;
+  final NavigationTypeResolver navigationTypeResolver;
 
   /// A small logo to display when there is little space available
   final Widget? logo;
@@ -99,7 +99,7 @@ class ResponsiveScaffold extends StatefulHookWidget {
   final bool isTabBarScrollable;
 
   /// The [VerticalDivider] between the [Drawer]/[ResponsiveSidebar] and the body.
-  final Widget? divider;
+  final Widget divider;
 
   final Duration transitionDuration;
 
@@ -198,24 +198,20 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
     super.dispose();
   }
 
-  NavigationType getNavigationType() =>
-      (widget.navigationTypeResolver ?? defaultNavigationTypeResolver)(context);
-
   @override
   Widget build(BuildContext context) {
+    final selectedIndex = widget.currentIndex;
+    final navigationType = widget.navigationTypeResolver(context);
     _tabController = useTabController(
       initialLength: widget.destinations.length,
       initialIndex: widget.currentIndex,
     );
-    final navigationType = getNavigationType();
     final hasDrawer = navigationType == NavigationType.drawer;
     final hasBottomNavigationBar = navigationType == NavigationType.bottom;
-
     final bottomDestinations = widget.destinations.sublist(
       0,
       math.min(widget.destinations.length, widget.bottomNavigationOverflow),
     );
-    final selectedIndex = widget.currentIndex;
     final bottomNavigationBar = widget.buildBottomNavigationBar(
       context,
       selectedIndex,
@@ -296,7 +292,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
                   ? sidebar
                   : null,
             ),
-            widget.divider ?? const VerticalDivider(width: 1.0, thickness: 1),
+            widget.divider,
             Expanded(child: widget.child),
           ],
         ),
