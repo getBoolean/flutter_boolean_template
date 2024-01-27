@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/features/settings/application/settings_service.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/dto/navigation_type_override.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/dto/settings.dart';
+import 'package:flutter_boolean_template/src/routing/router/router_extensions.dart';
+import 'package:flutter_boolean_template/src/routing/ui/widgets/auto_leading_button.dart';
 import 'package:flutter_boolean_template/src/routing/ui/widgets/responsive_scaffold.dart';
 import 'package:flutter_boolean_template/utils/utils.dart';
 import 'package:go_router/go_router.dart';
@@ -40,6 +42,15 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
           currentIndex: widget.navigationShell.currentIndex,
           title: widget.title,
           goToIndex: widget.navigationShell.goBranch,
+          willShowLeadingButton: (context) {
+            final router = GoRouter.of(context);
+            final canPop = router.canGoBack() || router.canPop();
+            final ScaffoldState? scaffold = Scaffold.maybeOf(context);
+            return canPop || (scaffold?.hasDrawer ?? false);
+          },
+          buildLeadingButton: (context) {
+            return const AutoLeadingButton();
+          },
           navigationTypeResolver: (context) {
             final settings = ref.watch(settingsServiceProvider);
             final Orientation currentOrientation =

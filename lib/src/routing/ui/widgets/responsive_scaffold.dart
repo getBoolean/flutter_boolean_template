@@ -5,7 +5,6 @@ import 'package:constants/constants.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/routing/data/navigation_type.dart';
-import 'package:flutter_boolean_template/src/routing/ui/widgets/auto_leading_button.dart';
 import 'package:flutter_boolean_template/src/routing/ui/widgets/responsive_sidebar.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:log/log.dart';
@@ -25,6 +24,8 @@ class ResponsiveScaffold extends StatefulHookWidget {
     required this.title,
     required this.child,
     required this.goToIndex,
+    required this.willShowLeadingButton,
+    required this.buildLeadingButton,
     super.key,
     this.logoExpanded,
     this.logo,
@@ -40,7 +41,6 @@ class ResponsiveScaffold extends StatefulHookWidget {
     this.isTabBarScrollable = true,
     this.tabAlignment = TabAlignment.start,
     this.scaffoldConfig = const ScaffoldConfig(),
-    this.buildLeadingButton,
     this.buildTopBarTabBar,
     this.buildBottomNavigationBar,
     this.buildDrawer,
@@ -114,8 +114,10 @@ class ResponsiveScaffold extends StatefulHookWidget {
   /// Properties are applied to the root [Scaffold] widget.
   final ScaffoldConfig scaffoldConfig;
 
+  final bool Function(BuildContext context) willShowLeadingButton;
+
   /// Custom builder for the [AppBar]'s leading button
-  final Widget Function(BuildContext context)? buildLeadingButton;
+  final Widget Function(BuildContext context) buildLeadingButton;
 
   /// Custom builder for [NavigationType.top]'s [TabBar]
   ///
@@ -342,8 +344,8 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
       child: Builder(
         builder: (context) {
           final theme = Theme.of(context);
-          const leadingButton = AutoLeadingButton(showDisabled: false);
-          final willShowLeadingButton = leadingButton.willShowButton(context);
+          final leadingButton = widget.buildLeadingButton(context);
+          final willShowLeadingButton = widget.willShowLeadingButton(context);
           return Material(
             child: NavigationToolbar(
               leading: Row(
@@ -387,8 +389,8 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
       preferredSize: tabBar.preferredSize,
       child: Builder(
         builder: (context) {
-          const leadingButton = AutoLeadingButton(showDisabled: false);
-          final willShowLeadingButton = leadingButton.willShowButton(context);
+          final leadingButton = widget.buildLeadingButton(context);
+          final willShowLeadingButton = widget.willShowLeadingButton(context);
           return Material(
             child: NavigationToolbar(
               leading: Row(
@@ -527,7 +529,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
   ) {
     return SliverAppBar(
       centerTitle: true,
-      leading: const AutoLeadingButton(),
+      leading: widget.buildLeadingButton(context),
       title: title == null ? null : Text(title),
       automaticallyImplyLeading: false,
       expandedHeight: 50,

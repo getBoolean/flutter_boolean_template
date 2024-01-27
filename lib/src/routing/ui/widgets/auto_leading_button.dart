@@ -1,4 +1,3 @@
-import 'package:awesome_flutter_extensions/awesome_flutter_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/routing/router/router.dart';
 import 'package:go_router/go_router.dart';
@@ -62,11 +61,6 @@ class AutoLeadingButton extends ConsumerStatefulWidget {
   /// the looks and feels of their leading buttons
   final AutoLeadingButtonBuilder? builder;
 
-  /// Hides the button when the leading type is [LeadingType.noLeading]
-  ///
-  /// Defaults to `false`
-  final bool? showDisabled;
-
   final Duration transitionDuration;
 
   /// Default constructor
@@ -74,22 +68,17 @@ class AutoLeadingButton extends ConsumerStatefulWidget {
     super.key,
     this.color,
     this.builder,
-    this.showDisabled,
     this.transitionDuration = const Duration(milliseconds: 150),
-  })  : assert(
+  }) : assert(
           color == null || builder == null,
           'Cannot use both color and builder',
-        ),
-        assert(
-          showDisabled == null || builder == null,
-          'Cannot use both hideDisabled and builder',
         );
 
   bool willShowButton(BuildContext context) {
     final router = GoRouter.of(context);
     final canPop = router.canGoBack() || router.canPop();
     final ScaffoldState? scaffold = Scaffold.maybeOf(context);
-    return canPop || (scaffold?.hasDrawer ?? false) || (showDisabled ?? false);
+    return canPop || (scaffold?.hasDrawer ?? false);
   }
 
   @override
@@ -166,16 +155,9 @@ class _AutoLeadingButtonState extends ConsumerState<AutoLeadingButton> {
       );
     } else if (widget.builder != null) {
       button = widget.builder!(context, LeadingType.noLeading, null);
-    } else if (!(widget.showDisabled ?? false)) {
+    } else {
       button = const SizedBox.shrink(
         key: ValueKey('HiddenAutoLeadingButton'),
-      );
-    } else {
-      button = IconButton(
-        icon: const BackButtonIcon(),
-        iconSize: context.themes.icon.size ?? 24,
-        style: IconButtonTheme.of(context).style,
-        onPressed: null,
       );
     }
 
