@@ -219,7 +219,6 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
       0,
       math.min(widget.destinations.length, widget.bottomNavigationOverflow),
     );
-    ;
     final selectedIndex = widget.currentIndex;
     final bottomNavigationBar = widget.buildBottomNavigationBar(
       context,
