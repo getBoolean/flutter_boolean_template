@@ -41,7 +41,7 @@ class ResponsiveScaffold extends StatefulHookWidget {
     this.bottomNavigationOverflow = 5,
     this.drawerWidth = 200,
     this.scaffoldConfig = const ScaffoldConfig(),
-    this.buildTobBarItem = _defaultTabBarItemBuilder,
+    this.buildTobBarItem = _defaultTobBarItemBuilder,
     this.buildBottomNavigationBar = _defaultBottomNavigationBarBuilder,
     this.buildDrawer,
     this.buildSidebar,
@@ -671,7 +671,7 @@ Widget _defaultBottomNavigationBarBuilder(
   );
 }
 
-Tab _defaultTabBarItemBuilder(
+Tab _defaultTobBarItemBuilder(
   BuildContext context,
   RouterDestination destination,
 ) =>
