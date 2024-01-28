@@ -349,32 +349,27 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
               widget.buildLeadingButton(context, navigationType);
           final willShowLeadingButton = widget.willShowLeadingButton(context);
           return Material(
-            child: SwapExpandedWidgetBuilder(
-              collapsed: widget.action,
-              expanded: widget.actionExpanded,
-              minExpandedWidth: widget.minActionExpandedWidth,
-              minCollapsedWidth: widget.minActionCollapsedWidth,
-              builder: (context, action) {
-                return ResponsiveNavigationToolbar(
-                  leadingButton: leadingButton,
-                  middle: title != null
-                      ? Text(
-                          title,
-                          style: theme.textTheme.titleLarge,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        )
-                      : null,
-                  trailing: action,
-                  willShowLeadingButton: willShowLeadingButton,
-                  transitionDuration: widget.transitionDuration,
-                  transitionReverseDuration: widget.transitionReverseDuration,
-                  logoExpanded: widget.logoExpanded,
-                  logo: widget.logo,
-                  minLogoCollapsedWidth: widget.minLogoCollapsedWidth,
-                  minLogoExpandedWidth: widget.minLogoExpandedWidth,
-                );
-              },
+            child: ResponsiveNavigationToolbar(
+              leadingButton: leadingButton,
+              middle: title != null
+                  ? Text(
+                      title,
+                      style: theme.textTheme.titleLarge,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    )
+                  : null,
+              action: widget.action,
+              actionExpanded: widget.actionExpanded,
+              willShowLeadingButton: willShowLeadingButton,
+              transitionDuration: widget.transitionDuration,
+              transitionReverseDuration: widget.transitionReverseDuration,
+              logoExpanded: widget.logoExpanded,
+              logo: widget.logo,
+              minLogoCollapsedWidth: widget.minLogoCollapsedWidth,
+              minLogoExpandedWidth: widget.minLogoExpandedWidth,
+              minActionCollapsedWidth: widget.minActionCollapsedWidth,
+              minActionExpandedWidth: widget.minActionExpandedWidth,
             ),
           );
         },
@@ -407,6 +402,10 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
               logo: widget.logo,
               minLogoCollapsedWidth: widget.minLogoCollapsedWidth,
               minLogoExpandedWidth: widget.minLogoExpandedWidth,
+              action: widget.action,
+              actionExpanded: widget.actionExpanded,
+              minActionExpandedWidth: widget.minActionExpandedWidth,
+              minActionCollapsedWidth: widget.minActionCollapsedWidth,
             ),
           );
         },
@@ -520,19 +519,22 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
   }
 }
 
-class ResponsiveNavigationToolbar extends NavigationToolbar {
+class ResponsiveNavigationToolbar extends StatelessWidget {
   const ResponsiveNavigationToolbar({
     required this.leadingButton,
-    required super.middle,
+    required this.middle,
     required this.willShowLeadingButton,
     required this.transitionDuration,
     required this.minLogoExpandedWidth,
     required this.minLogoCollapsedWidth,
+    required this.minActionExpandedWidth,
+    required this.minActionCollapsedWidth,
     super.key,
     this.transitionReverseDuration,
     this.logo,
     this.logoExpanded,
-    super.trailing,
+    this.action,
+    this.actionExpanded,
   });
 
   final Widget leadingButton;
@@ -540,11 +542,17 @@ class ResponsiveNavigationToolbar extends NavigationToolbar {
   final Duration transitionDuration;
   final Duration? transitionReverseDuration;
 
+  final Widget? middle;
   final Widget? logo;
   final Widget? logoExpanded;
+  final Widget? action;
+  final Widget? actionExpanded;
 
   final double minLogoExpandedWidth;
   final double minLogoCollapsedWidth;
+
+  final double minActionExpandedWidth;
+  final double minActionCollapsedWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -553,36 +561,44 @@ class ResponsiveNavigationToolbar extends NavigationToolbar {
       expanded: logoExpanded,
       minExpandedWidth: minLogoExpandedWidth,
       minCollapsedWidth: minLogoCollapsedWidth,
-      builder: (constext, logo) {
-        return NavigationToolbar(
-          leading: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              AnimatedSwitcher(
+      builder: (constext, logo) => SwapExpandedWidgetBuilder(
+        collapsed: action,
+        expanded: actionExpanded,
+        minExpandedWidth: minActionExpandedWidth,
+        minCollapsedWidth: minActionCollapsedWidth,
+        builder: (context, action) => _buildNavigationToolbar(logo, action),
+      ),
+    );
+  }
+
+  NavigationToolbar _buildNavigationToolbar(Widget? logo, Widget? action) {
+    return NavigationToolbar(
+      trailing: action,
+      middle: middle,
+      leading: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          AnimatedSwitcher(
+            duration: transitionDuration,
+            reverseDuration: transitionReverseDuration,
+            child: Padding(
+              key: ValueKey('leadingButton-$willShowLeadingButton'),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 8.0,
+              ),
+              child: leadingButton,
+            ),
+          ),
+          if (logo != null)
+            ExcludeSemantics(
+              child: AnimatedSwitcher(
                 duration: transitionDuration,
                 reverseDuration: transitionReverseDuration,
-                child: Padding(
-                  key: ValueKey('leadingButton-$willShowLeadingButton'),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8.0,
-                  ),
-                  child: leadingButton,
-                ),
+                child: logo,
               ),
-              if (logo != null)
-                ExcludeSemantics(
-                  child: AnimatedSwitcher(
-                    duration: transitionDuration,
-                    reverseDuration: transitionReverseDuration,
-                    child: logo,
-                  ),
-                ),
-            ],
-          ),
-          middle: middle,
-          trailing: trailing,
-        );
-      },
+            ),
+        ],
+      ),
     );
   }
 }
