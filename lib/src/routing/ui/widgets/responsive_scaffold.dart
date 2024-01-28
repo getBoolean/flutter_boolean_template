@@ -241,9 +241,9 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
     final buildSliverAppBar = widget.buildDismissableSliverAppBar ??
         _defaultBuildDismissableSliverAppBar;
     final buildSidebarAppBar =
-        widget.buildSidebarAppBar ?? _defaultSidebarAppBarBuilder;
+        widget.buildSidebarAppBar ?? _defaultBuildSidebarAppBar;
 
-    final buildTopBar = widget.buildTopBar ?? _defaultTopBarBuilder;
+    final buildTopBar = widget.buildTopBar ?? _defaultBuildTopBar;
     return Scaffold(
       key: _key,
       appBar: switch (navigationType) {
@@ -333,7 +333,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
     _tabController.index = index;
   }
 
-  PreferredSizeWidget _defaultSidebarAppBarBuilder(
+  PreferredSizeWidget _defaultBuildSidebarAppBar(
     BuildContext context,
     NavigationType navigationType,
     String? title,
@@ -382,7 +382,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
     );
   }
 
-  PreferredSizeWidget _defaultTopBarBuilder(
+  PreferredSizeWidget _defaultBuildTopBar(
     BuildContext context,
     NavigationType navigationType,
     TabBar tabBar,
