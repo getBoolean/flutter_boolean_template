@@ -579,15 +579,18 @@ class ResponsiveNavigationToolbar extends StatelessWidget {
       leading: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          AnimatedSwitcher(
-            duration: transitionDuration,
-            reverseDuration: transitionReverseDuration,
-            child: Padding(
-              key: ValueKey('leadingButton-$willShowLeadingButton'),
-              padding: const EdgeInsets.symmetric(
-                horizontal: 8.0,
+          AnimatedSize(
+            duration: const Duration(milliseconds: 150),
+            child: AnimatedSwitcher(
+              duration: transitionDuration,
+              reverseDuration: transitionReverseDuration,
+              child: Padding(
+                key: ValueKey('leadingButton-$willShowLeadingButton'),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 8.0,
+                ),
+                child: leadingButton,
               ),
-              child: leadingButton,
             ),
           ),
           if (logo != null)
