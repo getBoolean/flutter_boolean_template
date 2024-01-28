@@ -331,6 +331,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
     final previousIndex = widget.currentIndex;
     widget.goToIndex(index, initialLocation: index == previousIndex);
     _tabController.index = index;
+    _sidebarController.selectIndex(index);
   }
 
   PreferredSizeWidget _defaultBuildSidebarAppBar(
