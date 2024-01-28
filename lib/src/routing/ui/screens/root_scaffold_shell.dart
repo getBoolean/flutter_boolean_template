@@ -81,8 +81,8 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
             ),
           ),
           action: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: settings.isBannerShowing ? 48 : 0,
+            padding: EdgeInsets.only(
+              right: settings.isBannerShowing ? 48 : 0,
             ),
             child: IconButton(
               onPressed: () {},
