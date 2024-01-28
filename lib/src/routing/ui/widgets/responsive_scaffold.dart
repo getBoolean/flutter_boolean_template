@@ -200,6 +200,16 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final navigationType = widget.navigationTypeResolver(context);
+    if (navigationType != NavigationType.drawer &&
+        (_key.currentState?.isDrawerOpen ?? false)) {
+      _key.currentState?.closeDrawer();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final selectedIndex = widget.currentIndex;
     final navigationType = widget.navigationTypeResolver(context);
@@ -224,10 +234,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
     final drawer = buildDrawer(
       context,
       selectedIndex,
-      (index) {
-        _key.currentState?.closeDrawer();
-        _setPage(index);
-      },
+      _setPage,
     );
 
     final buildSidebar = widget.buildSidebar ?? _defaultBuildSidebar;
@@ -329,6 +336,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
 
   void _setPage(int index) {
     final previousIndex = widget.currentIndex;
+    _key.currentState?.closeDrawer();
     widget.goToIndex(index, initialLocation: index == previousIndex);
     _tabController.index = index;
     _sidebarController.selectIndex(index);
