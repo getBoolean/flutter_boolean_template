@@ -139,12 +139,18 @@ NavigationType $resolveNavigationType(BuildContext context) {
   final (_, form, orientation) = $deviceDetails(context);
   return switch (orientation) {
     Orientation.portrait => switch (form) {
-        DeviceForm.largeDesktop || DeviceForm.desktop => NavigationType.top,
-        DeviceForm.tablet => NavigationType.top,
-        DeviceForm.phone || DeviceForm.largePhone => NavigationType.bottom,
+        DeviceForm.largeDesktop ||
+        DeviceForm.desktop =>
+          NavigationType.expandedSidebar,
+        DeviceForm.tablet ||
+        DeviceForm.phone ||
+        DeviceForm.largePhone =>
+          NavigationType.bottom,
       },
     Orientation.landscape => switch (form) {
-        DeviceForm.largeDesktop || DeviceForm.desktop => NavigationType.top,
+        DeviceForm.largeDesktop ||
+        DeviceForm.desktop =>
+          NavigationType.expandedSidebar,
         DeviceForm.tablet => NavigationType.expandedSidebar,
         DeviceForm.largePhone => NavigationType.rail,
         DeviceForm.phone => NavigationType.drawer,

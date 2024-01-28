@@ -41,7 +41,7 @@ class ResponsiveScaffold extends StatefulHookWidget {
     this.bottomNavigationOverflow = 5,
     this.drawerWidth = 200,
     this.scaffoldConfig = const ScaffoldConfig(),
-    this.buildTobBarItem = _defaultTabBarItemBuilder,
+    this.buildTobBarItem = _defaultTobBarItemBuilder,
     this.buildBottomNavigationBar = _defaultBottomNavigationBarBuilder,
     this.buildDrawer,
     this.buildSidebar,
@@ -331,6 +331,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
     final previousIndex = widget.currentIndex;
     widget.goToIndex(index, initialLocation: index == previousIndex);
     _tabController.index = index;
+    _sidebarController.selectIndex(index);
   }
 
   PreferredSizeWidget _defaultBuildSidebarAppBar(
@@ -578,24 +579,25 @@ class ResponsiveNavigationToolbar extends StatelessWidget {
       leading: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          AnimatedSwitcher(
-            duration: transitionDuration,
-            reverseDuration: transitionReverseDuration,
-            child: Padding(
-              key: ValueKey('leadingButton-$willShowLeadingButton'),
-              padding: const EdgeInsets.symmetric(
-                horizontal: 8.0,
+          AnimatedSize(
+            duration: const Duration(milliseconds: 150),
+            child: AnimatedSwitcher(
+              duration: transitionDuration,
+              reverseDuration: transitionReverseDuration,
+              child: Padding(
+                key: ValueKey('leadingButton-$willShowLeadingButton'),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 8.0,
+                ),
+                child: leadingButton,
               ),
-              child: leadingButton,
             ),
           ),
           if (logo != null)
-            ExcludeSemantics(
-              child: AnimatedSwitcher(
-                duration: transitionDuration,
-                reverseDuration: transitionReverseDuration,
-                child: logo,
-              ),
+            AnimatedSwitcher(
+              duration: transitionDuration,
+              reverseDuration: transitionReverseDuration,
+              child: logo,
             ),
         ],
       ),
@@ -671,7 +673,7 @@ Widget _defaultBottomNavigationBarBuilder(
   );
 }
 
-Tab _defaultTabBarItemBuilder(
+Tab _defaultTobBarItemBuilder(
   BuildContext context,
   RouterDestination destination,
 ) =>

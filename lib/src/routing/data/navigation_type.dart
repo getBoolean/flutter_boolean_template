@@ -15,7 +15,9 @@ enum NavigationType {
   /// Used to configure a [Scaffold] with an open [ResponsiveSidebar].
   expandedSidebar,
 
-  /// Used to configure a [Scaffold] with a [TabBar]
+  /// (Experimental) Used to configure a [Scaffold] with a [TabBar]
+  ///
+  /// This does yet not support a title.
   top;
 
   bool get isSidebar {
