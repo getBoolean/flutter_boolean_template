@@ -590,12 +590,10 @@ class ResponsiveNavigationToolbar extends StatelessWidget {
             ),
           ),
           if (logo != null)
-            ExcludeSemantics(
-              child: AnimatedSwitcher(
-                duration: transitionDuration,
-                reverseDuration: transitionReverseDuration,
-                child: logo,
-              ),
+            AnimatedSwitcher(
+              duration: transitionDuration,
+              reverseDuration: transitionReverseDuration,
+              child: logo,
             ),
         ],
       ),
