@@ -75,6 +75,7 @@ class _SettingsWidgetState extends ConsumerState<SettingsWidget> {
             showLicensePage(
               context: context,
               applicationName: packageInfo.requireValue.appName,
+              useRootNavigator: true,
             );
           },
         ),
