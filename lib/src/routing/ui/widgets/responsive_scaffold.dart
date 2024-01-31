@@ -441,11 +441,8 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
               AnimatedSwitcher(
                 duration: widget.transitionDuration,
                 reverseDuration: Duration.zero,
-                child: Padding(
+                child: KeyedSubtree(
                   key: ValueKey('leadingButton-$willShowLeadingButton'),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8.0,
-                  ),
                   child: leadingButton,
                 ),
               ),

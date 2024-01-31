@@ -89,7 +89,10 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
               icon: const Icon(Icons.search),
             ),
           ),
-          logo: const _StylizedFlutterLogo(),
+          logo: const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: _StylizedFlutterLogo(),
+          ),
           logoExpanded: IntrinsicWidth(
             child: Row(
               children: [
