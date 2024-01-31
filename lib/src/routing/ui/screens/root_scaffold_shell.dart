@@ -72,23 +72,29 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
               Orientation.portrait => portraitNavigationType,
             };
           },
-          actionExpanded: const IntrinsicWidth(
-            child: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: SearchBar(
-                trailing: [Icon(Icons.search)],
-              ),
-            ),
-          ),
-          action: Padding(
-            padding: EdgeInsets.only(
-              right: settings.isBannerShowing ? 48 : 0,
-            ),
-            child: IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.search),
-            ),
-          ),
+          buildActionButton: (context, index, expanded) {
+            if (index != 0) return const SizedBox.shrink();
+            return expanded
+                ? const IntrinsicWidth(
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Focus(
+                        child: SearchBar(
+                          trailing: [Icon(Icons.search)],
+                        ),
+                      ),
+                    ),
+                  )
+                : Padding(
+                    padding: EdgeInsets.only(
+                      right: settings.isBannerShowing ? 48 : 0,
+                    ),
+                    child: IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.search),
+                    ),
+                  );
+          },
           logo: const Padding(
             padding: EdgeInsets.all(8.0),
             child: _StylizedFlutterLogo(),

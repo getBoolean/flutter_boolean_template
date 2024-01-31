@@ -28,8 +28,7 @@ class ResponsiveScaffold extends StatefulHookWidget {
     super.key,
     this.logoExpanded,
     this.logo,
-    this.action,
-    this.actionExpanded,
+    this.buildActionButton,
     this.minActionExpandedWidth = 1100,
     this.minActionCollapsedWidth = 300,
     this.minLogoExpandedWidth = 900,
@@ -84,9 +83,9 @@ class ResponsiveScaffold extends StatefulHookWidget {
   final double minLogoExpandedWidth;
   final double minLogoCollapsedWidth;
 
-  final Widget? action;
-
-  final Widget? actionExpanded;
+  // ignore: avoid_positional_boolean_parameters
+  final Widget Function(BuildContext context, int index, bool expanded)?
+      buildActionButton;
 
   final double minActionExpandedWidth;
   final double minActionCollapsedWidth;
@@ -272,8 +271,10 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
         _ => null,
       },
       body: SwapExpandedWidgetBuilder(
-        collapsed: widget.action,
-        expanded: widget.actionExpanded,
+        collapsed:
+            widget.buildActionButton?.call(context, widget.currentIndex, false),
+        expanded:
+            widget.buildActionButton?.call(context, widget.currentIndex, true),
         minExpandedWidth: widget.minActionExpandedWidth,
         minCollapsedWidth: widget.minActionCollapsedWidth,
         builder: (context, action) {
@@ -368,8 +369,10 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
                       overflow: TextOverflow.ellipsis,
                     )
                   : null,
-              action: widget.action,
-              actionExpanded: widget.actionExpanded,
+              action: widget.buildActionButton
+                  ?.call(context, widget.currentIndex, false),
+              actionExpanded: widget.buildActionButton
+                  ?.call(context, widget.currentIndex, true),
               willShowLeadingButton: willShowLeadingButton,
               transitionDuration: widget.transitionDuration,
               transitionReverseDuration: widget.transitionReverseDuration,
@@ -411,8 +414,10 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
               logo: widget.logo,
               minLogoCollapsedWidth: widget.minLogoCollapsedWidth,
               minLogoExpandedWidth: widget.minLogoExpandedWidth,
-              action: widget.action,
-              actionExpanded: widget.actionExpanded,
+              action: widget.buildActionButton
+                  ?.call(context, widget.currentIndex, false),
+              actionExpanded: widget.buildActionButton
+                  ?.call(context, widget.currentIndex, true),
               minActionExpandedWidth: widget.minActionExpandedWidth,
               minActionCollapsedWidth: widget.minActionCollapsedWidth,
             ),
@@ -517,8 +522,6 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
               style: ListTileStyle.drawer,
               selectedColor: theme.colorScheme.secondary,
             ),
-          const Spacer(),
-          if (widget.actionExpanded != null) widget.actionExpanded!,
         ],
       ),
     );
