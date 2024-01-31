@@ -36,94 +36,91 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
 
     final settings = ref.watch(settingsServiceProvider);
     return LoggerWidget(
-      child: SafeArea(
-        child: ResponsiveScaffold(
-          destinations: widget.destinations,
-          currentIndex: widget.navigationShell.currentIndex,
-          title: widget.title,
-          goToIndex: widget.navigationShell.goBranch,
-          willShowLeadingButton: (context) {
-            final router = GoRouter.of(context);
-            final canPop = router.canGoBack() || router.canPop();
-            final ScaffoldState? scaffold = Scaffold.maybeOf(context);
-            return canPop || (scaffold?.hasDrawer ?? false);
-          },
-          buildLeadingButton: (context, navigationType) {
-            return AutoLeadingButton(
-              key: ValueKey(navigationType),
-              useLocationOnly: true,
-            );
-          },
-          navigationTypeResolver: (context) {
-            final settings = ref.watch(settingsServiceProvider);
-            final Orientation currentOrientation =
-                MediaQuery.orientationOf(context);
-            final autoNavigationType = $resolveNavigationType(context);
-            final landscapeNavigationType =
-                settings.landscapeNavigationTypeOverride.isAuto
-                    ? autoNavigationType
-                    : settings.landscapeNavigationTypeOverride.navigationType;
-            final portraitNavigationType =
-                settings.portraitNavigationTypeOverride.isAuto
-                    ? autoNavigationType
-                    : settings.portraitNavigationTypeOverride.navigationType;
-            return switch (currentOrientation) {
-              Orientation.landscape => landscapeNavigationType,
-              Orientation.portrait => portraitNavigationType,
-            };
-          },
-          buildActionButton: (context, index, expanded) {
-            if (index != 0) return const SizedBox.shrink();
-            return expanded
-                ? const IntrinsicWidth(
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Focus(
-                        child: SearchBar(
-                          trailing: [Icon(Icons.search)],
-                        ),
+      child: ResponsiveScaffold(
+        destinations: widget.destinations,
+        currentIndex: widget.navigationShell.currentIndex,
+        title: widget.title,
+        goToIndex: widget.navigationShell.goBranch,
+        willShowLeadingButton: (context) {
+          final router = GoRouter.of(context);
+          final canPop = router.canGoBack() || router.canPop();
+          final ScaffoldState? scaffold = Scaffold.maybeOf(context);
+          return canPop || (scaffold?.hasDrawer ?? false);
+        },
+        buildLeadingButton: (context, navigationType) {
+          return AutoLeadingButton(
+            key: ValueKey(navigationType),
+            useLocationOnly: true,
+          );
+        },
+        navigationTypeResolver: (context) {
+          final settings = ref.watch(settingsServiceProvider);
+          final Orientation currentOrientation =
+              MediaQuery.orientationOf(context);
+          final autoNavigationType = $resolveNavigationType(context);
+          final landscapeNavigationType =
+              settings.landscapeNavigationTypeOverride.isAuto
+                  ? autoNavigationType
+                  : settings.landscapeNavigationTypeOverride.navigationType;
+          final portraitNavigationType =
+              settings.portraitNavigationTypeOverride.isAuto
+                  ? autoNavigationType
+                  : settings.portraitNavigationTypeOverride.navigationType;
+          return switch (currentOrientation) {
+            Orientation.landscape => landscapeNavigationType,
+            Orientation.portrait => portraitNavigationType,
+          };
+        },
+        buildActionButton: (context, index, expanded) {
+          if (index != 0) return const SizedBox.shrink();
+          return expanded
+              ? const IntrinsicWidth(
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Focus(
+                      child: SearchBar(
+                        trailing: [Icon(Icons.search)],
                       ),
                     ),
-                  )
-                : Padding(
-                    padding: EdgeInsets.only(
-                      right: settings.isBannerShowing ? 48 : 0,
-                    ),
-                    child: IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.search),
-                    ),
-                  );
-          },
-          buildLogo: (context, index, expanded) {
-            return expanded
-                ? IntrinsicWidth(
-                    child: Row(
-                      children: [
-                        const _StylizedFlutterLogo(),
-                        Expanded(
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Text(
-                              kAppName,
-                              style: theme.textTheme.titleMedium
-                                  ?.merge(GoogleFonts.robotoMono()),
-                              overflow: TextOverflow.clip,
-                              maxLines: 1,
-                            ),
+                  ),
+                )
+              : Padding(
+                  padding: EdgeInsets.only(
+                    right: settings.isBannerShowing ? 48 : 0,
+                  ),
+                  child: IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.search),
+                  ),
+                );
+        },
+        buildLogo: (context, index, expanded) {
+          return expanded
+              ? IntrinsicWidth(
+                  child: Row(
+                    children: [
+                      const _StylizedFlutterLogo(),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Text(
+                            kAppName,
+                            style: theme.textTheme.titleMedium
+                                ?.merge(GoogleFonts.robotoMono()),
+                            overflow: TextOverflow.clip,
+                            maxLines: 1,
                           ),
                         ),
-                      ],
-                    ),
-                  )
-                : const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: _StylizedFlutterLogo(),
-                  );
-          },
-          child: widget.navigationShell,
-        ),
+                      ),
+                    ],
+                  ),
+                )
+              : const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: _StylizedFlutterLogo(),
+                );
+        },
+        child: widget.navigationShell,
       ),
     );
   }

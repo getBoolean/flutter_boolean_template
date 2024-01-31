@@ -4,6 +4,7 @@ import 'package:adaptive_breakpoints/adaptive_breakpoints.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_boolean_template/src/routing/data/navigation_type.dart';
 import 'package:flutter_boolean_template/src/routing/ui/widgets/responsive_sidebar.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -356,30 +357,38 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
               widget.buildLeadingButton(context, navigationType);
           final willShowLeadingButton = widget.willShowLeadingButton(context);
           return Material(
-            child: ResponsiveNavigationToolbar(
-              leadingButton: leadingButton,
-              middle: title != null
-                  ? Text(
-                      title,
-                      style: theme.textTheme.titleLarge,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    )
-                  : null,
-              action: widget.buildActionButton
-                  ?.call(context, widget.currentIndex, false),
-              actionExpanded: widget.buildActionButton
-                  ?.call(context, widget.currentIndex, true),
-              willShowLeadingButton: willShowLeadingButton,
-              transitionDuration: widget.transitionDuration,
-              transitionReverseDuration: widget.transitionReverseDuration,
-              logoExpanded:
-                  widget.buildLogo?.call(context, widget.currentIndex, true),
-              logo: widget.buildLogo?.call(context, widget.currentIndex, false),
-              minLogoCollapsedWidth: widget.minLogoCollapsedWidth,
-              minLogoExpandedWidth: widget.minLogoExpandedWidth,
-              minActionCollapsedWidth: widget.minActionCollapsedWidth,
-              minActionExpandedWidth: widget.minActionExpandedWidth,
+            child: AnnotatedRegion(
+              value: theme.brightness == Brightness.light
+                  ? SystemUiOverlayStyle.dark
+                  : SystemUiOverlayStyle.light,
+              child: SafeArea(
+                child: ResponsiveNavigationToolbar(
+                  leadingButton: leadingButton,
+                  middle: title != null
+                      ? Text(
+                          title,
+                          style: theme.textTheme.titleLarge,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        )
+                      : null,
+                  action: widget.buildActionButton
+                      ?.call(context, widget.currentIndex, false),
+                  actionExpanded: widget.buildActionButton
+                      ?.call(context, widget.currentIndex, true),
+                  willShowLeadingButton: willShowLeadingButton,
+                  transitionDuration: widget.transitionDuration,
+                  transitionReverseDuration: widget.transitionReverseDuration,
+                  logoExpanded: widget.buildLogo
+                      ?.call(context, widget.currentIndex, true),
+                  logo: widget.buildLogo
+                      ?.call(context, widget.currentIndex, false),
+                  minLogoCollapsedWidth: widget.minLogoCollapsedWidth,
+                  minLogoExpandedWidth: widget.minLogoExpandedWidth,
+                  minActionCollapsedWidth: widget.minActionCollapsedWidth,
+                  minActionExpandedWidth: widget.minActionExpandedWidth,
+                ),
+              ),
             ),
           );
         },
@@ -396,29 +405,38 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
       preferredSize: tabBar.preferredSize,
       child: Builder(
         builder: (context) {
+          final theme = Theme.of(context);
           final leadingButton =
               widget.buildLeadingButton(context, navigationType);
           return Material(
-            child: ResponsiveNavigationToolbar(
-              leadingButton: leadingButton,
-              middle: Align(
-                alignment: Alignment.centerLeft,
-                child: IntrinsicWidth(child: tabBar),
+            child: AnnotatedRegion(
+              value: theme.brightness == Brightness.light
+                  ? SystemUiOverlayStyle.dark
+                  : SystemUiOverlayStyle.light,
+              child: SafeArea(
+                child: ResponsiveNavigationToolbar(
+                  leadingButton: leadingButton,
+                  middle: Align(
+                    alignment: Alignment.centerLeft,
+                    child: IntrinsicWidth(child: tabBar),
+                  ),
+                  willShowLeadingButton: widget.willShowLeadingButton(context),
+                  transitionDuration: widget.transitionDuration,
+                  transitionReverseDuration: widget.transitionReverseDuration,
+                  logoExpanded: widget.buildLogo
+                      ?.call(context, widget.currentIndex, true),
+                  logo: widget.buildLogo
+                      ?.call(context, widget.currentIndex, false),
+                  minLogoCollapsedWidth: widget.minLogoCollapsedWidth,
+                  minLogoExpandedWidth: widget.minLogoExpandedWidth,
+                  action: widget.buildActionButton
+                      ?.call(context, widget.currentIndex, false),
+                  actionExpanded: widget.buildActionButton
+                      ?.call(context, widget.currentIndex, true),
+                  minActionExpandedWidth: widget.minActionExpandedWidth,
+                  minActionCollapsedWidth: widget.minActionCollapsedWidth,
+                ),
               ),
-              willShowLeadingButton: widget.willShowLeadingButton(context),
-              transitionDuration: widget.transitionDuration,
-              transitionReverseDuration: widget.transitionReverseDuration,
-              logoExpanded:
-                  widget.buildLogo?.call(context, widget.currentIndex, true),
-              logo: widget.buildLogo?.call(context, widget.currentIndex, false),
-              minLogoCollapsedWidth: widget.minLogoCollapsedWidth,
-              minLogoExpandedWidth: widget.minLogoExpandedWidth,
-              action: widget.buildActionButton
-                  ?.call(context, widget.currentIndex, false),
-              actionExpanded: widget.buildActionButton
-                  ?.call(context, widget.currentIndex, true),
-              minActionExpandedWidth: widget.minActionExpandedWidth,
-              minActionCollapsedWidth: widget.minActionCollapsedWidth,
             ),
           );
         },
@@ -505,26 +523,28 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
     return Drawer(
       elevation: 0.0,
       width: widget.drawerWidth,
-      child: Column(
-        children: [
-          if (logoExpanded != null)
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: logoExpanded,
-            ),
-          for (final destination in widget.destinations)
-            ListTile(
-              leading: Icon(destination.icon),
-              title: Text(destination.title),
-              selected:
-                  widget.destinations.indexOf(destination) == selectedIndex,
-              onTap: () => setPage(
-                widget.destinations.indexOf(destination),
+      child: SafeArea(
+        child: Column(
+          children: [
+            if (logoExpanded != null)
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: logoExpanded,
               ),
-              style: ListTileStyle.drawer,
-              selectedColor: theme.colorScheme.secondary,
-            ),
-        ],
+            for (final destination in widget.destinations)
+              ListTile(
+                leading: Icon(destination.icon),
+                title: Text(destination.title),
+                selected:
+                    widget.destinations.indexOf(destination) == selectedIndex,
+                onTap: () => setPage(
+                  widget.destinations.indexOf(destination),
+                ),
+                style: ListTileStyle.drawer,
+                selectedColor: theme.colorScheme.secondary,
+              ),
+          ],
+        ),
       ),
     );
   }
