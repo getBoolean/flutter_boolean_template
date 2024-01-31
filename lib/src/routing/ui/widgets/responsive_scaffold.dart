@@ -26,8 +26,7 @@ class ResponsiveScaffold extends StatefulHookWidget {
     required this.willShowLeadingButton,
     required this.buildLeadingButton,
     super.key,
-    this.logoExpanded,
-    this.logo,
+    this.buildLogo,
     this.buildActionButton,
     this.minActionExpandedWidth = 1100,
     this.minActionCollapsedWidth = 300,
@@ -74,11 +73,9 @@ class ResponsiveScaffold extends StatefulHookWidget {
   /// Determines the navigation type that the scaffold uses.
   final NavigationTypeResolver navigationTypeResolver;
 
-  /// A small logo to display when there is little space available
-  final Widget? logo;
-
-  /// A larger logo to display when there is more space available
-  final Widget? logoExpanded;
+  // ignore: avoid_positional_boolean_parameters
+  final Widget Function(BuildContext context, int index, bool expanded)?
+      buildLogo;
 
   final double minLogoExpandedWidth;
   final double minLogoCollapsedWidth;
@@ -376,8 +373,9 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
               willShowLeadingButton: willShowLeadingButton,
               transitionDuration: widget.transitionDuration,
               transitionReverseDuration: widget.transitionReverseDuration,
-              logoExpanded: widget.logoExpanded,
-              logo: widget.logo,
+              logoExpanded:
+                  widget.buildLogo?.call(context, widget.currentIndex, true),
+              logo: widget.buildLogo?.call(context, widget.currentIndex, false),
               minLogoCollapsedWidth: widget.minLogoCollapsedWidth,
               minLogoExpandedWidth: widget.minLogoExpandedWidth,
               minActionCollapsedWidth: widget.minActionCollapsedWidth,
@@ -410,8 +408,9 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
               willShowLeadingButton: widget.willShowLeadingButton(context),
               transitionDuration: widget.transitionDuration,
               transitionReverseDuration: widget.transitionReverseDuration,
-              logoExpanded: widget.logoExpanded,
-              logo: widget.logo,
+              logoExpanded:
+                  widget.buildLogo?.call(context, widget.currentIndex, true),
+              logo: widget.buildLogo?.call(context, widget.currentIndex, false),
               minLogoCollapsedWidth: widget.minLogoCollapsedWidth,
               minLogoExpandedWidth: widget.minLogoExpandedWidth,
               action: widget.buildActionButton
@@ -440,6 +439,8 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
           final leadingButton =
               widget.buildLeadingButton(context, navigationType);
           final willShowLeadingButton = widget.willShowLeadingButton(context);
+          final logo =
+              widget.buildLogo?.call(context, widget.currentIndex, false);
           return Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -451,11 +452,11 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
                   child: leadingButton,
                 ),
               ),
-              if (widget.logo != null)
+              if (logo != null)
                 AnimatedSwitcher(
                   duration: widget.transitionDuration,
                   reverseDuration: Duration.zero,
-                  child: willShowLeadingButton ? null : widget.logo,
+                  child: willShowLeadingButton ? null : logo,
                 ),
             ],
           );
@@ -500,15 +501,16 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
     void Function(int index) setPage,
   ) {
     final theme = Theme.of(context);
+    final logoExpanded = widget.buildLogo?.call(context, selectedIndex, true);
     return Drawer(
       elevation: 0.0,
       width: widget.drawerWidth,
       child: Column(
         children: [
-          if (widget.logoExpanded != null)
+          if (logoExpanded != null)
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: widget.logoExpanded,
+              child: logoExpanded,
             ),
           for (final destination in widget.destinations)
             ListTile(

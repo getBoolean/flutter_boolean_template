@@ -95,29 +95,33 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
                     ),
                   );
           },
-          logo: const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: _StylizedFlutterLogo(),
-          ),
-          logoExpanded: IntrinsicWidth(
-            child: Row(
-              children: [
-                const _StylizedFlutterLogo(),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Text(
-                      kAppName,
-                      style: theme.textTheme.titleMedium
-                          ?.merge(GoogleFonts.robotoMono()),
-                      overflow: TextOverflow.clip,
-                      maxLines: 1,
+          buildLogo: (context, index, expanded) {
+            return expanded
+                ? IntrinsicWidth(
+                    child: Row(
+                      children: [
+                        const _StylizedFlutterLogo(),
+                        Expanded(
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Text(
+                              kAppName,
+                              style: theme.textTheme.titleMedium
+                                  ?.merge(GoogleFonts.robotoMono()),
+                              overflow: TextOverflow.clip,
+                              maxLines: 1,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+                  )
+                : const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: _StylizedFlutterLogo(),
+                  );
+          },
           child: widget.navigationShell,
         ),
       ),
