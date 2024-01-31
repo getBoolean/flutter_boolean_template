@@ -145,7 +145,7 @@ jobs:
   build_ios:
     name: Build Flutter for iOS (Without Signing)
     needs: [flutter_test]
-    runs-on: macos-latest
+    runs-on: macos-14
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -228,7 +228,7 @@ jobs:
   # build_ios_with_signing:
   #   name: Build Flutter for iOS (Signed)
   #   needs: [flutter_test]
-  #   runs-on: macos-latest
+  #   runs-on: macos-14
   #   steps:
   #     - name: Checkout repository
   #       uses: actions/checkout@v4
@@ -623,7 +623,7 @@ jobs:
   build_macos:
     name: Build Flutter for MacOS
     needs: [flutter_test]
-    runs-on: macos-latest
+    runs-on: macos-14
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
