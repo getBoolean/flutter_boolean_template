@@ -108,10 +108,7 @@ class App extends ConsumerWidget {
       alignment: Alignment.topRight,
       children: [
         materialApp,
-        if (settings.bannerEnabled && showBanner)
-          const SafeArea(
-            child: FlavorBanner(),
-          ),
+        if (settings.bannerEnabled && showBanner) const FlavorBanner(),
       ],
     );
   }
