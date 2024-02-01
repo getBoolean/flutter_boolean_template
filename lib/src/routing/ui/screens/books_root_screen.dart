@@ -1,7 +1,6 @@
 import 'package:awesome_flutter_extensions/awesome_flutter_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/common_widgets/animated_fade_switcher.dart';
-import 'package:flutter_boolean_template/src/features/connectivity/presentation/connectivity_builder.dart';
 import 'package:flutter_boolean_template/src/features/connectivity/presentation/offline_warning_widget.dart';
 import 'package:flutter_boolean_template/utils/utils.dart';
 import 'package:go_router/go_router.dart';
