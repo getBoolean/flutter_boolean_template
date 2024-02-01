@@ -357,6 +357,13 @@ jobs:
           echo "BRANCH_NAME=${{ env.BRANCH_NAME }}" >> $GITHUB_ENV
           echo "BRANCH_NAME=${{ env.BRANCH_NAME }}"
 
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4.0.0
+        with:
+          distribution: 'temurin'
+          java-version: '18'
+      
+
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
         with:
