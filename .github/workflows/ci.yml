@@ -37,7 +37,7 @@ permissions:
 jobs:
   flutter_test:
     name: Run flutter test and analyze
-    runs-on: ubuntu-latest
+    runs-on: macos-14
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -324,7 +324,7 @@ jobs:
   build_android:
     name: Build Flutter for Android
     needs: [flutter_test]
-    runs-on: ubuntu-latest
+    runs-on: macos-14
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -710,7 +710,7 @@ jobs:
   build_web:
     name: Build Flutter for Web
     needs: [flutter_test]
-    runs-on: ubuntu-latest
+    runs-on: macos-14
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -778,7 +778,7 @@ jobs:
 
   deploy_web:
     name: Deploy Flutter Web to GitHub Pages
-    runs-on: ubuntu-latest
+    runs-on: macos-14
     needs: [build_web]
     environment:
       name: github-pages
