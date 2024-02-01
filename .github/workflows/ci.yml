@@ -698,7 +698,7 @@ jobs:
       - name: Upload DMG
         uses: actions/upload-artifact@v4
         with:
-          name: flutter_boolean_template-${{ env.BRANCH_NAME }}-macos
+          name: flutter_boolean_template-${{ env.BRANCH_NAME }}-macos-dmg
           path: "/Users/runner/work/flutter_boolean_template/flutter_boolean_template/*.dmg"
           
       - name: Release DMG
