@@ -88,6 +88,10 @@ jobs:
         if: github.event.inputs.run_tests == 'true' || github.event.inputs.run_tests == null
         run: flutter --version
 
+
+      - name: Run Flutter Doctor
+        run: flutter doctor -v
+
       # Make environment variables available to the melos generate script.
       #
       # The environment variables need to be defined in the repository secrets
