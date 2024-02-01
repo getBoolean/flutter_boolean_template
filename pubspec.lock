@@ -630,11 +630,10 @@ packages:
   go_router:
     dependency: "direct main"
     description:
-      path: "packages/go_router"
-      ref: "feature/shellroute_top_route"
-      resolved-ref: "988e8608260fb848242064dedeac157fc67e4fad"
-      url: "https://github.com/getBoolean/flutter_packages"
-    source: git
+      name: go_router
+      sha256: "07ee2436909f749d606f53521dc1725dd738dc5196e5ff815bc254253c594075"
+      url: "https://pub.dev"
+    source: hosted
     version: "13.1.0"
   google_fonts:
     dependency: "direct main"
