@@ -8,8 +8,6 @@ An opinionated starting point for a Flutter app intended to provide the boilerpl
 needed to create a large app and provides utilities to separate code generation into
 separate packages.
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/gitpod-io/template-flutter)
-
 ## Table of Contents <!-- omit in toc -->
 
 - [Motivation](#motivation)
@@ -98,9 +96,8 @@ void main() {
 1. [ ] [Change Splash Screen: flutter_native_splash](https://pub.dev/packages/flutter_native_splash)
 1. [ ] Setup the release build configuration, see the [Building](#building) section.
 1. [ ] Setup Codecov for the repository, see the [Codecov documentation](https://docs.codecov.com/docs/quick-start).
-1. [ ] Update contribution guidelines at the [Contributing](#contributing) section.
-1. [ ] Setup GitPod for the environment, see the [GitPod documentation](https://www.gitpod.io/docs/quickstart/flutter#flutter-quickstart).
-1. [ ] (**Important!**) Update the [LICENSE](./LICENSE.md) file. I give permission to relicense any
+2. [ ] Update contribution guidelines at the [Contributing](#contributing) section.
+3. [ ] (**Important!**) Update the [LICENSE](./LICENSE.md) file. I give permission to relicense any
 code provided in this template, but the licenses of the packages must still be followed.
 1. [ ] Delete this `Template: Getting Started` section from the README.
 
