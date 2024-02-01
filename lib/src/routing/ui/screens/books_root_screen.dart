@@ -1,6 +1,8 @@
 import 'package:awesome_flutter_extensions/awesome_flutter_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/common_widgets/animated_fade_switcher.dart';
+import 'package:flutter_boolean_template/src/features/connectivity/presentation/connectivity_builder.dart';
+import 'package:flutter_boolean_template/src/features/connectivity/presentation/offline_warning_widget.dart';
 import 'package:flutter_boolean_template/utils/utils.dart';
 import 'package:go_router/go_router.dart';
 import 'package:log/log.dart';
@@ -27,18 +29,26 @@ class _BooksRootScreenState extends State<BooksRootScreen> {
       ),
       body: AnimatedFadeSwitcher(
         shouldSwitch: deviceForm.isNotSmall && widget.id != null,
-        secondChild: ColoredBox(
-          color: Colors.blue,
-          child: Center(
-            child: FilledButton(
-              key: const ValueKey('button'),
-              onPressed: () async {
-                context.go('/books/details-${widget.id ?? "1"}');
-                // context.go('/profile/details');
-              },
-              child: const Text('Push Details'),
+        secondChild: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const OfflineWarningBanner(),
+            Expanded(
+              child: ColoredBox(
+                color: Colors.blue,
+                child: Center(
+                  child: FilledButton(
+                    key: const ValueKey('button'),
+                    onPressed: () async {
+                      context.go('/books/details-${widget.id ?? "1"}');
+                      // context.go('/profile/details');
+                    },
+                    child: const Text('Push Details'),
+                  ),
+                ),
+              ),
             ),
-          ),
+          ],
         ),
         child: Row(
           children: [
