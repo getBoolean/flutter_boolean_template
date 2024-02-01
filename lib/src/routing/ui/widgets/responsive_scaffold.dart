@@ -662,7 +662,7 @@ class SwapExpandedWidgetBuilder extends StatelessWidget {
                   () {
                     if (kDebugMode) {
                       print(
-                        'Warning(ExpandedWidgetBuilder): constraints.maxWidth == double.infinity',
+                        'Warning(SwapExpandedWidgetBuilder): constraints.maxWidth == double.infinity',
                       );
                     }
                     return null;
