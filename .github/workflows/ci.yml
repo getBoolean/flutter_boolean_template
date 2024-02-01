@@ -37,7 +37,7 @@ permissions:
 jobs:
   flutter_test:
     name: Run flutter test and analyze
-    runs-on: ubuntu-latest
+    runs-on: macos-14
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -87,6 +87,10 @@ jobs:
       - name: Check Flutter Version
         if: github.event.inputs.run_tests == 'true' || github.event.inputs.run_tests == null
         run: flutter --version
+
+
+      - name: Run Flutter Doctor
+        run: flutter doctor -v
 
       # Make environment variables available to the melos generate script.
       #
@@ -324,7 +328,7 @@ jobs:
   build_android:
     name: Build Flutter for Android
     needs: [flutter_test]
-    runs-on: ubuntu-latest
+    runs-on: macos-14
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -352,6 +356,13 @@ jobs:
           
           echo "BRANCH_NAME=${{ env.BRANCH_NAME }}" >> $GITHUB_ENV
           echo "BRANCH_NAME=${{ env.BRANCH_NAME }}"
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4.0.0
+        with:
+          distribution: 'temurin'
+          java-version: '18'
+      
 
       - name: Install and set Flutter version
         uses: subosito/flutter-action@v2
@@ -698,7 +709,7 @@ jobs:
       - name: Upload DMG
         uses: actions/upload-artifact@v4
         with:
-          name: flutter_boolean_template-${{ env.BRANCH_NAME }}-macos
+          name: flutter_boolean_template-${{ env.BRANCH_NAME }}-macos-dmg
           path: "/Users/runner/work/flutter_boolean_template/flutter_boolean_template/*.dmg"
           
       - name: Release DMG
@@ -710,7 +721,7 @@ jobs:
   build_web:
     name: Build Flutter for Web
     needs: [flutter_test]
-    runs-on: ubuntu-latest
+    runs-on: macos-14
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -778,7 +789,7 @@ jobs:
 
   deploy_web:
     name: Deploy Flutter Web to GitHub Pages
-    runs-on: ubuntu-latest
+    runs-on: macos-14
     needs: [build_web]
     environment:
       name: github-pages

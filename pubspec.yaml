@@ -17,6 +17,7 @@ dependencies:
   collection: ^1.18.0
   constants:
     path: packages/constants
+  cupertino_icons: ^1.0.6
   dart_mappable: ^4.1.0
   env:
     path: packages/env
