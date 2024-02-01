@@ -15,6 +15,7 @@ dependencies:
     path: packages/assets
   awesome_flutter_extensions: ^1.2.0
   collection: ^1.18.0
+  connectivity_plus: ^5.0.2
   constants:
     path: packages/constants
   cupertino_icons: ^1.0.6
