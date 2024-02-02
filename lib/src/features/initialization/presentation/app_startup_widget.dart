@@ -10,29 +10,50 @@ class AppStartupWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appStartupState = ref.watch(appStartupProvider);
-    return appStartupState.when(
-      // use an external widget builder to decide what to return
-      data: (_) => onLoaded(context),
-      loading: () => const AppStartupLoadingWidget(),
-      error: (e, st) => AppStartupErrorWidget(
-        message: e.toString(),
-        onRetry: () {
-          ref.invalidate(appStartupProvider);
-        },
+    final widget = onLoaded(context);
+    return AnimatedSwitcher(
+      duration: const Duration(seconds: 1),
+      switchInCurve: Curves.easeIn,
+      switchOutCurve: Curves.easeOut,
+      child: appStartupState.when(
+        // use an external widget builder to decide what to return
+        data: (_) => Container(
+          key: const ValueKey('appStartupData'),
+          child: widget,
+        ),
+        loading: () => const AppStartupLoadingWidget(
+          key: ValueKey('appStartupLoading'),
+        ),
+        error: (e, st) => AppStartupErrorWidget(
+          key: const ValueKey('appStartupError'),
+          message: e.toString(),
+          onRetry: () {
+            ref.invalidate(appStartupProvider);
+          },
+        ),
       ),
     );
   }
 }
 
 class AppStartupLoadingWidget extends StatelessWidget {
-  const AppStartupLoadingWidget({super.key});
+  const AppStartupLoadingWidget({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       home: Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(),
+        body: Builder(
+          builder: (context) {
+            final brightness = MediaQuery.platformBrightnessOf(context);
+            return ColoredBox(
+              color:
+                  brightness == Brightness.dark ? Colors.black87 : Colors.white,
+              child: const SizedBox.expand(),
+            );
+          },
         ),
       ),
     );
