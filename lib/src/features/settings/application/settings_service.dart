@@ -2,6 +2,7 @@ import 'dart:io' as io;
 
 import 'package:flutter_boolean_template/src/features/settings/data/dto/navigation_type_override.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/dto/settings.dart';
+import 'package:flutter_boolean_template/src/features/settings/data/dto/theme_type.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/repository/settings_repository.dart';
 import 'package:flutter_boolean_template/utils/utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -55,16 +56,8 @@ class SettingsService extends _$SettingsService {
     _settingsRepository.saveSettings(newSettings);
   }
 
-  void toggleDarkMode() {
-    final darkMode = state.darkMode;
-    final newSettings = state.copyWith(darkMode: !darkMode);
-    state = newSettings;
-    _settingsRepository.saveSettings(newSettings);
-  }
-
-  void toggleSystemThemeMode() {
-    final systemThemeMode = state.systemThemeMode;
-    final newSettings = state.copyWith(systemThemeMode: !systemThemeMode);
+  void setThemeType(ThemeType themeType) {
+    final newSettings = state.copyWith(themeType: themeType);
     state = newSettings;
     _settingsRepository.saveSettings(newSettings);
   }

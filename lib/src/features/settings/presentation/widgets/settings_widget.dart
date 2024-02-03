@@ -6,7 +6,9 @@ import 'package:flutter_boolean_template/src/features/initialization/application
 import 'package:flutter_boolean_template/src/features/settings/application/settings_service.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/dto/navigation_type_override.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/dto/settings.dart';
+import 'package:flutter_boolean_template/src/features/settings/data/dto/theme_type.dart';
 import 'package:flutter_boolean_template/src/features/settings/presentation/extensions.dart';
+import 'package:flutter_boolean_template/src/features/settings/presentation/widgets/segmented_button_tile.dart';
 import 'package:flutter_settings_ui/flutter_settings_ui.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:log/log.dart';
@@ -106,19 +108,15 @@ class _SettingsWidgetState extends ConsumerState<SettingsWidget> {
     return SettingsSection(
       title: const Text('Appearance'),
       tiles: [
-        SettingsTile.switchTile(
-          title: const Text('Use device theme'),
-          initialValue: settings.systemThemeMode,
-          onToggle: (value) async {
-            ref.read(settingsServiceProvider.notifier).toggleSystemThemeMode();
-          },
-        ),
-        SettingsTile.switchTile(
-          title: const Text('Dark theme'),
-          initialValue: settings.darkMode,
-          enabled: !settings.systemThemeMode,
-          onToggle: (value) async {
-            ref.read(settingsServiceProvider.notifier).toggleDarkMode();
+        SegmentedButtonTile(
+          initial: settings.themeType,
+          segments: const [
+            ThemeType.system,
+            ThemeType.dark,
+            ThemeType.light,
+          ],
+          onTap: (themeType) {
+            ref.read(settingsServiceProvider.notifier).setThemeType(themeType);
           },
         ),
         SettingsTile.navigation(
@@ -223,5 +221,24 @@ class _SettingsWidgetState extends ConsumerState<SettingsWidget> {
           title: const Text('Enable banner'),
         ),
     ];
+  }
+}
+
+class CustomSettingsTile extends AbstractSettingsTile {
+  const CustomSettingsTile({
+    required this.child,
+    this.padding,
+    super.key,
+  });
+
+  final Widget child;
+  final EdgeInsetsGeometry? padding;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: padding ?? const EdgeInsetsDirectional.only(start: 24),
+      child: child,
+    );
   }
 }

@@ -90,11 +90,7 @@ class App extends ConsumerWidget {
               // To use the Playground font, add GoogleFonts package and uncomment
               fontFamily: GoogleFonts.notoSans().fontFamily,
             ),
-            themeMode: settings.systemThemeMode
-                ? ThemeMode.system
-                : settings.darkMode
-                    ? ThemeMode.dark
-                    : ThemeMode.light,
+            themeMode: settings.themeType.toThemeMode(),
           ),
         );
       },

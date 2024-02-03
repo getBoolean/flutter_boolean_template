@@ -18,31 +18,28 @@ class SettingsAdapter extends TypeAdapter<Settings> {
     };
     return Settings(
       bannerEnabled: fields[0] == null ? true : fields[0] as bool,
-      darkMode: fields[1] == null ? true : fields[1] as bool,
-      systemThemeMode: fields[2] == null ? true : fields[2] as bool,
       portraitNavigationTypeOverride: fields[3] == null
           ? NavigationTypeOverride.auto
           : fields[3] as NavigationTypeOverride,
       landscapeNavigationTypeOverride: fields[4] == null
           ? NavigationTypeOverride.auto
           : fields[4] as NavigationTypeOverride,
+      themeType: fields[5] == null ? ThemeType.system : fields[5] as ThemeType,
     );
   }
 
   @override
   void write(BinaryWriter writer, Settings obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.bannerEnabled)
-      ..writeByte(1)
-      ..write(obj.darkMode)
-      ..writeByte(2)
-      ..write(obj.systemThemeMode)
       ..writeByte(3)
       ..write(obj.portraitNavigationTypeOverride)
       ..writeByte(4)
-      ..write(obj.landscapeNavigationTypeOverride);
+      ..write(obj.landscapeNavigationTypeOverride)
+      ..writeByte(5)
+      ..write(obj.themeType);
   }
 
   @override

@@ -1,4 +1,5 @@
 import 'package:dart_mappable/dart_mappable.dart';
+import 'package:flutter_boolean_template/src/features/settings/data/dto/human_name_enum.dart';
 import 'package:flutter_boolean_template/src/routing/data/navigation_type.dart';
 import 'package:hive_flutter/adapters.dart';
 
@@ -7,7 +8,7 @@ part 'navigation_type_override.mapper.dart';
 
 @MappableEnum()
 @HiveType(typeId: 2)
-enum NavigationTypeOverride {
+enum NavigationTypeOverride implements HumanReadableEnum {
   @HiveField(0)
   auto('Auto'),
   @HiveField(1)
@@ -23,6 +24,7 @@ enum NavigationTypeOverride {
 
   const NavigationTypeOverride(this.humanName);
 
+  @override
   final String humanName;
 
   bool get isAuto => this == NavigationTypeOverride.auto;
