@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_boolean_template/src/features/settings/data/dto/human_name_enum.dart';
 import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 
-Future<ReturnT?> showOptionsMenu<ReturnT, OptionT>(
+Future<ReturnT?> showOptionsMenu<ReturnT, OptionT extends HumanReadableEnum>(
   BuildContext context, {
   required OptionT current,
   required List<OptionT> options,
   required String title,
-  required String Function(
-    BuildContext context,
-    OptionT option,
-  ) itemTitleBuilder,
 }) async {
   return await WoltModalSheet.show<ReturnT>(
     context: context,
@@ -35,7 +32,7 @@ Future<ReturnT?> showOptionsMenu<ReturnT, OptionT>(
                 for (final eachOption in options)
                   ListTile(
                     title: Text(
-                      itemTitleBuilder(context, eachOption),
+                      eachOption.humanName,
                       style: current == eachOption
                           ? const TextStyle(
                               fontWeight: FontWeight.bold,

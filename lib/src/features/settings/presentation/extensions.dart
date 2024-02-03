@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_boolean_template/src/features/settings/data/dto/human_name_enum.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/dto/settings.dart';
 import 'package:flutter_boolean_template/src/features/settings/presentation/utils.dart'
     as utils;
@@ -9,21 +10,16 @@ extension BuildContextSettings on BuildContext {
 }
 
 extension BuildContextModalExtensions on BuildContext {
-  Future<ReturnT?> showOptionsMenu<ReturnT, OptionT>({
+  Future<ReturnT?> showOptionsMenu<ReturnT, OptionT extends HumanReadableEnum>({
     required OptionT current,
     required List<OptionT> options,
     required String title,
-    required String Function(
-      BuildContext context,
-      OptionT option,
-    ) itemTitleBuilder,
   }) async {
-    return await utils.showOptionsMenu<ReturnT, OptionT>(
+    return await utils.showOptionsMenu(
       this,
       current: current,
       options: options,
       title: title,
-      itemTitleBuilder: itemTitleBuilder,
     );
   }
 }
