@@ -593,8 +593,14 @@ class ResponsiveNavigationToolbar extends StatelessWidget {
       minExpandedWidth: minLogoExpandedWidth,
       minCollapsedWidth: minLogoCollapsedWidth,
       builder: (constext, logo) => SwapExpandedWidgetBuilder(
-        collapsed: action,
-        expanded: actionExpanded,
+        collapsed: Container(
+          key: const ValueKey('ResponsiveNavigationToolbar-action'),
+          child: action,
+        ),
+        expanded: Container(
+          key: const ValueKey('ResponsiveNavigationToolbar-actionExpanded'),
+          child: actionExpanded,
+        ),
         minExpandedWidth: minActionExpandedWidth,
         minCollapsedWidth: minActionCollapsedWidth,
         builder: (context, action) => _buildNavigationToolbar(logo, action),
@@ -604,7 +610,13 @@ class ResponsiveNavigationToolbar extends StatelessWidget {
 
   NavigationToolbar _buildNavigationToolbar(Widget? logo, Widget? action) {
     return NavigationToolbar(
-      trailing: action,
+      trailing: AnimatedSwitcher(
+        duration: transitionDuration,
+        reverseDuration: Duration.zero,
+        switchInCurve: Curves.easeIn,
+        switchOutCurve: Curves.easeOut,
+        child: action,
+      ),
       middle: middle,
       leading: Row(
         mainAxisSize: MainAxisSize.min,
@@ -614,6 +626,8 @@ class ResponsiveNavigationToolbar extends StatelessWidget {
             child: AnimatedSwitcher(
               duration: transitionDuration,
               reverseDuration: transitionReverseDuration,
+              switchInCurve: Curves.easeIn,
+              switchOutCurve: Curves.easeOut,
               child: Padding(
                 key: ValueKey('leadingButton-$willShowLeadingButton'),
                 padding: const EdgeInsets.symmetric(
@@ -627,6 +641,8 @@ class ResponsiveNavigationToolbar extends StatelessWidget {
             AnimatedSwitcher(
               duration: transitionDuration,
               reverseDuration: transitionReverseDuration,
+              switchInCurve: Curves.easeIn,
+              switchOutCurve: Curves.easeOut,
               child: logo,
             ),
         ],
