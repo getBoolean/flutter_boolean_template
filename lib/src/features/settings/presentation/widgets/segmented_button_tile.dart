@@ -58,8 +58,14 @@ class _SegmentedButtonTileImplState<T extends HumanReadableEnum>
   late T selected = widget.initial;
   @override
   Widget build(BuildContext context) {
+    final scaleFactor = MediaQuery.textScalerOf(context).scale(1);
     return Padding(
-      padding: const EdgeInsets.only(left: 24, right: 8),
+      padding: EdgeInsets.only(
+        left: 24,
+        right: 24,
+        bottom: 19 * scaleFactor,
+        top: 19 * scaleFactor,
+      ),
       child: SegmentedButton<T>(
         segments: <ButtonSegment<T>>[
           for (final segment in widget.segments)
