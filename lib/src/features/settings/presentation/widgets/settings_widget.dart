@@ -124,18 +124,23 @@ class _SettingsWidgetState extends ConsumerState<SettingsWidget> {
         ),
         CustomSettingsTile(
           padding: const EdgeInsets.only(left: 8),
-          child: ThemeSelectorTile(
-            selected: isLight ? settings.lightTheme : settings.darkTheme,
-            schemes: ref.watch(themesProvider),
-            isLight: isLight,
-            onTap: (scheme) {
-              isLight
-                  ? ref
-                      .read(settingsServiceProvider.notifier)
-                      .setLightTheme(scheme)
-                  : ref
-                      .read(settingsServiceProvider.notifier)
-                      .setDarkTheme(scheme);
+          child: Consumer(
+            builder: (context, ref, child) {
+              final themes = ref.watch(themesProvider);
+              return ThemeSelectorTile(
+                selected: isLight ? settings.lightTheme : settings.darkTheme,
+                schemes: themes,
+                colorProvider: (data) => isLight ? data.light : data.dark,
+                onTap: (scheme) {
+                  isLight
+                      ? ref
+                          .read(settingsServiceProvider.notifier)
+                          .setLightTheme(scheme)
+                      : ref
+                          .read(settingsServiceProvider.notifier)
+                          .setDarkTheme(scheme);
+                },
+              );
             },
           ),
         ),

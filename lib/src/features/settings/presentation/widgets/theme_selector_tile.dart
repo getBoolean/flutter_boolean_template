@@ -7,7 +7,7 @@ class ThemeSelectorTile extends AbstractSettingsTile {
   const ThemeSelectorTile({
     required this.schemes,
     required this.selected,
-    required this.isLight,
+    required this.colorProvider,
     this.onTap,
     super.key,
   });
@@ -15,15 +15,15 @@ class ThemeSelectorTile extends AbstractSettingsTile {
   final FlexSchemeData selected;
   final List<FlexSchemeData> schemes;
   final void Function(FlexSchemeData)? onTap;
-  final bool isLight;
+  final FlexSchemeColor Function(FlexSchemeData) colorProvider;
 
   @override
   Widget build(BuildContext context) {
     return _ThemeSelectorTileImpl(
       selected: selected,
       schemes: schemes,
-      isLight: isLight,
       onTap: onTap,
+      colorProvider: colorProvider,
     );
   }
 }
@@ -32,14 +32,14 @@ class _ThemeSelectorTileImpl extends StatefulWidget {
   const _ThemeSelectorTileImpl({
     required this.selected,
     required this.schemes,
-    required this.isLight,
+    required this.colorProvider,
     this.onTap,
   });
 
   final FlexSchemeData selected;
   final List<FlexSchemeData> schemes;
   final void Function(FlexSchemeData)? onTap;
-  final bool isLight;
+  final FlexSchemeColor Function(FlexSchemeData) colorProvider;
 
   @override
   State<_ThemeSelectorTileImpl> createState() => __ThemeSelectorTileImplState();
@@ -61,7 +61,10 @@ class __ThemeSelectorTileImplState extends State<_ThemeSelectorTileImpl> {
 
   @override
   Widget build(BuildContext context) {
-    final int selectedIndex = widget.schemes.indexOf(widget.selected);
+    final int selectedIndex = widget.schemes
+        .map((e) => e.hashCode)
+        .toList()
+        .indexOf(widget.selected.hashCode);
     const double height = 45;
     const double width = height * 1.5;
     final ThemeData theme = Theme.of(context);
@@ -97,9 +100,9 @@ class __ThemeSelectorTileImplState extends State<_ThemeSelectorTileImpl> {
                             Column(
                               children: [
                                 FlexThemeModeOptionButton(
-                                  flexSchemeColor: widget.isLight
-                                      ? widget.schemes[index].light
-                                      : widget.schemes[index].dark,
+                                  flexSchemeColor: widget.colorProvider(
+                                    widget.schemes[index],
+                                  ),
                                   selected: selectedIndex == index,
                                   selectedBorder: BorderSide(
                                     color: theme.primaryColorLight,
@@ -112,11 +115,7 @@ class __ThemeSelectorTileImplState extends State<_ThemeSelectorTileImpl> {
                                   padding: EdgeInsets.zero,
                                   borderRadius: 0,
                                   onSelect: () {
-                                    widget.onTap?.call(
-                                      widget.isLight
-                                          ? widget.schemes[index]
-                                          : widget.schemes[index],
-                                    );
+                                    widget.onTap?.call(widget.schemes[index]);
                                   },
                                   optionButtonPadding: EdgeInsets.zero,
                                   optionButtonMargin: EdgeInsets.zero,

@@ -16,7 +16,8 @@ class FlexSchemeDataAdapter extends TypeAdapter<FlexSchemeData> {
 
   @override
   void write(BinaryWriter writer, FlexSchemeData obj) {
-    writer.writeMap(FlexSchemeDataConverter(obj).toJson());
+    final json = FlexSchemeDataConverter(obj).toJson();
+    writer.writeMap(json);
   }
 
   @override
@@ -48,10 +49,11 @@ class FlexSchemeDataConverter {
       name: map['name'] as String,
       description: map['description'] as String,
       light: FlexSchemeColorConverter.fromMap(
-        map['light'] as Map<String, dynamic>,
+        map['light'] as Map<dynamic, dynamic>,
       ),
-      dark:
-          FlexSchemeColorConverter.fromMap(map['dark'] as Map<String, dynamic>),
+      dark: FlexSchemeColorConverter.fromMap(
+        map['dark'] as Map<dynamic, dynamic>,
+      ),
     );
   }
 }
@@ -89,6 +91,7 @@ class FlexSchemeColorConverter {
       errorContainer: map['errorContainer'] == null
           ? null
           : Color(map['errorContainer'] as int),
+      swapOnMaterial3: map['swapOnMaterial3'] as bool,
     );
   }
 }
