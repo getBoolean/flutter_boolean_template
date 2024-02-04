@@ -150,7 +150,7 @@ class _SettingsWidgetState extends ConsumerState<SettingsWidget> {
           onPressed: (context) async {
             final navigationTypeOverride = await context.showOptionsMenu<
                 NavigationTypeOverride, NavigationTypeOverride>(
-              title: 'Navigation',
+              title: 'Portrait Navigation',
               current: settings.portraitNavigationTypeOverride,
               options: NavigationTypeOverride.values,
             );
@@ -169,7 +169,7 @@ class _SettingsWidgetState extends ConsumerState<SettingsWidget> {
           onPressed: (context) async {
             final navigationTypeOverride = await context.showOptionsMenu<
                 NavigationTypeOverride, NavigationTypeOverride>(
-              title: 'Navigation',
+              title: 'Landscape Navigation',
               current: settings.landscapeNavigationTypeOverride,
               options: NavigationTypeOverride.values,
             );
