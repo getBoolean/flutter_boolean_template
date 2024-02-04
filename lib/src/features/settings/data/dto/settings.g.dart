@@ -73,13 +73,15 @@ class SettingsAdapter extends TypeAdapter<Settings> {
                   error: const Color(4291782265),
                   swapOnMaterial3: true))
           : fields[7] as FlexSchemeData,
+      customThemes:
+          fields[8] == null ? [] : (fields[8] as List).cast<FlexSchemeData>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, Settings obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.bannerEnabled)
       ..writeByte(3)
@@ -91,7 +93,9 @@ class SettingsAdapter extends TypeAdapter<Settings> {
       ..writeByte(6)
       ..write(obj.lightTheme)
       ..writeByte(7)
-      ..write(obj.darkTheme);
+      ..write(obj.darkTheme)
+      ..writeByte(8)
+      ..write(obj.customThemes);
   }
 
   @override

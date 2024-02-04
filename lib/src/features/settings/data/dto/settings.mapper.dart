@@ -46,6 +46,9 @@ class SettingsMapper extends ClassMapperBase<Settings> {
   static FlexSchemeData _$darkTheme(Settings v) => v.darkTheme;
   static const Field<Settings, FlexSchemeData> _f$darkTheme =
       Field('darkTheme', _$darkTheme, opt: true, def: FlexColor.bahamaBlue);
+  static List<FlexSchemeData> _$customThemes(Settings v) => v.customThemes;
+  static const Field<Settings, List<FlexSchemeData>> _f$customThemes =
+      Field('customThemes', _$customThemes, opt: true, def: const []);
 
   @override
   final MappableFields<Settings> fields = const {
@@ -55,6 +58,7 @@ class SettingsMapper extends ClassMapperBase<Settings> {
     #themeType: _f$themeType,
     #lightTheme: _f$lightTheme,
     #darkTheme: _f$darkTheme,
+    #customThemes: _f$customThemes,
   };
 
   static Settings _instantiate(DecodingData data) {
@@ -66,7 +70,8 @@ class SettingsMapper extends ClassMapperBase<Settings> {
             data.dec(_f$landscapeNavigationTypeOverride),
         themeType: data.dec(_f$themeType),
         lightTheme: data.dec(_f$lightTheme),
-        darkTheme: data.dec(_f$darkTheme));
+        darkTheme: data.dec(_f$darkTheme),
+        customThemes: data.dec(_f$customThemes));
   }
 
   @override
@@ -120,13 +125,16 @@ extension SettingsValueCopy<$R, $Out> on ObjectCopyWith<$R, Settings, $Out> {
 
 abstract class SettingsCopyWith<$R, $In extends Settings, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
+  ListCopyWith<$R, FlexSchemeData,
+      ObjectCopyWith<$R, FlexSchemeData, FlexSchemeData>> get customThemes;
   $R call(
       {bool? bannerEnabled,
       NavigationTypeOverride? portraitNavigationTypeOverride,
       NavigationTypeOverride? landscapeNavigationTypeOverride,
       ThemeType? themeType,
       FlexSchemeData? lightTheme,
-      FlexSchemeData? darkTheme});
+      FlexSchemeData? darkTheme,
+      List<FlexSchemeData>? customThemes});
   SettingsCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -139,13 +147,21 @@ class _SettingsCopyWithImpl<$R, $Out>
   late final ClassMapperBase<Settings> $mapper =
       SettingsMapper.ensureInitialized();
   @override
+  ListCopyWith<$R, FlexSchemeData,
+          ObjectCopyWith<$R, FlexSchemeData, FlexSchemeData>>
+      get customThemes => ListCopyWith(
+          $value.customThemes,
+          (v, t) => ObjectCopyWith(v, $identity, t),
+          (v) => call(customThemes: v));
+  @override
   $R call(
           {bool? bannerEnabled,
           NavigationTypeOverride? portraitNavigationTypeOverride,
           NavigationTypeOverride? landscapeNavigationTypeOverride,
           ThemeType? themeType,
           FlexSchemeData? lightTheme,
-          FlexSchemeData? darkTheme}) =>
+          FlexSchemeData? darkTheme,
+          List<FlexSchemeData>? customThemes}) =>
       $apply(FieldCopyWithData({
         if (bannerEnabled != null) #bannerEnabled: bannerEnabled,
         if (portraitNavigationTypeOverride != null)
@@ -154,7 +170,8 @@ class _SettingsCopyWithImpl<$R, $Out>
           #landscapeNavigationTypeOverride: landscapeNavigationTypeOverride,
         if (themeType != null) #themeType: themeType,
         if (lightTheme != null) #lightTheme: lightTheme,
-        if (darkTheme != null) #darkTheme: darkTheme
+        if (darkTheme != null) #darkTheme: darkTheme,
+        if (customThemes != null) #customThemes: customThemes
       }));
   @override
   Settings $make(CopyWithData data) => Settings(
@@ -166,7 +183,8 @@ class _SettingsCopyWithImpl<$R, $Out>
           or: $value.landscapeNavigationTypeOverride),
       themeType: data.get(#themeType, or: $value.themeType),
       lightTheme: data.get(#lightTheme, or: $value.lightTheme),
-      darkTheme: data.get(#darkTheme, or: $value.darkTheme));
+      darkTheme: data.get(#darkTheme, or: $value.darkTheme),
+      customThemes: data.get(#customThemes, or: $value.customThemes));
 
   @override
   SettingsCopyWith<$R2, Settings, $Out2> $chain<$R2, $Out2>(

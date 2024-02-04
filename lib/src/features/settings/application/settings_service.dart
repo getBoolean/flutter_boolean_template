@@ -78,4 +78,12 @@ class SettingsService extends _$SettingsService {
     state = newSettings;
     _settingsRepository.saveSettings(newSettings);
   }
+
+  void setCustomThemes(List<FlexSchemeData> customThemes) {
+    final newSettings = state.copyWith(
+      customThemes: customThemes,
+    );
+    state = newSettings;
+    _settingsRepository.saveSettings(newSettings);
+  }
 }

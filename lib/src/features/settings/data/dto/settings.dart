@@ -36,6 +36,10 @@ class Settings with SettingsMappable {
   @HiveField(7, defaultValue: FlexColor.bahamaBlue)
   final FlexSchemeData darkTheme;
 
+  @MappableField()
+  @HiveField(8, defaultValue: <FlexSchemeData>[])
+  final List<FlexSchemeData> customThemes;
+
   const Settings({
     this.bannerEnabled = true,
     this.portraitNavigationTypeOverride = NavigationTypeOverride.auto,
@@ -43,6 +47,7 @@ class Settings with SettingsMappable {
     this.themeType = ThemeType.system,
     this.lightTheme = FlexColor.flutterDash,
     this.darkTheme = FlexColor.bahamaBlue,
+    this.customThemes = const [],
   });
 
   static const fromMap = SettingsMapper.fromMap;
