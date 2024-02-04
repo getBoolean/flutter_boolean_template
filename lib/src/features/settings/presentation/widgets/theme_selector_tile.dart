@@ -61,14 +61,11 @@ class __ThemeSelectorTileImplState extends State<_ThemeSelectorTileImpl> {
 
   @override
   Widget build(BuildContext context) {
-    final int selectedIndex = widget.schemes
-        .map((e) => e.hashCode)
-        .toList()
-        .indexOf(widget.selected.hashCode);
+    final int selectedIndex = widget.schemes.indexOf(widget.selected);
     const double height = 45;
     const double width = height * 1.5;
     final ThemeData theme = Theme.of(context);
-    final ColorScheme scheme = Theme.of(context).colorScheme;
+    final ColorScheme scheme = theme.colorScheme;
     return SizedBox(
       height: 130,
       child: Row(
