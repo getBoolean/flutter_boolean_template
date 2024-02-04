@@ -123,7 +123,6 @@ class _SettingsWidgetState extends ConsumerState<SettingsWidget> {
           },
         ),
         CustomSettingsTile(
-          padding: const EdgeInsets.only(left: 8),
           child: Consumer(
             builder: (context, ref, child) {
               final themes = ref.watch(themesProvider);
@@ -250,17 +249,17 @@ class _SettingsWidgetState extends ConsumerState<SettingsWidget> {
 class CustomSettingsTile extends AbstractSettingsTile {
   const CustomSettingsTile({
     required this.child,
-    this.padding,
+    this.padding = EdgeInsets.zero,
     super.key,
   });
 
   final Widget child;
-  final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry padding;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: padding ?? const EdgeInsetsDirectional.only(start: 24),
+      padding: padding,
       child: child,
     );
   }
