@@ -56,6 +56,17 @@ class _SegmentedButtonTileImpl<T extends HumanReadableEnum>
 class _SegmentedButtonTileImplState<T extends HumanReadableEnum>
     extends State<_SegmentedButtonTileImpl<T>> {
   late T selected = widget.initial;
+
+  @override
+  void didUpdateWidget(covariant _SegmentedButtonTileImpl<T> oldWidget) {
+    if (oldWidget.initial != widget.initial) {
+      setState(() {
+        selected = widget.initial;
+      });
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
   @override
   Widget build(BuildContext context) {
     final scaleFactor = MediaQuery.textScalerOf(context).scale(1);
