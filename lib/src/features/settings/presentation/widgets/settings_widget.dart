@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_boolean_template/src/features/initialization/application/info_service.dart';
 import 'package:flutter_boolean_template/src/features/settings/application/settings_service.dart';
+import 'package:flutter_boolean_template/src/features/settings/application/themes.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/dto/navigation_type_override.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/dto/settings.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/dto/theme_type.dart';
 import 'package:flutter_boolean_template/src/features/settings/presentation/extensions.dart';
 import 'package:flutter_boolean_template/src/features/settings/presentation/widgets/segmented_button_tile.dart';
+import 'package:flutter_boolean_template/src/features/settings/presentation/widgets/theme_selector_tile.dart';
 import 'package:flutter_settings_ui/flutter_settings_ui.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:log/log.dart';
@@ -105,6 +107,7 @@ class _SettingsWidgetState extends ConsumerState<SettingsWidget> {
   }
 
   SettingsSection buildAppearanceSection(Settings settings) {
+    final isLight = Theme.of(context).brightness == Brightness.light;
     return SettingsSection(
       title: const Text('Appearance'),
       tiles: [
@@ -119,6 +122,23 @@ class _SettingsWidgetState extends ConsumerState<SettingsWidget> {
             ref.read(settingsServiceProvider.notifier).setThemeType(themeType);
           },
         ),
+        CustomSettingsTile(
+          padding: const EdgeInsets.only(left: 8),
+          child: ThemeSelectorTile(
+            selected: isLight ? settings.lightTheme : settings.darkTheme,
+            schemes: ref.watch(themesProvider),
+            isLight: isLight,
+            onTap: (scheme) {
+              isLight
+                  ? ref
+                      .read(settingsServiceProvider.notifier)
+                      .setLightTheme(scheme)
+                  : ref
+                      .read(settingsServiceProvider.notifier)
+                      .setDarkTheme(scheme);
+            },
+          ),
+        ),
         SettingsTile.navigation(
           title: const Text('Portrait Navigation'),
           value: Text(settings.portraitNavigationTypeOverride.humanName),
@@ -128,7 +148,6 @@ class _SettingsWidgetState extends ConsumerState<SettingsWidget> {
               title: 'Navigation',
               current: settings.portraitNavigationTypeOverride,
               options: NavigationTypeOverride.values,
-              itemTitleBuilder: (context, option) => option.humanName,
             );
             if (navigationTypeOverride != null) {
               ref
@@ -148,7 +167,6 @@ class _SettingsWidgetState extends ConsumerState<SettingsWidget> {
               title: 'Navigation',
               current: settings.landscapeNavigationTypeOverride,
               options: NavigationTypeOverride.values,
-              itemTitleBuilder: (context, option) => option.humanName,
             );
             if (navigationTypeOverride != null) {
               ref

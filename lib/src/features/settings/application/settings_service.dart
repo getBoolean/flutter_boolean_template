@@ -1,5 +1,6 @@
 import 'dart:io' as io;
 
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/dto/navigation_type_override.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/dto/settings.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/dto/theme_type.dart';
@@ -58,6 +59,22 @@ class SettingsService extends _$SettingsService {
 
   void setThemeType(ThemeType themeType) {
     final newSettings = state.copyWith(themeType: themeType);
+    state = newSettings;
+    _settingsRepository.saveSettings(newSettings);
+  }
+
+  void setLightTheme(FlexSchemeData lightTheme) {
+    final newSettings = state.copyWith(
+      lightTheme: lightTheme,
+    );
+    state = newSettings;
+    _settingsRepository.saveSettings(newSettings);
+  }
+
+  void setDarkTheme(FlexSchemeData darkTheme) {
+    final newSettings = state.copyWith(
+      darkTheme: darkTheme,
+    );
     state = newSettings;
     _settingsRepository.saveSettings(newSettings);
   }

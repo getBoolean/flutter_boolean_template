@@ -2,10 +2,6 @@ library app;
 
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_boolean_template/src/features/example_feature/domain/entity/user_account.dart';
-import 'package:flutter_boolean_template/src/features/example_feature/domain/value/email.dart';
-import 'package:flutter_boolean_template/src/features/example_feature/domain/value/id.dart';
-import 'package:flutter_boolean_template/src/features/example_feature/domain/value/name.dart';
 import 'package:flutter_boolean_template/src/features/settings/application/settings_service.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/dto/settings.dart';
 import 'package:flutter_boolean_template/src/features/settings/presentation/widgets/app_settings.dart';
@@ -21,21 +17,21 @@ class App extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userJohnDoe = UserAccount(
-      name: Name(firstName: 'John', lastName: 'Doe'),
-      email: Email('test@gmail.com'),
-      id: Id('5646532'),
-    );
-    final userJohnDeer =
-        userJohnDoe.copyWith(name: Name(firstName: 'John', lastName: 'Deer'));
-    userJohnDoe.mapValidity(
-      valid: (validUser) => debugPrint(validUser.toString()),
-      invalid: (invalidUser) => debugPrint(invalidUser.toString()),
-    );
-    userJohnDeer.mapValidity(
-      valid: (validUser) => debugPrint(validUser.toString()),
-      invalid: (invalidUser) => debugPrint(invalidUser.toString()),
-    );
+    // final userJohnDoe = UserAccount(
+    //   name: Name(firstName: 'John', lastName: 'Doe'),
+    //   email: Email('test@gmail.com'),
+    //   id: Id('5646532'),
+    // );
+    // final userJohnDeer =
+    //     userJohnDoe.copyWith(name: Name(firstName: 'John', lastName: 'Deer'));
+    // userJohnDoe.mapValidity(
+    //   valid: (validUser) => debugPrint(validUser.toString()),
+    //   invalid: (invalidUser) => debugPrint(invalidUser.toString()),
+    // );
+    // userJohnDeer.mapValidity(
+    //   valid: (validUser) => debugPrint(validUser.toString()),
+    //   invalid: (invalidUser) => debugPrint(invalidUser.toString()),
+    // );
 
     final Settings settings = ref.watch(settingsServiceProvider);
 
@@ -56,7 +52,7 @@ class App extends ConsumerWidget {
             // supported. In that case remove them after copying this theme to
             // your app.
             theme: FlexThemeData.light(
-              scheme: FlexScheme.bahamaBlue,
+              colors: settings.lightTheme.light,
               surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
               blendLevel: 7,
               subThemesData: const FlexSubThemesData(
@@ -74,7 +70,7 @@ class App extends ConsumerWidget {
               fontFamily: GoogleFonts.notoSans().fontFamily,
             ),
             darkTheme: FlexThemeData.dark(
-              scheme: FlexScheme.bahamaBlue,
+              colors: settings.darkTheme.dark,
               surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
               blendLevel: 13,
               subThemesData: const FlexSubThemesData(

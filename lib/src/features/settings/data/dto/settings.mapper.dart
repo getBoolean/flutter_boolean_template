@@ -40,6 +40,12 @@ class SettingsMapper extends ClassMapperBase<Settings> {
   static ThemeType _$themeType(Settings v) => v.themeType;
   static const Field<Settings, ThemeType> _f$themeType =
       Field('themeType', _$themeType, opt: true, def: ThemeType.system);
+  static FlexSchemeData _$lightTheme(Settings v) => v.lightTheme;
+  static const Field<Settings, FlexSchemeData> _f$lightTheme =
+      Field('lightTheme', _$lightTheme, opt: true, def: FlexColor.flutterDash);
+  static FlexSchemeData _$darkTheme(Settings v) => v.darkTheme;
+  static const Field<Settings, FlexSchemeData> _f$darkTheme =
+      Field('darkTheme', _$darkTheme, opt: true, def: FlexColor.bahamaBlue);
 
   @override
   final MappableFields<Settings> fields = const {
@@ -47,6 +53,8 @@ class SettingsMapper extends ClassMapperBase<Settings> {
     #portraitNavigationTypeOverride: _f$portraitNavigationTypeOverride,
     #landscapeNavigationTypeOverride: _f$landscapeNavigationTypeOverride,
     #themeType: _f$themeType,
+    #lightTheme: _f$lightTheme,
+    #darkTheme: _f$darkTheme,
   };
 
   static Settings _instantiate(DecodingData data) {
@@ -56,7 +64,9 @@ class SettingsMapper extends ClassMapperBase<Settings> {
             data.dec(_f$portraitNavigationTypeOverride),
         landscapeNavigationTypeOverride:
             data.dec(_f$landscapeNavigationTypeOverride),
-        themeType: data.dec(_f$themeType));
+        themeType: data.dec(_f$themeType),
+        lightTheme: data.dec(_f$lightTheme),
+        darkTheme: data.dec(_f$darkTheme));
   }
 
   @override
@@ -114,7 +124,9 @@ abstract class SettingsCopyWith<$R, $In extends Settings, $Out>
       {bool? bannerEnabled,
       NavigationTypeOverride? portraitNavigationTypeOverride,
       NavigationTypeOverride? landscapeNavigationTypeOverride,
-      ThemeType? themeType});
+      ThemeType? themeType,
+      FlexSchemeData? lightTheme,
+      FlexSchemeData? darkTheme});
   SettingsCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -131,14 +143,18 @@ class _SettingsCopyWithImpl<$R, $Out>
           {bool? bannerEnabled,
           NavigationTypeOverride? portraitNavigationTypeOverride,
           NavigationTypeOverride? landscapeNavigationTypeOverride,
-          ThemeType? themeType}) =>
+          ThemeType? themeType,
+          FlexSchemeData? lightTheme,
+          FlexSchemeData? darkTheme}) =>
       $apply(FieldCopyWithData({
         if (bannerEnabled != null) #bannerEnabled: bannerEnabled,
         if (portraitNavigationTypeOverride != null)
           #portraitNavigationTypeOverride: portraitNavigationTypeOverride,
         if (landscapeNavigationTypeOverride != null)
           #landscapeNavigationTypeOverride: landscapeNavigationTypeOverride,
-        if (themeType != null) #themeType: themeType
+        if (themeType != null) #themeType: themeType,
+        if (lightTheme != null) #lightTheme: lightTheme,
+        if (darkTheme != null) #darkTheme: darkTheme
       }));
   @override
   Settings $make(CopyWithData data) => Settings(
@@ -148,7 +164,9 @@ class _SettingsCopyWithImpl<$R, $Out>
       landscapeNavigationTypeOverride: data.get(
           #landscapeNavigationTypeOverride,
           or: $value.landscapeNavigationTypeOverride),
-      themeType: data.get(#themeType, or: $value.themeType));
+      themeType: data.get(#themeType, or: $value.themeType),
+      lightTheme: data.get(#lightTheme, or: $value.lightTheme),
+      darkTheme: data.get(#darkTheme, or: $value.darkTheme));
 
   @override
   SettingsCopyWith<$R2, Settings, $Out2> $chain<$R2, $Out2>(

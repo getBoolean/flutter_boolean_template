@@ -1,8 +1,11 @@
 import 'dart:io' as io;
 
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/features/initialization/application/info_service.dart';
+import 'package:flutter_boolean_template/src/features/settings/application/themes.dart';
+import 'package:flutter_boolean_template/src/features/settings/data/dto/flex_scheme_data.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/dto/navigation_type_override.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/dto/settings.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/dto/theme_type.dart';
@@ -21,15 +24,17 @@ Future<void> appStartup(AppStartupRef ref) async {
     ref.invalidate(packageInfoProvider);
   });
   // all asynchronous app initialization code should belong here:
+  final themes = ref.read(themesProvider);
   await (
     _initWindow(),
-    _initHive(),
+    _initHive(themes: themes),
     ref.watch(packageInfoProvider.future),
   ).wait;
 }
 
-Future<void> _initHive() async {
+Future<void> _initHive({required List<FlexSchemeData> themes}) async {
   await Hive.initFlutter();
+  Hive.registerAdapter(FlexSchemeDataAdapter(themes));
   Hive.registerAdapter(SettingsAdapter());
   Hive.registerAdapter(NavigationTypeOverrideAdapter());
   Hive.registerAdapter(ThemeTypeAdapter());
