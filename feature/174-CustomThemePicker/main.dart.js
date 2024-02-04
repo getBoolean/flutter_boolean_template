@@ -93597,7 +93597,7 @@ a0j(a){var s=0,r=A.W(t.P),q=this,p,o,n,m
 var $async$$1=A.S(function(b,c){if(b===1)return A.T(c,r)
 while(true)switch(s){case 0:n=t.G3
 s=2
-return A.Y(A.NT(a,q.b.b,B.xV,"Navigation",n,n),$async$$1)
+return A.Y(A.NT(a,q.b.b,B.xV,"Portrait Navigation",n,n),$async$$1)
 case 2:m=c
 if(m!=null){n=q.a.glC().jQ(0,$.mw().gpw(),t.T2)
 p=n.a
@@ -93616,7 +93616,7 @@ a0i(a){var s=0,r=A.W(t.P),q=this,p,o,n,m
 var $async$$1=A.S(function(b,c){if(b===1)return A.T(c,r)
 while(true)switch(s){case 0:n=t.G3
 s=2
-return A.Y(A.NT(a,q.b.c,B.xV,"Navigation",n,n),$async$$1)
+return A.Y(A.NT(a,q.b.c,B.xV,"Landscape Navigation",n,n),$async$$1)
 case 2:m=c
 if(m!=null){n=q.a.glC().jQ(0,$.mw().gpw(),t.T2)
 p=n.a
