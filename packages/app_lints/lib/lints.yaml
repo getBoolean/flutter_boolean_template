@@ -11,6 +11,9 @@ analyzer:
     invalid_annotation_target: ignore
     close_sinks: ignore
   exclude:
+    # generated files
+    - "**/*.g.dart"
+    -
     # package:dart_mappable
     - "**/*.mapper.dart"
 

@@ -22,6 +22,7 @@ dependencies:
   dart_mappable: ^4.1.0
   env:
     path: packages/env
+  flex_color_picker: ^3.3.1
   flex_color_scheme: ^7.3.1
   flutter:
     sdk: flutter
@@ -55,6 +56,7 @@ dependencies:
       ref: feature/inkwell
   skeletonizer: ^1.0.1
   stock: ^1.0.1
+  super_clipboard: ^0.8.4
   universal_html: ^2.2.4
   url_launcher: ^6.2.4
   window_manager: ^0.3.8

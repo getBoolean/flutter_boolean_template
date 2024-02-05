@@ -57,10 +57,10 @@ I highly recommend reading the article. Each `layer` has its own folder per feat
 - Template by [@getBoolean](https://github.com/getBoolean)
 - Minimal OS Version:
   - iOS: 13.0
-  - Android: 5.0 (SDK 21)
+  - Android: 6.0 (SDK 23)
   - MacOS: 10.14.6
   - Windows 10
-  - Linux: Whatever Flutter's is
+  - Linux: Any modern distribution
 
 ## Demo
 
@@ -73,7 +73,7 @@ For example, in the CI workflow using the argument `--dart-define ENABLE_HASH_UR
 
 ```dart
 void main() {
-  final useHashUrlStrategy = Platform.environment['ENABLE_HASH_URL_STRATEGY'] ?? false;
+  const useHashUrlStrategy = bool.fromEnvironment('ENABLE_HASH_URL_STRATEGY', defaultValue: false);
   if (!useHashUrlStrategy) {
     setUrlStrategy();
   }
