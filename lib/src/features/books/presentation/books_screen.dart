@@ -4,19 +4,14 @@ import 'package:flutter_boolean_template/src/common_widgets/animated_fade_switch
 import 'package:flutter_boolean_template/src/features/connectivity/presentation/offline_warning_widget.dart';
 import 'package:flutter_boolean_template/utils/utils.dart';
 import 'package:go_router/go_router.dart';
-import 'package:log/log.dart';
 
-class BooksRootScreen extends StatefulWidget {
-  const BooksRootScreen({super.key, this.id});
+class BooksScreen extends StatelessWidget {
+  const BooksScreen({
+    super.key,
+    this.id,
+  });
 
   final String? id;
-
-  @override
-  State<BooksRootScreen> createState() => _BooksRootScreenState();
-}
-
-class _BooksRootScreenState extends State<BooksRootScreen> {
-  final log = Logger('BooksScreen');
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +22,7 @@ class _BooksRootScreenState extends State<BooksRootScreen> {
         child: const Icon(Icons.add),
       ),
       body: AnimatedFadeSwitcher(
-        shouldSwitch: deviceForm.isNotSmall && widget.id != null,
+        shouldSwitch: deviceForm.isNotSmall && id != null,
         secondChild: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -39,7 +34,7 @@ class _BooksRootScreenState extends State<BooksRootScreen> {
                   child: FilledButton(
                     key: const ValueKey('button'),
                     onPressed: () async {
-                      context.go('/books/details-${widget.id ?? "1"}');
+                      context.go('/books/details-${id ?? "1"}');
                       // context.go('/profile/details');
                     },
                     child: const Text('Push Details'),
@@ -65,7 +60,7 @@ class _BooksRootScreenState extends State<BooksRootScreen> {
                 color: Colors.orange,
                 child: Center(
                   child: Text(
-                    'Book ${widget.id}',
+                    'Book $id',
                     key: const ValueKey('text'),
                     style: context.textStyles.titleLarge,
                   ),

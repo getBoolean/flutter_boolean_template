@@ -8,16 +8,16 @@ import 'package:flutter_settings_ui/flutter_settings_ui.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class SettingsWidget extends StatefulHookConsumerWidget {
-  const SettingsWidget({
+class SettingsScreen extends StatefulHookConsumerWidget {
+  const SettingsScreen({
     super.key,
   });
 
   @override
-  ConsumerState<SettingsWidget> createState() => _SettingsWidgetState();
+  ConsumerState<SettingsScreen> createState() => _SettingsWidgetState();
 }
 
-class _SettingsWidgetState extends ConsumerState<SettingsWidget> {
+class _SettingsWidgetState extends ConsumerState<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final settings = ref.watch(settingsServiceProvider);

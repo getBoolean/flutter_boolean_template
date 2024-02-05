@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class ProfileRootScreen extends StatefulWidget {
-  const ProfileRootScreen({super.key});
+class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({
+    super.key,
+  });
 
-  @override
-  State<ProfileRootScreen> createState() => _ProfileRootScreenState();
-}
-
-class _ProfileRootScreenState extends State<ProfileRootScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
