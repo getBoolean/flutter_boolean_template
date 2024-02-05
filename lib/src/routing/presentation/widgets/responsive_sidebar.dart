@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_positional_boolean_parameters
 
 import 'package:flutter/material.dart';
-import 'package:flutter_boolean_template/src/routing/ui/widgets/responsive_scaffold.dart';
+import 'package:flutter_boolean_template/src/routing/presentation/widgets/responsive_scaffold.dart';
 import 'package:sidebarx/sidebarx.dart';
 
 class ResponsiveSidebar extends StatefulWidget {

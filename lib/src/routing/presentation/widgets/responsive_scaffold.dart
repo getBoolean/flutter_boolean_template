@@ -6,7 +6,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_boolean_template/src/routing/data/navigation_type.dart';
-import 'package:flutter_boolean_template/src/routing/ui/widgets/responsive_sidebar.dart';
+import 'package:flutter_boolean_template/src/routing/presentation/widgets/responsive_sidebar.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:sidebarx/sidebarx.dart';
 

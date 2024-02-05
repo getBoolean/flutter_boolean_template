@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_boolean_template/src/routing/ui/ui.dart';
-import 'package:flutter_boolean_template/src/routing/ui/widgets/implicitly_animated_page_switcher.dart';
+import 'package:flutter_boolean_template/src/routing/presentation/routes/book_details_route.dart';
+import 'package:flutter_boolean_template/src/routing/presentation/routes/books_route.dart';
+import 'package:flutter_boolean_template/src/routing/presentation/routes/profile_details_route.dart';
+import 'package:flutter_boolean_template/src/routing/presentation/routes/profile_route.dart';
+import 'package:flutter_boolean_template/src/routing/presentation/routes/setting_details_route.dart';
+import 'package:flutter_boolean_template/src/routing/presentation/routes/settings_route.dart';
+import 'package:flutter_boolean_template/src/routing/presentation/widgets/implicitly_animated_page_switcher.dart';
+import 'package:flutter_boolean_template/src/routing/presentation/widgets/responsive_scaffold.dart';
+import 'package:flutter_boolean_template/src/routing/presentation/widgets/root_scaffold_shell.dart';
 import 'package:flutter_boolean_template/utils/utils.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -149,7 +156,7 @@ StatefulShellBranch _buildSettingsBranch(RouterDestination destination) {
         // bottom navigation bar.
         path: '/settings',
         builder: (BuildContext context, GoRouterState state) =>
-            const SettingsRootScreen(
+            const SettingsRoute(
           key: ValueKey('SETTINGS'),
         ),
         routes: <RouteBase>[
@@ -157,7 +164,7 @@ StatefulShellBranch _buildSettingsBranch(RouterDestination destination) {
             name: RouteName.settingDetails.name,
             path: ':id',
             builder: (BuildContext context, GoRouterState state) =>
-                SettingDetailsRootScreen(
+                SettingDetailsRoute(
               id: state.pathParameters['id'],
             ),
           ),
@@ -175,7 +182,7 @@ StatefulShellBranch _buildProfileBranch(RouterDestination destination) {
         name: RouteName.profile.name,
         path: '/profile',
         builder: (BuildContext context, GoRouterState state) =>
-            const ProfileRootScreen(
+            const ProfileRoute(
           key: ValueKey('PROFILE'),
         ),
         routes: <RouteBase>[
@@ -183,7 +190,7 @@ StatefulShellBranch _buildProfileBranch(RouterDestination destination) {
             name: RouteName.profileDetails.name,
             path: 'details',
             builder: (BuildContext context, GoRouterState state) =>
-                const ProfileDetailsRootScreen(),
+                const ProfileDetailsRoute(),
           ),
         ],
       ),
@@ -202,7 +209,7 @@ StatefulShellBranch _buildBooksBranch(RouterDestination destination) {
           // only root routes should use query parameters because
           // popping a route will not change the query parameters to the previous route's
           final id = state.uri.queryParameters['id'];
-          return BooksRootScreen(
+          return BooksRoute(
             id: id,
             key: const ValueKey('BOOKS'),
           );
@@ -227,7 +234,7 @@ StatefulShellBranch _buildBooksBranch(RouterDestination destination) {
             path: 'details-:id',
             builder: (BuildContext context, GoRouterState state) {
               final id = state.pathParameters['id'];
-              return BookDetailsRootScreen(id: id);
+              return BookDetailsRoute(id: id);
             },
           ),
         ],

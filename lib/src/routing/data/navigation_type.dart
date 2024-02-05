@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_boolean_template/src/routing/ui/widgets/responsive_sidebar.dart';
+import 'package:flutter_boolean_template/src/routing/presentation/widgets/responsive_sidebar.dart';
 
 /// The navigation mechanism to configure the [Scaffold] with.
 enum NavigationType {
