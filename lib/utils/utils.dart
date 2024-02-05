@@ -23,7 +23,15 @@ enum DeviceType {
   AppleTV,
 
   /// Only available on web
-  Roku,
+  Roku;
+
+  bool get isMobile => this == DeviceType.iOS || this == DeviceType.Android;
+
+  bool get isDesktop =>
+      this == DeviceType.Windows ||
+      this == DeviceType.MacOS ||
+      this == DeviceType.Linux ||
+      this == DeviceType.ChromeOS;
 }
 
 enum DeviceForm {

@@ -1,7 +1,6 @@
 import 'package:constants/constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_boolean_template/src/features/initialization/application/info_service.dart';
 import 'package:flutter_boolean_template/src/features/settings/application/settings_service.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/dto/settings.dart';
 import 'package:flutter_boolean_template/src/routing/router/router.dart';
@@ -24,7 +23,6 @@ class _SettingsWidgetState extends ConsumerState<SettingsWidget> {
     final settings = ref.watch(settingsServiceProvider);
     final developerSettings = _buildDeveloperSettings(settings: settings);
     final theme = Theme.of(context);
-    final packageInfo = ref.watch(packageInfoProvider);
     return SettingsList(
       lightTheme: SettingsThemeData(
         settingsListBackground: theme.colorScheme.background,

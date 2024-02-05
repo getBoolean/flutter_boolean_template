@@ -164,6 +164,7 @@ class AppearanceSettingsScreen extends ConsumerWidget {
     final themes = ref.watch(themesProvider);
     return Material(
       child: ListView(
+        shrinkWrap: true,
         children: <Widget>[
           SegmentedButtonTile(
             initial: settings.themeType,
