@@ -8,7 +8,6 @@ import 'package:flutter_boolean_template/src/routing/router/router.dart';
 import 'package:flutter_settings_ui/flutter_settings_ui.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 
 class SettingsWidget extends StatefulHookConsumerWidget {
   const SettingsWidget({
@@ -40,48 +39,36 @@ class _SettingsWidgetState extends ConsumerState<SettingsWidget> {
       brightness: theme.brightness,
       platform: DevicePlatform.android,
       sections: [
-        buildAppearanceSection(settings),
-        buildAboutSection(packageInfo),
+        SettingsSection(
+          tiles: [
+            SettingsTile.navigation(
+              title: const Text('Appearance'),
+              leading: const Icon(Icons.colorize),
+              onPressed: (context) {
+                context.goNamed(
+                  RouteName.settingDetails.name,
+                  pathParameters: {'id': 'appearance'},
+                );
+              },
+            ),
+            SettingsTile.navigation(
+              title: const Text('About'),
+              leading: const Icon(Icons.info),
+              onPressed: (context) {
+                context.goNamed(
+                  RouteName.settingDetails.name,
+                  pathParameters: {'id': 'about'},
+                );
+              },
+            ),
+          ],
+        ),
         buildAdvancedSection(),
         if (developerSettings.isNotEmpty && !kReleaseMode)
           SettingsSection(
             title: const Text('Developer'),
             tiles: developerSettings,
           ),
-      ],
-    );
-  }
-
-  SettingsSection buildAboutSection(AsyncValue<PackageInfo> packageInfo) {
-    return SettingsSection(
-      tiles: [
-        SettingsTile.navigation(
-          title: const Text('About'),
-          leading: const Icon(Icons.info),
-          onPressed: (context) {
-            context.goNamed(
-              RouteName.settingDetails.name,
-              pathParameters: {'id': 'about'},
-            );
-          },
-        ),
-      ],
-    );
-  }
-
-  SettingsSection buildAppearanceSection(Settings settings) {
-    return SettingsSection(
-      tiles: [
-        SettingsTile.navigation(
-          title: const Text('Appearance'),
-          leading: const Icon(Icons.colorize),
-          onPressed: (context) {
-            context.goNamed(
-              RouteName.settingDetails.name,
-              pathParameters: {'id': 'appearance'},
-            );
-          },
-        ),
       ],
     );
   }
