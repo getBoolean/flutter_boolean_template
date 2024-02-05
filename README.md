@@ -73,7 +73,7 @@ For example, in the CI workflow using the argument `--dart-define ENABLE_HASH_UR
 
 ```dart
 void main() {
-  final useHashUrlStrategy = Platform.environment['ENABLE_HASH_URL_STRATEGY'] ?? false;
+  final useHashUrlStrategy = String.fromEnvironment['ENABLE_HASH_URL_STRATEGY'] ?? false;
   if (!useHashUrlStrategy) {
     setUrlStrategy();
   }
