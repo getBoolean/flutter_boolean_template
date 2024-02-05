@@ -71,7 +71,7 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
             Orientation.portrait => portraitNavigationType,
           };
         },
-        buildActionButton: (context, index, expanded) {
+        buildActionButton: (context, topRoute, index, expanded) {
           if (index != 0) return const SizedBox.shrink();
           return expanded
               ? const IntrinsicWidth(
@@ -94,7 +94,7 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
                   ),
                 );
         },
-        buildLogo: (context, index, expanded) {
+        buildLogo: (context, topRoute, index, expanded) {
           return expanded
               ? IntrinsicWidth(
                   child: Row(
