@@ -84,7 +84,7 @@ dev_dependencies:
   modddels: ^0.2.0
   msix: ^3.16.7
   patrol: ^3.5.0
-  riverpod_generator: ^2.3.9
+  riverpod_generator: ^2.3.10
   riverpod_lint: ^2.3.8
   test: any
 
