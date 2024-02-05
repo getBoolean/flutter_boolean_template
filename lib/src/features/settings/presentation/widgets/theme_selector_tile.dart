@@ -69,7 +69,6 @@ class _ThemeSelectorTileState extends State<ThemeSelectorTile> {
               padding: const EdgeInsetsDirectional.only(start: 8, end: 16),
               scrollDirection: Axis.horizontal,
               itemCount: widget.schemes.length,
-              shrinkWrap: true,
               itemBuilder: (BuildContext context, int index) {
                 return ThemeItem(
                   selectedIndex: selectedIndex,
