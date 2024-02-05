@@ -39,8 +39,6 @@ class _ThemeSelectorTileState extends State<ThemeSelectorTile> {
   @override
   Widget build(BuildContext context) {
     final int selectedIndex = widget.schemes.indexOf(widget.selected);
-    const double height = 45;
-    const double width = height * 1.5;
     final ThemeData theme = Theme.of(context);
     final ColorScheme scheme = theme.colorScheme;
     return PrimaryScrollController(
@@ -60,8 +58,6 @@ class _ThemeSelectorTileState extends State<ThemeSelectorTile> {
               selectedIndex: selectedIndex,
               theme: theme,
               scheme: scheme,
-              width: width,
-              height: height,
               selected: widget.selected,
               schemes: widget.schemes,
               onTap: widget.onTap,
@@ -80,8 +76,6 @@ class _ThemeSelectorTileState extends State<ThemeSelectorTile> {
                   index: index,
                   theme: theme,
                   scheme: scheme,
-                  width: width,
-                  height: height,
                   selected: widget.selected,
                   schemes: widget.schemes,
                   onTap: widget.onTap,
@@ -101,8 +95,6 @@ class ThemeItem extends StatelessWidget {
     required this.selectedIndex,
     required this.theme,
     required this.scheme,
-    required this.width,
-    required this.height,
     required this.selected,
     required this.schemes,
     required this.onTap,
@@ -115,8 +107,6 @@ class ThemeItem extends StatelessWidget {
   final int selectedIndex;
   final ThemeData theme;
   final ColorScheme scheme;
-  final double width;
-  final double height;
   final FlexSchemeData selected;
   final List<FlexSchemeData> schemes;
   final void Function(FlexSchemeData)? onTap;
@@ -141,9 +131,9 @@ class ThemeItem extends StatelessWidget {
                   width: 4,
                 ),
                 unselectedBorder: BorderSide.none,
-                borderRadius: 8,
-                width: width,
-                height: height,
+                // TODO: maybe should scale with device size
+                width: 60,
+                height: 40,
                 onSelect: () {
                   onTap?.call(schemes[index]);
                 },
