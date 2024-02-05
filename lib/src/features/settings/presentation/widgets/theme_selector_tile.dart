@@ -159,6 +159,7 @@ class ThemeItem extends StatelessWidget {
               ),
             ],
           ),
+          // Checkbox from here: https://github.com/kodjodevf/mangayomi/blob/main/lib/modules/more/settings/appearance/widgets/theme_selector.dart
           if (selectedIndex == index)
             Padding(
               padding: const EdgeInsets.only(left: 16, top: 10),
