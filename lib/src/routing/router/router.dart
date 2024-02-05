@@ -20,12 +20,57 @@ final _shellNavigatorSettingsKey =
     GlobalKey<NavigatorState>(debugLabel: 'shellSettings');
 
 enum RouteName {
-  books,
-  bookDetails,
-  profile,
-  profileDetails,
-  settings,
-  settingDetails;
+  books(_booksTitleBuilder),
+  bookDetails(_bookDetailsTitleBuilder),
+  profile(_profileTitleBuilder),
+  profileDetails(_profileDetailsTitleBuilder),
+  settings(_settingsTitleBuilder),
+  settingDetails(_settingsDetailsTitleBuilder);
+
+  const RouteName(this.titleBuilder);
+
+  final String Function(BuildContext context, GoRouterState state) titleBuilder;
+
+  static String _booksTitleBuilder(BuildContext context, GoRouterState state) =>
+      (state.uri.queryParameters['id'] != null)
+          ? 'Book ${state.uri.queryParameters['id']}'
+          : 'Books';
+
+  static String _bookDetailsTitleBuilder(
+    BuildContext context,
+    GoRouterState state,
+  ) =>
+      'Book ${state.pathParameters['id']}';
+
+  static String _profileTitleBuilder(
+    BuildContext context,
+    GoRouterState state,
+  ) =>
+      'Profile';
+
+  static String _profileDetailsTitleBuilder(
+    BuildContext context,
+    GoRouterState state,
+  ) =>
+      'Profile Details';
+
+  static String _settingsTitleBuilder(
+    BuildContext context,
+    GoRouterState state,
+  ) =>
+      'Settings';
+
+  static String _settingsDetailsTitleBuilder(
+    BuildContext context,
+    GoRouterState state,
+  ) {
+    final id = state.pathParameters['id'];
+    return switch (id) {
+      'about' => 'About',
+      'appearance' => 'Appearance',
+      _ => 'Unknown Setting',
+    };
+  }
 }
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -110,9 +155,11 @@ StatefulShellBranch _buildSettingsBranch(RouterDestination destination) {
         routes: <RouteBase>[
           GoRoute(
             name: RouteName.settingDetails.name,
-            path: 'details',
+            path: ':id',
             builder: (BuildContext context, GoRouterState state) =>
-                const SettingDetailsRootScreen(),
+                SettingDetailsRootScreen(
+              id: state.pathParameters['id'],
+            ),
           ),
         ],
       ),
@@ -193,15 +240,6 @@ extension GoRouterStateTitleBuilder on GoRouterState {
   String? titleBuilder(BuildContext context) {
     final routeName = topRoute?.name;
     if (routeName == null) return null;
-    return switch (RouteName.values.byName(routeName)) {
-      RouteName.books => uri.queryParameters['id'] != null
-          ? 'Book ${uri.queryParameters['id']}'
-          : 'Books',
-      RouteName.bookDetails => 'Book ${pathParameters['id']}',
-      RouteName.profile => 'Profile',
-      RouteName.profileDetails => 'Profile Details',
-      RouteName.settings => 'Settings',
-      RouteName.settingDetails => 'Setting Details',
-    };
+    return RouteName.values.byName(routeName).titleBuilder(context, this);
   }
 }

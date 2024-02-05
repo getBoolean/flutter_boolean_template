@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/dto/human_name_enum.dart';
-import 'package:flutter_settings_ui/flutter_settings_ui.dart';
 
-class SegmentedButtonTile<T extends HumanReadableEnum>
-    extends AbstractSettingsTile {
+class SegmentedButtonTile<T extends HumanReadableEnum> extends StatefulWidget {
   const SegmentedButtonTile({
     required this.initial,
     required this.segments,
@@ -20,45 +18,15 @@ class SegmentedButtonTile<T extends HumanReadableEnum>
   final void Function(T)? onTap;
 
   @override
-  Widget build(BuildContext context) {
-    return _SegmentedButtonTileImpl<T>(
-      initial: initial,
-      segments: segments,
-      padding: padding,
-      enabled: enabled,
-      onTap: onTap,
-    );
-  }
+  State<SegmentedButtonTile<T>> createState() => _SegmentedButtonTileState<T>();
 }
 
-class _SegmentedButtonTileImpl<T extends HumanReadableEnum>
-    extends StatefulWidget {
-  const _SegmentedButtonTileImpl({
-    required this.initial,
-    required this.segments,
-    this.padding,
-    this.enabled = true,
-    this.onTap,
-    super.key,
-  });
-
-  final EdgeInsetsGeometry? padding;
-  final T initial;
-  final List<T> segments;
-  final bool enabled;
-  final void Function(T)? onTap;
-
-  @override
-  State<_SegmentedButtonTileImpl<T>> createState() =>
-      _SegmentedButtonTileImplState<T>();
-}
-
-class _SegmentedButtonTileImplState<T extends HumanReadableEnum>
-    extends State<_SegmentedButtonTileImpl<T>> {
+class _SegmentedButtonTileState<T extends HumanReadableEnum>
+    extends State<SegmentedButtonTile<T>> {
   late T selected = widget.initial;
 
   @override
-  void didUpdateWidget(covariant _SegmentedButtonTileImpl<T> oldWidget) {
+  void didUpdateWidget(covariant SegmentedButtonTile<T> oldWidget) {
     if (oldWidget.initial != widget.initial) {
       setState(() {
         selected = widget.initial;

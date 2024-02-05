@@ -56,6 +56,7 @@ dependencies:
       ref: feature/inkwell
   skeletonizer: ^1.0.1
   stock: ^1.0.1
+  super_clipboard: ^0.8.4
   universal_html: ^2.2.4
   url_launcher: ^6.2.4
   window_manager: ^0.3.8

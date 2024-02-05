@@ -1,35 +1,9 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_settings_ui/flutter_settings_ui.dart';
 
-class ThemeSelectorTile extends AbstractSettingsTile {
+class ThemeSelectorTile extends StatefulWidget {
   const ThemeSelectorTile({
-    required this.schemes,
-    required this.selected,
-    required this.colorProvider,
-    this.onTap,
-    super.key,
-  });
-
-  final FlexSchemeData selected;
-  final List<FlexSchemeData> schemes;
-  final void Function(FlexSchemeData)? onTap;
-  final FlexSchemeColor Function(FlexSchemeData) colorProvider;
-
-  @override
-  Widget build(BuildContext context) {
-    return _ThemeSelectorTileImpl(
-      selected: selected,
-      schemes: schemes,
-      onTap: onTap,
-      colorProvider: colorProvider,
-    );
-  }
-}
-
-class _ThemeSelectorTileImpl extends StatefulWidget {
-  const _ThemeSelectorTileImpl({
     required this.selected,
     required this.schemes,
     required this.colorProvider,
@@ -42,10 +16,10 @@ class _ThemeSelectorTileImpl extends StatefulWidget {
   final FlexSchemeColor Function(FlexSchemeData) colorProvider;
 
   @override
-  State<_ThemeSelectorTileImpl> createState() => __ThemeSelectorTileImplState();
+  State<ThemeSelectorTile> createState() => _ThemeSelectorTileState();
 }
 
-class __ThemeSelectorTileImplState extends State<_ThemeSelectorTileImpl> {
+class _ThemeSelectorTileState extends State<ThemeSelectorTile> {
   late ScrollController _scrollController;
   @override
   void initState() {
