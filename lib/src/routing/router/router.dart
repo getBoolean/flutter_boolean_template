@@ -150,6 +150,8 @@ StatefulShellBranch _buildSettingsBranch(RouterDestination destination) {
   return StatefulShellBranch(
     navigatorKey: destination.navigatorKey,
     routes: <RouteBase>[
+      // Each route must be given a name from [RouteName], else [ResponsiveScaffold] won't
+      // know what route it is on
       GoRoute(
         name: RouteName.settings.name,
         // The screen to display as the root in the third tab of the

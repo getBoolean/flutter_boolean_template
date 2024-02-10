@@ -1,13 +1,17 @@
 import 'dart:math' as math;
 
 import 'package:adaptive_breakpoints/adaptive_breakpoints.dart';
+import 'package:constants/constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_boolean_template/src/routing/data/navigation_type.dart';
 import 'package:flutter_boolean_template/src/routing/presentation/widgets/responsive_sidebar.dart';
+import 'package:flutter_boolean_template/src/routing/router/router.dart';
+import 'package:flutter_boolean_template/utils/utils.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sidebarx/sidebarx.dart';
 
 typedef NavigationTypeResolver = NavigationType Function(BuildContext context);
@@ -30,9 +34,8 @@ class ResponsiveScaffold extends StatefulHookWidget {
     this.buildLogo,
     this.buildActionButton,
     this.minActionExpandedWidth = 1100,
-    this.minActionCollapsedWidth = 300,
     this.minLogoExpandedWidth = 900,
-    this.minLogoCollapsedWidth = 600,
+    this.minLogoCollapsedWidth = 350,
     this.divider = const VerticalDivider(width: 1.0, thickness: 1),
     this.navigationTypeResolver = defaultNavigationTypeResolver,
     this.transitionDuration = const Duration(milliseconds: 300),
@@ -74,19 +77,26 @@ class ResponsiveScaffold extends StatefulHookWidget {
   /// Determines the navigation type that the scaffold uses.
   final NavigationTypeResolver navigationTypeResolver;
 
-  // ignore: avoid_positional_boolean_parameters
-  final Widget Function(BuildContext context, int index, bool expanded)?
-      buildLogo;
+  final Widget Function(
+    BuildContext context,
+    RouteName? topRoute,
+    int index,
+    // ignore: avoid_positional_boolean_parameters
+    bool expanded,
+  )? buildLogo;
 
   final double minLogoExpandedWidth;
   final double minLogoCollapsedWidth;
 
-  // ignore: avoid_positional_boolean_parameters
-  final Widget Function(BuildContext context, int index, bool expanded)?
-      buildActionButton;
+  final Widget Function(
+    BuildContext context,
+    RouteName? topRoute,
+    int index,
+    // ignore: avoid_positional_boolean_parameters
+    bool expanded,
+  )? buildActionButton;
 
   final double minActionExpandedWidth;
-  final double minActionCollapsedWidth;
 
   /// The width of the drawer and expanded sidebar
   final double drawerWidth;
@@ -119,13 +129,16 @@ class ResponsiveScaffold extends StatefulHookWidget {
   /// Custom builder for [NavigationType.top]
   final PreferredSizeWidget Function(
     BuildContext context,
+    RouteName? topRoute,
     NavigationType navigationType,
     TabBar tabBar,
+    String title,
   )? buildTopBar;
 
   /// Custom builder for [NavigationType.bottom]
   final Widget Function(
     BuildContext context,
+    RouteName? topRoute,
     int selectedIndex,
     List<RouterDestination> bottomDestinations,
     void Function(int index) setPage,
@@ -134,6 +147,7 @@ class ResponsiveScaffold extends StatefulHookWidget {
   /// Custom builder for [NavigationType.drawer]
   final Widget Function(
     BuildContext context,
+    RouteName? topRoute,
     int selectedIndex,
     void Function(int index) setPage,
   )? buildDrawer;
@@ -142,6 +156,7 @@ class ResponsiveScaffold extends StatefulHookWidget {
   /// and [NavigationType.rail]
   final Widget Function(
     BuildContext context,
+    RouteName? topRoute,
     int selectedIndex,
     void Function(int index) setPage,
     NavigationType navigationType,
@@ -152,6 +167,7 @@ class ResponsiveScaffold extends StatefulHookWidget {
   /// A sliver must be returned from this builder.
   final Widget Function(
     BuildContext context,
+    RouteName? topRoute,
     NavigationType navigationType,
     Widget? trailing,
     String? title,
@@ -159,6 +175,7 @@ class ResponsiveScaffold extends StatefulHookWidget {
 
   final PreferredSizeWidget Function(
     BuildContext context,
+    RouteName? topRoute,
     NavigationType navigationType,
     String? title,
   )? buildSidebarAppBar;
@@ -208,6 +225,10 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
 
   @override
   Widget build(BuildContext context) {
+    final topRoute = GoRouterState.of(context).topRoute;
+    final topRouteName = topRoute == null || topRoute.name == null
+        ? null
+        : RouteName.values.byName(topRoute.name!);
     final selectedIndex = widget.currentIndex;
     final navigationType = widget.navigationTypeResolver(context);
     _tabController = useTabController(
@@ -222,6 +243,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
     );
     final bottomNavigationBar = widget.buildBottomNavigationBar(
       context,
+      topRouteName,
       selectedIndex,
       bottomDestinations,
       _setPage,
@@ -230,6 +252,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
     final buildDrawer = widget.buildDrawer ?? _defaultBuildDrawer;
     final drawer = buildDrawer(
       context,
+      topRouteName,
       selectedIndex,
       _setPage,
     );
@@ -237,6 +260,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
     final buildSidebar = widget.buildSidebar ?? _defaultBuildSidebar;
     final sidebar = buildSidebar(
       context,
+      topRouteName,
       selectedIndex,
       _setPage,
       navigationType,
@@ -248,33 +272,41 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
         widget.buildSidebarAppBar ?? _defaultBuildSidebarAppBar;
 
     final buildTopBar = widget.buildTopBar ?? _defaultBuildTopBar;
+    final tabBar = TabBar(
+      onTap: _setPage,
+      controller: _tabController,
+      tabs: <Tab>[
+        for (final destination in widget.destinations)
+          widget.buildTobBarItem(context, destination),
+      ],
+    );
+
     return Scaffold(
       key: _key,
       appBar: switch (navigationType) {
         NavigationType.top => buildTopBar(
             context,
+            topRouteName,
             navigationType,
-            TabBar(
-              onTap: _setPage,
-              controller: _tabController,
-              tabs: <Tab>[
-                for (final destination in widget.destinations)
-                  widget.buildTobBarItem(context, destination),
-              ],
-            ),
+            tabBar,
+            widget.title,
           ),
         NavigationType.expandedSidebar ||
         NavigationType.rail =>
-          buildSidebarAppBar(context, navigationType, widget.title),
+          buildSidebarAppBar(
+            context,
+            topRouteName,
+            navigationType,
+            widget.title,
+          ),
         _ => null,
       },
       body: SwapExpandedWidgetBuilder(
-        collapsed:
-            widget.buildActionButton?.call(context, widget.currentIndex, false),
-        expanded:
-            widget.buildActionButton?.call(context, widget.currentIndex, true),
+        collapsed: widget.buildActionButton
+            ?.call(context, topRouteName, widget.currentIndex, false),
+        expanded: widget.buildActionButton
+            ?.call(context, topRouteName, widget.currentIndex, true),
         minExpandedWidth: widget.minActionExpandedWidth,
-        minCollapsedWidth: widget.minActionCollapsedWidth,
         builder: (context, action) {
           return NestedScrollView(
             headerSliverBuilder:
@@ -283,12 +315,14 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
                 switch (navigationType) {
                   NavigationType.bottom => buildSliverAppBar(
                       context,
+                      topRouteName,
                       navigationType,
                       action,
                       widget.title,
                     ),
                   NavigationType.drawer => buildSliverAppBar(
                       context,
+                      topRouteName,
                       navigationType,
                       action,
                       widget.title,
@@ -343,6 +377,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
 
   PreferredSizeWidget _defaultBuildSidebarAppBar(
     BuildContext context,
+    RouteName? topRoute,
     NavigationType navigationType,
     String? title,
   ) {
@@ -367,25 +402,24 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
                   middle: title != null
                       ? Text(
                           title,
-                          style: theme.textTheme.titleLarge,
+                          style: theme.textTheme.titleMedium,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         )
                       : null,
                   action: widget.buildActionButton
-                      ?.call(context, widget.currentIndex, false),
+                      ?.call(context, topRoute, widget.currentIndex, false),
                   actionExpanded: widget.buildActionButton
-                      ?.call(context, widget.currentIndex, true),
+                      ?.call(context, topRoute, widget.currentIndex, true),
                   willShowLeadingButton: willShowLeadingButton,
                   transitionDuration: widget.transitionDuration,
                   transitionReverseDuration: widget.transitionReverseDuration,
                   logoExpanded: widget.buildLogo
-                      ?.call(context, widget.currentIndex, true),
+                      ?.call(context, topRoute, widget.currentIndex, true),
                   logo: widget.buildLogo
-                      ?.call(context, widget.currentIndex, false),
+                      ?.call(context, topRoute, widget.currentIndex, false),
                   minLogoCollapsedWidth: widget.minLogoCollapsedWidth,
                   minLogoExpandedWidth: widget.minLogoExpandedWidth,
-                  minActionCollapsedWidth: widget.minActionCollapsedWidth,
                   minActionExpandedWidth: widget.minActionExpandedWidth,
                 ),
               ),
@@ -398,8 +432,10 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
 
   PreferredSizeWidget _defaultBuildTopBar(
     BuildContext context,
+    RouteName? topRoute,
     NavigationType navigationType,
     TabBar tabBar,
+    String title,
   ) {
     return PreferredSize(
       preferredSize: tabBar.preferredSize,
@@ -408,33 +444,84 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
           final theme = Theme.of(context);
           final leadingButton =
               widget.buildLeadingButton(context, navigationType);
+          final isRootRoute = GoRouterState.of(context).isRootRoute;
+          final isMobile = $deviceType.isMobile;
           return Material(
             child: AnnotatedRegion(
               value: theme.brightness == Brightness.light
                   ? SystemUiOverlayStyle.dark
                   : SystemUiOverlayStyle.light,
               child: SafeArea(
-                child: ResponsiveNavigationToolbar(
-                  leadingButton: leadingButton,
-                  middle: Align(
-                    alignment: Alignment.centerLeft,
-                    child: IntrinsicWidth(child: tabBar),
-                  ),
-                  willShowLeadingButton: widget.willShowLeadingButton(context),
-                  transitionDuration: widget.transitionDuration,
-                  transitionReverseDuration: widget.transitionReverseDuration,
-                  logoExpanded: widget.buildLogo
-                      ?.call(context, widget.currentIndex, true),
-                  logo: widget.buildLogo
-                      ?.call(context, widget.currentIndex, false),
-                  minLogoCollapsedWidth: widget.minLogoCollapsedWidth,
-                  minLogoExpandedWidth: widget.minLogoExpandedWidth,
-                  action: widget.buildActionButton
-                      ?.call(context, widget.currentIndex, false),
-                  actionExpanded: widget.buildActionButton
-                      ?.call(context, widget.currentIndex, true),
-                  minActionExpandedWidth: widget.minActionExpandedWidth,
-                  minActionCollapsedWidth: widget.minActionCollapsedWidth,
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    return ResponsiveNavigationToolbar(
+                      leadingButton: leadingButton,
+                      centerMiddle: isMobile && constraints.maxWidth < 600,
+                      middle: AnimatedSwitcher(
+                        duration: widget.transitionDuration,
+                        reverseDuration: widget.transitionReverseDuration,
+                        child: (constraints.maxWidth < 600)
+                            ? AnimatedSwitcher(
+                                duration: widget.transitionDuration,
+                                reverseDuration:
+                                    widget.transitionReverseDuration,
+                                child: isRootRoute
+                                    ? tabBar
+                                    : Text(
+                                        title,
+                                        style: theme.textTheme.titleMedium,
+                                      ),
+                              )
+                            : Align(
+                                alignment: Alignment.centerLeft,
+                                child: Row(
+                                  children: [
+                                    IntrinsicWidth(
+                                      child: tabBar,
+                                    ),
+                                    if (!isRootRoute) ...[
+                                      gap16,
+                                      Expanded(
+                                        child: Text(
+                                          title,
+                                          style: theme.textTheme.titleMedium,
+                                        ),
+                                      ),
+                                    ],
+                                  ],
+                                ),
+                              ),
+                      ),
+                      willShowLeadingButton:
+                          widget.willShowLeadingButton(context),
+                      transitionDuration: widget.transitionDuration,
+                      transitionReverseDuration:
+                          widget.transitionReverseDuration,
+                      logoExpanded: isRootRoute
+                          ? widget.buildLogo?.call(
+                              context,
+                              topRoute,
+                              widget.currentIndex,
+                              true,
+                            )
+                          : null,
+                      logo: isRootRoute
+                          ? widget.buildLogo?.call(
+                              context,
+                              topRoute,
+                              widget.currentIndex,
+                              false,
+                            )
+                          : null,
+                      minLogoCollapsedWidth: widget.minLogoCollapsedWidth,
+                      minLogoExpandedWidth: widget.minLogoExpandedWidth,
+                      action: widget.buildActionButton
+                          ?.call(context, topRoute, widget.currentIndex, false),
+                      actionExpanded: widget.buildActionButton
+                          ?.call(context, topRoute, widget.currentIndex, true),
+                      minActionExpandedWidth: widget.minActionExpandedWidth,
+                    );
+                  },
                 ),
               ),
             ),
@@ -446,6 +533,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
 
   Widget _defaultBuildDismissableSliverAppBar(
     BuildContext context,
+    RouteName? topRoute,
     NavigationType navigationType,
     Widget? trailing,
     String? title,
@@ -457,8 +545,8 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
           final leadingButton =
               widget.buildLeadingButton(context, navigationType);
           final willShowLeadingButton = widget.willShowLeadingButton(context);
-          final logo =
-              widget.buildLogo?.call(context, widget.currentIndex, false);
+          final logo = widget.buildLogo
+              ?.call(context, topRoute, widget.currentIndex, false);
           return Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -480,7 +568,11 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
           );
         },
       ),
-      title: title == null ? null : Text(title),
+      title: AnimatedSwitcher(
+        duration: widget.transitionDuration,
+        reverseDuration: widget.transitionReverseDuration,
+        child: title == null ? null : Text(title),
+      ),
       automaticallyImplyLeading: false,
       expandedHeight: 50,
       floating: true,
@@ -491,6 +583,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
 
   Widget _defaultBuildSidebar(
     BuildContext context,
+    RouteName? topRoute,
     int selectedIndex,
     void Function(int index) setPage,
     NavigationType navigationType,
@@ -515,11 +608,13 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
 
   Widget _defaultBuildDrawer(
     BuildContext context,
+    RouteName? topRoute,
     int selectedIndex,
     void Function(int index) setPage,
   ) {
     final theme = Theme.of(context);
-    final logoExpanded = widget.buildLogo?.call(context, selectedIndex, true);
+    final logoExpanded =
+        widget.buildLogo?.call(context, topRoute, selectedIndex, true);
     return Drawer(
       elevation: 0.0,
       width: widget.drawerWidth,
@@ -559,13 +654,13 @@ class ResponsiveNavigationToolbar extends StatelessWidget {
     required this.minLogoExpandedWidth,
     required this.minLogoCollapsedWidth,
     required this.minActionExpandedWidth,
-    required this.minActionCollapsedWidth,
     super.key,
     this.transitionReverseDuration,
     this.logo,
     this.logoExpanded,
     this.action,
     this.actionExpanded,
+    this.centerMiddle = true,
   });
 
   final Widget leadingButton;
@@ -583,16 +678,23 @@ class ResponsiveNavigationToolbar extends StatelessWidget {
   final double minLogoCollapsedWidth;
 
   final double minActionExpandedWidth;
-  final double minActionCollapsedWidth;
+
+  final bool centerMiddle;
 
   @override
   Widget build(BuildContext context) {
     return SwapExpandedWidgetBuilder(
-      collapsed: logo,
-      expanded: logoExpanded,
+      collapsed: Container(
+        key: const ValueKey('ResponsiveNavigationToolbar-logo'),
+        child: logo,
+      ),
+      expanded: Container(
+        key: const ValueKey('ResponsiveNavigationToolbar-logoExpanded'),
+        child: logoExpanded,
+      ),
       minExpandedWidth: minLogoExpandedWidth,
       minCollapsedWidth: minLogoCollapsedWidth,
-      builder: (constext, logo) => SwapExpandedWidgetBuilder(
+      builder: (context, logo) => SwapExpandedWidgetBuilder(
         collapsed: Container(
           key: const ValueKey('ResponsiveNavigationToolbar-action'),
           child: action,
@@ -602,7 +704,6 @@ class ResponsiveNavigationToolbar extends StatelessWidget {
           child: actionExpanded,
         ),
         minExpandedWidth: minActionExpandedWidth,
-        minCollapsedWidth: minActionCollapsedWidth,
         builder: (context, action) => _buildNavigationToolbar(logo, action),
       ),
     );
@@ -617,34 +718,33 @@ class ResponsiveNavigationToolbar extends StatelessWidget {
         switchOutCurve: Curves.easeOut,
         child: action,
       ),
-      middle: middle,
+      middle: AnimatedSwitcher(
+        duration: transitionDuration,
+        reverseDuration: transitionReverseDuration,
+        switchInCurve: Curves.easeIn,
+        switchOutCurve: Curves.easeOut,
+        child: middle,
+      ),
       leading: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           AnimatedSize(
-            duration: const Duration(milliseconds: 150),
-            child: AnimatedSwitcher(
-              duration: transitionDuration,
-              reverseDuration: transitionReverseDuration,
-              switchInCurve: Curves.easeIn,
-              switchOutCurve: Curves.easeOut,
-              child: Padding(
-                key: ValueKey('leadingButton-$willShowLeadingButton'),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8.0,
-                ),
-                child: leadingButton,
-              ),
+            alignment: Alignment.centerLeft,
+            duration: transitionDuration,
+            reverseDuration: transitionReverseDuration,
+            curve: Curves.easeInOut,
+            child: Container(
+              key: ValueKey('leadingButton-$willShowLeadingButton'),
+              child: leadingButton,
             ),
           ),
-          if (logo != null)
-            AnimatedSwitcher(
-              duration: transitionDuration,
-              reverseDuration: transitionReverseDuration,
-              switchInCurve: Curves.easeIn,
-              switchOutCurve: Curves.easeOut,
-              child: logo,
-            ),
+          AnimatedSize(
+            duration: transitionDuration,
+            reverseDuration: transitionReverseDuration,
+            alignment: Alignment.centerLeft,
+            curve: Curves.easeInOut,
+            child: logo,
+          ),
         ],
       ),
     );
@@ -657,7 +757,7 @@ class SwapExpandedWidgetBuilder extends StatelessWidget {
     required this.expanded,
     required this.builder,
     required this.minExpandedWidth,
-    required this.minCollapsedWidth,
+    this.minCollapsedWidth,
     super.key,
   });
 
@@ -665,7 +765,7 @@ class SwapExpandedWidgetBuilder extends StatelessWidget {
   final Widget? expanded;
   final Widget? Function(BuildContext context, Widget? action) builder;
   final double minExpandedWidth;
-  final double minCollapsedWidth;
+  final double? minCollapsedWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -684,7 +784,8 @@ class SwapExpandedWidgetBuilder extends StatelessWidget {
                     return null;
                   }(),
                 BoxConstraints()
-                    when constraints.maxWidth < minCollapsedWidth =>
+                    when minCollapsedWidth != null &&
+                        constraints.maxWidth < minCollapsedWidth! =>
                   null,
                 BoxConstraints() when constraints.maxWidth < minExpandedWidth =>
                   collapsed,
@@ -702,6 +803,7 @@ class SwapExpandedWidgetBuilder extends StatelessWidget {
 
 Widget _defaultBottomNavigationBarBuilder(
   BuildContext context,
+  RouteName? topRoute,
   int selectedIndex,
   List<RouterDestination> bottomDestinations,
   void Function(int index) setPage,
@@ -723,7 +825,12 @@ Tab _defaultTobBarItemBuilder(
   BuildContext context,
   RouterDestination destination,
 ) =>
-    Tab(child: Text(destination.title));
+    Tab(
+      child: Icon(
+        destination.icon,
+        semanticLabel: destination.title,
+      ),
+    );
 
 class RouterDestination {
   const RouterDestination({

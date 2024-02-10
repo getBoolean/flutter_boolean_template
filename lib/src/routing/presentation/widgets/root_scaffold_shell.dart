@@ -2,7 +2,6 @@ import 'package:constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/features/settings/application/settings_service.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/dto/navigation_type_override.dart';
-import 'package:flutter_boolean_template/src/features/settings/data/dto/settings.dart';
 import 'package:flutter_boolean_template/src/routing/presentation/widgets/auto_leading_button.dart';
 import 'package:flutter_boolean_template/src/routing/presentation/widgets/responsive_scaffold.dart';
 import 'package:flutter_boolean_template/src/routing/router/router_extensions.dart';
@@ -33,8 +32,6 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
-    final settings = ref.watch(settingsServiceProvider);
     return LoggerWidget(
       child: ResponsiveScaffold(
         destinations: widget.destinations,
@@ -71,7 +68,7 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
             Orientation.portrait => portraitNavigationType,
           };
         },
-        buildActionButton: (context, index, expanded) {
+        buildActionButton: (context, topRoute, index, expanded) {
           if (index != 0) return const SizedBox.shrink();
           return expanded
               ? const IntrinsicWidth(
@@ -84,22 +81,20 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
                     ),
                   ),
                 )
-              : Padding(
-                  padding: EdgeInsets.only(
-                    right: settings.isBannerShowing ? 48 : 0,
-                  ),
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.search),
-                  ),
+              : IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.search),
                 );
         },
-        buildLogo: (context, index, expanded) {
+        buildLogo: (context, topRoute, index, expanded) {
           return expanded
               ? IntrinsicWidth(
                   child: Row(
                     children: [
-                      const _StylizedFlutterLogo(),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        child: _StylizedFlutterLogo(),
+                      ),
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
