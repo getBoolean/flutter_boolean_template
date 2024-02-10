@@ -51,6 +51,10 @@ extension GoRouterExtension on GoRouter {
   }
 }
 
+extension GoRouterStateExtension on GoRouterState {
+  bool get isRootRoute => matchedLocation.split('/').length <= 2;
+}
+
 extension GoRouterDelegateExtension on GoRouterDelegate {
   /// Source: GoRouter 9.0.0 Migration Guide
   ///

@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:adaptive_breakpoints/adaptive_breakpoints.dart';
+import 'package:constants/constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_boolean_template/src/routing/data/navigation_type.dart';
 import 'package:flutter_boolean_template/src/routing/presentation/widgets/responsive_sidebar.dart';
 import 'package:flutter_boolean_template/src/routing/router/router.dart';
+import 'package:flutter_boolean_template/utils/utils.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sidebarx/sidebarx.dart';
@@ -34,7 +36,7 @@ class ResponsiveScaffold extends StatefulHookWidget {
     this.minActionExpandedWidth = 1100,
     this.minActionCollapsedWidth = 300,
     this.minLogoExpandedWidth = 900,
-    this.minLogoCollapsedWidth = 600,
+    this.minLogoCollapsedWidth = 400,
     this.divider = const VerticalDivider(width: 1.0, thickness: 1),
     this.navigationTypeResolver = defaultNavigationTypeResolver,
     this.transitionDuration = const Duration(milliseconds: 300),
@@ -132,6 +134,7 @@ class ResponsiveScaffold extends StatefulHookWidget {
     RouteName? topRoute,
     NavigationType navigationType,
     TabBar tabBar,
+    String title,
   )? buildTopBar;
 
   /// Custom builder for [NavigationType.bottom]
@@ -271,6 +274,15 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
         widget.buildSidebarAppBar ?? _defaultBuildSidebarAppBar;
 
     final buildTopBar = widget.buildTopBar ?? _defaultBuildTopBar;
+    final tabBar = TabBar(
+      onTap: _setPage,
+      controller: _tabController,
+      tabs: <Tab>[
+        for (final destination in widget.destinations)
+          widget.buildTobBarItem(context, destination),
+      ],
+    );
+
     return Scaffold(
       key: _key,
       appBar: switch (navigationType) {
@@ -278,14 +290,8 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
             context,
             topRouteName,
             navigationType,
-            TabBar(
-              onTap: _setPage,
-              controller: _tabController,
-              tabs: <Tab>[
-                for (final destination in widget.destinations)
-                  widget.buildTobBarItem(context, destination),
-              ],
-            ),
+            tabBar,
+            widget.title,
           ),
         NavigationType.expandedSidebar ||
         NavigationType.rail =>
@@ -399,7 +405,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
                   middle: title != null
                       ? Text(
                           title,
-                          style: theme.textTheme.titleLarge,
+                          style: theme.textTheme.titleMedium,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         )
@@ -433,6 +439,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
     RouteName? topRoute,
     NavigationType navigationType,
     TabBar tabBar,
+    String title,
   ) {
     return PreferredSize(
       preferredSize: tabBar.preferredSize,
@@ -441,33 +448,85 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
           final theme = Theme.of(context);
           final leadingButton =
               widget.buildLeadingButton(context, navigationType);
+          final isRootRoute = GoRouterState.of(context).isRootRoute;
+          final isMobile = $deviceType.isMobile;
           return Material(
             child: AnnotatedRegion(
               value: theme.brightness == Brightness.light
                   ? SystemUiOverlayStyle.dark
                   : SystemUiOverlayStyle.light,
               child: SafeArea(
-                child: ResponsiveNavigationToolbar(
-                  leadingButton: leadingButton,
-                  middle: Align(
-                    alignment: Alignment.centerLeft,
-                    child: IntrinsicWidth(child: tabBar),
-                  ),
-                  willShowLeadingButton: widget.willShowLeadingButton(context),
-                  transitionDuration: widget.transitionDuration,
-                  transitionReverseDuration: widget.transitionReverseDuration,
-                  logoExpanded: widget.buildLogo
-                      ?.call(context, topRoute, widget.currentIndex, true),
-                  logo: widget.buildLogo
-                      ?.call(context, topRoute, widget.currentIndex, false),
-                  minLogoCollapsedWidth: widget.minLogoCollapsedWidth,
-                  minLogoExpandedWidth: widget.minLogoExpandedWidth,
-                  action: widget.buildActionButton
-                      ?.call(context, topRoute, widget.currentIndex, false),
-                  actionExpanded: widget.buildActionButton
-                      ?.call(context, topRoute, widget.currentIndex, true),
-                  minActionExpandedWidth: widget.minActionExpandedWidth,
-                  minActionCollapsedWidth: widget.minActionCollapsedWidth,
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    return ResponsiveNavigationToolbar(
+                      leadingButton: leadingButton,
+                      centerMiddle: isMobile && constraints.maxWidth < 600,
+                      middle: AnimatedSwitcher(
+                        duration: widget.transitionDuration,
+                        reverseDuration: widget.transitionReverseDuration,
+                        child: (constraints.maxWidth < 600)
+                            ? AnimatedSwitcher(
+                                duration: widget.transitionDuration,
+                                reverseDuration:
+                                    widget.transitionReverseDuration,
+                                child: isRootRoute
+                                    ? tabBar
+                                    : Text(
+                                        title,
+                                        style: theme.textTheme.titleMedium,
+                                      ),
+                              )
+                            : Align(
+                                alignment: Alignment.centerLeft,
+                                child: Row(
+                                  children: [
+                                    IntrinsicWidth(
+                                      child: tabBar,
+                                    ),
+                                    if (!isRootRoute) ...[
+                                      gap16,
+                                      Expanded(
+                                        child: Text(
+                                          title,
+                                          style: theme.textTheme.titleMedium,
+                                        ),
+                                      ),
+                                    ],
+                                  ],
+                                ),
+                              ),
+                      ),
+                      willShowLeadingButton:
+                          widget.willShowLeadingButton(context),
+                      transitionDuration: widget.transitionDuration,
+                      transitionReverseDuration:
+                          widget.transitionReverseDuration,
+                      logoExpanded: isRootRoute
+                          ? widget.buildLogo?.call(
+                              context,
+                              topRoute,
+                              widget.currentIndex,
+                              true,
+                            )
+                          : null,
+                      logo: isRootRoute
+                          ? widget.buildLogo?.call(
+                              context,
+                              topRoute,
+                              widget.currentIndex,
+                              false,
+                            )
+                          : null,
+                      minLogoCollapsedWidth: widget.minLogoCollapsedWidth,
+                      minLogoExpandedWidth: widget.minLogoExpandedWidth,
+                      action: widget.buildActionButton
+                          ?.call(context, topRoute, widget.currentIndex, false),
+                      actionExpanded: widget.buildActionButton
+                          ?.call(context, topRoute, widget.currentIndex, true),
+                      minActionExpandedWidth: widget.minActionExpandedWidth,
+                      minActionCollapsedWidth: widget.minActionCollapsedWidth,
+                    );
+                  },
                 ),
               ),
             ),
@@ -514,7 +573,11 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
           );
         },
       ),
-      title: title == null ? null : Text(title),
+      title: AnimatedSwitcher(
+        duration: widget.transitionDuration,
+        reverseDuration: widget.transitionReverseDuration,
+        child: title == null ? null : Text(title),
+      ),
       automaticallyImplyLeading: false,
       expandedHeight: 50,
       floating: true,
@@ -603,6 +666,7 @@ class ResponsiveNavigationToolbar extends StatelessWidget {
     this.logoExpanded,
     this.action,
     this.actionExpanded,
+    this.centerMiddle = true,
   });
 
   final Widget leadingButton;
@@ -622,14 +686,22 @@ class ResponsiveNavigationToolbar extends StatelessWidget {
   final double minActionExpandedWidth;
   final double minActionCollapsedWidth;
 
+  final bool centerMiddle;
+
   @override
   Widget build(BuildContext context) {
     return SwapExpandedWidgetBuilder(
-      collapsed: logo,
-      expanded: logoExpanded,
+      collapsed: Container(
+        key: const ValueKey('ResponsiveNavigationToolbar-logo'),
+        child: logo,
+      ),
+      expanded: Container(
+        key: const ValueKey('ResponsiveNavigationToolbar-logoExpanded'),
+        child: logoExpanded,
+      ),
       minExpandedWidth: minLogoExpandedWidth,
       minCollapsedWidth: minLogoCollapsedWidth,
-      builder: (constext, logo) => SwapExpandedWidgetBuilder(
+      builder: (context, logo) => SwapExpandedWidgetBuilder(
         collapsed: Container(
           key: const ValueKey('ResponsiveNavigationToolbar-action'),
           child: action,
@@ -647,6 +719,7 @@ class ResponsiveNavigationToolbar extends StatelessWidget {
 
   NavigationToolbar _buildNavigationToolbar(Widget? logo, Widget? action) {
     return NavigationToolbar(
+      centerMiddle: centerMiddle,
       trailing: AnimatedSwitcher(
         duration: transitionDuration,
         reverseDuration: Duration.zero,
@@ -659,7 +732,9 @@ class ResponsiveNavigationToolbar extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           AnimatedSize(
-            duration: const Duration(milliseconds: 150),
+            duration: transitionDuration,
+            reverseDuration: transitionReverseDuration,
+            curve: Curves.easeInOut,
             child: AnimatedSwitcher(
               duration: transitionDuration,
               reverseDuration: transitionReverseDuration,
@@ -674,14 +749,18 @@ class ResponsiveNavigationToolbar extends StatelessWidget {
               ),
             ),
           ),
-          if (logo != null)
-            AnimatedSwitcher(
+          AnimatedSize(
+            duration: transitionDuration,
+            reverseDuration: transitionReverseDuration,
+            curve: Curves.easeInOut,
+            child: AnimatedSwitcher(
               duration: transitionDuration,
               reverseDuration: transitionReverseDuration,
               switchInCurve: Curves.easeIn,
               switchOutCurve: Curves.easeOut,
               child: logo,
             ),
+          ),
         ],
       ),
     );
