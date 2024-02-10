@@ -711,24 +711,19 @@ class ResponsiveNavigationToolbar extends StatelessWidget {
 
   NavigationToolbar _buildNavigationToolbar(Widget? logo, Widget? action) {
     return NavigationToolbar(
-      trailing: AnimatedSize(
+      trailing: AnimatedSwitcher(
         duration: transitionDuration,
-        alignment: Alignment.centerRight,
         reverseDuration: Duration.zero,
-        curve: Curves.easeInOut,
+        switchInCurve: Curves.easeIn,
+        switchOutCurve: Curves.easeOut,
         child: action,
       ),
-      middle: AnimatedSize(
+      middle: AnimatedSwitcher(
         duration: transitionDuration,
         reverseDuration: transitionReverseDuration,
-        curve: Curves.easeInOut,
-        child: AnimatedSwitcher(
-          duration: transitionDuration,
-          reverseDuration: transitionReverseDuration,
-          switchInCurve: Curves.easeIn,
-          switchOutCurve: Curves.easeOut,
-          child: middle,
-        ),
+        switchInCurve: Curves.easeIn,
+        switchOutCurve: Curves.easeOut,
+        child: middle,
       ),
       leading: Row(
         mainAxisSize: MainAxisSize.min,
