@@ -34,7 +34,6 @@ class ResponsiveScaffold extends StatefulHookWidget {
     this.buildLogo,
     this.buildActionButton,
     this.minActionExpandedWidth = 1100,
-    this.minActionCollapsedWidth = 300,
     this.minLogoExpandedWidth = 900,
     this.minLogoCollapsedWidth = 400,
     this.divider = const VerticalDivider(width: 1.0, thickness: 1),
@@ -98,7 +97,6 @@ class ResponsiveScaffold extends StatefulHookWidget {
   )? buildActionButton;
 
   final double minActionExpandedWidth;
-  final double minActionCollapsedWidth;
 
   /// The width of the drawer and expanded sidebar
   final double drawerWidth;
@@ -309,7 +307,6 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
         expanded: widget.buildActionButton
             ?.call(context, topRouteName, widget.currentIndex, true),
         minExpandedWidth: widget.minActionExpandedWidth,
-        minCollapsedWidth: widget.minActionCollapsedWidth,
         builder: (context, action) {
           return NestedScrollView(
             headerSliverBuilder:
@@ -423,7 +420,6 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
                       ?.call(context, topRoute, widget.currentIndex, false),
                   minLogoCollapsedWidth: widget.minLogoCollapsedWidth,
                   minLogoExpandedWidth: widget.minLogoExpandedWidth,
-                  minActionCollapsedWidth: widget.minActionCollapsedWidth,
                   minActionExpandedWidth: widget.minActionExpandedWidth,
                 ),
               ),
@@ -524,7 +520,6 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
                       actionExpanded: widget.buildActionButton
                           ?.call(context, topRoute, widget.currentIndex, true),
                       minActionExpandedWidth: widget.minActionExpandedWidth,
-                      minActionCollapsedWidth: widget.minActionCollapsedWidth,
                     );
                   },
                 ),
@@ -659,7 +654,6 @@ class ResponsiveNavigationToolbar extends StatelessWidget {
     required this.minLogoExpandedWidth,
     required this.minLogoCollapsedWidth,
     required this.minActionExpandedWidth,
-    required this.minActionCollapsedWidth,
     super.key,
     this.transitionReverseDuration,
     this.logo,
@@ -684,7 +678,6 @@ class ResponsiveNavigationToolbar extends StatelessWidget {
   final double minLogoCollapsedWidth;
 
   final double minActionExpandedWidth;
-  final double minActionCollapsedWidth;
 
   final bool centerMiddle;
 
@@ -711,7 +704,6 @@ class ResponsiveNavigationToolbar extends StatelessWidget {
           child: actionExpanded,
         ),
         minExpandedWidth: minActionExpandedWidth,
-        minCollapsedWidth: minActionCollapsedWidth,
         builder: (context, action) => _buildNavigationToolbar(logo, action),
       ),
     );
@@ -720,11 +712,10 @@ class ResponsiveNavigationToolbar extends StatelessWidget {
   NavigationToolbar _buildNavigationToolbar(Widget? logo, Widget? action) {
     return NavigationToolbar(
       centerMiddle: centerMiddle,
-      trailing: AnimatedSwitcher(
+      trailing: AnimatedSize(
         duration: transitionDuration,
         reverseDuration: Duration.zero,
-        switchInCurve: Curves.easeIn,
-        switchOutCurve: Curves.easeOut,
+        curve: Curves.easeInOut,
         child: action,
       ),
       middle: middle,
@@ -773,7 +764,7 @@ class SwapExpandedWidgetBuilder extends StatelessWidget {
     required this.expanded,
     required this.builder,
     required this.minExpandedWidth,
-    required this.minCollapsedWidth,
+    this.minCollapsedWidth,
     super.key,
   });
 
@@ -781,7 +772,7 @@ class SwapExpandedWidgetBuilder extends StatelessWidget {
   final Widget? expanded;
   final Widget? Function(BuildContext context, Widget? action) builder;
   final double minExpandedWidth;
-  final double minCollapsedWidth;
+  final double? minCollapsedWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -800,7 +791,8 @@ class SwapExpandedWidgetBuilder extends StatelessWidget {
                     return null;
                   }(),
                 BoxConstraints()
-                    when constraints.maxWidth < minCollapsedWidth =>
+                    when minCollapsedWidth != null &&
+                        constraints.maxWidth < minCollapsedWidth! =>
                   null,
                 BoxConstraints() when constraints.maxWidth < minExpandedWidth =>
                   collapsed,
