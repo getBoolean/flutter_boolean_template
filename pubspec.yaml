@@ -27,7 +27,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_flavor: ^3.1.1
-  flutter_hooks: ^0.20.4
+  flutter_hooks: ^0.20.5
   flutter_native_splash: ^2.3.10
   flutter_settings_ui: ^3.0.0
   flutter_web_plugins:
@@ -49,18 +49,18 @@ dependencies:
   path: ^1.9.0
   path_provider: ^2.1.2
   riverpod: ^2.3.6
-  riverpod_annotation: ^2.2.0
+  riverpod_annotation: ^2.3.4
   sidebarx:
     git:
       url: https://github.com/getBoolean/sidebarx
       ref: feature/inkwell
   skeletonizer: ^1.0.1
   stock: ^1.0.1
-  super_clipboard: ^0.8.4
+  super_clipboard: ^0.8.5
   universal_html: ^2.2.4
   url_launcher: ^6.2.4
   window_manager: ^0.3.8
-  wolt_modal_sheet: ^0.4.0
+  wolt_modal_sheet: ^0.4.1
 
 dev_dependencies:
   app_lints:
@@ -74,18 +74,18 @@ dev_dependencies:
   flutter_lints: ^3.0.1
   flutter_test:
     sdk: flutter
-  freezed: ^2.4.6
+  freezed: ^2.4.7
   hive_generator: ^2.0.1
   integration_test:
     sdk: flutter
   mason: ^0.1.0-dev.52
-  melos: ^4.0.0
+  melos: ^4.1.0
   mocktail: ^1.0.3
   modddels: ^0.2.0
   msix: ^3.16.7
   patrol: ^3.5.0
-  riverpod_generator: ^2.3.9
-  riverpod_lint: ^2.1.1
+  riverpod_generator: ^2.3.10
+  riverpod_lint: ^2.3.8
   test: any
 
 flutter:
