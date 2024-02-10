@@ -35,7 +35,7 @@ class ResponsiveScaffold extends StatefulHookWidget {
     this.buildActionButton,
     this.minActionExpandedWidth = 1100,
     this.minLogoExpandedWidth = 900,
-    this.minLogoCollapsedWidth = 400,
+    this.minLogoCollapsedWidth = 350,
     this.divider = const VerticalDivider(width: 1.0, thickness: 1),
     this.navigationTypeResolver = defaultNavigationTypeResolver,
     this.transitionDuration = const Duration(milliseconds: 300),
@@ -711,46 +711,44 @@ class ResponsiveNavigationToolbar extends StatelessWidget {
 
   NavigationToolbar _buildNavigationToolbar(Widget? logo, Widget? action) {
     return NavigationToolbar(
-      centerMiddle: centerMiddle,
       trailing: AnimatedSize(
         duration: transitionDuration,
+        alignment: Alignment.centerRight,
         reverseDuration: Duration.zero,
         curve: Curves.easeInOut,
         child: action,
       ),
-      middle: middle,
+      middle: AnimatedSize(
+        duration: transitionDuration,
+        reverseDuration: transitionReverseDuration,
+        curve: Curves.easeInOut,
+        child: AnimatedSwitcher(
+          duration: transitionDuration,
+          reverseDuration: transitionReverseDuration,
+          switchInCurve: Curves.easeIn,
+          switchOutCurve: Curves.easeOut,
+          child: middle,
+        ),
+      ),
       leading: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           AnimatedSize(
+            alignment: Alignment.centerLeft,
             duration: transitionDuration,
             reverseDuration: transitionReverseDuration,
             curve: Curves.easeInOut,
-            child: AnimatedSwitcher(
-              duration: transitionDuration,
-              reverseDuration: transitionReverseDuration,
-              switchInCurve: Curves.easeIn,
-              switchOutCurve: Curves.easeOut,
-              child: Padding(
-                key: ValueKey('leadingButton-$willShowLeadingButton'),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8.0,
-                ),
-                child: leadingButton,
-              ),
+            child: Container(
+              key: ValueKey('leadingButton-$willShowLeadingButton'),
+              child: leadingButton,
             ),
           ),
           AnimatedSize(
             duration: transitionDuration,
             reverseDuration: transitionReverseDuration,
+            alignment: Alignment.centerLeft,
             curve: Curves.easeInOut,
-            child: AnimatedSwitcher(
-              duration: transitionDuration,
-              reverseDuration: transitionReverseDuration,
-              switchInCurve: Curves.easeIn,
-              switchOutCurve: Curves.easeOut,
-              child: logo,
-            ),
+            child: logo,
           ),
         ],
       ),
@@ -832,7 +830,9 @@ Tab _defaultTobBarItemBuilder(
   BuildContext context,
   RouterDestination destination,
 ) =>
-    Tab(child: Text(destination.title));
+    Tab(
+      child: Icon(destination.icon),
+    );
 
 class RouterDestination {
   const RouterDestination({

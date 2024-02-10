@@ -91,7 +91,10 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
               ? IntrinsicWidth(
                   child: Row(
                     children: [
-                      const _StylizedFlutterLogo(),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        child: _StylizedFlutterLogo(),
+                      ),
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
