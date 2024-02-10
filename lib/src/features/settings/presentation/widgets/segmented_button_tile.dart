@@ -40,8 +40,8 @@ class _SegmentedButtonTileState<T extends HumanReadableEnum>
     final scaleFactor = MediaQuery.textScalerOf(context).scale(1);
     return Padding(
       padding: EdgeInsets.only(
-        left: 24,
-        right: 24,
+        left: 8,
+        right: 8,
         bottom: 19 * scaleFactor,
         top: 19 * scaleFactor,
       ),
@@ -50,7 +50,10 @@ class _SegmentedButtonTileState<T extends HumanReadableEnum>
           for (final segment in widget.segments)
             ButtonSegment<T>(
               value: segment,
-              label: Text(segment.humanName),
+              label: Text(
+                segment.humanName,
+                maxLines: 1,
+              ),
               enabled: widget.enabled,
             ),
         ],
