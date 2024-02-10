@@ -831,7 +831,10 @@ Tab _defaultTobBarItemBuilder(
   RouterDestination destination,
 ) =>
     Tab(
-      child: Icon(destination.icon),
+      child: Icon(
+        destination.icon,
+        semanticLabel: destination.title,
+      ),
     );
 
 class RouterDestination {
