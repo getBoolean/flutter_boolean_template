@@ -10,6 +10,7 @@ environment:
   flutter: ">=3.19.0-0.2.pre <4.0.0"
 
 dependencies:
+  accessibility_tools: ^1.0.1
   adaptive_breakpoints: ^0.1.7
   assets:
     path: packages/assets
