@@ -5,6 +5,19 @@ custom_lint:
     - avoid_late_keyword: false
     - avoid_using_api:
       entries:
-        - source: package:flutter
-          class_name: EdgeInsets
+        - class_name: EdgeInsets
+          source: package:flutter
           reason: Use `EdgeInsetsDirectional` instead.
+        - class_name: Positioned
+          source: package:flutter
+          reason: Use `PositionedDirectional` instead.
+        - class_name: Alignment
+          source: package:flutter
+          reason: Use `AlignmentDirectional` instead.
+        # TODO: Implement lint only Border() constructor
+        - class_name: Border
+          source: package:flutter
+          reason: Use `BorderDirectional` instead.
+        - class_name: BorderRadius
+          source: package:flutter
+          reason: Use `BorderRadiusDirectional` instead.
