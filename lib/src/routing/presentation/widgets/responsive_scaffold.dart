@@ -749,7 +749,7 @@ class ResponsiveNavigationToolbar extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           AnimatedSize(
-            alignment: Alignment.centerLeft,
+            alignment: AlignmentDirectional.centerStart,
             duration: transitionDuration,
             reverseDuration: transitionReverseDuration,
             curve: Curves.easeInOut,
@@ -761,7 +761,7 @@ class ResponsiveNavigationToolbar extends StatelessWidget {
           AnimatedSize(
             duration: transitionDuration,
             reverseDuration: transitionReverseDuration,
-            alignment: Alignment.centerLeft,
+            alignment: AlignmentDirectional.centerStart,
             curve: Curves.easeInOut,
             child: logo,
           ),
@@ -950,9 +950,11 @@ class _StyledResponsiveSidebar extends StatelessWidget {
         selectedTextStyle: theme.textTheme.bodyLarge
             ?.copyWith(color: theme.colorScheme.secondary),
         itemDecoration: BoxDecoration(
+          // ignore: avoid_using_api
           border: Border.all(color: theme.canvasColor),
         ),
         selectedItemDecoration: BoxDecoration(
+          // ignore: avoid_using_api
           border: Border.all(color: theme.canvasColor),
         ),
         iconTheme: IconTheme.of(context)

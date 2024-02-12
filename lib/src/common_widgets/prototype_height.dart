@@ -22,7 +22,7 @@ class PrototypeHeight extends StatelessWidget {
           ),
         ),
         const SizedBox(width: double.infinity),
-        Positioned.fill(child: listView),
+        PositionedDirectional(child: listView),
       ],
     );
   }
