@@ -96,8 +96,8 @@ class ExampleSidebarX extends StatelessWidget {
         selectedHoverColor: scaffoldBackgroundColor,
         textStyle: TextStyle(color: Colors.white.withOpacity(0.7)),
         selectedTextStyle: const TextStyle(color: Colors.white),
-        itemTextPadding: const EdgeInsets.only(left: 30),
-        selectedItemTextPadding: const EdgeInsets.only(left: 30),
+        itemTextPadding: const EdgeInsetsDirectional.only(start: 30),
+        selectedItemTextPadding: const EdgeInsetsDirectional.only(start: 30),
         itemDecoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           border: Border.all(color: canvasColor),
@@ -189,11 +189,15 @@ class _ScreensExample extends StatelessWidget {
         switch (controller.selectedIndex) {
           case 0:
             return ListView.builder(
-              padding: const EdgeInsets.only(top: 10),
+              padding: const EdgeInsetsDirectional.only(top: 10),
               itemBuilder: (context, index) => Container(
                 height: 100,
                 width: double.infinity,
-                margin: const EdgeInsets.only(bottom: 10, right: 10, left: 10),
+                margin: const EdgeInsetsDirectional.only(
+                  bottom: 10,
+                  end: 10,
+                  start: 10,
+                ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   color: Theme.of(context).canvasColor,

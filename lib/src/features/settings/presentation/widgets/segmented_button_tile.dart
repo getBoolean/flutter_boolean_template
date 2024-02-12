@@ -39,9 +39,9 @@ class _SegmentedButtonTileState<T extends HumanReadableEnum>
   Widget build(BuildContext context) {
     final scaleFactor = MediaQuery.textScalerOf(context).scale(1);
     return Padding(
-      padding: EdgeInsets.only(
-        left: 8,
-        right: 8,
+      padding: EdgeInsetsDirectional.only(
+        start: 8,
+        end: 8,
         bottom: 19 * scaleFactor,
         top: 19 * scaleFactor,
       ),
