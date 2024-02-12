@@ -19,6 +19,7 @@ class BooksScreen extends StatelessWidget {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
+        tooltip: 'Add a new book',
         child: const Icon(Icons.add),
       ),
       body: AnimatedFadeSwitcher(

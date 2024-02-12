@@ -117,16 +117,30 @@ class _SettingsWidgetState extends ConsumerState<SettingsScreen> {
     );
   }
 
-  List<SettingsTile> _buildDeveloperSettings({required Settings settings}) {
-    return <SettingsTile>[
+  List<AbstractSettingsTile> _buildDeveloperSettings({
+    required Settings settings,
+  }) {
+    return <AbstractSettingsTile>[
       if (AppFlavor.isBannerEnabled)
-        SettingsTile.switchTile(
-          onToggle: (value) async {
-            ref.read(settingsServiceProvider.notifier).toggleBanner();
-          },
-          initialValue: settings.bannerEnabled,
-          leading: const Icon(Icons.bug_report),
-          title: const Text('Enable banner'),
+        CustomSettingsTile(
+          child: ListTile(
+            leading: const Icon(Icons.bug_report),
+            title: const Text('Enable banner'),
+            onTap: () {
+              ref.read(settingsServiceProvider.notifier).toggleBanner();
+              // TODO: #155 Show snackbar if user has talkback enabled
+            },
+            trailing: Semantics(
+              label: 'Toggle debug banner',
+              child: Switch(
+                value: settings.bannerEnabled,
+                onChanged: (value) {
+                  ref.read(settingsServiceProvider.notifier).toggleBanner();
+                  // TODO: #155 Show snackbar if user has talkback enabled
+                },
+              ),
+            ),
+          ),
         ),
     ];
   }
