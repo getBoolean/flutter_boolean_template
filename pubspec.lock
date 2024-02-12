@@ -1361,11 +1361,9 @@ packages:
   sidebarx:
     dependency: "direct main"
     description:
-      path: "."
-      ref: "feature/inkwell"
-      resolved-ref: "2eb062e97dc11aa03f285dd8d1bdc70c755c2e0e"
-      url: "https://github.com/getBoolean/sidebarx"
-    source: git
+      path: "packages/pub/sidebarx"
+      relative: true
+    source: path
     version: "0.17.0"
   skeletonizer:
     dependency: "direct main"
