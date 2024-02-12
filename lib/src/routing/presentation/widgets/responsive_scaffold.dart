@@ -473,7 +473,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
                                       ),
                               )
                             : Align(
-                                alignment: Alignment.centerLeft,
+                                alignment: AlignmentDirectional.centerStart,
                                 child: Row(
                                   children: [
                                     IntrinsicWidth(
