@@ -502,7 +502,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
                               context,
                               topRoute,
                               widget.currentIndex,
-                              true,
+                              false,
                             )
                           : null,
                       logo: isRootRoute
