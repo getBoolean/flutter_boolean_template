@@ -437,8 +437,10 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
     TabBar tabBar,
     String title,
   ) {
+    final theme = Theme.of(context);
     return PreferredSize(
-      preferredSize: tabBar.preferredSize,
+      preferredSize:
+          Size.fromHeight(theme.appBarTheme.toolbarHeight ?? kToolbarHeight),
       child: Builder(
         builder: (context) {
           final theme = Theme.of(context);
@@ -454,72 +456,90 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
               child: SafeArea(
                 child: LayoutBuilder(
                   builder: (context, constraints) {
-                    return ResponsiveNavigationToolbar(
-                      leadingButton: leadingButton,
-                      centerMiddle: isMobile && constraints.maxWidth < 600,
-                      middle: AnimatedSwitcher(
-                        duration: widget.transitionDuration,
-                        reverseDuration: widget.transitionReverseDuration,
-                        child: (constraints.maxWidth < 600)
-                            ? AnimatedSwitcher(
-                                duration: widget.transitionDuration,
-                                reverseDuration:
-                                    widget.transitionReverseDuration,
-                                child: isRootRoute
-                                    ? tabBar
-                                    : Text(
-                                        title,
-                                        style: theme.textTheme.titleMedium,
-                                      ),
-                              )
-                            : Align(
-                                alignment: AlignmentDirectional.centerStart,
-                                child: Row(
-                                  children: [
-                                    IntrinsicWidth(
-                                      child: tabBar,
-                                    ),
-                                    if (!isRootRoute) ...[
-                                      gap16,
-                                      Expanded(
-                                        child: Text(
+                    return Padding(
+                      padding: const EdgeInsetsDirectional.only(start: 8.0),
+                      child: ResponsiveNavigationToolbar(
+                        leadingButton: leadingButton,
+                        centerMiddle: isMobile && constraints.maxWidth < 600,
+                        middle: AnimatedSwitcher(
+                          duration: widget.transitionDuration,
+                          reverseDuration: widget.transitionReverseDuration,
+                          child: (constraints.maxWidth < 600)
+                              ? AnimatedSwitcher(
+                                  duration: widget.transitionDuration,
+                                  reverseDuration:
+                                      widget.transitionReverseDuration,
+                                  child: isRootRoute
+                                      ? tabBar
+                                      : Text(
                                           title,
                                           style: theme.textTheme.titleMedium,
                                         ),
+                                )
+                              : Align(
+                                  alignment: AlignmentDirectional.bottomStart,
+                                  child: Row(
+                                    children: [
+                                      IntrinsicWidth(
+                                        child: ConstrainedBox(
+                                          constraints: BoxConstraints(
+                                            minHeight: theme.appBarTheme
+                                                    .toolbarHeight ??
+                                                kToolbarHeight,
+                                          ),
+                                          child: tabBar,
+                                        ),
                                       ),
+                                      if (!isRootRoute) ...[
+                                        gap16,
+                                        Expanded(
+                                          child: Text(
+                                            title,
+                                            style: theme.textTheme.titleMedium,
+                                          ),
+                                        ),
+                                      ],
                                     ],
-                                  ],
+                                  ),
                                 ),
-                              ),
+                        ),
+                        willShowLeadingButton:
+                            widget.willShowLeadingButton(context),
+                        transitionDuration: widget.transitionDuration,
+                        transitionReverseDuration:
+                            widget.transitionReverseDuration,
+                        logoExpanded: isRootRoute
+                            ? widget.buildLogo?.call(
+                                context,
+                                topRoute,
+                                widget.currentIndex,
+                                false,
+                              )
+                            : null,
+                        logo: isRootRoute
+                            ? widget.buildLogo?.call(
+                                context,
+                                topRoute,
+                                widget.currentIndex,
+                                false,
+                              )
+                            : null,
+                        minLogoCollapsedWidth: widget.minLogoCollapsedWidth,
+                        minLogoExpandedWidth: widget.minLogoExpandedWidth,
+                        action: widget.buildActionButton?.call(
+                          context,
+                          topRoute,
+                          widget.currentIndex,
+                          false,
+                        ),
+                        actionExpanded: widget.buildActionButton?.call(
+                          context,
+                          topRoute,
+                          widget.currentIndex,
+                          true,
+                        ),
+                        minActionExpandedWidth: widget.minActionExpandedWidth,
                       ),
-                      willShowLeadingButton:
-                          widget.willShowLeadingButton(context),
-                      transitionDuration: widget.transitionDuration,
-                      transitionReverseDuration:
-                          widget.transitionReverseDuration,
-                      logoExpanded: isRootRoute
-                          ? widget.buildLogo?.call(
-                              context,
-                              topRoute,
-                              widget.currentIndex,
-                              false,
-                            )
-                          : null,
-                      logo: isRootRoute
-                          ? widget.buildLogo?.call(
-                              context,
-                              topRoute,
-                              widget.currentIndex,
-                              false,
-                            )
-                          : null,
-                      minLogoCollapsedWidth: widget.minLogoCollapsedWidth,
-                      minLogoExpandedWidth: widget.minLogoExpandedWidth,
-                      action: widget.buildActionButton
-                          ?.call(context, topRoute, widget.currentIndex, false),
-                      actionExpanded: widget.buildActionButton
-                          ?.call(context, topRoute, widget.currentIndex, true),
-                      minActionExpandedWidth: widget.minActionExpandedWidth,
                     );
                   },
                 ),
