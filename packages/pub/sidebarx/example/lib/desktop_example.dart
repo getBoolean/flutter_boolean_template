@@ -33,7 +33,7 @@ class SidebarXExampleApp extends StatelessWidget {
             SidebarX(
               controller: _controller,
               theme: SidebarXTheme(
-                margin: const EdgeInsets.all(10),
+                margin: const EdgeInsetsDirectional.all(10),
                 decoration: BoxDecoration(
                   color: canvasColor,
                   borderRadius: BorderRadius.circular(20),
@@ -79,7 +79,7 @@ class SidebarXExampleApp extends StatelessWidget {
                 return SizedBox(
                   height: 100,
                   child: Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsetsDirectional.all(16.0),
                     child: Image.asset('assets/images/avatar.png'),
                   ),
                 );

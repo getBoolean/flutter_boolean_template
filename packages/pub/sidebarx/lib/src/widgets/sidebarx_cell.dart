@@ -67,7 +67,7 @@ class _SidebarXCellState extends State<SidebarXCell> {
 
     return Container(
       decoration: decoration,
-      margin: margin ?? const EdgeInsets.all(4),
+      margin: margin ?? const EdgeInsetsDirectional.all(4),
       child: Material(
         type: MaterialType.transparency,
         borderRadius: decoration?.borderRadius,
@@ -90,7 +90,7 @@ class _SidebarXCellState extends State<SidebarXCell> {
           onLongPress: widget.onLongPress,
           onSecondaryTap: widget.onSecondaryTap,
           child: Container(
-            padding: padding ?? const EdgeInsets.all(8),
+            padding: padding ?? const EdgeInsetsDirectional.all(8),
             child: Row(
               mainAxisAlignment: widget.extended
                   ? MainAxisAlignment.start
@@ -115,7 +115,7 @@ class _SidebarXCellState extends State<SidebarXCell> {
                   child: FadeTransition(
                     opacity: _animation,
                     child: Padding(
-                      padding: textPadding ?? EdgeInsets.zero,
+                      padding: textPadding ?? EdgeInsetsDirectional.zero,
                       child: Text(
                         widget.item.label ?? '',
                         style: textStyle,

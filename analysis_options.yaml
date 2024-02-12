@@ -1,1 +1,10 @@
-include: package:app_lints/lints.yaml
+include: package:app_lints/analysis_options.yaml
+
+custom_lint:
+  rules:
+    - avoid_late_keyword: false
+    - avoid_using_api:
+      entries:
+        - source: package:flutter
+          class_name: EdgeInsets
+          reason: Use `EdgeInsetsDirectional` instead.

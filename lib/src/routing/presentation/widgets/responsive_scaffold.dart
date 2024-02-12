@@ -643,7 +643,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
           children: [
             if (logoExpanded != null)
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsetsDirectional.all(16.0),
                 child: logoExpanded,
               ),
             for (final destination in widget.destinations)
@@ -923,13 +923,15 @@ class _StyledResponsiveSidebar extends StatelessWidget {
       footerDivider: const Divider(height: 1.0, thickness: 1),
       separatorBuilder: (_, __) => const SizedBox.shrink(),
       theme: SidebarXTheme(
-        itemPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+        itemPadding:
+            const EdgeInsetsDirectional.symmetric(horizontal: 15, vertical: 12),
         selectedItemPadding:
-            const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-        itemMargin: const EdgeInsets.symmetric(vertical: 1),
-        selectedItemMargin: const EdgeInsets.symmetric(vertical: 1),
-        itemTextPadding: const EdgeInsets.symmetric(horizontal: 14),
-        selectedItemTextPadding: const EdgeInsets.symmetric(horizontal: 14),
+            const EdgeInsetsDirectional.symmetric(horizontal: 15, vertical: 12),
+        itemMargin: const EdgeInsetsDirectional.symmetric(vertical: 1),
+        selectedItemMargin: const EdgeInsetsDirectional.symmetric(vertical: 1),
+        itemTextPadding: const EdgeInsetsDirectional.symmetric(horizontal: 14),
+        selectedItemTextPadding:
+            const EdgeInsetsDirectional.symmetric(horizontal: 14),
         decoration: BoxDecoration(
           color: theme.canvasColor,
         ),

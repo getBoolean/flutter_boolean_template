@@ -149,7 +149,7 @@ class _SettingsWidgetState extends ConsumerState<SettingsScreen> {
 class CustomSettingsTile extends AbstractSettingsTile {
   const CustomSettingsTile({
     required this.child,
-    this.padding = EdgeInsets.zero,
+    this.padding = EdgeInsetsDirectional.zero,
     super.key,
   });
 

@@ -245,7 +245,7 @@ class _SidebarXState extends State<SidebarX>
                 : MainAxisAlignment.center,
             children: [
               Padding(
-                padding: const EdgeInsets.all(14.0),
+                padding: const EdgeInsetsDirectional.all(14.0),
                 child: Icon(
                   widget.controller.extended ? collapseIcon : extendIcon,
                   color: sidebarXTheme.iconTheme?.color,

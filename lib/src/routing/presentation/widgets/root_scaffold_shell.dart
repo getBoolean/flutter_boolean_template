@@ -73,7 +73,7 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
           return expanded
               ? const IntrinsicWidth(
                   child: Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: EdgeInsetsDirectional.all(8.0),
                     child: Focus(
                       child: SearchBar(
                         hintText: 'Search books',
@@ -99,12 +99,15 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
                   child: Row(
                     children: [
                       const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        padding:
+                            EdgeInsetsDirectional.symmetric(horizontal: 8.0),
                         child: _StylizedFlutterLogo(),
                       ),
                       Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          padding: const EdgeInsetsDirectional.symmetric(
+                            horizontal: 8.0,
+                          ),
                           child: Text(
                             kAppName,
                             style: theme.textTheme.titleMedium
@@ -118,7 +121,7 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
                   ),
                 )
               : const Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: EdgeInsetsDirectional.all(8.0),
                   child: _StylizedFlutterLogo(),
                 );
         },

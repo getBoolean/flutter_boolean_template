@@ -1,10 +1,10 @@
 name: app_lints
 description: A new Flutter package project.
-version: 0.0.1
+version: 1.0.0
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
-  custom_lint: ^0.5.8
-  solid_lints: ^0.1.1
+  custom_lint: ^0.6.0
+  solid_lints: ^0.1.3
