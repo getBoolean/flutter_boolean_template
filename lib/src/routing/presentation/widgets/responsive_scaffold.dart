@@ -437,8 +437,10 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
     TabBar tabBar,
     String title,
   ) {
+    final theme = Theme.of(context);
     return PreferredSize(
-      preferredSize: tabBar.preferredSize,
+      preferredSize:
+          Size.fromHeight(theme.appBarTheme.toolbarHeight ?? kToolbarHeight),
       child: Builder(
         builder: (context) {
           final theme = Theme.of(context);
@@ -454,72 +456,90 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
               child: SafeArea(
                 child: LayoutBuilder(
                   builder: (context, constraints) {
-                    return ResponsiveNavigationToolbar(
-                      leadingButton: leadingButton,
-                      centerMiddle: isMobile && constraints.maxWidth < 600,
-                      middle: AnimatedSwitcher(
-                        duration: widget.transitionDuration,
-                        reverseDuration: widget.transitionReverseDuration,
-                        child: (constraints.maxWidth < 600)
-                            ? AnimatedSwitcher(
-                                duration: widget.transitionDuration,
-                                reverseDuration:
-                                    widget.transitionReverseDuration,
-                                child: isRootRoute
-                                    ? tabBar
-                                    : Text(
-                                        title,
-                                        style: theme.textTheme.titleMedium,
-                                      ),
-                              )
-                            : Align(
-                                alignment: Alignment.centerLeft,
-                                child: Row(
-                                  children: [
-                                    IntrinsicWidth(
-                                      child: tabBar,
-                                    ),
-                                    if (!isRootRoute) ...[
-                                      gap16,
-                                      Expanded(
-                                        child: Text(
+                    return Padding(
+                      padding: const EdgeInsetsDirectional.only(start: 8.0),
+                      child: ResponsiveNavigationToolbar(
+                        leadingButton: leadingButton,
+                        centerMiddle: isMobile && constraints.maxWidth < 600,
+                        middle: AnimatedSwitcher(
+                          duration: widget.transitionDuration,
+                          reverseDuration: widget.transitionReverseDuration,
+                          child: (constraints.maxWidth < 600)
+                              ? AnimatedSwitcher(
+                                  duration: widget.transitionDuration,
+                                  reverseDuration:
+                                      widget.transitionReverseDuration,
+                                  child: isRootRoute
+                                      ? tabBar
+                                      : Text(
                                           title,
                                           style: theme.textTheme.titleMedium,
                                         ),
+                                )
+                              : Align(
+                                  alignment: AlignmentDirectional.bottomStart,
+                                  child: Row(
+                                    children: [
+                                      IntrinsicWidth(
+                                        child: ConstrainedBox(
+                                          constraints: BoxConstraints(
+                                            minHeight: theme.appBarTheme
+                                                    .toolbarHeight ??
+                                                kToolbarHeight,
+                                          ),
+                                          child: tabBar,
+                                        ),
                                       ),
+                                      if (!isRootRoute) ...[
+                                        gap16,
+                                        Expanded(
+                                          child: Text(
+                                            title,
+                                            style: theme.textTheme.titleMedium,
+                                          ),
+                                        ),
+                                      ],
                                     ],
-                                  ],
+                                  ),
                                 ),
-                              ),
+                        ),
+                        willShowLeadingButton:
+                            widget.willShowLeadingButton(context),
+                        transitionDuration: widget.transitionDuration,
+                        transitionReverseDuration:
+                            widget.transitionReverseDuration,
+                        logoExpanded: isRootRoute
+                            ? widget.buildLogo?.call(
+                                context,
+                                topRoute,
+                                widget.currentIndex,
+                                false,
+                              )
+                            : null,
+                        logo: isRootRoute
+                            ? widget.buildLogo?.call(
+                                context,
+                                topRoute,
+                                widget.currentIndex,
+                                false,
+                              )
+                            : null,
+                        minLogoCollapsedWidth: widget.minLogoCollapsedWidth,
+                        minLogoExpandedWidth: widget.minLogoExpandedWidth,
+                        action: widget.buildActionButton?.call(
+                          context,
+                          topRoute,
+                          widget.currentIndex,
+                          false,
+                        ),
+                        actionExpanded: widget.buildActionButton?.call(
+                          context,
+                          topRoute,
+                          widget.currentIndex,
+                          true,
+                        ),
+                        minActionExpandedWidth: widget.minActionExpandedWidth,
                       ),
-                      willShowLeadingButton:
-                          widget.willShowLeadingButton(context),
-                      transitionDuration: widget.transitionDuration,
-                      transitionReverseDuration:
-                          widget.transitionReverseDuration,
-                      logoExpanded: isRootRoute
-                          ? widget.buildLogo?.call(
-                              context,
-                              topRoute,
-                              widget.currentIndex,
-                              false,
-                            )
-                          : null,
-                      logo: isRootRoute
-                          ? widget.buildLogo?.call(
-                              context,
-                              topRoute,
-                              widget.currentIndex,
-                              false,
-                            )
-                          : null,
-                      minLogoCollapsedWidth: widget.minLogoCollapsedWidth,
-                      minLogoExpandedWidth: widget.minLogoExpandedWidth,
-                      action: widget.buildActionButton
-                          ?.call(context, topRoute, widget.currentIndex, false),
-                      actionExpanded: widget.buildActionButton
-                          ?.call(context, topRoute, widget.currentIndex, true),
-                      minActionExpandedWidth: widget.minActionExpandedWidth,
                     );
                   },
                 ),
@@ -623,7 +643,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
           children: [
             if (logoExpanded != null)
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsetsDirectional.all(16.0),
                 child: logoExpanded,
               ),
             for (final destination in widget.destinations)
@@ -729,7 +749,7 @@ class ResponsiveNavigationToolbar extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           AnimatedSize(
-            alignment: Alignment.centerLeft,
+            alignment: AlignmentDirectional.centerStart,
             duration: transitionDuration,
             reverseDuration: transitionReverseDuration,
             curve: Curves.easeInOut,
@@ -741,7 +761,7 @@ class ResponsiveNavigationToolbar extends StatelessWidget {
           AnimatedSize(
             duration: transitionDuration,
             reverseDuration: transitionReverseDuration,
-            alignment: Alignment.centerLeft,
+            alignment: AlignmentDirectional.centerStart,
             curve: Curves.easeInOut,
             child: logo,
           ),
@@ -903,13 +923,15 @@ class _StyledResponsiveSidebar extends StatelessWidget {
       footerDivider: const Divider(height: 1.0, thickness: 1),
       separatorBuilder: (_, __) => const SizedBox.shrink(),
       theme: SidebarXTheme(
-        itemPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+        itemPadding:
+            const EdgeInsetsDirectional.symmetric(horizontal: 15, vertical: 12),
         selectedItemPadding:
-            const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-        itemMargin: const EdgeInsets.symmetric(vertical: 1),
-        selectedItemMargin: const EdgeInsets.symmetric(vertical: 1),
-        itemTextPadding: const EdgeInsets.symmetric(horizontal: 14),
-        selectedItemTextPadding: const EdgeInsets.symmetric(horizontal: 14),
+            const EdgeInsetsDirectional.symmetric(horizontal: 15, vertical: 12),
+        itemMargin: const EdgeInsetsDirectional.symmetric(vertical: 1),
+        selectedItemMargin: const EdgeInsetsDirectional.symmetric(vertical: 1),
+        itemTextPadding: const EdgeInsetsDirectional.symmetric(horizontal: 14),
+        selectedItemTextPadding:
+            const EdgeInsetsDirectional.symmetric(horizontal: 14),
         decoration: BoxDecoration(
           color: theme.canvasColor,
         ),
@@ -928,9 +950,11 @@ class _StyledResponsiveSidebar extends StatelessWidget {
         selectedTextStyle: theme.textTheme.bodyLarge
             ?.copyWith(color: theme.colorScheme.secondary),
         itemDecoration: BoxDecoration(
+          // ignore: avoid_using_api
           border: Border.all(color: theme.canvasColor),
         ),
         selectedItemDecoration: BoxDecoration(
+          // ignore: avoid_using_api
           border: Border.all(color: theme.canvasColor),
         ),
         iconTheme: IconTheme.of(context)

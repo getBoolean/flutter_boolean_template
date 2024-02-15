@@ -114,7 +114,7 @@ class ThemeItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 8, bottom: 16),
+      padding: const EdgeInsetsDirectional.only(top: 8, bottom: 16),
       child: Stack(
         children: [
           Column(
@@ -151,7 +151,7 @@ class ThemeItem extends StatelessWidget {
           // Checkbox from here: https://github.com/kodjodevf/mangayomi/blob/main/lib/modules/more/settings/appearance/widgets/theme_selector.dart
           if (selectedIndex == index)
             Padding(
-              padding: const EdgeInsets.only(left: 16, top: 10),
+              padding: const EdgeInsetsDirectional.only(start: 16, top: 10),
               child: CircleAvatar(
                 radius: 14,
                 backgroundColor: theme.primaryColorDark,

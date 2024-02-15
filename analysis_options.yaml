@@ -1,1 +1,23 @@
-include: package:app_lints/lints.yaml
+include: package:app_lints/analysis_options.yaml
+
+custom_lint:
+  rules:
+    - avoid_late_keyword: false
+    - avoid_using_api:
+      entries:
+        - class_name: EdgeInsets
+          source: package:flutter
+          reason: Use `EdgeInsetsDirectional` instead.
+        - class_name: Positioned
+          source: package:flutter
+          reason: Use `PositionedDirectional` instead.
+        - class_name: Alignment
+          source: package:flutter
+          reason: Use `AlignmentDirectional` instead.
+        # TODO: Implement lint only Border() constructor
+        - class_name: Border
+          source: package:flutter
+          reason: Use `BorderDirectional` instead.
+        - class_name: BorderRadius
+          source: package:flutter
+          reason: Use `BorderRadiusDirectional` instead.

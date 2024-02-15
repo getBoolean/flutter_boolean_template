@@ -14,9 +14,9 @@ class ResponsiveSidebar extends StatefulWidget {
     this.shouldExpand,
     this.shouldShrink,
     this.theme = const SidebarXTheme(
-      itemTextPadding: EdgeInsets.symmetric(horizontal: 12),
-      itemMargin: EdgeInsets.all(4),
-      selectedItemTextPadding: EdgeInsets.symmetric(horizontal: 12),
+      itemTextPadding: EdgeInsetsDirectional.symmetric(horizontal: 12),
+      itemMargin: EdgeInsetsDirectional.all(4),
+      selectedItemTextPadding: EdgeInsetsDirectional.symmetric(horizontal: 12),
     ),
     this.expandedWidth = 200,
     this.footerDivider,

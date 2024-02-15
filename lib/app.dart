@@ -1,5 +1,6 @@
 library app;
 
+import 'package:accessibility_tools/accessibility_tools.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/features/settings/application/settings_service.dart';
@@ -87,6 +88,7 @@ class App extends ConsumerWidget {
               fontFamily: GoogleFonts.notoSans().fontFamily,
             ),
             themeMode: settings.themeType.toThemeMode(),
+            builder: (context, child) => AccessibilityTools(child: child),
           ),
         );
       },
@@ -97,7 +99,7 @@ class App extends ConsumerWidget {
         (FlavorConfig.instance.name?.isEmpty ?? true));
 
     return Stack(
-      alignment: Alignment.topRight,
+      alignment: AlignmentDirectional.topEnd,
       children: [
         materialApp,
         if (settings.bannerEnabled && showBanner) const FlavorBanner(),

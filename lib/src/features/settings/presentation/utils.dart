@@ -23,7 +23,7 @@ Future<ReturnT?> showOptionsMenu<ReturnT, OptionT extends HumanReadableEnum>(
           ),
           isTopBarLayerAlwaysVisible: true,
           leadingNavBarWidget: const Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: EdgeInsetsDirectional.all(16.0),
             child: CloseButton(),
           ),
           mainContentSlivers: [

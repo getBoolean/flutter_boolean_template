@@ -18,7 +18,7 @@ class OfflineWarningBanner extends ConsumerWidget {
       child: ColoredBox(
         color: theme.colorScheme.onError,
         child: Padding(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsetsDirectional.all(8),
           child: Center(
             child: Text(
               'No internet connection',
