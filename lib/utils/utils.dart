@@ -125,10 +125,11 @@ DeviceType get _deviceTypeByUserAgent {
 }
 
 NavigationType $resolveNavigationType(BuildContext context) {
-  final (_, form, orientation) = $deviceDetails(context);
+  final (type, form, orientation) = $deviceDetails(context);
   return switch (orientation) {
     Orientation.portrait => switch (form) {
         DeviceForm.large => NavigationType.top,
+        DeviceForm.small when type.isDesktop => NavigationType.top,
         DeviceForm.medium => NavigationType.sidebar,
         DeviceForm.small => NavigationType.bottom,
       },
