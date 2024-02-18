@@ -180,3 +180,25 @@ extension ListSwap<T> on List<T> {
 Future<io.Directory?> $applicationDocumentsDirectory() async {
   return kIsWeb ? null : await getApplicationDocumentsDirectory();
 }
+
+extension BuildContextExtensions on BuildContext {
+  /// Shows a [SnackBar] with [message] only if the user is using an accessibility
+  /// service like TalkBack or VoiceOver to interact with the application.
+  void showAccessibilitySnackBar(String message) {
+    final isAccessible = MediaQuery.accessibleNavigationOf(this);
+    if (!isAccessible) {
+      return;
+    }
+
+    showSnackBar(message);
+  }
+
+  /// Shows a [SnackBar] with [message]
+  void showSnackBar(String message) {
+    final messenger = ScaffoldMessenger.maybeOf(this);
+    messenger?.clearSnackBars();
+    messenger?.showSnackBar(
+      SnackBar(content: Text(message)),
+    );
+  }
+}
