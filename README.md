@@ -108,7 +108,7 @@ code provided in this template, but the licenses of the packages must still be f
 1. [ ] Run the following command to change the package name, where `com.author.app_name` is the new name for the app.
 
    ```bash
-   flutter pub run change_app_package_name:main com.author.app_name
+   dart run change_app_package_name:main com.author.app_name
    ```
 
 1. [ ] Search for `github.com/getBoolean/flutter_boolean_template` and update it with your GitHub username and repository name
