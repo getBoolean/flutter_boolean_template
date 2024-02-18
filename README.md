@@ -15,6 +15,7 @@ separate packages.
 - [Demo](#demo)
 - [Template: Getting Started](#template-getting-started)
   - [Change App/Package Name](#change-apppackage-name)
+  - [Workflow Permissions](#workflow-permissions)
 - [Setup](#setup)
 - [Testing](#testing)
   - [Integration Tests](#integration-tests)
@@ -90,6 +91,7 @@ void main() {
    1. [ ] Install [Mason CLI](https://docs.brickhub.dev/)
 1. [ ] Run `melos bootstrap` to install dependencies for all packages and generate env files.
 1. [ ] Rename App: [Change App/Package Name](#change-apppackage-name)
+1. [ ] [Workflow Permissions](#workflow-permissions)
 1. [ ] Update Description: [pubspec.yaml](pubspec.yaml) and [README.md](README.md).
 1. [ ] Add Environment Variables: [ENVied Environment Variables](#envied-environment-variables) section for details.
 1. [ ] [Change App Icon: flutter_launcher_icons](https://pub.dev/packages/flutter_launcher_icons)
@@ -114,6 +116,12 @@ code provided in this template, but the licenses of the packages must still be f
 1. [ ] Search for `com.example.flutterBooleanTemplate` and replace it with your new iOS bundle identifier
 1. [ ] Search for `flutter_boolean_template` and replace it with your new package identifier
 1. [ ] Search for `Flutter Boolean Template` and replace it with your new app name
+
+### Workflow Permissions
+
+1. In Github: Settings -> Actions -> General -> Workflow permissions
+1. Enable "Read and write permissions"
+1. Enable "Allow GitHub Actions to create and approve pull requests"
 
 ## Setup
 
