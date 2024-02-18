@@ -13,12 +13,10 @@ enum NavigationTypeOverride implements HumanReadableEnum {
   auto('Auto'),
   @HiveField(1)
   bottom('Bottom Bar'),
-  @HiveField(2)
-  rail('Rail'),
   @HiveField(3)
   drawer('Drawer'),
   @HiveField(4)
-  expandedSidebar('Expanded Sidebar'),
+  sidebar('Sidebar'),
   @HiveField(5)
   top('Top Bar');
 
@@ -37,10 +35,8 @@ extension NavigationTypeOverrideConverter on NavigationTypeOverride {
   NavigationType get navigationType => switch (this) {
         NavigationTypeOverride.auto => NavigationType.bottom,
         NavigationTypeOverride.bottom => NavigationType.bottom,
-        NavigationTypeOverride.rail => NavigationType.rail,
         NavigationTypeOverride.drawer => NavigationType.drawer,
-        NavigationTypeOverride.expandedSidebar =>
-          NavigationType.expandedSidebar,
+        NavigationTypeOverride.sidebar => NavigationType.sidebar,
         NavigationTypeOverride.top => NavigationType.top,
       };
 }

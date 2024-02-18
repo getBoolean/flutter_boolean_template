@@ -17,14 +17,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.1"
-  adaptive_breakpoints:
-    dependency: "direct main"
-    description:
-      name: adaptive_breakpoints
-      sha256: "56dd5f1016f4d5732b80628d1b63a29d8c9cabe4d66a8a5fe63fdbec7b3af5cd"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.7"
   analyzer:
     dependency: transitive
     description:
@@ -506,6 +498,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_adaptive_scaffold:
+    dependency: "direct main"
+    description:
+      name: flutter_adaptive_scaffold
+      sha256: "4257142551ec97761d44f4258b8ad53ac76593dd0992197b876769df19f8a018"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.8"
   flutter_driver:
     dependency: transitive
     description: flutter

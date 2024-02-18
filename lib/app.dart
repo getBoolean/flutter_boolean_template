@@ -99,7 +99,8 @@ class App extends ConsumerWidget {
         (FlavorConfig.instance.name?.isEmpty ?? true));
 
     return Stack(
-      alignment: AlignmentDirectional.topEnd,
+      // ignore: avoid_using_api
+      alignment: Alignment.topRight,
       children: [
         materialApp,
         if (settings.bannerEnabled && showBanner) const FlavorBanner(),

@@ -2,9 +2,9 @@
 
 import 'dart:io' as io;
 
-import 'package:adaptive_breakpoints/adaptive_breakpoints.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import 'package:flutter_boolean_template/src/routing/data/navigation_type.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:universal_html/html.dart' as html;
@@ -34,44 +34,27 @@ enum DeviceType {
       this == DeviceType.ChromeOS;
 }
 
-enum DeviceForm {
-  /// Large computer screens
-  largeDesktop(AdaptiveWindowType.xlarge),
+const $breakpointMediumSmall = WidthPlatformBreakpoint(begin: 600, end: 780);
 
+enum DeviceForm {
   /// Computer screens
-  desktop(AdaptiveWindowType.large),
+  large(Breakpoints.large),
 
   /// Large tablets in landscape
-  tablet(AdaptiveWindowType.medium),
-
-  /// Tablets in portrait and phones in landscape
-  largePhone(AdaptiveWindowType.small),
+  medium(Breakpoints.medium),
 
   /// Phones and small tablets in portrait
-  phone(AdaptiveWindowType.xsmall);
+  small(WidthPlatformBreakpoint(begin: 0, end: 600));
 
-  const DeviceForm(this.adaptiveWindowType);
+  const DeviceForm(this.breakpoint);
 
-  final AdaptiveWindowType adaptiveWindowType;
+  final Breakpoint breakpoint;
 
-  static DeviceForm from(AdaptiveWindowType adaptiveWindowType) {
-    return switch (adaptiveWindowType) {
-      _ when adaptiveWindowType >= AdaptiveWindowType.xlarge =>
-        DeviceForm.largeDesktop,
-      _ when adaptiveWindowType >= AdaptiveWindowType.large =>
-        DeviceForm.desktop,
-      _ when adaptiveWindowType >= AdaptiveWindowType.medium =>
-        DeviceForm.tablet,
-      _ when adaptiveWindowType >= AdaptiveWindowType.small =>
-        DeviceForm.largePhone,
-      _ when adaptiveWindowType >= AdaptiveWindowType.xsmall =>
-        DeviceForm.phone,
-      _ => DeviceForm.phone,
-    };
+  static DeviceForm of(BuildContext context) {
+    return DeviceForm.values.firstWhere(
+      (form) => form.breakpoint.isActive(context),
+    );
   }
-
-  bool get isSmall => this == DeviceForm.phone || this == DeviceForm.largePhone;
-  bool get isNotSmall => !isSmall;
 }
 
 typedef DeviceDetails = (DeviceType, DeviceForm, Orientation);
@@ -90,9 +73,7 @@ DeviceType get $deviceType =>
     kIsWeb ? _deviceTypeByUserAgent : _deviceTypeByPlatform;
 
 DeviceForm $deviceForm(BuildContext context) {
-  final windowType = getWindowType(context);
-  final DeviceForm deviceForm = DeviceForm.from(windowType);
-  return deviceForm;
+  return DeviceForm.of(context);
 }
 
 DeviceType get _deviceTypeByPlatform {
@@ -147,21 +128,12 @@ NavigationType $resolveNavigationType(BuildContext context) {
   final (_, form, orientation) = $deviceDetails(context);
   return switch (orientation) {
     Orientation.portrait => switch (form) {
-        DeviceForm.largeDesktop ||
-        DeviceForm.desktop =>
-          NavigationType.expandedSidebar,
-        DeviceForm.tablet ||
-        DeviceForm.phone ||
-        DeviceForm.largePhone =>
-          NavigationType.bottom,
+        DeviceForm.large => NavigationType.sidebar,
+        DeviceForm.medium || DeviceForm.small => NavigationType.bottom,
       },
     Orientation.landscape => switch (form) {
-        DeviceForm.largeDesktop ||
-        DeviceForm.desktop =>
-          NavigationType.expandedSidebar,
-        DeviceForm.tablet => NavigationType.expandedSidebar,
-        DeviceForm.largePhone => NavigationType.rail,
-        DeviceForm.phone => NavigationType.drawer,
+        DeviceForm.large || DeviceForm.medium => NavigationType.sidebar,
+        DeviceForm.small => NavigationType.drawer,
       },
   };
 }

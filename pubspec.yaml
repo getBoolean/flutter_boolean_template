@@ -11,7 +11,6 @@ environment:
 
 dependencies:
   accessibility_tools: ^1.0.1
-  adaptive_breakpoints: ^0.1.7
   assets:
     path: packages/assets
   awesome_flutter_extensions: ^1.2.0
@@ -27,6 +26,7 @@ dependencies:
   flex_color_scheme: ^7.3.1
   flutter:
     sdk: flutter
+  flutter_adaptive_scaffold: ^0.1.8
   flutter_flavor: ^3.1.1
   flutter_hooks: ^0.20.5
   flutter_native_splash: ^2.3.10

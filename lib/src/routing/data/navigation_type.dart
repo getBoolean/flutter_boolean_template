@@ -6,14 +6,11 @@ enum NavigationType {
   /// Used to configure a [Scaffold] with a [NavigationBar].
   bottom,
 
-  /// Used to configure a [Scaffold] with a [NavigationRail].
-  rail,
-
   /// Used to configure a [Scaffold] with a modal [Drawer].
   drawer,
 
   /// Used to configure a [Scaffold] with an open [ResponsiveSidebar].
-  expandedSidebar,
+  sidebar,
 
   /// (Experimental) Used to configure a [Scaffold] with a [TabBar]
   ///
@@ -21,7 +18,6 @@ enum NavigationType {
   top;
 
   bool get isSidebar {
-    return this == NavigationType.expandedSidebar ||
-        this == NavigationType.rail;
+    return this == NavigationType.sidebar;
   }
 }

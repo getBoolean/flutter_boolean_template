@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_boolean_template/src/routing/router/router.dart';
 import 'package:go_router/go_router.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -14,7 +15,7 @@ class ProfileScreen extends StatelessWidget {
         child: Center(
           child: FilledButton(
             onPressed: () {
-              context.go('/profile/details');
+              context.goNamed(RouteName.profileDetails.name);
             },
             child: const Text('Push Details'),
           ),

@@ -1,11 +1,11 @@
 import 'dart:math' as math;
 
-import 'package:adaptive_breakpoints/adaptive_breakpoints.dart';
 import 'package:constants/constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import 'package:flutter_boolean_template/src/routing/data/navigation_type.dart';
 import 'package:flutter_boolean_template/src/routing/presentation/widgets/responsive_sidebar.dart';
 import 'package:flutter_boolean_template/src/routing/router/router.dart';
@@ -152,7 +152,7 @@ class ResponsiveScaffold extends StatefulHookWidget {
     void Function(int index) setPage,
   )? buildDrawer;
 
-  /// Custom builder for [NavigationType.expandedSidebar]
+  /// Custom builder for [NavigationType.sidebar]
   /// and [NavigationType.rail]
   final Widget Function(
     BuildContext context,
@@ -291,9 +291,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
             tabBar,
             widget.title,
           ),
-        NavigationType.expandedSidebar ||
-        NavigationType.rail =>
-          buildSidebarAppBar(
+        NavigationType.sidebar => buildSidebarAppBar(
             context,
             topRouteName,
             navigationType,
@@ -336,10 +334,8 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
                 AnimatedSwitcher(
                   duration: widget.transitionDuration,
                   reverseDuration: widget.transitionReverseDuration,
-                  child: navigationType == NavigationType.expandedSidebar ||
-                          navigationType == NavigationType.rail
-                      ? sidebar
-                      : null,
+                  child:
+                      navigationType == NavigationType.sidebar ? sidebar : null,
                 ),
                 widget.divider,
                 Expanded(child: widget.child),
@@ -608,18 +604,16 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
     void Function(int index) setPage,
     NavigationType navigationType,
   ) {
+    final bool collapsedSidebar = navigationType == NavigationType.sidebar &&
+        WidthPlatformBreakpoint(end: $breakpointMediumSmall.end)
+            .isActive(context);
     return _StyledResponsiveSidebar(
       key: const Key('responsive-sidebarx'),
       controller: _sidebarController,
       destinations: widget.destinations,
       onTap: _setPage,
       expandable: true,
-      shouldExpand: navigationType.isSidebar
-          ? navigationType == NavigationType.expandedSidebar
-          : null,
-      shouldShrink: navigationType.isSidebar
-          ? navigationType == NavigationType.rail
-          : null,
+      expanded: navigationType.isSidebar ? !collapsedSidebar : null,
       expandedWidth: widget.drawerWidth,
       transitionDuration: widget.transitionDuration,
       reverseTransitionDuration: widget.transitionReverseDuration,
@@ -865,27 +859,24 @@ class RouterDestination {
 }
 
 NavigationType defaultNavigationTypeResolver(BuildContext context) {
-  if (defaultIsLargeScreen(context)) {
-    return NavigationType.expandedSidebar;
-  } else if (defaultIsMediumScreen(context)) {
-    return NavigationType.rail;
+  if (defaultIsLargeScreen(context) || defaultIsMediumScreen(context)) {
+    return NavigationType.sidebar;
   } else {
     return NavigationType.bottom;
   }
 }
 
 bool defaultIsLargeScreen(BuildContext context) =>
-    getWindowType(context) >= AdaptiveWindowType.large;
+    Breakpoints.large.isActive(context);
 bool defaultIsMediumScreen(BuildContext context) =>
-    getWindowType(context) == AdaptiveWindowType.medium;
+    Breakpoints.medium.isActive(context);
 
 class _StyledResponsiveSidebar extends StatelessWidget {
   const _StyledResponsiveSidebar({
     required this.destinations,
     required this.controller,
     required this.expandable,
-    required this.shouldExpand,
-    required this.shouldShrink,
+    required this.expanded,
     required this.onTap,
     required this.expandedWidth,
     required this.transitionDuration,
@@ -899,8 +890,7 @@ class _StyledResponsiveSidebar extends StatelessWidget {
   final SidebarXController controller;
 
   final bool expandable;
-  final bool? shouldExpand;
-  final bool? shouldShrink;
+  final bool? expanded;
   final double expandedWidth;
 
   final Duration? transitionDuration;
@@ -916,8 +906,7 @@ class _StyledResponsiveSidebar extends StatelessWidget {
       controller: controller,
       destinations: destinations,
       onTap: onTap,
-      shouldExpand: shouldExpand,
-      shouldShrink: shouldShrink,
+      expanded: expanded,
       expandable: expandable,
       expandedWidth: expandedWidth,
       footerDivider: const Divider(height: 1.0, thickness: 1),

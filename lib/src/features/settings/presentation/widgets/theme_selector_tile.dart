@@ -2,7 +2,6 @@ import 'package:constants/constants.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_boolean_template/src/common_widgets/prototype_height.dart';
 import 'package:flutter_boolean_template/utils/utils.dart';
 
 class ThemeSelectorTile extends StatefulWidget {
@@ -53,18 +52,11 @@ class _ThemeSelectorTileState extends State<ThemeSelectorTile> {
               PointerDeviceKind.mouse,
             }..addAll(ScrollConfiguration.of(context).dragDevices),
           ),
-          child: PrototypeHeight(
-            prototype: ThemeItem(
-              selectedIndex: selectedIndex,
-              theme: theme,
-              scheme: scheme,
-              selected: widget.selected,
-              schemes: widget.schemes,
-              onTap: widget.onTap,
-              colorProvider: widget.colorProvider,
-              index: 0,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints.tightFor(
+              height: 160,
             ),
-            listView: ListView.builder(
+            child: ListView.builder(
               controller: _scrollController,
               padding: const EdgeInsetsDirectional.only(start: 8, end: 16),
               scrollDirection: Axis.horizontal,
@@ -145,6 +137,8 @@ class ThemeItem extends StatelessWidget {
                     fontWeight: FontWeight.w300,
                   ),
                 ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ],
           ),
