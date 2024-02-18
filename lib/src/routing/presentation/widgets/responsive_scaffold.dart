@@ -153,7 +153,7 @@ class ResponsiveScaffold extends StatefulHookWidget {
   )? buildDrawer;
 
   /// Custom builder for [NavigationType.sidebar]
-  /// and [NavigationType.rail]
+  /// and [NavigationType.sidebar]
   final Widget Function(
     BuildContext context,
     RouteName? topRoute,
