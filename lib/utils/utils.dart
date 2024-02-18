@@ -34,7 +34,7 @@ enum DeviceType {
       this == DeviceType.ChromeOS;
 }
 
-const $breakpointMediumSmall = WidthPlatformBreakpoint(begin: 600, end: 780);
+const $breakpointMediumSmall = WidthPlatformBreakpoint(begin: 600, end: 700);
 
 enum DeviceForm {
   /// Computer screens
@@ -132,7 +132,8 @@ NavigationType $resolveNavigationType(BuildContext context) {
         DeviceForm.medium || DeviceForm.small => NavigationType.bottom,
       },
     Orientation.landscape => switch (form) {
-        DeviceForm.large || DeviceForm.medium => NavigationType.sidebar,
+        DeviceForm.large => NavigationType.top,
+        DeviceForm.medium => NavigationType.sidebar,
         DeviceForm.small => NavigationType.drawer,
       },
   };
