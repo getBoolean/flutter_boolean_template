@@ -24,8 +24,8 @@ on:
       - 'v*'
 
 env:
-  FLUTTER_CHANNEL: "beta"
-  FLUTTER_VERSION: "any"
+  FLUTTER_CHANNEL: "stable"
+  FLUTTER_VERSION: "^3.19.0"
   FLAVOR: ""
   # https://github.com/transferwise/sanitize-branch-name/blob/main/action.yml
   BRANCH_NAME: $(echo -n ${{ github.head_ref || github.ref_name }} | tr "/" "-")
