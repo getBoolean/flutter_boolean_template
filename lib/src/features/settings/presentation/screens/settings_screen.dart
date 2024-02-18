@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/features/settings/application/settings_service.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/dto/settings.dart';
 import 'package:flutter_boolean_template/src/routing/router/router.dart';
+import 'package:flutter_boolean_template/utils/utils.dart';
 import 'package:flutter_settings_ui/flutter_settings_ui.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -123,26 +124,46 @@ class _SettingsWidgetState extends ConsumerState<SettingsScreen> {
     return <AbstractSettingsTile>[
       if (AppFlavor.isBannerEnabled)
         CustomSettingsTile(
-          child: ListTile(
-            leading: const Icon(Icons.bug_report),
-            title: const Text('Enable banner'),
-            onTap: () {
-              ref.read(settingsServiceProvider.notifier).toggleBanner();
-              // TODO: #155 Show snackbar if user has talkback enabled
-            },
-            trailing: Semantics(
-              label: 'Toggle debug banner',
-              child: Switch(
-                value: settings.bannerEnabled,
-                onChanged: (value) {
-                  ref.read(settingsServiceProvider.notifier).toggleBanner();
-                  // TODO: #155 Show snackbar if user has talkback enabled
-                },
-              ),
-            ),
-          ),
+          child: _ToggleBannerButton(context: context),
         ),
     ];
+  }
+}
+
+class _ToggleBannerButton extends ConsumerWidget {
+  const _ToggleBannerButton({
+    required this.context,
+  });
+
+  final BuildContext context;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final settings = ref.watch(settingsServiceProvider);
+    return ListTile(
+      leading: const Icon(Icons.bug_report),
+      title: const Text('Enable banner'),
+      onTap: () {
+        _toggleButton(ref, context);
+      },
+      trailing: Semantics(
+        label: 'Toggle debug banner',
+        child: Switch(
+          value: settings.bannerEnabled,
+          onChanged: (value) {
+            _toggleButton(ref, context);
+          },
+        ),
+      ),
+    );
+  }
+
+  void _toggleButton(WidgetRef ref, BuildContext context) {
+    ref.read(settingsServiceProvider.notifier).toggleBanner();
+    final bannerEnabled = ref.read(settingsServiceProvider).bannerEnabled;
+    context.showAccessibilitySnackBar(
+      'Debug banner has been ${bannerEnabled ? 'enabled' : 'disabled'}',
+    );
   }
 }
 
