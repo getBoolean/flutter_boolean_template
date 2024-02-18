@@ -224,13 +224,10 @@ class _SidebarXState extends State<SidebarX>
     return AnimatedContainer(
       duration: widget.animationDuration,
       clipBehavior: Clip.antiAlias,
-      decoration: sidebarXTheme.decoration?.copyWith(
-          borderRadius: sidebarXTheme.decoration?.borderRadius
-              ?.resolve(Directionality.of(context))
-              .copyWith(topLeft: Radius.zero, topRight: Radius.zero)),
+      decoration: sidebarXTheme.toggleButtonDecoration,
       child: Material(
         type: MaterialType.transparency,
-        shape: sidebarXTheme.decoration?.border,
+        shape: sidebarXTheme.toggleButtonDecoration?.border,
         animationDuration: widget.animationDuration,
         child: InkWell(
           key: const Key('sidebarx_toggle_button'),
@@ -245,7 +242,7 @@ class _SidebarXState extends State<SidebarX>
                 : MainAxisAlignment.center,
             children: [
               Padding(
-                padding: const EdgeInsetsDirectional.all(14.0),
+                padding: const EdgeInsets.all(14.0),
                 child: Icon(
                   widget.controller.extended ? collapseIcon : extendIcon,
                   color: sidebarXTheme.iconTheme?.color,
