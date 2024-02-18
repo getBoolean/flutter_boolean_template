@@ -211,18 +211,18 @@ packages:
     dependency: transitive
     description:
       name: custom_lint_builder
-      sha256: "9cdd9987feaa6925ec5f98d64de4fbbb5d94248ff77bbf2489366efad6c4baef"
+      sha256: "3a14687fc71a5e2124a29722106f7b7e67dd5a6d58e33f2859650b46acff1d54"
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.0"
+    version: "0.6.1"
   custom_lint_core:
     dependency: transitive
     description:
       name: custom_lint_core
-      sha256: "9003a91409c9f1db6e2e50b4870d1d5e802e5923b25f7261bf3cb3e11ea9d4fb"
+      sha256: "1e9128e095ad5e0973469bdaac1ead8bfc86c485954c23cf617299de5e6fa029"
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.0"
+    version: "0.6.1"
   dart_style:
     dependency: transitive
     description:
@@ -397,10 +397,10 @@ packages:
     dependency: transitive
     description:
       name: js
-      sha256: "4186c61b32f99e60f011f7160e32c89a758ae9b1d0c6d28e2c02ef0382300e2b"
+      sha256: c1b2e9b5ea78c45e1a0788d29606ba27dc5f71f019f32ca5140f61ef071838cf
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.0"
+    version: "0.7.1"
   json_annotation:
     dependency: transitive
     description:
@@ -698,18 +698,18 @@ packages:
     dependency: transitive
     description:
       name: web
-      sha256: "4188706108906f002b3a293509234588823c8c979dc83304e229ff400c996b05"
+      sha256: "1d9158c616048c38f712a6646e317a3426da10e884447626167240d45209cbad"
       url: "https://pub.dev"
     source: hosted
-    version: "0.4.2"
+    version: "0.5.0"
   web_socket_channel:
     dependency: transitive
     description:
       name: web_socket_channel
-      sha256: "939ab60734a4f8fa95feacb55804fa278de28bdeef38e616dc08e44a84adea23"
+      sha256: "1d8e795e2a8b3730c41b8a98a2dff2e0fb57ae6f0764a1c46ec5915387d257b2"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.3"
+    version: "2.4.4"
   yaml:
     dependency: transitive
     description:
@@ -719,5 +719,5 @@ packages:
     source: hosted
     version: "3.1.2"
 sdks:
-  dart: ">=3.2.0 <4.0.0"
+  dart: ">=3.3.0 <4.0.0"
   flutter: ">=3.7.0"

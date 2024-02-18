@@ -354,18 +354,18 @@ packages:
     dependency: transitive
     description:
       name: custom_lint_builder
-      sha256: "9cdd9987feaa6925ec5f98d64de4fbbb5d94248ff77bbf2489366efad6c4baef"
+      sha256: "3a14687fc71a5e2124a29722106f7b7e67dd5a6d58e33f2859650b46acff1d54"
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.0"
+    version: "0.6.1"
   custom_lint_core:
     dependency: transitive
     description:
       name: custom_lint_core
-      sha256: "9003a91409c9f1db6e2e50b4870d1d5e802e5923b25f7261bf3cb3e11ea9d4fb"
+      sha256: "1e9128e095ad5e0973469bdaac1ead8bfc86c485954c23cf617299de5e6fa029"
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.0"
+    version: "0.6.1"
   dart_mappable:
     dependency: "direct main"
     description:
@@ -751,10 +751,10 @@ packages:
     dependency: transitive
     description:
       name: hotreloader
-      sha256: "94ee21a60ea2836500799f3af035dc3212b1562027f1e0031c14e087f0231449"
+      sha256: ed56fdc1f3a8ac924e717257621d09e9ec20e308ab6352a73a50a1d7a4d9158e
       url: "https://pub.dev"
     source: hosted
-    version: "4.1.0"
+    version: "4.2.0"
   html:
     dependency: transitive
     description:
@@ -1146,10 +1146,10 @@ packages:
     dependency: transitive
     description:
       name: patrol_finders
-      sha256: "909a5c28ba1730e5e1e06e06ec78f4ccc49f7e211f3a0919adac552841df19ee"
+      sha256: ac33527cc1b63e3aa131dbd7107cfda8ee2df0fb4a4a423c067174a2e60db77b
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.1+1"
+    version: "2.0.2"
   petitparser:
     dependency: transitive
     description:
@@ -1162,10 +1162,10 @@ packages:
     dependency: transitive
     description:
       name: pixel_snap
-      sha256: d31591a4f4aa8ed5dc6fc00b8d027338a5614dfbf5ca658b69d1faa7aba80af7
+      sha256: "677410ea37b07cd37ecb6d5e6c0d8d7615a7cf3bd92ba406fd1ac57e937d1fb0"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.4"
+    version: "0.1.5"
   platform:
     dependency: transitive
     description:
@@ -1606,10 +1606,10 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_android
-      sha256: "507dc655b1d9cb5ebc756032eb785f114e415f91557b73bf60b7e201dfedeb2f"
+      sha256: d4ed0711849dd8e33eb2dd69c25db0d0d3fdc37e0a62e629fe32f57a22db2745
       url: "https://pub.dev"
     source: hosted
-    version: "6.2.2"
+    version: "6.3.0"
   url_launcher_ios:
     dependency: transitive
     description:
@@ -1638,10 +1638,10 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_platform_interface
-      sha256: a932c3a8082e118f80a475ce692fde89dc20fddb24c57360b96bc56f7035de1f
+      sha256: "552f8a1e663569be95a8190206a38187b531910283c3e982193e4f2733f01029"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.1"
+    version: "2.3.2"
   url_launcher_web:
     dependency: transitive
     description:
