@@ -1138,10 +1138,10 @@ packages:
     dependency: "direct dev"
     description:
       name: patrol
-      sha256: a0e282c0236bd756583a64095b4624822a4b27f6c77ba73260b5378c7af7b6a1
+      sha256: "2e854c62fd2ce430084ab3e0087065e3b2893086c506dba5ec13e21c871a1fd5"
       url: "https://pub.dev"
     source: hosted
-    version: "3.5.0"
+    version: "3.5.1"
   patrol_finders:
     dependency: transitive
     description:
@@ -1788,4 +1788,4 @@ packages:
     version: "2.1.1"
 sdks:
   dart: ">=3.3.0-279.1.beta <4.0.0"
-  flutter: ">=3.19.0-0.2.pre"
+  flutter: ">=3.19.0"
