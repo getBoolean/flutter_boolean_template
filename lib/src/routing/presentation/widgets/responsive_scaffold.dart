@@ -880,7 +880,6 @@ class _StyledResponsiveSidebar extends StatelessWidget {
     required this.expandedWidth,
     required this.transitionDuration,
     required this.reverseTransitionDuration,
-    super.key,
   });
 
   /// The index into [destinations] for the current selected
