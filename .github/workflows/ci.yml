@@ -224,6 +224,7 @@ jobs:
         with:
           artifacts: build/ios/iphoneos/flutter_boolean_template-*.ipa
           allowUpdates: true
+          omitBodyDuringUpdate: true
 
   # build_ios_with_signing:
   #   name: Build Flutter for iOS (Signed)
@@ -320,6 +321,7 @@ jobs:
   #       with:
   #         artifacts: build/ios/iphoneos/flutter_boolean_template-*.ipa
   #         allowUpdates: true
+  #         omitBodyDuringUpdate: true
 
   build_android:
     name: Build Flutter for Android
@@ -408,6 +410,7 @@ jobs:
         with:
           artifacts: build/app/outputs/flutter-apk/flutter_boolean_template-*.apk
           allowUpdates: true
+          omitBodyDuringUpdate: true
 
       - name: Build Universal APK
         run: |
@@ -428,6 +431,7 @@ jobs:
         with:
           artifacts: build/app/outputs/flutter-apk/flutter_boolean_template-${{ env.BRANCH_NAME }}-android-universal.apk
           allowUpdates: true
+          omitBodyDuringUpdate: true
 
       - name: Build Android App Bundle
         run: |
@@ -448,6 +452,7 @@ jobs:
         with:
           artifacts: build/app/outputs/bundle/release/flutter_boolean_template-*.aab
           allowUpdates: true
+          omitBodyDuringUpdate: true
 
   build_windows:
     name: Build Flutter for Windows x64
@@ -535,6 +540,7 @@ jobs:
         with:
           artifacts: build/windows/x64/runner/Release/flutter_boolean_template-*.msix
           allowUpdates: true
+          omitBodyDuringUpdate: true
 
   build_linux:
     name: Build Flutter for Linux
@@ -626,6 +632,7 @@ jobs:
         with:
           artifacts: build/flutter_boolean_template-*.AppImage
           allowUpdates: true
+          omitBodyDuringUpdate: true
 
   build_macos:
     name: Build Flutter for MacOS
@@ -714,6 +721,8 @@ jobs:
         with:
           artifacts: /Users/runner/work/flutter_boolean_template/flutter_boolean_template/flutter_boolean_template-*.dmg
           allowUpdates: true
+          omitBodyDuringUpdate: true
+
   build_web:
     name: Build Flutter for Web
     needs: [flutter_test]
