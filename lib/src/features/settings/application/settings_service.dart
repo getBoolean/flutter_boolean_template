@@ -50,11 +50,12 @@ class SettingsService extends _$SettingsService {
     _settingsRepository.saveSettings(newSettings);
   }
 
-  void toggleBanner() {
-    final bannerEnabled = state.bannerEnabled;
-    final newSettings = state.copyWith(bannerEnabled: !bannerEnabled);
+  bool toggleBanner() {
+    final bannerEnabled = !state.bannerEnabled;
+    final newSettings = state.copyWith(bannerEnabled: bannerEnabled);
     state = newSettings;
     _settingsRepository.saveSettings(newSettings);
+    return bannerEnabled;
   }
 
   void setThemeType(ThemeType themeType) {
