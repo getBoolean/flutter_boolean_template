@@ -112,7 +112,7 @@ code provided in this template, but the licenses of the packages must still be f
    dart run change_app_package_name:main com.author.app_name
    ```
 
-1. [ ] Search for `github.com/getBoolean/flutter_boolean_template` and update it with your GitHub username and repository name
+1. [ ] Search for `getBoolean/flutter_boolean_template` and update it with your GitHub username and repository name
 1. [ ] Search for `com.example.flutter_boolean_template` and replace it with your new Android bundle identifier
 1. [ ] Search for `com.example.flutterBooleanTemplate` and replace it with your new iOS bundle identifier
 1. [ ] Search for `flutter_boolean_template` and replace it with your new package identifier
