@@ -27,13 +27,14 @@ class ConnectivityBuilder extends StatefulWidget {
 }
 
 class _ConnectivityBuilderState extends State<ConnectivityBuilder> {
-  ConnectivityResult _connectivityResult = ConnectivityResult.none;
+  ConnectivityResult? _connectivityResult;
   late final StreamSubscription<ConnectivityResult> _connectivitySubscription;
   final _connectivity = Connectivity();
 
   @override
   void initState() {
     super.initState();
+    _connectivity.checkConnectivity().then(_updateConnectionStatus);
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
   }
