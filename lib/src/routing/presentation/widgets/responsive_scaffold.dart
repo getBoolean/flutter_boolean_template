@@ -608,7 +608,6 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
         WidthPlatformBreakpoint(end: $breakpointMediumSmall.end)
             .isActive(context);
     return _StyledResponsiveSidebar(
-      key: const Key('responsive-sidebarx'),
       controller: _sidebarController,
       destinations: widget.destinations,
       onTap: _setPage,
