@@ -8,7 +8,6 @@ import 'package:flutter_boolean_template/src/routing/presentation/routes/setting
 import 'package:flutter_boolean_template/src/routing/presentation/widgets/implicitly_animated_page_switcher.dart';
 import 'package:flutter_boolean_template/src/routing/presentation/widgets/responsive_scaffold.dart';
 import 'package:flutter_boolean_template/src/routing/presentation/widgets/root_scaffold_shell.dart';
-import 'package:flutter_boolean_template/utils/utils.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:log/log.dart';
@@ -208,27 +207,9 @@ StatefulShellBranch _buildBooksBranch(RouterDestination destination) {
         name: RouteName.books.name,
         path: '/books',
         builder: (BuildContext context, GoRouterState state) {
-          // only root routes should use query parameters because
-          // popping a route will not change the query parameters to the previous route's
-          final id = state.uri.queryParameters['id'];
-          return BooksRoute(
-            id: id,
-            key: const ValueKey('BOOKS'),
+          return const BooksRoute(
+            key: ValueKey('BOOKS'),
           );
-        },
-        redirect: (BuildContext context, GoRouterState state) {
-          // Transforming path params to query params because query params are shared and not cleared on pop
-          final queryParamId = state.uri.queryParameters['id'];
-          final pathParamId = state.pathParameters['id'];
-          final deviceForm = $deviceForm(context);
-          final numPages = state.uri.pathSegments.length;
-          return switch ((numPages, deviceForm.isSmall)) {
-            (1, true) when queryParamId != null =>
-              '/books/details-$queryParamId',
-            (2, false) =>
-              pathParamId == null ? '/books' : '/books?id=$pathParamId',
-            (_, _) => null,
-          };
         },
         routes: <RouteBase>[
           GoRoute(

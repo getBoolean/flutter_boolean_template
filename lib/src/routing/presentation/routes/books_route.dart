@@ -3,9 +3,7 @@ import 'package:flutter_boolean_template/src/features/books/presentation/books_s
 import 'package:log/log.dart';
 
 class BooksRoute extends StatefulWidget {
-  const BooksRoute({super.key, this.id});
-
-  final String? id;
+  const BooksRoute({super.key});
 
   @override
   State<BooksRoute> createState() => _BooksRouteState();
@@ -16,6 +14,6 @@ class _BooksRouteState extends State<BooksRoute> {
 
   @override
   Widget build(BuildContext context) {
-    return BooksScreen(id: widget.id);
+    return const BooksScreen();
   }
 }

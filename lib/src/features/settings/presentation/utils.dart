@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/src/features/settings/data/dto/human_name_enum.dart';
 import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 
-Future<ReturnT?> showOptionsMenu<ReturnT, OptionT extends HumanReadableEnum>(
+Future<OptionT?> showOptionsMenu<OptionT extends HumanReadableEnum>(
   BuildContext context, {
   required OptionT current,
   required List<OptionT> options,
   required String title,
 }) async {
-  return await WoltModalSheet.show<ReturnT>(
+  return await WoltModalSheet.show<OptionT>(
     context: context,
     useRootNavigator: true,
     pageListBuilder: (BuildContext context) {

@@ -29,12 +29,10 @@ class NavigationTypeOverrideMapper extends EnumMapper<NavigationTypeOverride> {
         return NavigationTypeOverride.auto;
       case 'bottom':
         return NavigationTypeOverride.bottom;
-      case 'rail':
-        return NavigationTypeOverride.rail;
       case 'drawer':
         return NavigationTypeOverride.drawer;
-      case 'expandedSidebar':
-        return NavigationTypeOverride.expandedSidebar;
+      case 'sidebar':
+        return NavigationTypeOverride.sidebar;
       case 'top':
         return NavigationTypeOverride.top;
       default:
@@ -49,12 +47,10 @@ class NavigationTypeOverrideMapper extends EnumMapper<NavigationTypeOverride> {
         return 'auto';
       case NavigationTypeOverride.bottom:
         return 'bottom';
-      case NavigationTypeOverride.rail:
-        return 'rail';
       case NavigationTypeOverride.drawer:
         return 'drawer';
-      case NavigationTypeOverride.expandedSidebar:
-        return 'expandedSidebar';
+      case NavigationTypeOverride.sidebar:
+        return 'sidebar';
       case NavigationTypeOverride.top:
         return 'top';
     }

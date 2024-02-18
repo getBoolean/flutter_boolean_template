@@ -18,12 +18,10 @@ class NavigationTypeOverrideAdapter
         return NavigationTypeOverride.auto;
       case 1:
         return NavigationTypeOverride.bottom;
-      case 2:
-        return NavigationTypeOverride.rail;
       case 3:
         return NavigationTypeOverride.drawer;
       case 4:
-        return NavigationTypeOverride.expandedSidebar;
+        return NavigationTypeOverride.sidebar;
       case 5:
         return NavigationTypeOverride.top;
       default:
@@ -40,13 +38,10 @@ class NavigationTypeOverrideAdapter
       case NavigationTypeOverride.bottom:
         writer.writeByte(1);
         break;
-      case NavigationTypeOverride.rail:
-        writer.writeByte(2);
-        break;
       case NavigationTypeOverride.drawer:
         writer.writeByte(3);
         break;
-      case NavigationTypeOverride.expandedSidebar:
+      case NavigationTypeOverride.sidebar:
         writer.writeByte(4);
         break;
       case NavigationTypeOverride.top:

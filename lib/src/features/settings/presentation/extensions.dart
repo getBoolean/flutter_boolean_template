@@ -10,7 +10,7 @@ extension BuildContextSettings on BuildContext {
 }
 
 extension BuildContextModalExtensions on BuildContext {
-  Future<ReturnT?> showOptionsMenu<ReturnT, OptionT extends HumanReadableEnum>({
+  Future<OptionT?> showOptionsMenu<OptionT extends HumanReadableEnum>({
     required OptionT current,
     required List<OptionT> options,
     required String title,

@@ -98,12 +98,15 @@ class App extends ConsumerWidget {
     final showBanner = !(FlavorConfig.instance.name == null ||
         (FlavorConfig.instance.name?.isEmpty ?? true));
 
-    return Stack(
-      alignment: AlignmentDirectional.topEnd,
-      children: [
-        materialApp,
-        if (settings.bannerEnabled && showBanner) const FlavorBanner(),
-      ],
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: Stack(
+        alignment: AlignmentDirectional.topEnd,
+        children: [
+          materialApp,
+          if (settings.bannerEnabled && showBanner) const FlavorBanner(),
+        ],
+      ),
     );
   }
 }
