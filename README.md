@@ -31,7 +31,7 @@ separate packages.
 - [Libraries](#libraries)
   - [Melos](#melos)
     - [Scripts](#scripts)
-  - [AutoRoute Navigation](#autoroute-navigation)
+  - [GoRouter Navigation](#gorouter-navigation)
   - [ENVied Environment Variables](#envied-environment-variables)
   - [Mason Bricks](#mason-bricks)
   - [JSON Serialization, Unions, Sealed Classes and copyWith](#json-serialization-unions-sealed-classes-and-copywith)
@@ -160,10 +160,7 @@ To run the tests, see the instructions in the [Patrol documentation](https://pub
 
 This project automatically builds for all platforms without code signing using GitHub Actions.
 To build the project locally, follow the instructions in the
-[Flutter docs](https://flutter.dev/docs). Only Windows, Android, and iOS build files are currently
-uploaded to the CI action fragments.
-
-Instructions for building for release are below:
+[Flutter docs](https://flutter.dev/docs).
 
 ### Flavors
 
@@ -288,18 +285,10 @@ Tests:
 - `melos run flutter_test:pkg` - Run Flutter tests for a specific package.
 - `melos run dart_test:pkg` - Run Dart tests for a specific (Dart only) package.
 
-### AutoRoute Navigation
+### GoRouter Navigation
 
-This project uses [AutoRoute](https://pub.dev/packages/auto_route) for navigation
-and provides some starter boilerplate for adaptive multitab navigation using `AutoAdaptiveRouterScaffold`.
-
-- For the AppBar title to be updated when the route changes, the `RoutePage` must be a `StatefulWidget` and
-  use the `AutoUpdateTitleStateMixin<T extends State>` mixin. This mixin will update the title when the `RoutePage` is pushed.
-- Use `goTo` from the mixin to push new routes instead of the default methods AutoRoute provides.
-  - Unfortunately the route observer does not detect when a page becomes active again after
-    top page was popped. As a workaround, this method will call `updateTitle` after the page is popped.
-- Use the `AutoRoute.title` builder in [app_router.dart](lib/src/routing/router/app_router.dart) to
-  customize the AppBar title per route. (Required for `NavigationType.bottom`/`NavigationType.drawer`)
+This project uses [GoRouter](https://pub.dev/packages/go_router) for navigation
+and provides some starter boilerplate for adaptive multitab navigation using `ResponsiveScaffold`.
 
 ### ENVied Environment Variables
 
@@ -317,7 +306,7 @@ with the new environment variables for `AppEnvFieldsGenerated` and `AppEnvFields
 1. Add the new environment variables to the implementing `*Env` classes in the [src/env](packages/env/src/env/) directory.
    - It must be done for *all* even if only one `.env` file is planned to be used
 1. Enable `obfuscate` for API keys in the `@EnviedField` annotation. (Note: still assume it is not secure)
-1. Optionally, add a `defaultValue` to the `@EnviedField` annotation for keys which are
+1. Optionally, add a `@EnviedField` `defaultValue` or enable `optional` on the annotation for keys which are
 not required in all modes.
 
 ### Mason Bricks
