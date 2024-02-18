@@ -93,6 +93,7 @@ void main() {
 1. [ ] Rename App: [Change App/Package Name](#change-apppackage-name)
 1. [ ] [Workflow Permissions](#workflow-permissions)
 1. [ ] Update Description: [pubspec.yaml](pubspec.yaml) and [README.md](README.md).
+1. [ ] Replace [codemagic.io](https://codemagic.io) badge with your own.
 1. [ ] Add Environment Variables: [ENVied Environment Variables](#envied-environment-variables) section for details.
 1. [ ] [Change App Icon: flutter_launcher_icons](https://pub.dev/packages/flutter_launcher_icons)
 1. [ ] [Change Splash Screen: flutter_native_splash](https://pub.dev/packages/flutter_native_splash)
