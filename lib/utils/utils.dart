@@ -128,8 +128,9 @@ NavigationType $resolveNavigationType(BuildContext context) {
   final (_, form, orientation) = $deviceDetails(context);
   return switch (orientation) {
     Orientation.portrait => switch (form) {
-        DeviceForm.large => NavigationType.sidebar,
-        DeviceForm.medium || DeviceForm.small => NavigationType.bottom,
+        DeviceForm.large => NavigationType.top,
+        DeviceForm.medium => NavigationType.sidebar,
+        DeviceForm.small => NavigationType.bottom,
       },
     Orientation.landscape => switch (form) {
         DeviceForm.large => NavigationType.top,
