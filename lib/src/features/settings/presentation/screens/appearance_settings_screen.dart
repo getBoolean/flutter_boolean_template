@@ -51,8 +51,8 @@ class AppearanceSettingsScreen extends ConsumerWidget {
             title: const Text('Portrait Navigation'),
             subtitle: Text(settings.portraitNavigationTypeOverride.humanName),
             onTap: () async {
-              final navigationTypeOverride = await context.showOptionsMenu<
-                  NavigationTypeOverride, NavigationTypeOverride>(
+              final navigationTypeOverride =
+                  await context.showOptionsMenu<NavigationTypeOverride>(
                 title: 'Portrait Navigation',
                 current: settings.portraitNavigationTypeOverride,
                 options: NavigationTypeOverride.values,
@@ -70,8 +70,8 @@ class AppearanceSettingsScreen extends ConsumerWidget {
             title: const Text('Landscape Navigation'),
             subtitle: Text(settings.landscapeNavigationTypeOverride.humanName),
             onTap: () async {
-              final navigationTypeOverride = await context.showOptionsMenu<
-                  NavigationTypeOverride, NavigationTypeOverride>(
+              final navigationTypeOverride =
+                  await context.showOptionsMenu<NavigationTypeOverride>(
                 title: 'Landscape Navigation',
                 current: settings.landscapeNavigationTypeOverride,
                 options: NavigationTypeOverride.values,
