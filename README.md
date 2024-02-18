@@ -120,11 +120,16 @@ code provided in this template, but the licenses of the packages must still be f
 
 ### Workflow Permissions
 
-1. In Github: Settings -> Actions -> General -> Workflow permissions
+1. Github Repo: Settings -> Actions -> General -> Workflow permissions
    1. Enable "Read and write permissions"
    1. Enable "Allow GitHub Actions to create and approve pull requests"
-1. In Github: Settings -> Environments -> github-pages -> Deployment branches and tags
+1. Github Repo: Settings -> Environments -> github-pages -> Deployment branches and tags
    1. Change "Selected branches and tags" to "No restriction"
+1. Github Repo: Settings -> Secrets and variables -> Repository secrets -> New repository secret
+   1. Name: `PAT`
+   2. Value: Your GitHub Personal Access Token
+      1. Github Profile -> Settings -> Developer settings -> Personal access tokens -> Tokens (classic)
+      1. Generate a new token (classic), name it `<AppName> Web Deploy`, and give it the `repo` and `workflow` scopes
 
 ## Setup
 
