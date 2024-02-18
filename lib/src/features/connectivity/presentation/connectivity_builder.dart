@@ -34,6 +34,7 @@ class _ConnectivityBuilderState extends State<ConnectivityBuilder> {
   @override
   void initState() {
     super.initState();
+    _connectivity.checkConnectivity().then(_updateConnectionStatus);
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
   }
