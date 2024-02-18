@@ -94,6 +94,8 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
                 );
         },
         buildLogo: (context, topRoute, index, expanded) {
+          final visualDensityFactor =
+              Theme.of(context).visualDensity.horizontal;
           return expanded
               ? IntrinsicWidth(
                   child: Row(
@@ -120,9 +122,11 @@ class _RootScaffoldShellState extends ConsumerState<RootScaffoldShell> {
                     ],
                   ),
                 )
-              : const Padding(
-                  padding: EdgeInsetsDirectional.all(8.0),
-                  child: _StylizedFlutterLogo(),
+              : Padding(
+                  padding: EdgeInsetsDirectional.symmetric(
+                    horizontal: 12.0 + visualDensityFactor * 4.0,
+                  ),
+                  child: const _StylizedFlutterLogo(),
                 );
         },
         child: widget.navigationShell,
