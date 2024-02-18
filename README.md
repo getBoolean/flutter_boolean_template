@@ -121,8 +121,10 @@ code provided in this template, but the licenses of the packages must still be f
 ### Workflow Permissions
 
 1. In Github: Settings -> Actions -> General -> Workflow permissions
-1. Enable "Read and write permissions"
-1. Enable "Allow GitHub Actions to create and approve pull requests"
+   1. Enable "Read and write permissions"
+   1. Enable "Allow GitHub Actions to create and approve pull requests"
+1. In Github: Settings -> Environments -> github-pages -> Deployment branches and tags
+   1. Change "Selected branches and tags" to "No restriction"
 
 ## Setup
 
