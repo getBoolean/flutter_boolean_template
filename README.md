@@ -130,6 +130,7 @@ code provided in this template, but the licenses of the packages must still be f
    1. Value: Your GitHub Personal Access Token
       1. Github Profile -> Settings -> Developer settings -> Personal access tokens -> Tokens (classic)
       1. Generate a new token (classic), name it `<AppName> Web Deploy`, and give it the `repo` and `workflow` scopes
+1. Github Repo: Settings -> General -> Pull Requests -> Enable "Allow auto-merge"
 
 ## Setup
 
