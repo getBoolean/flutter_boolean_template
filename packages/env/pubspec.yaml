@@ -9,8 +9,6 @@ environment:
   flutter: ">=3.0.0"
 
 dependencies:
-  constants:
-    path: ../constants
   envied: ^0.5.2
   flutter:
     sdk: flutter

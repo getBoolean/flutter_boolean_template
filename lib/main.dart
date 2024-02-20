@@ -1,4 +1,5 @@
 import 'package:constants/constants.dart';
+import 'package:env/env.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boolean_template/app.dart';
@@ -13,7 +14,8 @@ void main() async {
   // * https://docs.flutter.dev/testing/errors
   registerErrorHandlers();
   AppFlavor.initConfig();
-  if (AppFlavor.config?.variables['usePathUrlStrategy'] as bool? ?? true) {
+  const env = EnvFlavor.instance;
+  if (env.usePathUrlStrategy) {
     usePathUrlStrategy();
   }
 
