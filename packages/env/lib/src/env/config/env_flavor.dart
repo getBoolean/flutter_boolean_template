@@ -1,3 +1,5 @@
+// ignore_for_file: do_not_use_environment
+
 import 'package:env/src/env/config/env_fields.dart';
 import 'package:env/src/env/dev_env.dart';
 import 'package:env/src/env/local_env.dart';
@@ -5,11 +7,10 @@ import 'package:env/src/env/prod_env.dart';
 import 'package:env/src/env/staging_env.dart';
 
 abstract class EnvFlavor implements EnvFields {
-  // ignore: do_not_use_environment
-  static const String rawFlavor = String.fromEnvironment(
-    'FLAVOR',
-    defaultValue: 'local',
-  );
+  static const String rawFlavor =
+      String.fromEnvironment('FLUTTER_APP_FLAVOR') != ''
+          ? String.fromEnvironment('FLUTTER_APP_FLAVOR')
+          : 'local';
 
   static const EnvFlavor instance =
       EnvFlavor.rawFlavor == 'prod' || EnvFlavor.rawFlavor == 'beta'
