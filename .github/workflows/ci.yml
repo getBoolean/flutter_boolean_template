@@ -205,7 +205,7 @@ jobs:
       # https://gist.github.com/devhammed/617d920b7ee886591a46c22633ab0093
       - name: Build Flutter IPA
         run: |
-          flutter build ios --release --no-codesign --flavor ${{ env.FLAVOR }}
+          flutter build ios --release --no-codesign --dart-define FLUTTER_APP_FLAVOR=${{ env.FLAVOR }}
           cd build/ios/iphoneos
           mkdir Payload
           cd Payload
@@ -303,7 +303,7 @@ jobs:
   #     # https://gist.github.com/devhammed/617d920b7ee886591a46c22633ab0093
   #     - name: Build Flutter IPA
   #       run: |
-  #         flutter build ios --release --no-codesign --flavor ${{ env.FLAVOR }}
+  #         flutter build ios --release --no-codesign --dart-define FLUTTER_APP_FLAVOR=${{ env.FLAVOR }}
   #         cd build/ios/iphoneos
   #         mkdir Payload
   #         cd Payload
@@ -392,7 +392,7 @@ jobs:
       - name: Build Android Split APK
         run: |
           flutter pub get
-          flutter build apk --release --split-per-abi --flavor ${{ env.FLAVOR }}
+          flutter build apk --release --split-per-abi --dart-define FLUTTER_APP_FLAVOR=${{ env.FLAVOR }}
           cd build/app/outputs/flutter-apk
           mv app-arm64-v8a-release.apk flutter_boolean_template-${{ env.BRANCH_NAME }}-android-arm64-v8a.apk
           mv app-armeabi-v7a-release.apk flutter_boolean_template-${{ env.BRANCH_NAME }}-android-armeabi-v7a.apk
@@ -415,7 +415,7 @@ jobs:
       - name: Build Universal APK
         run: |
           flutter pub get
-          flutter build apk --release --flavor ${{ env.FLAVOR }}
+          flutter build apk --release --dart-define FLUTTER_APP_FLAVOR=${{ env.FLAVOR }}
           cd build/app/outputs/flutter-apk
           mv app-release.apk flutter_boolean_template-${{ env.BRANCH_NAME }}-android-universal.apk
 
@@ -436,7 +436,7 @@ jobs:
       - name: Build Android App Bundle
         run: |
           flutter pub get
-          flutter build appbundle --release --flavor ${{ env.FLAVOR }}
+          flutter build appbundle --release --dart-define FLUTTER_APP_FLAVOR=${{ env.FLAVOR }}
           cd build/app/outputs/bundle/release
           mv app-release.aab flutter_boolean_template-${{ env.BRANCH_NAME }}-android-appbundle.aab
 
@@ -521,7 +521,7 @@ jobs:
         run: melos bootstrap
 
       - name: Build Windows
-        run: flutter build windows --flavor ${{ env.FLAVOR }}
+        run: flutter build windows --dart-define FLUTTER_APP_FLAVOR=${{ env.FLAVOR }}
       
       - name: Build MSIX
         run: |
@@ -607,7 +607,7 @@ jobs:
         run: melos bootstrap
 
       - name: Build Linux
-        run: flutter build linux --release --flavor ${{ env.FLAVOR }}
+        run: flutter build linux --release --dart-define FLUTTER_APP_FLAVOR=${{ env.FLAVOR }}
 
       - name: Build AppImage
         run: |
@@ -697,7 +697,7 @@ jobs:
         run: |
           git config --global core.longpaths true
           flutter pub get
-          flutter build macos --release --flavor ${{ env.FLAVOR }}
+          flutter build macos --release --dart-define FLUTTER_APP_FLAVOR=${{ env.FLAVOR }}
       
       - name: Build DMG
         uses: nick-fields/retry@v2
@@ -784,7 +784,7 @@ jobs:
       - name: Build Web
         run: |
           flutter pub get
-          flutter build web --flavor ${{ env.FLAVOR }} --release --web-renderer=canvaskit
+          flutter build web --dart-define FLUTTER_APP_FLAVOR=${{ env.FLAVOR }} --release --web-renderer=canvaskit
           
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
@@ -852,7 +852,7 @@ jobs:
         if: github.actor != 'dependabot[bot]'
         run: |
           flutter pub get
-          flutter build web --flavor staging --release --web-renderer=canvaskit --base-href="/${{ github.event.repository.name }}/${{ steps.branch-name.outputs.current_branch }}/"
+          flutter build web --dart-define FLUTTER_APP_FLAVOR=staging --release --web-renderer=canvaskit --base-href="/${{ github.event.repository.name }}/${{ steps.branch-name.outputs.current_branch }}/"
       
       - name: Deploy to GitHub Pages 🚀
         if: github.actor != 'dependabot[bot]'

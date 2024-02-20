@@ -10,8 +10,8 @@
             "type": "dart",
             "program": "lib/main.dart",
             "args": [
-                "--flavor",
-                "local"
+                "--dart-define",
+                "FLUTTER_APP_FLAVOR=local"
             ]
         },
         {
@@ -21,8 +21,8 @@
             "flutterMode": "profile",
             "program": "lib/main.dart",
             "args": [
-                "--flavor",
-                "local"
+                "--dart-define",
+                "FLUTTER_APP_FLAVOR=local"
             ]
         },
         {
@@ -32,8 +32,8 @@
             "flutterMode": "release",
             "program": "lib/main.dart",
             "args": [
-                "--flavor",
-                "local"
+                "--dart-define",
+                "FLUTTER_APP_FLAVOR=local"
             ]
         }
     ]
