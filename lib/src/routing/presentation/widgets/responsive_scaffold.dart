@@ -486,15 +486,13 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
                                           child: tabBar,
                                         ),
                                       ),
-                                      if (!isRootRoute) ...[
-                                        gap16,
-                                        Expanded(
-                                          child: Text(
-                                            title,
-                                            style: theme.textTheme.titleMedium,
-                                          ),
+                                      gap16,
+                                      Expanded(
+                                        child: Text(
+                                          title,
+                                          style: theme.textTheme.titleMedium,
                                         ),
-                                      ],
+                                      ),
                                     ],
                                   ),
                                 ),
