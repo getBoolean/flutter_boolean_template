@@ -393,30 +393,34 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
                   ? SystemUiOverlayStyle.dark
                   : SystemUiOverlayStyle.light,
               child: SafeArea(
-                child: ResponsiveNavigationToolbar(
-                  leadingButton: leadingButton,
-                  middle: title != null
-                      ? Text(
-                          title,
-                          style: theme.textTheme.titleMedium,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        )
-                      : null,
-                  action: widget.buildActionButton
-                      ?.call(context, topRoute, widget.currentIndex, false),
-                  actionExpanded: widget.buildActionButton
-                      ?.call(context, topRoute, widget.currentIndex, true),
-                  willShowLeadingButton: willShowLeadingButton,
-                  transitionDuration: widget.transitionDuration,
-                  transitionReverseDuration: widget.transitionReverseDuration,
-                  logoExpanded: widget.buildLogo
-                      ?.call(context, topRoute, widget.currentIndex, true),
-                  logo: widget.buildLogo
-                      ?.call(context, topRoute, widget.currentIndex, false),
-                  minLogoCollapsedWidth: widget.minLogoCollapsedWidth,
-                  minLogoExpandedWidth: widget.minLogoExpandedWidth,
-                  minActionExpandedWidth: widget.minActionExpandedWidth,
+                child: Padding(
+                  padding:
+                      const EdgeInsetsDirectional.symmetric(horizontal: 8.0),
+                  child: ResponsiveNavigationToolbar(
+                    leadingButton: leadingButton,
+                    middle: title != null
+                        ? Text(
+                            title,
+                            style: theme.textTheme.titleMedium,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          )
+                        : null,
+                    action: widget.buildActionButton
+                        ?.call(context, topRoute, widget.currentIndex, false),
+                    actionExpanded: widget.buildActionButton
+                        ?.call(context, topRoute, widget.currentIndex, true),
+                    willShowLeadingButton: willShowLeadingButton,
+                    transitionDuration: widget.transitionDuration,
+                    transitionReverseDuration: widget.transitionReverseDuration,
+                    logoExpanded: widget.buildLogo
+                        ?.call(context, topRoute, widget.currentIndex, true),
+                    logo: widget.buildLogo
+                        ?.call(context, topRoute, widget.currentIndex, false),
+                    minLogoCollapsedWidth: widget.minLogoCollapsedWidth,
+                    minLogoExpandedWidth: widget.minLogoExpandedWidth,
+                    minActionExpandedWidth: widget.minActionExpandedWidth,
+                  ),
                 ),
               ),
             ),
