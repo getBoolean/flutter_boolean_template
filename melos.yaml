@@ -128,7 +128,7 @@ scripts:
       ignore: localization
 
   watch:pkg:
-    run: dart run build_runner watch
+    run: dart run build_runner watch --delete-conflicting-outputs
     exec:
       # concurrency: 1
       failFast: true
