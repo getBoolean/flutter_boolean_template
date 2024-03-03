@@ -1,2 +1,15 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Generated files
+**/*.g.dart linguist-generated=true
+**/*.mapper.dart linguist-generated=true
+**/*.modddel.dart linguist-generated=true
+**/*.iconfig.dart linguist-generated=true
+**/i18n.dart linguist-generated=true
+lib/generated/intl/messages*.dart linguist-generated=true
+**/*.chopper.dart linguist-generated=true
+**/*.swagger.dart linguist-generated=true
+**/client_mapping.dart linguist-generated=true
+**/*.auto_mappr.dart linguist-generated=true
+**/*.lock linguist-generated=true
