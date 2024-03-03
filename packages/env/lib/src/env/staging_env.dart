@@ -6,7 +6,7 @@ part 'staging_env.g.dart';
 
 @Envied(name: 'Env', path: 'staging.env', allowOptionalFields: true)
 class StagingEnv implements EnvFlavor, EnvFields {
-  const StagingEnv();
+  StagingEnv();
 
   // Using nullable types or providing a default value for everything allows
   // the app to be build without setting up the .env file. This would be

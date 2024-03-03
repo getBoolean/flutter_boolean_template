@@ -6,7 +6,7 @@ part 'prod_env.g.dart';
 
 @Envied(name: 'Env', path: 'prod.env', allowOptionalFields: true)
 class ProdEnv implements EnvFlavor, EnvFields {
-  const ProdEnv();
+  ProdEnv();
 
   // Using nullable types or providing a default value for everything allows
   // the app to be build without setting up the .env file. This would be

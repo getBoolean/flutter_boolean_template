@@ -6,7 +6,7 @@ part 'local_env.g.dart';
 
 @Envied(name: 'Env', path: 'local.env', allowOptionalFields: true)
 class LocalEnv implements EnvFlavor, EnvFields {
-  const LocalEnv();
+  LocalEnv();
 
   // Using nullable types or providing a default value for everything allows
   // the app to be build without setting up the .env file. This would be

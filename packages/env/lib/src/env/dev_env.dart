@@ -6,7 +6,7 @@ part 'dev_env.g.dart';
 
 @Envied(name: 'Env', path: 'dev.env', allowOptionalFields: true)
 class DevEnv implements EnvFlavor, EnvFields {
-  const DevEnv();
+  DevEnv();
 
   // Using nullable types or providing a default value for everything allows
   // the app to be build without setting up the .env file. This would be
