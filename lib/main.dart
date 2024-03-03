@@ -14,7 +14,7 @@ void main() async {
   // * https://docs.flutter.dev/testing/errors
   registerErrorHandlers();
   AppFlavor.initConfig();
-  const env = EnvFlavor.instance;
+  final env = EnvFlavor.instance;
   if (env.usePathUrlStrategy) {
     usePathUrlStrategy();
   }
