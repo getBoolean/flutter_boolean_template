@@ -30,7 +30,7 @@ extension GoRouterExtension on GoRouter {
     }
 
     final pathSegments = location.pathSegments;
-    final newLoc = location.replace(path: '/${pathSegments.join(' / ')}');
+    final newLoc = location.replace(path: '/${pathSegments.join('/')}');
     go(newLoc.path);
 
     return true;
