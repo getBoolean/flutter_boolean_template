@@ -36,7 +36,7 @@ extension GoRouterExtension on GoRouter {
     return true;
   }
 
-  bool goBack({bool stripQueryParameters = true}) {
+  bool goBack({bool stripQueryParameters = false}) {
     if (!canGoBack()) {
       return false;
     }
@@ -44,7 +44,7 @@ extension GoRouterExtension on GoRouter {
     final location = routerDelegate.locationUri;
     final length = routerDelegate.locationUri.pathSegments.length;
     final pathSegments = location.pathSegments.slice(0, length - 1).toList();
-    final newLoc = location.replace(path: '/${pathSegments.join(' / ')}');
+    final newLoc = location.replace(path: '/${pathSegments.join('/')}');
     go(stripQueryParameters ? newLoc.path : newLoc.toString());
 
     return true;
