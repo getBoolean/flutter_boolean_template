@@ -84,7 +84,7 @@ dev_dependencies:
   msix: ^3.16.7
   patrol: ^3.5.2
   riverpod_generator: ^2.3.10
-  riverpod_lint: ^2.3.8
+  riverpod_lint: ^2.3.10
   solid_lints: ^0.1.4
   test: any
 
