@@ -502,10 +502,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_adaptive_scaffold
-      sha256: "4257142551ec97761d44f4258b8ad53ac76593dd0992197b876769df19f8a018"
+      sha256: "600bbe237530a249f957f7d0f36273c20bd38d137e28e098c5231c30cadbe927"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.8"
+    version: "0.1.10+1"
   flutter_driver:
     dependency: transitive
     description: flutter
