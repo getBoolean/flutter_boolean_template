@@ -85,7 +85,7 @@ dev_dependencies:
   patrol: ^3.6.0
   riverpod_generator: ^2.4.0
   riverpod_lint: ^2.3.10
-  solid_lints: ^0.1.4
+  solid_lints: ^0.1.5
   test: any
 
 flutter:

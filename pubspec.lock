@@ -1390,10 +1390,10 @@ packages:
     dependency: "direct dev"
     description:
       name: solid_lints
-      sha256: "1cbc3491be714b2d3660a81feb76e228434a7dc0b5bd308063e75a85cea42d87"
+      sha256: "59e93651df7d2158681ca3baa41b9953f9caf02cb7528a50e9ede823f151694a"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.4"
+    version: "0.1.5"
   source_gen:
     dependency: transitive
     description:
