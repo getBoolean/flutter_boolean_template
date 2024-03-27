@@ -70,7 +70,7 @@ dev_dependencies:
   custom_lint: ^0.6.4
   dart_mappable_builder: ^4.2.1
   flutter_launcher_icons: ^0.13.1
-  flutter_lints: ^3.0.1
+  flutter_lints: ^3.0.2
   flutter_test:
     sdk: flutter
   freezed: ^2.4.7
