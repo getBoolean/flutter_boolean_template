@@ -64,7 +64,7 @@ dependencies:
 dev_dependencies:
   app_lints:
     path: packages/app_lints
-  build_runner: ^2.4.8
+  build_runner: ^2.4.9
   build_verify: ^3.1.0
   change_app_package_name: ^1.1.0
   custom_lint: ^0.6.4
