@@ -19,7 +19,7 @@ dependencies:
   constants:
     path: packages/constants
   cupertino_icons: ^1.0.6
-  dart_mappable: ^4.1.0
+  dart_mappable: ^4.2.2
   env:
     path: packages/env
   flex_color_picker: ^3.4.1
