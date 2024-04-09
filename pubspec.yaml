@@ -46,7 +46,7 @@ dependencies:
   log:
     path: packages/log
   modddels_annotation_fpdart: ^0.2.0
-  package_info_plus: ^6.0.0
+  package_info_plus: ^7.0.0
   path: ^1.9.0
   path_provider: ^2.1.2
   riverpod: ^2.3.6
