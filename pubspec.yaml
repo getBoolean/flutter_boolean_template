@@ -73,7 +73,7 @@ dev_dependencies:
   flutter_lints: ^3.0.2
   flutter_test:
     sdk: flutter
-  freezed: ^2.5.1
+  freezed: ^2.5.2
   hive_generator: ^2.0.1
   integration_test:
     sdk: flutter
