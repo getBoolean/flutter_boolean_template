@@ -31,10 +31,25 @@ Future<void> appStartup(AppStartupRef ref) async {
 
 Future<void> _initHive() async {
   await Hive.initFlutter();
-  Hive.registerAdapter(FlexSchemeDataAdapter());
-  Hive.registerAdapter(SettingsAdapter());
-  Hive.registerAdapter(NavigationTypeOverrideAdapter());
-  Hive.registerAdapter(ThemeTypeAdapter());
+  final flexSchemeDataAdapter = FlexSchemeDataAdapter();
+  if (!Hive.isAdapterRegistered(flexSchemeDataAdapter.typeId)) {
+    Hive.registerAdapter(flexSchemeDataAdapter);
+  }
+
+  final settingsAdapter = SettingsAdapter();
+  if (!Hive.isAdapterRegistered(settingsAdapter.typeId)) {
+    Hive.registerAdapter(settingsAdapter);
+  }
+
+  final navigationTypeOverrideAdapter = NavigationTypeOverrideAdapter();
+  if (!Hive.isAdapterRegistered(navigationTypeOverrideAdapter.typeId)) {
+    Hive.registerAdapter(navigationTypeOverrideAdapter);
+  }
+
+  final themeTypeAdapter = ThemeTypeAdapter();
+  if (!Hive.isAdapterRegistered(themeTypeAdapter.typeId)) {
+    Hive.registerAdapter(themeTypeAdapter);
+  }
   final documentsDirectory = await $applicationDocumentsDirectory();
   await SettingsRepository.initBox(documentsDirectory?.path);
 }
