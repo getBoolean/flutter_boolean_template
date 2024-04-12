@@ -18,7 +18,7 @@ class ConnectivityBuilder extends StatefulWidget {
 
   final Widget Function(
     BuildContext context,
-    ConnectivityResult? connectivity,
+    List<ConnectivityResult> connectivity,
     Widget? child,
   ) builder;
 
@@ -27,8 +27,9 @@ class ConnectivityBuilder extends StatefulWidget {
 }
 
 class _ConnectivityBuilderState extends State<ConnectivityBuilder> {
-  ConnectivityResult? _connectivityResult;
-  late final StreamSubscription<ConnectivityResult> _connectivitySubscription;
+  List<ConnectivityResult> _connectivityResults = [];
+  late final StreamSubscription<List<ConnectivityResult>>
+      _connectivitySubscription;
   final _connectivity = Connectivity();
 
   @override
@@ -45,15 +46,15 @@ class _ConnectivityBuilderState extends State<ConnectivityBuilder> {
     super.dispose();
   }
 
-  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+  Future<void> _updateConnectionStatus(List<ConnectivityResult> results) async {
     setState(() {
-      _connectivityResult = result;
+      _connectivityResults = results;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return widget.builder(context, _connectivityResult, widget.child);
+    return widget.builder(context, _connectivityResults, widget.child);
   }
 }
 
