@@ -47,6 +47,8 @@ dependencies:
     path: packages/log
   modddels_annotation_fpdart: ^0.2.0
   package_info_plus: ^7.0.0
+  pagination:
+    path: packages/pagination
   path: ^1.9.0
   path_provider: ^2.1.3
   riverpod: ^2.3.6
