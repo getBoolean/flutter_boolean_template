@@ -13,8 +13,8 @@ class OfflineWarningBanner extends ConsumerWidget {
     return ConnectivityBuilder(
       builder: (context, connectivity, child) =>
           connectivity.contains(ConnectivityResult.none)
-              ? const SizedBox.shrink()
-              : child ?? const SizedBox.shrink(),
+              ? child ?? const SizedBox.shrink()
+              : const SizedBox.shrink(),
       child: ColoredBox(
         color: theme.colorScheme.onError,
         child: Padding(
