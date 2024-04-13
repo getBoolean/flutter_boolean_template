@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pagination_dart/pagination_dart.dart';
@@ -5,7 +6,6 @@ import 'package:super_sliver_list/super_sliver_list.dart';
 
 final _pageBucket = PageStorageBucket();
 
-// TODO: Add a "scroll to top" button when scrolled
 class PaginatedView<T> extends ConsumerWidget {
   const PaginatedView({
     required this.itemsProviderBuilder,
@@ -16,11 +16,29 @@ class PaginatedView<T> extends ConsumerWidget {
     required this.refreshItemPageProvider,
     this.errorItemBuilder,
     this.pageSize = 20,
-    this.shrinkWrap = false,
     this.transitionDuration = const Duration(milliseconds: 650),
     this.transitionCurve = Curves.easeInOut,
     this.reverseTransitionCurve,
     this.restorationId,
+    this.controller,
+    this.scrollDirection = Axis.vertical,
+    this.reverse = false,
+    this.shrinkWrap = false,
+    this.primary,
+    this.physics,
+    this.padding,
+    ChildIndexGetter? findChildIndexCallback,
+    bool addAutomaticKeepAlives = true,
+    bool addRepaintBoundaries = true,
+    bool addSemanticIndexes = true,
+    this.cacheExtent,
+    this.dragStartBehavior = DragStartBehavior.start,
+    this.keyboardDismissBehavior = ScrollViewKeyboardDismissBehavior.onDrag,
+    this.clipBehavior = Clip.hardEdge,
+    this.listController,
+    this.extentEstimation,
+    this.extentPrecalculationPolicy,
+    this.delayPopulatingCacheArea = false,
     super.key,
   });
 
@@ -44,11 +62,31 @@ class PaginatedView<T> extends ConsumerWidget {
     Object error,
     StackTrace stack,
   )? errorItemBuilder;
-  final bool shrinkWrap;
   final Duration transitionDuration;
   final Curve transitionCurve;
   final Curve? reverseTransitionCurve;
+
+  // ScrollView
+  final Axis scrollDirection;
+  final bool reverse;
+  final ScrollController? controller;
+  final bool? primary;
+  final ScrollPhysics? physics;
+  final bool shrinkWrap;
+  final double? cacheExtent;
+  final DragStartBehavior dragStartBehavior;
+  final ScrollViewKeyboardDismissBehavior keyboardDismissBehavior;
   final String? restorationId;
+  final Clip clipBehavior;
+
+  // BoxScrollView
+  final EdgeInsetsGeometry? padding;
+
+  // ListView
+  final ListController? listController;
+  final ExtentEstimationProvider? extentEstimation;
+  final ExtentPrecalculationPolicy? extentPrecalculationPolicy;
+  final bool delayPopulatingCacheArea;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -67,10 +105,23 @@ class PaginatedView<T> extends ConsumerWidget {
         },
         child: SuperListView.builder(
           key: PageStorageKey(restorationId),
+          scrollDirection: scrollDirection,
+          reverse: reverse,
+          controller: controller,
+          primary: primary,
+          physics: physics,
           shrinkWrap: shrinkWrap,
-          itemCount: totalResults,
+          cacheExtent: cacheExtent,
+          dragStartBehavior: dragStartBehavior,
+          keyboardDismissBehavior: keyboardDismissBehavior,
           restorationId: restorationId,
-          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+          clipBehavior: clipBehavior,
+          padding: padding,
+          listController: listController,
+          extentEstimation: extentEstimation,
+          extentPrecalculationPolicy: extentPrecalculationPolicy,
+          delayPopulatingCacheArea: delayPopulatingCacheArea,
+          itemCount: totalResults,
           itemBuilder: (context, index) {
             final page = index ~/ pageSize + 1;
             final indexInPage = index % pageSize;
