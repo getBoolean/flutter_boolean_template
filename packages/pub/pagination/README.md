@@ -49,12 +49,13 @@ PaginatedView(
 Implement a `PaginatedResult` for your API response. This result can then be used
 anywhere a `PaginatedResult` is expected, such as with `PaginatedView`.
 
-### Ref Timeout
+### Keep Alive Duration
 
-Keeps a `Provider` alive for a given `Duration`.
+Keeps an `autoDispose Provider` alive for a given `Duration` even if
+the provider is no longer used.
 
 ```dart
-applyRefTimeout<T>(
+keepAliveDuration<T>(
   AutoDisposeRef<T> ref, [
   Duration duration = const Duration(seconds: 30),
 ])

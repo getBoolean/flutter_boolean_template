@@ -4,4 +4,4 @@
 library;
 
 export 'src/paginated_result.dart';
-export 'src/ref_timeout.dart';
+export 'src/keep_alive_duration.dart';
