@@ -1,8 +1,10 @@
 name: pagination
 description: "An implementation of Anrea's Pagination article"
 version: 0.0.1
-homepage: https://github.com/getBoolean/flutter_boolean_template/packages/pagination
-repository: https://github.com/getBoolean/flutter_boolean_template
+repository: https://github.com/getBoolean/subete_app
+homepage: https://subete.dev
+issue_tracker: https://github.com/getBoolean/subete_app/issues
+publish_to: none
 
 environment:
   sdk: ">=3.3.3 <4.0.0"
@@ -13,6 +15,8 @@ dependencies:
     sdk: flutter
   hooks_riverpod: ^2.5.1
   super_sliver_list: ^0.4.1
+  pagination_dart:
+    path: ../pagination_dart
 
 dev_dependencies:
   flutter_test:

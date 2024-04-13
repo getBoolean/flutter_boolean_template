@@ -1,12 +1,15 @@
 import 'dart:async';
 
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:riverpod/riverpod.dart';
 
 /// Keeps a [Ref] alive for a given [duration].
 ///
 /// Any inflight requests will need to be cancelled separately.
-void applyRefTimeout<T>(AutoDisposeRef<T> ref, Duration duration) {
-  // When a page is no-longer used, keep it in the cache for some time
+void applyRefTimeout<T>(
+  AutoDisposeRef<T> ref, [
+  Duration duration = const Duration(seconds: 30),
+]) {
+  // When a provider is no-longer used, keep it in the cache for some time
   final link = ref.keepAlive();
   Timer? timer;
 
@@ -15,7 +18,7 @@ void applyRefTimeout<T>(AutoDisposeRef<T> ref, Duration duration) {
   });
 
   ref.onCancel(() {
-    timer = Timer(const Duration(seconds: 30), link.close);
+    timer = Timer(duration, link.close);
   });
 
   ref.onResume(() {
