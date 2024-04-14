@@ -25,10 +25,6 @@ class PaginatedView<T> extends ConsumerWidget {
     this.primary,
     this.physics,
     this.padding,
-    ChildIndexGetter? findChildIndexCallback,
-    bool addAutomaticKeepAlives = true,
-    bool addRepaintBoundaries = true,
-    bool addSemanticIndexes = true,
     this.cacheExtent,
     this.dragStartBehavior = DragStartBehavior.start,
     this.keyboardDismissBehavior = ScrollViewKeyboardDismissBehavior.onDrag,
@@ -37,6 +33,10 @@ class PaginatedView<T> extends ConsumerWidget {
     this.extentEstimation,
     this.extentPrecalculationPolicy,
     this.delayPopulatingCacheArea = false,
+    this.findChildIndexCallback,
+    this.addAutomaticKeepAlives = true,
+    this.addRepaintBoundaries = true,
+    this.addSemanticIndexes = true,
     super.key,
   });
 
@@ -84,7 +84,10 @@ class PaginatedView<T> extends ConsumerWidget {
   final ExtentEstimationProvider? extentEstimation;
   final ExtentPrecalculationPolicy? extentPrecalculationPolicy;
   final bool delayPopulatingCacheArea;
-
+  final ChildIndexGetter? findChildIndexCallback;
+  final bool addAutomaticKeepAlives;
+  final bool addRepaintBoundaries;
+  final bool addSemanticIndexes;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final responseAsync = ref.watch(pageItemsProvider(1));
@@ -119,6 +122,10 @@ class PaginatedView<T> extends ConsumerWidget {
           extentPrecalculationPolicy: extentPrecalculationPolicy,
           delayPopulatingCacheArea: delayPopulatingCacheArea,
           itemCount: totalResults,
+          findChildIndexCallback: findChildIndexCallback,
+          addAutomaticKeepAlives: addAutomaticKeepAlives,
+          addRepaintBoundaries: addRepaintBoundaries,
+          addSemanticIndexes: addSemanticIndexes,
           itemBuilder: (context, index) {
             final page = index ~/ pageSize + 1;
             final indexInPage = index % pageSize;
