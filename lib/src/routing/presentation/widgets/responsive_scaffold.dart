@@ -47,7 +47,7 @@ class ResponsiveScaffold extends StatefulHookWidget {
     this.buildBottomNavigationBar = _defaultBottomNavigationBarBuilder,
     this.buildDrawer,
     this.buildSidebar,
-    this.buildDismissableSliverAppBar,
+    this.buildAppBar,
     this.buildSidebarAppBar,
     this.buildTopBar,
   });
@@ -165,13 +165,13 @@ class ResponsiveScaffold extends StatefulHookWidget {
   /// Custom [SliverAppBar] builder for [NavigationType.drawer] and [NavigationType.bottom]
   ///
   /// A sliver must be returned from this builder.
-  final Widget Function(
+  final PreferredSizeWidget Function(
     BuildContext context,
     RouteName? topRoute,
     NavigationType navigationType,
     Widget? trailing,
     String? title,
-  )? buildDismissableSliverAppBar;
+  )? buildAppBar;
 
   final PreferredSizeWidget Function(
     BuildContext context,
@@ -266,8 +266,7 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
       navigationType,
     );
 
-    final buildSliverAppBar = widget.buildDismissableSliverAppBar ??
-        _defaultBuildDismissableSliverAppBar;
+    final buildAppBar = widget.buildAppBar ?? _defaultBuildAppBar;
     final buildSidebarAppBar =
         widget.buildSidebarAppBar ?? _defaultBuildSidebarAppBar;
 
@@ -281,85 +280,77 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
       ],
     );
 
-    return Scaffold(
-      key: _key,
-      appBar: switch (navigationType) {
-        NavigationType.top => buildTopBar(
-            context,
-            topRouteName,
-            navigationType,
-            tabBar,
-            widget.title,
+    return SwapExpandedWidgetBuilder(
+      collapsed: widget.buildActionButton
+          ?.call(context, topRouteName, widget.currentIndex, false),
+      expanded: widget.buildActionButton
+          ?.call(context, topRouteName, widget.currentIndex, true),
+      minExpandedWidth: widget.minActionExpandedWidth,
+      builder: (context, action) {
+        return Scaffold(
+          key: _key,
+          appBar: switch (navigationType) {
+            NavigationType.top => buildTopBar(
+                context,
+                topRouteName,
+                navigationType,
+                tabBar,
+                widget.title,
+              ),
+            NavigationType.sidebar => buildSidebarAppBar(
+                context,
+                topRouteName,
+                navigationType,
+                widget.title,
+              ),
+            NavigationType.bottom => buildAppBar(
+                context,
+                topRouteName,
+                navigationType,
+                action,
+                widget.title,
+              ),
+            NavigationType.drawer => buildAppBar(
+                context,
+                topRouteName,
+                navigationType,
+                action,
+                widget.title,
+              ),
+          },
+          body: Row(
+            children: [
+              AnimatedSwitcher(
+                duration: widget.transitionDuration,
+                reverseDuration: widget.transitionReverseDuration,
+                child:
+                    navigationType == NavigationType.sidebar ? sidebar : null,
+              ),
+              widget.divider,
+              Expanded(child: widget.child),
+            ],
           ),
-        NavigationType.sidebar => buildSidebarAppBar(
-            context,
-            topRouteName,
-            navigationType,
-            widget.title,
-          ),
-        _ => null,
+          drawer: hasDrawer ? drawer : null,
+          bottomNavigationBar:
+              hasBottomNavigationBar ? bottomNavigationBar : null,
+          endDrawer: widget.scaffoldConfig.endDrawer,
+          bottomSheet: widget.scaffoldConfig.bottomSheet,
+          backgroundColor: widget.scaffoldConfig.backgroundColor,
+          resizeToAvoidBottomInset:
+              widget.scaffoldConfig.resizeToAvoidBottomInset,
+          primary: widget.scaffoldConfig.primary,
+          drawerDragStartBehavior:
+              widget.scaffoldConfig.drawerDragStartBehavior,
+          extendBody: widget.scaffoldConfig.extendBody,
+          extendBodyBehindAppBar: widget.scaffoldConfig.extendBodyBehindAppBar,
+          drawerScrimColor: widget.scaffoldConfig.drawerScrimColor,
+          drawerEdgeDragWidth: widget.scaffoldConfig.drawerEdgeDragWidth,
+          drawerEnableOpenDragGesture:
+              widget.scaffoldConfig.drawerEnableOpenDragGesture,
+          endDrawerEnableOpenDragGesture:
+              widget.scaffoldConfig.endDrawerEnableOpenDragGesture,
+        );
       },
-      body: SwapExpandedWidgetBuilder(
-        collapsed: widget.buildActionButton
-            ?.call(context, topRouteName, widget.currentIndex, false),
-        expanded: widget.buildActionButton
-            ?.call(context, topRouteName, widget.currentIndex, true),
-        minExpandedWidth: widget.minActionExpandedWidth,
-        builder: (context, action) {
-          return NestedScrollView(
-            headerSliverBuilder:
-                (BuildContext context, bool innerBoxIsScrolled) {
-              return [
-                switch (navigationType) {
-                  NavigationType.bottom => buildSliverAppBar(
-                      context,
-                      topRouteName,
-                      navigationType,
-                      action,
-                      widget.title,
-                    ),
-                  NavigationType.drawer => buildSliverAppBar(
-                      context,
-                      topRouteName,
-                      navigationType,
-                      action,
-                      widget.title,
-                    ),
-                  _ => const SliverToBoxAdapter(child: SizedBox.shrink()),
-                },
-              ];
-            },
-            body: Row(
-              children: [
-                AnimatedSwitcher(
-                  duration: widget.transitionDuration,
-                  reverseDuration: widget.transitionReverseDuration,
-                  child:
-                      navigationType == NavigationType.sidebar ? sidebar : null,
-                ),
-                widget.divider,
-                Expanded(child: widget.child),
-              ],
-            ),
-          );
-        },
-      ),
-      drawer: hasDrawer ? drawer : null,
-      bottomNavigationBar: hasBottomNavigationBar ? bottomNavigationBar : null,
-      endDrawer: widget.scaffoldConfig.endDrawer,
-      bottomSheet: widget.scaffoldConfig.bottomSheet,
-      backgroundColor: widget.scaffoldConfig.backgroundColor,
-      resizeToAvoidBottomInset: widget.scaffoldConfig.resizeToAvoidBottomInset,
-      primary: widget.scaffoldConfig.primary,
-      drawerDragStartBehavior: widget.scaffoldConfig.drawerDragStartBehavior,
-      extendBody: widget.scaffoldConfig.extendBody,
-      extendBodyBehindAppBar: widget.scaffoldConfig.extendBodyBehindAppBar,
-      drawerScrimColor: widget.scaffoldConfig.drawerScrimColor,
-      drawerEdgeDragWidth: widget.scaffoldConfig.drawerEdgeDragWidth,
-      drawerEnableOpenDragGesture:
-          widget.scaffoldConfig.drawerEnableOpenDragGesture,
-      endDrawerEnableOpenDragGesture:
-          widget.scaffoldConfig.endDrawerEnableOpenDragGesture,
     );
   }
 
@@ -549,14 +540,14 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
     );
   }
 
-  Widget _defaultBuildDismissableSliverAppBar(
+  PreferredSizeWidget _defaultBuildAppBar(
     BuildContext context,
     RouteName? topRoute,
     NavigationType navigationType,
     Widget? trailing,
     String? title,
   ) {
-    return SliverAppBar(
+    return AppBar(
       centerTitle: true,
       leading: Builder(
         builder: (context) {
@@ -592,9 +583,6 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
         child: title == null ? null : Text(title),
       ),
       automaticallyImplyLeading: false,
-      expandedHeight: 50,
-      floating: true,
-      snap: true,
       actions: trailing == null ? null : [trailing],
     );
   }
