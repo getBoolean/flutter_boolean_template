@@ -24,7 +24,8 @@ class PaginatedView<T> extends ConsumerStatefulWidget {
     this.shrinkWrap = false,
     this.primary,
     this.physics,
-    this.padding,
+    this.padding = const EdgeInsets.symmetric(vertical: 4.0, horizontal: 2.0),
+    this.bodyPadding = const EdgeInsets.symmetric(horizontal: 2.0),
     this.cacheExtent,
     this.dragStartBehavior = DragStartBehavior.start,
     this.keyboardDismissBehavior = ScrollViewKeyboardDismissBehavior.onDrag,
@@ -77,7 +78,9 @@ class PaginatedView<T> extends ConsumerStatefulWidget {
   final Clip clipBehavior;
 
   // BoxScrollView
-  final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry padding;
+
+  final EdgeInsetsGeometry bodyPadding;
 
   // ListView
   final ListController? listController;
@@ -124,77 +127,80 @@ class _PaginatedViewState<T> extends ConsumerState<PaginatedView<T>> {
             // fail silently as the provider error state is handled inside the ListView
           }
         },
-        child: Scrollbar(
-          controller: _scrollController,
-          child: SuperListView.builder(
-            key: PageStorageKey(widget.restorationId),
-            scrollDirection: widget.scrollDirection,
-            reverse: widget.reverse,
+        child: Padding(
+          padding: widget.bodyPadding,
+          child: Scrollbar(
             controller: _scrollController,
-            primary: widget.primary,
-            physics: widget.physics,
-            shrinkWrap: widget.shrinkWrap,
-            cacheExtent: widget.cacheExtent,
-            dragStartBehavior: widget.dragStartBehavior,
-            keyboardDismissBehavior: widget.keyboardDismissBehavior,
-            restorationId: widget.restorationId,
-            clipBehavior: widget.clipBehavior,
-            padding: widget.padding,
-            listController: widget.listController,
-            extentEstimation: widget.extentEstimation,
-            extentPrecalculationPolicy: widget.extentPrecalculationPolicy,
-            delayPopulatingCacheArea: widget.delayPopulatingCacheArea,
-            itemCount: totalResults,
-            findChildIndexCallback: widget.findChildIndexCallback,
-            addAutomaticKeepAlives: widget.addAutomaticKeepAlives,
-            addRepaintBoundaries: widget.addRepaintBoundaries,
-            addSemanticIndexes: widget.addSemanticIndexes,
-            itemBuilder: (context, index) {
-              final page = index ~/ widget.pageSize + 1;
-              final indexInPage = index % widget.pageSize;
-              final AsyncValue<PaginatedResult<T>> responseAsync =
-                  ref.watch(widget.pageItemsProvider(page));
-              if (indexInPage >=
-                  (responseAsync.valueOrNull?.results.length ?? 20)) {
-                return null;
-              }
-              return AnimatedSwitcher(
-                duration: widget.transitionDuration,
-                switchInCurve: widget.transitionCurve,
-                switchOutCurve:
-                    widget.reverseTransitionCurve ?? widget.transitionCurve,
-                child: responseAsync.when(
-                  error: (err, stack) => indexInPage == 0
-                      ? widget.errorItemBuilder?.call(
-                            context,
-                            page,
-                            indexInPage,
-                            err,
-                            stack,
-                          ) ??
-                          _ListTileError<T>(
-                            page: page,
-                            indexInPage: indexInPage,
-                            error: 'Could not load page $page',
-                            itemsProviderBuilder: widget.pageItemsProvider,
-                          )
-                      : const SizedBox.shrink(),
-                  loading: () =>
-                      widget.loadingItemBuilder(context, page, indexInPage),
-                  data: (response) {
-                    // This condition only happens if a null itemCount is given
-                    if (indexInPage >= response.results.length) {
-                      return null;
-                    }
-                    final movie = response.results[indexInPage];
-                    return KeyedSubtree.wrap(
-                      widget.itemBuilder(context, movie, indexInPage),
-                      index,
-                    );
-                  },
-                ),
-              );
-            },
+            child: SuperListView.builder(
+              key: PageStorageKey(widget.restorationId),
+              scrollDirection: widget.scrollDirection,
+              reverse: widget.reverse,
+              controller: _scrollController,
+              primary: widget.primary,
+              physics: widget.physics,
+              shrinkWrap: widget.shrinkWrap,
+              cacheExtent: widget.cacheExtent,
+              dragStartBehavior: widget.dragStartBehavior,
+              keyboardDismissBehavior: widget.keyboardDismissBehavior,
+              restorationId: widget.restorationId,
+              clipBehavior: widget.clipBehavior,
+              padding: widget.padding,
+              listController: widget.listController,
+              extentEstimation: widget.extentEstimation,
+              extentPrecalculationPolicy: widget.extentPrecalculationPolicy,
+              delayPopulatingCacheArea: widget.delayPopulatingCacheArea,
+              itemCount: totalResults,
+              findChildIndexCallback: widget.findChildIndexCallback,
+              addAutomaticKeepAlives: widget.addAutomaticKeepAlives,
+              addRepaintBoundaries: widget.addRepaintBoundaries,
+              addSemanticIndexes: widget.addSemanticIndexes,
+              itemBuilder: (context, index) {
+                final page = index ~/ widget.pageSize + 1;
+                final indexInPage = index % widget.pageSize;
+                final AsyncValue<PaginatedResult<T>> responseAsync =
+                    ref.watch(widget.pageItemsProvider(page));
+                if (indexInPage >=
+                    (responseAsync.valueOrNull?.results.length ?? 20)) {
+                  return null;
+                }
+                return AnimatedSwitcher(
+                  duration: widget.transitionDuration,
+                  switchInCurve: widget.transitionCurve,
+                  switchOutCurve:
+                      widget.reverseTransitionCurve ?? widget.transitionCurve,
+                  child: responseAsync.when(
+                    error: (err, stack) => indexInPage == 0
+                        ? widget.errorItemBuilder?.call(
+                              context,
+                              page,
+                              indexInPage,
+                              err,
+                              stack,
+                            ) ??
+                            _ListTileError<T>(
+                              page: page,
+                              indexInPage: indexInPage,
+                              error: 'Could not load page $page',
+                              itemsProviderBuilder: widget.pageItemsProvider,
+                            )
+                        : const SizedBox.shrink(),
+                    loading: () =>
+                        widget.loadingItemBuilder(context, page, indexInPage),
+                    data: (response) {
+                      // This condition only happens if a null itemCount is given
+                      if (indexInPage >= response.results.length) {
+                        return null;
+                      }
+                      final movie = response.results[indexInPage];
+                      return KeyedSubtree.wrap(
+                        widget.itemBuilder(context, movie, indexInPage),
+                        index,
+                      );
+                    },
+                  ),
+                );
+              },
+            ),
           ),
         ),
       ),
