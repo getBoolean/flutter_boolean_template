@@ -8,12 +8,10 @@ final _pageBucket = PageStorageBucket();
 
 class PaginatedView<T> extends ConsumerWidget {
   const PaginatedView({
-    required this.itemsProviderBuilder,
-    required this.invalidateItemsProvider,
-    required this.invalidateItemPageProvider,
+    required this.pageItemsProvider,
+    required this.provider,
     required this.itemBuilder,
     required this.loadingItemBuilder,
-    required this.refreshItemPageProvider,
     this.errorItemBuilder,
     this.pageSize = 20,
     this.transitionDuration = const Duration(milliseconds: 650),
@@ -46,10 +44,9 @@ class PaginatedView<T> extends ConsumerWidget {
   ///
   /// If not using riverpod for the API call, you need to handle
   /// caching yourself as this is called for every index in the page.
-  final AsyncValue<PaginatedResult<T>> Function(int page) itemsProviderBuilder;
-  final void Function(int page) invalidateItemPageProvider;
-  final void Function() invalidateItemsProvider;
-  final Future<PaginatedResult<T>> Function(int page) refreshItemPageProvider;
+  final AutoDisposeFutureProvider<PaginatedResult<T>> Function(int page)
+      pageItemsProvider;
+  final ProviderOrFamily provider;
   final int pageSize;
   final Widget Function(BuildContext context, T item, int indexInPage)
       itemBuilder;
@@ -90,15 +87,15 @@ class PaginatedView<T> extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final responseAsync = itemsProviderBuilder(1);
+    final responseAsync = ref.watch(pageItemsProvider(1));
     final totalResults = responseAsync.valueOrNull?.totalResults;
     return PageStorage(
       bucket: _pageBucket,
       child: RefreshIndicator(
         onRefresh: () async {
-          invalidateItemsProvider();
+          ref.invalidate(provider);
           try {
-            await refreshItemPageProvider(1);
+            await ref.watch(pageItemsProvider(1).future);
           } catch (e) {
             // fail silently as the provider error state is handled inside the ListView
           }
@@ -126,7 +123,7 @@ class PaginatedView<T> extends ConsumerWidget {
             final page = index ~/ pageSize + 1;
             final indexInPage = index % pageSize;
             final AsyncValue<PaginatedResult<T>> responseAsync =
-                itemsProviderBuilder(page);
+                ref.watch(pageItemsProvider(page));
             return AnimatedSwitcher(
               key: ValueKey('item-$page-$indexInPage'),
               duration: transitionDuration,
@@ -147,10 +144,7 @@ class PaginatedView<T> extends ConsumerWidget {
                             page: page,
                             indexInPage: indexInPage,
                             error: 'Could not load page $page',
-                            itemsProviderBuilder: itemsProviderBuilder,
-                            invalidateItemPageProvider:
-                                invalidateItemPageProvider,
-                            refreshItemPageProvider: refreshItemPageProvider,
+                            itemsProviderBuilder: pageItemsProvider,
                           )
                       : const SizedBox.shrink(),
                 ),
@@ -184,16 +178,13 @@ class _ListTileError<T> extends ConsumerStatefulWidget {
     required this.indexInPage,
     required this.error,
     required this.itemsProviderBuilder,
-    required this.invalidateItemPageProvider,
-    required this.refreshItemPageProvider,
     super.key,
   });
   final int page;
   final int indexInPage;
   final String error;
-  final AsyncValue<PaginatedResult<T>> Function(int page) itemsProviderBuilder;
-  final void Function(int page) invalidateItemPageProvider;
-  final Future<PaginatedResult<T>> Function(int page) refreshItemPageProvider;
+  final AutoDisposeFutureProvider<PaginatedResult<T>> Function(int page)
+      itemsProviderBuilder;
 
   @override
   ConsumerState<_ListTileError<T>> createState() => _ListTileErrorState<T>();
@@ -215,10 +206,12 @@ class _ListTileErrorState<T> extends ConsumerState<_ListTileError<T>> {
                   onPressed: isLoading
                       ? null
                       : () async {
-                          widget.invalidateItemPageProvider(widget.page);
+                          ref.invalidate(
+                              widget.itemsProviderBuilder(widget.page));
                           // wait until the page is loaded again
                           setState(() => isLoading = true);
-                          await widget.refreshItemPageProvider(widget.page);
+                          await ref.watch(
+                              widget.itemsProviderBuilder(widget.page).future);
                           setState(() => isLoading = false);
                         },
                   child: isLoading
