@@ -461,7 +461,14 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold>
                                   reverseDuration:
                                       widget.transitionReverseDuration,
                                   child: isRootRoute
-                                      ? tabBar
+                                      ? ConstrainedBox(
+                                          constraints: BoxConstraints(
+                                            minHeight: theme.appBarTheme
+                                                    .toolbarHeight ??
+                                                kToolbarHeight,
+                                          ),
+                                          child: tabBar,
+                                        )
                                       : Text(
                                           title,
                                           style: theme.textTheme.titleMedium,
