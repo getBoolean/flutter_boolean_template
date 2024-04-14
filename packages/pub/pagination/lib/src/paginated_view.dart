@@ -131,6 +131,10 @@ class PaginatedView<T> extends ConsumerWidget {
             final indexInPage = index % pageSize;
             final AsyncValue<PaginatedResult<T>> responseAsync =
                 ref.watch(pageItemsProvider(page));
+            if (indexInPage >=
+                (responseAsync.valueOrNull?.results.length ?? 20)) {
+              return null;
+            }
             return AnimatedSwitcher(
               duration: transitionDuration,
               switchInCurve: transitionCurve,
