@@ -132,33 +132,26 @@ class PaginatedView<T> extends ConsumerWidget {
             final AsyncValue<PaginatedResult<T>> responseAsync =
                 ref.watch(pageItemsProvider(page));
             return AnimatedSwitcher(
-              key: ValueKey('item-$page-$indexInPage'),
               duration: transitionDuration,
               switchInCurve: transitionCurve,
               switchOutCurve: reverseTransitionCurve ?? transitionCurve,
               child: responseAsync.when(
-                error: (err, stack) => KeyedSubtree(
-                  key: ValueKey('error-$page-$indexInPage-$err'),
-                  child: indexInPage == 0
-                      ? errorItemBuilder?.call(
-                            context,
-                            page,
-                            indexInPage,
-                            err,
-                            stack,
-                          ) ??
-                          _ListTileError<T>(
-                            page: page,
-                            indexInPage: indexInPage,
-                            error: 'Could not load page $page',
-                            itemsProviderBuilder: pageItemsProvider,
-                          )
-                      : const SizedBox.shrink(),
-                ),
-                loading: () => KeyedSubtree(
-                  key: ValueKey('loading-$page-$indexInPage'),
-                  child: loadingItemBuilder(context, page, indexInPage),
-                ),
+                error: (err, stack) => indexInPage == 0
+                    ? errorItemBuilder?.call(
+                          context,
+                          page,
+                          indexInPage,
+                          err,
+                          stack,
+                        ) ??
+                        _ListTileError<T>(
+                          page: page,
+                          indexInPage: indexInPage,
+                          error: 'Could not load page $page',
+                          itemsProviderBuilder: pageItemsProvider,
+                        )
+                    : const SizedBox.shrink(),
+                loading: () => loadingItemBuilder(context, page, indexInPage),
                 data: (response) {
                   // This condition only happens if a null itemCount is given
                   if (indexInPage >= response.results.length) {
