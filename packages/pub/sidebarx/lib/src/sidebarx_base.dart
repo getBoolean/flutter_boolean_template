@@ -4,7 +4,7 @@ import 'package:sidebarx/src/widgets/widgets.dart';
 
 class SidebarX extends StatefulWidget {
   const SidebarX({
-    Key? key,
+    super.key,
     required this.controller,
     this.items = const [],
     this.footerItems = const [],
@@ -20,7 +20,7 @@ class SidebarX extends StatefulWidget {
     this.animationDuration = const Duration(milliseconds: 300),
     this.collapseIcon = Icons.arrow_back_ios_new,
     this.extendIcon = Icons.arrow_forward_ios,
-  }) : super(key: key);
+  });
 
   /// Default theme of Sidebar
   final SidebarXTheme theme;
@@ -100,86 +100,104 @@ class _SidebarXState extends State<SidebarX>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: widget.controller,
-      builder: (context, child) {
-        final extendedT = widget.extendedTheme?.mergeWith(widget.theme);
-        final selectedTheme = widget.controller.extended
-            ? extendedT ?? widget.theme
-            : widget.theme;
+    final orientation = MediaQuery.orientationOf(context);
+    final textDirection = Directionality.of(context);
+    final padding = switch ((orientation, textDirection)) {
+      (Orientation.portrait, _) => 0.0,
+      (Orientation.landscape, TextDirection.ltr) =>
+        MediaQuery.viewPaddingOf(context).left,
+      (Orientation.landscape, TextDirection.rtl) =>
+        MediaQuery.viewPaddingOf(context).right,
+    };
+    return Padding(
+      padding: EdgeInsetsDirectional.only(
+        start: padding,
+      ),
+      child: AnimatedBuilder(
+        animation: widget.controller,
+        builder: (context, child) {
+          final extendedT = widget.extendedTheme?.mergeWith(widget.theme);
+          final selectedTheme = widget.controller.extended
+              ? extendedT ?? widget.theme
+              : widget.theme;
 
-        final t = selectedTheme.mergeFlutterTheme(context);
+          final t = selectedTheme.mergeFlutterTheme(context);
 
-        return AnimatedContainer(
-          duration: widget.animationDuration,
-          width: t.width,
-          height: t.height,
-          padding: t.padding,
-          margin: t.margin,
-          decoration: t.decoration,
-          child: Column(
-            children: [
-              widget.headerBuilder?.call(context, widget.controller.extended) ??
-                  const SizedBox(),
-              widget.headerDivider ?? const SizedBox(),
-              Expanded(
-                child: ListView.separated(
-                  itemCount: widget.items.length,
-                  separatorBuilder: widget.separatorBuilder ??
-                      (_, __) => const SizedBox(height: 8),
-                  itemBuilder: (context, index) {
-                    final item = widget.items[index];
-                    return SidebarXCell(
-                      item: item,
-                      theme: t,
-                      animationController: _animationController!,
-                      extended: widget.controller.extended,
-                      selected: widget.controller.selectedIndex == index,
-                      onTap: () => _onItemSelected(item, index),
-                      onLongPress: () => _onItemLongPressSelected(item, index),
-                      onSecondaryTap: () =>
-                          _onItemSecondaryTapSelected(item, index),
-                    );
-                  },
-                ),
-              ),
-              widget.footerDivider ?? const SizedBox(),
-              widget.footerBuilder?.call(context, widget.controller.extended) ??
-                  const SizedBox(),
-              if (widget.footerItems.isNotEmpty)
+          return AnimatedContainer(
+            duration: widget.animationDuration,
+            width: t.width,
+            height: t.height,
+            padding: t.padding,
+            margin: t.margin,
+            decoration: t.decoration,
+            child: Column(
+              children: [
+                widget.headerBuilder
+                        ?.call(context, widget.controller.extended) ??
+                    const SizedBox(),
+                widget.headerDivider ?? const SizedBox(),
                 Expanded(
                   child: ListView.separated(
-                    reverse: true,
-                    itemCount: widget.footerItems.length,
+                    itemCount: widget.items.length,
                     separatorBuilder: widget.separatorBuilder ??
                         (_, __) => const SizedBox(height: 8),
                     itemBuilder: (context, index) {
-                      final item = widget.footerItems.reversed.toList()[index];
+                      final item = widget.items[index];
                       return SidebarXCell(
                         item: item,
                         theme: t,
                         animationController: _animationController!,
                         extended: widget.controller.extended,
-                        selected: widget.controller.selectedIndex ==
-                            widget.items.length +
-                                widget.footerItems.length -
-                                index -
-                                1,
-                        onTap: () => _onFooterItemSelected(item, index),
+                        selected: widget.controller.selectedIndex == index,
+                        onTap: () => _onItemSelected(item, index),
                         onLongPress: () =>
-                            _onFooterItemLongPressSelected(item, index),
+                            _onItemLongPressSelected(item, index),
                         onSecondaryTap: () =>
-                            _onFooterItemSecondaryTapSelected(item, index),
+                            _onItemSecondaryTapSelected(item, index),
                       );
                     },
                   ),
                 ),
-              if (widget.showToggleButton)
-                _buildToggleButton(t, widget.collapseIcon, widget.extendIcon),
-            ],
-          ),
-        );
-      },
+                widget.footerDivider ?? const SizedBox(),
+                widget.footerBuilder
+                        ?.call(context, widget.controller.extended) ??
+                    const SizedBox(),
+                if (widget.footerItems.isNotEmpty)
+                  Expanded(
+                    child: ListView.separated(
+                      reverse: true,
+                      itemCount: widget.footerItems.length,
+                      separatorBuilder: widget.separatorBuilder ??
+                          (_, __) => const SizedBox(height: 8),
+                      itemBuilder: (context, index) {
+                        final item =
+                            widget.footerItems.reversed.toList()[index];
+                        return SidebarXCell(
+                          item: item,
+                          theme: t,
+                          animationController: _animationController!,
+                          extended: widget.controller.extended,
+                          selected: widget.controller.selectedIndex ==
+                              widget.items.length +
+                                  widget.footerItems.length -
+                                  index -
+                                  1,
+                          onTap: () => _onFooterItemSelected(item, index),
+                          onLongPress: () =>
+                              _onFooterItemLongPressSelected(item, index),
+                          onSecondaryTap: () =>
+                              _onFooterItemSecondaryTapSelected(item, index),
+                        );
+                      },
+                    ),
+                  ),
+                if (widget.showToggleButton)
+                  _buildToggleButton(t, widget.collapseIcon, widget.extendIcon),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 
