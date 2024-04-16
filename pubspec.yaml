@@ -18,7 +18,7 @@ dependencies:
   connectivity_plus: ^6.0.2
   constants:
     path: packages/constants
-  cupertino_icons: ^1.0.6
+  cupertino_icons: ^1.0.8
   dart_mappable: ^4.1.0
   env:
     path: packages/env
