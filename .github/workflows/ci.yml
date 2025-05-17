@@ -212,17 +212,17 @@ jobs:
           ln -s ../Runner.app
           cd ..
           zip -r app-release.ipa Payload
-          mv app-release.ipa flutter_boolean_template-${{ env.BRANCH_NAME }}-ios.ipa
+          mv app-release.ipa ${{ github.event.repository.name }}-${{ env.BRANCH_NAME }}-ios.ipa
       - name: Upload IPA
         uses: actions/upload-artifact@v4
         with:
-          name: flutter_boolean_template-${{ env.BRANCH_NAME }}-ios
-          path: build/ios/iphoneos/flutter_boolean_template-*.ipa
+          name: ${{ github.event.repository.name }}-${{ env.BRANCH_NAME }}-ios
+          path: build/ios/iphoneos/${{ github.event.repository.name }}-*.ipa
       - name: Release IPA
         if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
         uses: ncipollo/release-action@v1
         with:
-          artifacts: build/ios/iphoneos/flutter_boolean_template-*.ipa
+          artifacts: build/ios/iphoneos/${{ github.event.repository.name }}-*.ipa
           allowUpdates: true
           omitBodyDuringUpdate: true
 
@@ -310,16 +310,16 @@ jobs:
   #         ln -s ../Runner.app
   #         cd ..
   #         zip -r app-release.ipa Payload
-  #         mv app-release.ipa flutter_boolean_template-${{ env.BRANCH_NAME }}-ios.ipa
+  #         mv app-release.ipa ${{ github.event.repository.name }}-${{ env.BRANCH_NAME }}-ios.ipa
   #     - name: Upload IPA
   #       uses: actions/upload-artifact@v4
   #       with:
-  #         path: build/ios/iphoneos/flutter_boolean_template-*.ipa
+  #         path: build/ios/iphoneos/${{ github.event.repository.name }}-*.ipa
   #     - name: Release IPA
   #       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
   #       uses: ncipollo/release-action@v1
   #       with:
-  #         artifacts: build/ios/iphoneos/flutter_boolean_template-*.ipa
+  #         artifacts: build/ios/iphoneos/${{ github.event.repository.name }}-*.ipa
   #         allowUpdates: true
   #         omitBodyDuringUpdate: true
 
@@ -394,21 +394,21 @@ jobs:
           flutter pub get
           flutter build apk --release --split-per-abi --dart-define FLUTTER_APP_FLAVOR=${{ env.FLAVOR }}
           cd build/app/outputs/flutter-apk
-          mv app-arm64-v8a-release.apk flutter_boolean_template-${{ env.BRANCH_NAME }}-android-arm64-v8a.apk
-          mv app-armeabi-v7a-release.apk flutter_boolean_template-${{ env.BRANCH_NAME }}-android-armeabi-v7a.apk
-          mv app-x86_64-release.apk flutter_boolean_template-${{ env.BRANCH_NAME }}-android-x86_64.apk
+          mv app-arm64-v8a-release.apk ${{ github.event.repository.name }}-${{ env.BRANCH_NAME }}-android-arm64-v8a.apk
+          mv app-armeabi-v7a-release.apk ${{ github.event.repository.name }}-${{ env.BRANCH_NAME }}-android-armeabi-v7a.apk
+          mv app-x86_64-release.apk ${{ github.event.repository.name }}-${{ env.BRANCH_NAME }}-android-x86_64.apk
 
       - name: Upload Split APKs
         uses: actions/upload-artifact@v4
         with:
-          name: flutter_boolean_template-${{ env.BRANCH_NAME }}-android-split
-          path: build/app/outputs/flutter-apk/flutter_boolean_template-*.apk
+          name: ${{ github.event.repository.name }}-${{ env.BRANCH_NAME }}-android-split
+          path: build/app/outputs/flutter-apk/${{ github.event.repository.name }}-*.apk
 
       - name: Release Split APKs
         if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
         uses: ncipollo/release-action@v1
         with:
-          artifacts: build/app/outputs/flutter-apk/flutter_boolean_template-*.apk
+          artifacts: build/app/outputs/flutter-apk/${{ github.event.repository.name }}-*.apk
           allowUpdates: true
           omitBodyDuringUpdate: true
 
@@ -417,19 +417,19 @@ jobs:
           flutter pub get
           flutter build apk --release --dart-define FLUTTER_APP_FLAVOR=${{ env.FLAVOR }}
           cd build/app/outputs/flutter-apk
-          mv app-release.apk flutter_boolean_template-${{ env.BRANCH_NAME }}-android-universal.apk
+          mv app-release.apk ${{ github.event.repository.name }}-${{ env.BRANCH_NAME }}-android-universal.apk
 
       - name: Upload Universal APK
         uses: actions/upload-artifact@v4
         with:
-          name: flutter_boolean_template-${{ env.BRANCH_NAME }}-android-universal
-          path: build/app/outputs/flutter-apk/flutter_boolean_template-${{ env.BRANCH_NAME }}-android-universal.apk
+          name: ${{ github.event.repository.name }}-${{ env.BRANCH_NAME }}-android-universal
+          path: build/app/outputs/flutter-apk/${{ github.event.repository.name }}-${{ env.BRANCH_NAME }}-android-universal.apk
 
       - name: Release Universal APKs
         if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
         uses: ncipollo/release-action@v1
         with:
-          artifacts: build/app/outputs/flutter-apk/flutter_boolean_template-${{ env.BRANCH_NAME }}-android-universal.apk
+          artifacts: build/app/outputs/flutter-apk/${{ github.event.repository.name }}-${{ env.BRANCH_NAME }}-android-universal.apk
           allowUpdates: true
           omitBodyDuringUpdate: true
 
@@ -438,19 +438,19 @@ jobs:
           flutter pub get
           flutter build appbundle --release --dart-define FLUTTER_APP_FLAVOR=${{ env.FLAVOR }}
           cd build/app/outputs/bundle/release
-          mv app-release.aab flutter_boolean_template-${{ env.BRANCH_NAME }}-android-appbundle.aab
+          mv app-release.aab ${{ github.event.repository.name }}-${{ env.BRANCH_NAME }}-android-appbundle.aab
 
       - name: Upload Android App Bundle
         uses: actions/upload-artifact@v4
         with:
-          name: flutter_boolean_template-${{ env.BRANCH_NAME }}-android-appbundle
+          name: ${{ github.event.repository.name }}-${{ env.BRANCH_NAME }}-android-appbundle
           path: build/app/outputs/bundle/release/*.aab
           
       - name: Release Android App Bundle
         if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
         uses: ncipollo/release-action@v1
         with:
-          artifacts: build/app/outputs/bundle/release/flutter_boolean_template-*.aab
+          artifacts: build/app/outputs/bundle/release/${{ github.event.repository.name }}-*.aab
           allowUpdates: true
           omitBodyDuringUpdate: true
 
@@ -527,18 +527,18 @@ jobs:
         run: |
           dart run msix:create --build-windows false
           cd build\windows\x64\runner\Release
-          mv flutter_boolean_template.msix flutter_boolean_template-${{ env.BRANCH_NAME }}-windows.msix
+          mv ${{ github.event.repository.name }}.msix ${{ github.event.repository.name }}-${{ env.BRANCH_NAME }}-windows.msix
       - name: Upload MSIX
         uses: actions/upload-artifact@v4
         with:
-          name: flutter_boolean_template-${{ env.BRANCH_NAME }}-windows
+          name: ${{ github.event.repository.name }}-${{ env.BRANCH_NAME }}-windows
           path: build/windows/x64/runner/Release/*.msix
           
       - name: Release MSIX
         if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
         uses: ncipollo/release-action@v1
         with:
-          artifacts: build/windows/x64/runner/Release/flutter_boolean_template-*.msix
+          artifacts: build/windows/x64/runner/Release/${{ github.event.repository.name }}-*.msix
           allowUpdates: true
           omitBodyDuringUpdate: true
 
@@ -615,22 +615,22 @@ jobs:
           chmod a+x appimagetool-x86_64.AppImage
           mv appimagetool-x86_64.AppImage appimagetool
 
-          mv build/linux/x64/release/bundle/{flutter_boolean_template,AppRun}
+          mv build/linux/x64/release/bundle/{${{ github.event.repository.name }},AppRun}
           cp linux/appimage/* build/linux/x64/release/bundle/
           ./appimagetool build/linux/x64/release/bundle/
-          mv *.AppImage build/flutter_boolean_template-${{ env.BRANCH_NAME }}-linux.AppImage
+          mv *.AppImage build/${{ github.event.repository.name }}-${{ env.BRANCH_NAME }}-linux.AppImage
 
       - name: Upload AppImage
         uses: actions/upload-artifact@v4
         with:
-          name: flutter_boolean_template-${{ env.BRANCH_NAME }}-linux-appimage
-          path: build/flutter_boolean_template-*.AppImage
+          name: ${{ github.event.repository.name }}-${{ env.BRANCH_NAME }}-linux-appimage
+          path: build/${{ github.event.repository.name }}-*.AppImage
           
       - name: Release AppImage
         if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
         uses: ncipollo/release-action@v1
         with:
-          artifacts: build/flutter_boolean_template-*.AppImage
+          artifacts: build/${{ github.event.repository.name }}-*.AppImage
           allowUpdates: true
           omitBodyDuringUpdate: true
 
@@ -707,19 +707,19 @@ jobs:
           retry_on: error
           command: |
             brew install create-dmg 
-            create-dmg --volname flutter_boolean_template-${{ env.BRANCH_NAME }}-macos --window-pos 200 120 --window-size 800 450 --icon-size 100 --app-drop-link 600 185 flutter_boolean_template-${{ env.BRANCH_NAME }}-macos.dmg build/macos/Build/Products/Release/flutter_boolean_template.app
+            create-dmg --volname ${{ github.event.repository.name }}-${{ env.BRANCH_NAME }}-macos --window-pos 200 120 --window-size 800 450 --icon-size 100 --app-drop-link 600 185 ${{ github.event.repository.name }}-${{ env.BRANCH_NAME }}-macos.dmg build/macos/Build/Products/Release/${{ github.event.repository.name }}.app
       
       - name: Upload DMG
         uses: actions/upload-artifact@v4
         with:
-          name: flutter_boolean_template-${{ env.BRANCH_NAME }}-macos-dmg
-          path: "/Users/runner/work/flutter_boolean_template/flutter_boolean_template/*.dmg"
+          name: ${{ github.event.repository.name }}-${{ env.BRANCH_NAME }}-macos-dmg
+          path: "/Users/runner/work/${{ github.event.repository.name }}/${{ github.event.repository.name }}/*.dmg"
           
       - name: Release DMG
         if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
         uses: ncipollo/release-action@v1
         with:
-          artifacts: /Users/runner/work/flutter_boolean_template/flutter_boolean_template/flutter_boolean_template-*.dmg
+          artifacts: /Users/runner/work/${{ github.event.repository.name }}/${{ github.event.repository.name }}/${{ github.event.repository.name }}-*.dmg
           allowUpdates: true
           omitBodyDuringUpdate: true
 
@@ -789,7 +789,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: flutter_boolean_template-${{ env.BRANCH_NAME }}-web
+          name: ${{ github.event.repository.name }}-${{ env.BRANCH_NAME }}-web
           path: build/web
 
   deploy_web:
