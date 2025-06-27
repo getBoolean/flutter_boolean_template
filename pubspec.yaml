@@ -46,7 +46,7 @@ dependencies:
   log:
     path: packages/log
   modddels_annotation_fpdart: ^0.2.0
-  package_info_plus: ^7.0.0
+  package_info_plus: ^8.0.0
   pagination:
     path: packages/pub/pagination
   path: ^1.9.0
